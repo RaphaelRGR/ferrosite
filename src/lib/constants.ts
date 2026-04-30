@@ -1,6 +1,6 @@
 /**
  * Constantes Globais
- * Valores fixos de configuração e dados estáticos utilizados no projeto.
+ * Removido menção à AFER.
  */
 
 export const BRAND_COLORS = {
@@ -18,4 +18,4 @@ export const NAV_LINKS = [
 ];
 
 export const SITE_NAME = 'FerroSite';
-export const SITE_DESCRIPTION = 'Portal da AFER/UFSC Joinville';
+export const SITE_DESCRIPTION = 'Portal do curso de Engenharia Ferroviária e Metroviária da UFSC Joinville';

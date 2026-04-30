@@ -13,7 +13,7 @@ export function AnimatedSection({
   children, 
   className = "", 
   delay = 0,
-  translateY = "translate-y-[20px]" 
+  translateY = "translate-y-[40px]" 
 }: AnimatedSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -26,7 +26,7 @@ export function AnimatedSection({
           if (ref.current) observer.unobserve(ref.current);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" } // Gatilho otimizado
     );
 
     if (ref.current) observer.observe(ref.current);
@@ -36,8 +36,8 @@ export function AnimatedSection({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-[600ms] ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : `opacity-0 ${translateY}`
+      className={`transition-all duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        isVisible ? "opacity-100 translate-y-0 scale-100" : `opacity-0 ${translateY} scale-[0.96]`
       } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >

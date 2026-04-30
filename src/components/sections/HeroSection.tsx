@@ -5,74 +5,83 @@ const HERO_CONTENT = {
   badge: "Portal não oficial",
   title: "Engenharia Ferroviária",
   subtitle: "e Metroviária · UFSC Joinville",
-  description: "O único curso de Santa Catarina. Formando os engenheiros que vão mover o Brasil.",
-  primaryButton: "Explorar",
-  secondaryButton: "Sobre o curso",
+  description: "O único curso de Santa Catarina. Formando os engenheiros que vão mover o Brasil com tecnologia e inovação.",
+  primaryButton: "Explorar Portal",
+  secondaryButton: "Conhecer o Curso",
 };
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-center overflow-hidden lg:min-h-screen">
-      {/* Background */}
-      <div className="absolute inset-0 z-0 bg-[#1A1A1A]">
-        {/* Placeholder video/texture */}
-        <div 
-          className="absolute inset-0 bg-[#242424] opacity-30"
-          style={{
-            backgroundImage: "url('data:image/svg+xml;utf8,<svg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 20 L20 0 Z\" stroke=\"%233A3A3A\" stroke-width=\"1\" fill=\"none\"/></svg>')",
-            backgroundSize: "20px 20px"
-          }}
-        />
-        {/* Overlay escuro */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A]/60 to-[#1A1A1A]/80" />
-      </div>
-
-      <div className="relative z-10 flex flex-col items-center px-6 text-center lg:px-0 mx-auto max-w-6xl">
-        <AnimatedSection delay={0} translateY="translate-y-[30px]">
-          <span className="mb-6 inline-block rounded-full border border-[#3A3A3A] bg-[#2E2E2E] px-4 py-1.5 text-sm font-medium text-[#A0A0A0]">
-            {HERO_CONTENT.badge}
-          </span>
-          <h1 className="mb-2 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-            {HERO_CONTENT.title}
-          </h1>
-        </AnimatedSection>
-
-        <AnimatedSection delay={150} translateY="translate-y-[30px]">
-          <h2 className="mb-8 text-2xl font-semibold tracking-tight text-[#A0A0A0] sm:text-3xl md:text-4xl">
-            {HERO_CONTENT.subtitle}
-          </h2>
-        </AnimatedSection>
-
-        <AnimatedSection delay={300} translateY="translate-y-[30px]">
-          <p className="mx-auto mb-10 max-w-2xl text-lg text-[#A0A0A0] sm:text-xl">
-            {HERO_CONTENT.description}
-          </p>
-        </AnimatedSection>
+    // Altura de 112vh permite que a gaveta do site (que tem margem negativa)
+    // suba exatamente até o fim do vídeo sem quebrar a rolagem
+    <div className="relative h-[112vh] w-full">
+      <section className="sticky top-0 flex h-[100vh] w-full flex-col items-center justify-center overflow-hidden bg-black">
         
-        <AnimatedSection delay={450} translateY="translate-y-[30px]">
-          <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-            <Link
-              href="#curso"
-              className="flex min-h-[44px] items-center justify-center rounded-md bg-[#E84E1B] px-8 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-[1px] hover:brightness-110 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E84E1B]"
-            >
-              {HERO_CONTENT.primaryButton}
-            </Link>
-            <Link
-              href="/sobre"
-              className="flex min-h-[44px] items-center justify-center rounded-md border border-white bg-transparent px-8 py-3.5 text-base font-semibold text-white transition-all hover:-translate-y-[1px] hover:brightness-110 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              {HERO_CONTENT.secondaryButton}
-            </Link>
-          </div>
-        </AnimatedSection>
-      </div>
+        {/* VÍDEO DE FUNDO */}
+        <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none">
+          <iframe
+            src="https://www.youtube.com/embed/vFH2lGROUI8?autoplay=1&mute=1&loop=1&playlist=vFH2lGROUI8&controls=0&disablekb=1&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&vq=hd1080"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{ width: '177.78vh', height: '100vh', minWidth: '100%', minHeight: '56.25vw' }}
+            allow="autoplay; fullscreen"
+            title="FerroSite hero background"
+          />
+        </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg className="h-6 w-6 text-[#A0A0A0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </div>
-    </section>
+        {/* FALLBACK MOBILE */}
+        <div className="absolute inset-0 z-0 md:hidden bg-black">
+          <div 
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M-10 10L10 -10M30 50L50 30' stroke='white' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
+              backgroundSize: "30px 30px"
+            }}
+          />
+        </div>
+
+        {/* OVERLAY ESCURO COM BLUR LEVE PARA CINEMÁTICA */}
+        <div className="absolute inset-0 z-[1] bg-black/50 backdrop-blur-[2px]" />
+
+        {/* CONTEÚDO */}
+        <div className="relative z-10 flex flex-col items-center px-6 text-center lg:px-0 mx-auto max-w-5xl -mt-[10vh]">
+          <AnimatedSection delay={0} translateY="translate-y-12">
+            <span className="mb-8 inline-block rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-[#E84E1B] backdrop-blur-md">
+              {HERO_CONTENT.badge}
+            </span>
+            <h1 className="mb-4 text-5xl font-black tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-2xl">
+              {HERO_CONTENT.title}
+            </h1>
+          </AnimatedSection>
+
+          <AnimatedSection delay={200} translateY="translate-y-12">
+            <h2 className="mb-10 text-2xl font-light tracking-tight text-white/90 sm:text-3xl md:text-4xl drop-shadow-lg">
+              {HERO_CONTENT.subtitle}
+            </h2>
+          </AnimatedSection>
+
+          <AnimatedSection delay={400} translateY="translate-y-12">
+            <p className="mx-auto mb-14 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl">
+              {HERO_CONTENT.description}
+            </p>
+            
+            <div className="flex flex-col gap-5 sm:flex-row sm:justify-center">
+              <Link
+                href="#portal"
+                className="group relative flex min-h-[60px] items-center justify-center overflow-hidden rounded-full bg-[#E84E1B] px-14 text-base font-bold text-white shadow-[0_0_20px_rgba(232,78,27,0.4)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(232,78,27,0.8)] hover:scale-105 hover:-translate-y-1 active:scale-95"
+              >
+                {HERO_CONTENT.primaryButton}
+              </Link>
+              <Link
+                href="/sobre"
+                className="flex min-h-[60px] items-center justify-center rounded-full border border-white/30 bg-black/20 px-14 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/60 hover:scale-105 hover:-translate-y-1 active:scale-95"
+              >
+                {HERO_CONTENT.secondaryButton}
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
+
+      </section>
+    </div>
   );
 }

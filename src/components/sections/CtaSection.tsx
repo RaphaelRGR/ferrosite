@@ -1,31 +1,29 @@
 import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
-const CTA_CONTENT = {
-  title: "Acesse o Portal",
-  description: "Acervo de normas, banco de questões e projetos da AFER. Aberto para alunos e interessados no setor ferroviário.",
-  buttonLabel: "Entrar no Portal →",
-  buttonHref: "/portal",
-};
-
 export function CtaSection() {
   return (
-    <section className="bg-[#E84E1B] py-16 sm:py-24 lg:py-32">
-      <AnimatedSection className="mx-auto max-w-6xl px-4 sm:px-8 lg:px-0 lg:flex lg:items-center lg:justify-between">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            {CTA_CONTENT.title}
-          </h2>
-          <p className="mt-4 text-lg leading-8 text-white/90 sm:mt-6">
-            {CTA_CONTENT.description}
-          </p>
-        </div>
-        <div className="mt-8 flex items-center lg:mt-0 lg:shrink-0">
+    <section className="bg-[#E84E1B] py-24 lg:py-40">
+      <AnimatedSection className="mx-auto max-w-4xl px-6 text-center">
+        <h2 className="mb-8 text-4xl font-black tracking-tighter text-white sm:text-6xl">
+          Pronto para mover o futuro?
+        </h2>
+        <p className="mb-12 text-xl font-medium text-white/80 leading-relaxed">
+          Acesse o Portal e tenha acesso ao nosso acervo técnico, 
+          banco de questões e projetos exclusivos.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href={CTA_CONTENT.buttonHref}
-            className="flex min-h-[44px] w-full items-center justify-center rounded-md bg-white px-8 py-3.5 text-base font-bold text-[#E84E1B] shadow-sm transition-all hover:-translate-y-[1px] hover:brightness-110 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"
+            href="/portal"
+            className="flex min-h-[60px] items-center justify-center rounded-full bg-black px-12 text-lg font-bold text-white transition-all hover:bg-white hover:text-black"
           >
-            {CTA_CONTENT.buttonLabel}
+            Entrar no Portal
+          </Link>
+          <Link
+            href="/sobre"
+            className="flex min-h-[60px] items-center justify-center rounded-full border-2 border-white px-12 text-lg font-bold text-white transition-all hover:bg-white hover:text-[#E84E1B]"
+          >
+            Mais informações
           </Link>
         </div>
       </AnimatedSection>

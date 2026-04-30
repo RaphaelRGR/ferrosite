@@ -3,46 +3,50 @@ import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 const ABOUT_CONTENT = {
-  title: "Quem somos",
-  description: "O curso de Engenharia Ferroviária e Metroviária do CTJ — Centro Tecnológico de Joinville da UFSC — forma profissionais para projetar, construir e operar sistemas ferroviários e metroviários. Único em Santa Catarina, com parceria com o IFMG Santos Dumont (MG), um dos outros dois cursos de graduação em Engenharia Ferroviária do Brasil.",
-  buttonLabel: "Conhecer o curso →",
-  buttonHref: "/sobre",
-  imageSrc: "https://placehold.co/600x400/2E2E2E/FFFFFF.png",
-  imageAlt: "Estudantes de Engenharia Ferroviária da UFSC Joinville",
-  blurDataUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+  title: "A Engenharia que move o país",
+  subtitle: "O único curso de Santa Catarina.",
+  description: "Formamos profissionais para projetar, construir e operar os sistemas que são a espinha dorsal da logística nacional. O curso de Engenharia Ferroviária e Metroviária da UFSC Joinville é referência técnica e inovação no setor.",
+  buttonLabel: "Conhecer o curso",
+  imageSrc: "https://placehold.co/800x600/0A0A0A/FFFFFF.png",
+  imageAlt: "Engenharia Ferroviária UFSC",
 };
 
 export function AboutSection() {
   return (
-    <section id="curso" className="bg-[#242424] py-16 sm:py-24 lg:py-32">
-      <div className="mx-auto max-w-6xl px-4 sm:px-8 lg:px-0">
-        <AnimatedSection className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl bg-[#2E2E2E]">
-            <Image
-              src={ABOUT_CONTENT.imageSrc}
-              alt={ABOUT_CONTENT.imageAlt}
-              fill
-              unoptimized
-              className="object-cover"
-              placeholder="blur"
-              blurDataURL={ABOUT_CONTENT.blurDataUrl}
-            />
-          </div>
-          <div className="flex flex-col items-start">
-            <h2 className="mb-6 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+    <section id="curso" className="bg-[#0A0A0A] py-24 lg:py-40">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+          <AnimatedSection translateY="translate-y-16">
+            <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-white/10">
+              <Image
+                src={ABOUT_CONTENT.imageSrc}
+                alt={ABOUT_CONTENT.imageAlt}
+                fill
+                unoptimized
+                className="object-cover transition-transform duration-700 hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60" />
+            </div>
+          </AnimatedSection>
+          
+          <AnimatedSection delay={200} translateY="translate-y-16">
+            <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4 block">
+              {ABOUT_CONTENT.subtitle}
+            </span>
+            <h2 className="mb-8 text-4xl font-black tracking-tighter text-white sm:text-5xl lg:text-6xl">
               {ABOUT_CONTENT.title}
             </h2>
-            <p className="mb-8 text-lg leading-8 text-[#A0A0A0]">
+            <p className="mb-10 text-xl leading-relaxed text-white/60">
               {ABOUT_CONTENT.description}
             </p>
             <Link
-              href={ABOUT_CONTENT.buttonHref}
-              className="flex min-h-[44px] items-center justify-center rounded-md bg-[#E84E1B] px-6 py-3 text-base font-semibold text-white transition-all hover:-translate-y-[1px] hover:brightness-110 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E84E1B]"
+              href="/sobre"
+              className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-10 text-base font-bold text-black transition-all hover:bg-[#E84E1B] hover:text-white"
             >
               {ABOUT_CONTENT.buttonLabel}
             </Link>
-          </div>
-        </AnimatedSection>
+          </AnimatedSection>
+        </div>
       </div>
     </section>
   );

@@ -9,15 +9,31 @@ import { CtaSection } from "@/components/sections/CtaSection";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#1A1A1A] text-white overflow-x-hidden">
+    <main className="relative bg-[#0A0A0A] text-white overflow-x-hidden">
+      
+      {/* HERO FIXED NO FUNDO */}
       <HeroSection />
-      <ManifestoSection />
-      <MetricsSection />
-      <AboutSection />
-      <VisitsSection />
-      <EventsSection />
-      <CompaniesSection />
-      <CtaSection />
+      
+      {/* 
+        EFEITO GAVETA (iOS SHEET):
+        Todo o restante do site é um bloco sólido com bordas arredondadas no topo
+        que desliza fisicamente por cima do Hero.
+      */}
+      <div className="relative z-20 -mt-[12vh] rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] shadow-[0_-30px_80px_rgba(0,0,0,0.8)] border-t border-white/5 overflow-hidden">
+        
+        {/* Glow sutil na borda da gaveta para destacar a sobreposição */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[40px] bg-[#E84E1B] blur-[60px] opacity-20 pointer-events-none" />
+
+        <ManifestoSection />
+        <MetricsSection />
+        <AboutSection />
+        <VisitsSection />
+        <EventsSection />
+        <CompaniesSection />
+        <CtaSection />
+        
+      </div>
     </main>
   );
 }
