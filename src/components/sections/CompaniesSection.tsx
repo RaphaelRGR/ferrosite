@@ -4,16 +4,20 @@ const COMPANIES = ["RUMO", "MRS", "VLI", "VALE", "ANPTrilhos"];
 
 export function CompaniesSection() {
   return (
-    <section className="bg-white py-24 border-y border-orange-500/10">
+    <section className="bg-[#0A0A0A] py-20 md:py-28 border-t border-[#2E2E2E]">
       <div className="mx-auto max-w-6xl px-6">
-        <AnimatedSection className="flex flex-wrap items-center justify-center gap-12 md:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+        {/* TODO: substituir texto por logo real com next/image */}
+        <AnimatedSection className="flex flex-wrap items-center justify-center gap-3">
           {COMPANIES.map((name) => (
-            <span key={name} className="text-2xl md:text-3xl font-black tracking-tighter text-[#E84E1B]">
+            <div 
+              key={name} 
+              className="bg-[#2E2E2E] border border-[#3A3A3A] rounded-[6px] px-6 py-3 text-white font-medium text-sm transition-all duration-150 hover:border-[#E84E1B] hover:text-[#E84E1B] cursor-default"
+            >
               {name}
-            </span>
+            </div>
           ))}
         </AnimatedSection>
-        <p className="text-center mt-12 text-[10px] font-black uppercase tracking-[0.2em] text-[#E84E1B]/30">
+        <p className="text-center mt-12 text-[10px] font-black uppercase tracking-[0.2em] text-white/20">
           Empresas parceiras e destinos de egressos
         </p>
       </div>

@@ -13,19 +13,25 @@ const ABOUT_CONTENT = {
 
 export function AboutSection() {
   return (
-    <section id="curso" className="bg-[#0A0A0A] py-24 lg:py-40">
+    <section id="curso" className="bg-[#0A0A0A] py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           <AnimatedSection translateY="translate-y-16">
-            <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-white/10">
-              <Image
-                src={ABOUT_CONTENT.imageSrc}
-                alt={ABOUT_CONTENT.imageAlt}
-                fill
-                unoptimized
-                className="object-cover transition-transform duration-700 hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60" />
+            <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-[#3A3A3A] bg-[#1A1A1A] flex items-center justify-center">
+              {/* Textura SVG de trilhos */}
+              <div className="absolute inset-0 opacity-[0.08]">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="rail-texture" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <line x1="0" y1="20" x2="40" y2="20" stroke="white" strokeWidth="1" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#rail-texture)" />
+                </svg>
+              </div>
+              <span className="font-mono text-sm text-[#E84E1B] opacity-50 relative z-10">
+                [ foto em breve ]
+              </span>
             </div>
           </AnimatedSection>
           

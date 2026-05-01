@@ -9,15 +9,15 @@ const METRICS = [
 
 export function MetricsSection() {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-white py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <dl className="grid grid-cols-2 gap-x-12 gap-y-16 text-center sm:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-y-16 text-center sm:grid-cols-4 sm:divide-x sm:divide-[#E0E0E0]">
           {METRICS.map((metric, index) => (
-            <AnimatedSection key={metric.id} delay={index * 150} className="flex flex-col items-center">
-              <dd className="text-5xl font-black tracking-tighter text-[#E84E1B] mb-2 sm:text-6xl">
+            <AnimatedSection key={metric.id} delay={index * 150} className="flex flex-col items-center px-4">
+              <dd className="text-5xl font-black tracking-tighter text-[#1A1A1A] mb-2 sm:text-6xl">
                 {metric.value}
               </dd>
-              <dt className="text-xs font-bold uppercase tracking-widest text-[#E84E1B]/60 leading-relaxed max-w-[140px]">
+              <dt className="text-xs font-bold uppercase tracking-widest text-[#444444] leading-relaxed max-w-[140px]">
                 {metric.description}
               </dt>
             </AnimatedSection>

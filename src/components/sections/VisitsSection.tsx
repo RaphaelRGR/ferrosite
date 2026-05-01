@@ -36,7 +36,7 @@ const VISITS = [
 
 export function VisitsSection() {
   return (
-    <section className="bg-white py-24 lg:py-40">
+    <section className="bg-white py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-20 flex flex-col items-center text-center">
           <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4">

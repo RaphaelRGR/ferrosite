@@ -3,7 +3,7 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 export function CtaSection() {
   return (
-    <section className="bg-[#E84E1B] py-24 lg:py-40">
+    <section className="bg-[#E84E1B] py-20 md:py-28">
       <AnimatedSection className="mx-auto max-w-4xl px-6 text-center">
         <h2 className="mb-8 text-4xl font-black tracking-tighter text-white sm:text-6xl">
           Pronto para mover o futuro?

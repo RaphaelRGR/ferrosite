@@ -28,7 +28,7 @@ const EVENTS = [
 
 export function EventsSection() {
   return (
-    <section className="bg-[#0A0A0A] py-24 lg:py-40">
+    <section className="bg-[#0A0A0A] py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
