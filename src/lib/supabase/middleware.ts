@@ -1,13 +1,38 @@
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+
 /**
- * Middleware do Supabase
- * Utilitário responsável por gerenciar a sessão do usuário durante as requisições no Next.js.
+ * updateSession
+ * Chamado pelo middleware principal (src/middleware.ts).
+ * Atualiza o cookie de sessão do Supabase a cada request,
+ * garantindo que tokens expirados sejam renovados automaticamente.
  */
-
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-
-// TODO: Implementar a lógica de atualização da sessão
 export async function updateSession(request: NextRequest) {
-  // Placeholder
-  return NextResponse.next();
+  let supabaseResponse = NextResponse.next({ request })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          )
+          supabaseResponse = NextResponse.next({ request })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
+
+  // Atualiza a sessão — não remova essa linha
+  await supabase.auth.getUser()
+
+  return supabaseResponse
 }
