@@ -10,10 +10,10 @@ if (typeof window !== "undefined") {
 }
 
 const METRICS = [
-  { id: 1, target: 3, format: (v: number) => `${Math.round(v)} de 3`, description: "Cursos de Eng. Ferroviária no Brasil" },
-  { id: 2, target: 10, format: (v: number) => `${Math.round(v)}`, description: "Semestres de formação integral" },
-  { id: 3, target: 9000, format: (v: number) => `${Math.round(v).toLocaleString("pt-BR")}${v >= 9000 ? " km" : ""}`, description: "Malha ferroviária em leilão" },
-  { id: 4, start: 2020, target: 2026, format: (v: number) => `${Math.round(v)}`, description: "Ano do 1º HackFerro do curso" },
+  { id: 1, target: 1, format: (v: number) => `${Math.round(v)}º`, description: "Curso focado em Engenharia Ferroviária no Brasil" },
+  { id: 2, target: 103, format: (v: number) => `R$ ${Math.round(v)} Bi`, description: "Previstos no Novo PAC para obras em ferrovias" },
+  { id: 3, target: 30000, format: (v: number) => `+${Math.round(v).toLocaleString("pt-BR")} km`, description: "De malha ferroviária em expansão e modernização no país" },
+  { id: 4, start: 0, target: 15, format: (v: number) => `${Math.round(v)} anos`, description: "De tradição formando a elite técnica do setor (desde 2009)" },
 ];
 
 export function NumbersSection() {

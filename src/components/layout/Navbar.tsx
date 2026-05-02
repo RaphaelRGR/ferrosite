@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
   { name: 'Sobre', href: '/sobre' },
+  { name: 'Curso', href: '/curso' },
   { name: 'Visitas', href: '/visitas' },
   { name: 'Eventos', href: '/eventos' },
   { name: 'Notícias', href: '/noticias' },
