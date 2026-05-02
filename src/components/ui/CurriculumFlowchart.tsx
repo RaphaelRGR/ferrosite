@@ -29,7 +29,7 @@ export function CurriculumFlowchart() {
     const searchPre = (id: string) => {
       curr.phases.forEach(p => p.subjects.forEach(s => {
         if (s.id === id && s.pre) {
-          s.pre.forEach(pid => {
+          s.pre?.forEach(pid => {
             deps.add(pid);
             searchPre(pid);
           });
@@ -63,7 +63,7 @@ export function CurriculumFlowchart() {
     activeCurriculum.phases.forEach(p => p.subjects.forEach(s => {
       if (s.id === hoveredId || activeDependencies.has(s.id)) {
         if (s.pre) {
-          s.pre.forEach((preId, index) => {
+          s.pre?.forEach((preId, index) => {
             if (s.id !== hoveredId && !activeDependencies.has(s.id)) return;
 
             const fromEl = cardRefs.current[preId];
