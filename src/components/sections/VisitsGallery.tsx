@@ -44,31 +44,47 @@ export function VisitsGallery() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {PAST_VISITS.map((visit, index) => (
             <AnimatedSection 
               key={index} 
               delay={index * 100}
-              className="group relative overflow-hidden rounded-3xl bg-[#1A1A1A] border border-white/5"
+              className={`group relative overflow-hidden rounded-[32px] bg-[#111] border border-white/5 transition-all duration-500 hover:border-[#E84E1B]/40
+                ${index === 0 || index === 3 ? 'md:col-span-7' : 'md:col-span-5'}
+              `}
             >
-              <div className="aspect-[16/9] w-full bg-[#111] overflow-hidden">
+              <div className="relative aspect-[16/10] w-full overflow-hidden">
                 <div 
-                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60 grayscale hover:grayscale-0 transition-all"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110 opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-70 transition-all"
                   style={{ backgroundImage: `url(${visit.image})` }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
+                
+                <div className="absolute top-6 left-6">
+                  <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-white/10">
+                    {visit.location}
+                  </span>
+                </div>
               </div>
               
-              <div className="p-8">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <span className="text-[#E84E1B] text-xs font-bold uppercase tracking-widest">{visit.location}</span>
-                    <h3 className="text-2xl font-bold text-white mt-1">{visit.title}</h3>
-                  </div>
-                  <span className="text-white/20 font-black text-3xl">{visit.year}</span>
+              <div className="p-10 relative -mt-12">
+                <div className="flex justify-between items-end mb-6">
+                  <h3 className="text-3xl font-black text-white leading-none">
+                    {visit.title.split(' ').map((word, i) => (
+                      <span key={i} className="block">{word}</span>
+                    ))}
+                  </h3>
+                  <span className="text-[#E84E1B] font-black text-5xl leading-none opacity-20 group-hover:opacity-100 transition-opacity">
+                    {visit.year.slice(2)}
+                  </span>
                 </div>
-                <p className="text-gray-400 leading-relaxed font-medium">
+                <p className="text-white/40 leading-relaxed font-medium group-hover:text-white/70 transition-colors">
                   {visit.description}
                 </p>
+                
+                <div className="mt-8 pt-8 border-t border-white/5 flex items-center gap-4 text-[#E84E1B] font-bold text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
+                  Ver Relatório Técnico →
+                </div>
               </div>
             </AnimatedSection>
           ))}
