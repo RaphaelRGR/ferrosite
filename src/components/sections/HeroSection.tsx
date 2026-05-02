@@ -6,6 +6,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const HERO_CONTENT = {
   badge: "Portal não oficial",
   title: "Engenharia Ferroviária",
@@ -24,6 +28,7 @@ export function HeroSection() {
   const descRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLSpanElement>(null);
+  const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -69,7 +74,7 @@ export function HeroSection() {
       });
 
       // Fade out content on scroll
-      gsap.to(contentRef.current, {
+      gsap.to([contentRef.current, indicatorRef.current], {
         opacity: 0,
         y: -30,
         ease: "none",
@@ -154,7 +159,7 @@ export function HeroSection() {
         </div>
 
         {/* Scroll Indicator (nativo do Tailwind) */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <div ref={indicatorRef} className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce will-change-[opacity,transform]">
           <div className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center p-1">
             <div className="w-1 h-2 bg-white/50 rounded-full" />
           </div>

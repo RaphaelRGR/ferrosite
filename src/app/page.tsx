@@ -14,10 +14,12 @@ import { EventsSection } from "@/components/sections/EventsSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function HomePage() {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    
     const handleResize = () => {
       ScrollTrigger.refresh();
     };
@@ -37,7 +39,7 @@ export default function HomePage() {
         Todo o restante do site é um bloco sólido com bordas arredondadas no topo
         que desliza fisicamente por cima do Hero.
       */}
-      <div className="relative z-20 -mt-[12vh] rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] shadow-[0_-30px_80px_rgba(0,0,0,0.8)] border-t border-white/5 overflow-hidden">
+      <div className="relative z-20 -mt-[12vh] rounded-t-[40px] md:rounded-t-[80px] bg-[#0A0A0A] shadow-[0_-30px_80px_rgba(0,0,0,0.8)] border-t border-white/5">
         
         {/* Glow sutil na borda da gaveta para destacar a sobreposição */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />

@@ -4,6 +4,10 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const STEPS = [
   {
     id: 1,
@@ -50,51 +54,31 @@ const STEPS = [
 
 export function HowItWorksSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const leftColRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const ctx = gsap.context(() => {
-      // Pin section
+      // Pin apenas a coluna da esquerda
       ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=300%",
+        trigger: leftColRef.current,
+        start: "top 30%",
+        endTrigger: sectionRef.current,
+        end: "bottom 80%",
         pin: true,
-        scrub: 1,
+        pinSpacing: false,
       });
 
-      stepsRef.current.forEach((step, i) => {
+      stepsRef.current.forEach((step) => {
         if (!step) return;
         
-        gsap.set(step, { opacity: 0.3, y: 20 });
-        
-        // Enter
-        gsap.to(step, {
-          opacity: 1,
-          y: 0,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top+=${i * 50}% top`,
-            end: `top+=${(i + 1) * 50}% top`,
-            scrub: true,
-            onEnter: () => step.classList.add('border-[#E84E1B]', 'text-white'),
-            onLeave: () => step.classList.remove('border-[#E84E1B]', 'text-white'),
-            onEnterBack: () => step.classList.add('border-[#E84E1B]', 'text-white'),
-            onLeaveBack: () => step.classList.remove('border-[#E84E1B]', 'text-white'),
-          }
-        });
-
-        // Leave
-        gsap.to(step, {
-          opacity: 0.3,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top+=${(i + 1) * 50}% top`,
-            end: `top+=${(i + 1.5) * 50}% top`,
-            scrub: true,
-          }
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 60%",
+          end: "bottom 40%",
+          toggleClass: "is-active"
         });
       });
 
@@ -104,10 +88,11 @@ export function HowItWorksSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-[#0A0A0A] py-20 min-h-screen flex items-center border-t border-white/5">
+    <section ref={sectionRef} className="bg-[#0A0A0A] py-32 flex items-start border-t border-white/5 relative">
       <div className="mx-auto max-w-6xl px-6 w-full flex flex-col md:flex-row gap-16 items-start">
         
-        <div className="md:w-1/3 md:sticky md:top-1/3">
+        {/* Coluna Pinned */}
+        <div ref={leftColRef} className="md:w-1/3">
           <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4 block">
             Como funciona
           </span>
@@ -116,15 +101,16 @@ export function HowItWorksSection() {
           </h2>
         </div>
 
-        <div className="md:w-2/3 flex flex-col gap-10">
+        {/* Coluna Scrollavel */}
+        <div className="md:w-2/3 flex flex-col gap-24 py-10">
           {STEPS.map((step, index) => (
             <div 
               key={step.id} 
               ref={(el) => { stepsRef.current[index] = el; }}
-              className="pl-8 border-l-2 border-white/10 transition-colors duration-300 will-change-[opacity,transform]"
+              className="group pl-8 border-l-2 border-white/10 opacity-30 transition-all duration-500 ease-out [&.is-active]:opacity-100 [&.is-active]:border-[#E84E1B]"
             >
               <div className="flex items-center gap-4 mb-4 text-white">
-                <div className="text-[#E84E1B]">
+                <div className="text-[#E84E1B] transition-colors">
                   {step.icon}
                 </div>
                 <h3 className="text-2xl font-bold">{step.title}</h3>

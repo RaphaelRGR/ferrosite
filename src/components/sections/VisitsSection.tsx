@@ -6,6 +6,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const VISITS_CONTENT = {
   title: "Calendário de Visitas Técnicas",
   subtitle: "Vivenciando a ferrovia na prática.",

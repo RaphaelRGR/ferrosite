@@ -5,6 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const METRICS = [
   { id: 1, target: 3, format: (v: number) => `${Math.round(v)} de 3`, description: "Cursos de Eng. Ferroviária no Brasil" },
   { id: 2, target: 10, format: (v: number) => `${Math.round(v)}`, description: "Semestres de formação integral" },

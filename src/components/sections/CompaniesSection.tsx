@@ -1,72 +1,62 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
+const logos = [
+  { src: '/empresas/rumo.png',       alt: 'Rumo Logística' },
+  { src: '/empresas/mrs.png',        alt: 'MRS Logística' },
+  { src: '/empresas/vli.png',        alt: 'VLI' },
+  { src: '/empresas/vale.png',       alt: 'Vale' },
+  { src: '/empresas/anptrilhos.png', alt: 'ANPTrilhos' },
+  { src: '/empresas/ftc.png',        alt: 'FTC' },
+  { src: '/empresas/lanfranco.png',  alt: 'Lanfranco' },
+];
 
-const COMPANIES = ["RUMO", "MRS", "VLI", "VALE", "ANPTrilhos"];
-const COMPANIES_LOOP = [...COMPANIES, ...COMPANIES];
+const LOGOS_LOOP = [...logos, ...logos];
 
 export function CompaniesSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const ctx = gsap.context(() => {
-      if (!trackRef.current) return;
-
-      // Pegamos 50% da largura (que é a largura dos itens originais)
-      const trackWidth = trackRef.current.scrollWidth / 2;
-
-      tweenRef.current = gsap.to(trackRef.current, {
-        x: `-=${trackWidth}`,
-        duration: 20,
-        ease: "none",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize(x => parseFloat(x) % trackWidth)
-        }
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const handleMouseEnter = () => tweenRef.current?.pause();
-  const handleMouseLeave = () => tweenRef.current?.play();
-
   return (
-    <section ref={containerRef} className="bg-[#0A0A0A] py-20 md:py-28 border-t border-[#2E2E2E] overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6 relative flex flex-col items-center">
-        
-        {/* Máscara de gradiente para suavizar bordas */}
-        <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
+    <section className="bg-[#1A1A1A] py-16 overflow-hidden">
+      <style jsx>{`
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .marquee-track {
+          display: flex;
+          gap: 24px;
+          width: max-content;
+          animation: marquee 30s linear infinite;
+        }
+      `}</style>
 
-        <AnimatedSection className="w-full relative overflow-visible flex items-center justify-center">
-          <div 
-            ref={trackRef}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="flex flex-nowrap items-center gap-6 will-change-transform"
+      <div className="mx-auto max-w-6xl px-6 flex flex-col items-center">
+        <p className="text-center text-xs uppercase tracking-widest text-[#A0A0A0] mb-8">
+          Empresas parceiras e destinos de egressos
+        </p>
+
+        <div className="overflow-hidden w-full relative py-4">
+          {/* Máscara de gradiente para suavizar as bordas do carrossel */}
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#1A1A1A] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#1A1A1A] to-transparent z-10 pointer-events-none" />
+
+          <div
+            className="marquee-track"
+            onMouseEnter={e => (e.currentTarget.style.animationPlayState = 'paused')}
+            onMouseLeave={e => (e.currentTarget.style.animationPlayState = 'running')}
           >
-            {COMPANIES_LOOP.map((name, idx) => (
+            {LOGOS_LOOP.map((logo, i) => (
               <div 
-                key={`${name}-${idx}`} 
-                className="bg-[#2E2E2E] border border-[#3A3A3A] whitespace-nowrap rounded-[6px] px-8 py-4 text-white font-medium text-sm transition-all duration-150 hover:border-[#E84E1B] hover:text-[#E84E1B] cursor-default"
+                key={i} 
+                className="flex items-center justify-center bg-[#FFFFFF] rounded-[12px] shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-all duration-200 ease-out hover:shadow-[0_4px_20px_rgba(232,78,27,0.15)] hover:-translate-y-1 cursor-default w-[180px] h-[120px] p-4 flex-shrink-0"
               >
-                {name}
+                <img 
+                  src={logo.src} 
+                  alt={logo.alt} 
+                  style={{ width: '140px', height: '80px', objectFit: 'contain' }}
+                />
               </div>
             ))}
           </div>
-        </AnimatedSection>
-        
-        <p className="text-center mt-16 text-[10px] font-black uppercase tracking-[0.2em] text-white/20">
-          Empresas parceiras e destinos de egressos
-        </p>
+        </div>
       </div>
     </section>
   );

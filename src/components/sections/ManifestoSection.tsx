@@ -5,6 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const MANIFESTO_TEXT = "R$ 600 bilhões em investimentos previstos para o setor ferroviário brasileiro.";
 const MANIFESTO_SUB = "Os engenheiros que vão executar isso estão sendo formados agora, no CTJ.";
 
