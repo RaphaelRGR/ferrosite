@@ -16,8 +16,8 @@ const EVENTS = [
   },
   {
     year: "2018",
-    title: "Criação da AFER",
-    description: "Surge a Associação de Engenharia Ferroviária, unindo alunos e professores para promover a cultura ferroviária além das salas de aula."
+    title: "Criação do Comunica Ferro",
+    description: "Surge o Comunica Ferro, unindo alunos e professores para promover a cultura ferroviária além das salas de aula."
   },
   {
     year: "2020",

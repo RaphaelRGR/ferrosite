@@ -1,6 +1,6 @@
 /**
  * Constantes Globais
- * Removido menção à AFER.
+ * Substituída menção à AFER pelo Comunica Ferro.
  */
 
 export const BRAND_COLORS = {

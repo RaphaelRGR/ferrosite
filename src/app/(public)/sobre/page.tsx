@@ -1,6 +1,6 @@
 /**
  * Página Sobre
- * Apresenta informações e contexto sobre o portal FerroSite e a AFER/UFSC Joinville.
+ * Apresenta informações e contexto sobre o portal FerroSite e o Comunica Ferro/UFSC Joinville.
  */
 import { Metadata } from "next";
 

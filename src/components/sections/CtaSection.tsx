@@ -20,7 +20,7 @@ export function CtaSection() {
             Entrar no Portal
           </Link>
           <Link
-            href="/sobre"
+            href="/curso"
             className="flex min-h-[60px] items-center justify-center rounded-full border-2 border-white px-12 text-lg font-bold text-white transition-all hover:bg-white hover:text-[#E84E1B]"
           >
             Mais informações

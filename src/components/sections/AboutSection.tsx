@@ -46,7 +46,7 @@ export function AboutSection() {
               {ABOUT_CONTENT.description}
             </p>
             <Link
-              href="/sobre"
+              href="/curso"
               className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-10 text-base font-bold text-black transition-all hover:bg-[#E84E1B] hover:text-white"
             >
               {ABOUT_CONTENT.buttonLabel}

@@ -149,7 +149,7 @@ export function HeroSection() {
                 {HERO_CONTENT.primaryButton}
               </Link>
               <Link
-                href="/sobre"
+                href="/curso"
                 className="flex min-h-[60px] items-center justify-center rounded-full border border-white/30 bg-black/20 px-14 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/60 hover:scale-105 hover:-translate-y-1 active:scale-95"
               >
                 {HERO_CONTENT.secondaryButton}
