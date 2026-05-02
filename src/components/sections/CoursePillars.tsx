@@ -59,7 +59,18 @@ export function CoursePillars() {
   const cardsRef = useRef<HTMLDivElement[]>([]);
   
   useEffect(() => {
+    const handleScroll = () => {
+      if (active !== null) {
+        setActive(null);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [active]);
+
+  useEffect(() => {
     let ctx = gsap.context(() => {
+      // Animação de entrada
       gsap.fromTo(".pillar-card", 
         { y: 80, opacity: 0 },
         {
@@ -71,12 +82,7 @@ export function CoursePillars() {
           opacity: 1,
           stagger: 0.15,
           duration: 0.8,
-          ease: "power3.out",
-          onComplete: () => {
-            document.querySelectorAll(".pillar-card").forEach(el => {
-              el.classList.add("transition-all", "duration-1000", "ease-[cubic-bezier(0.16,1,0.3,1)]");
-            });
-          }
+          ease: "power4.out",
         }
       );
 
@@ -98,8 +104,28 @@ export function CoursePillars() {
     return () => ctx.revert();
   }, []);
 
+  // Nova animação suave de expansão controlada pelo GSAP
+  useEffect(() => {
+    if (typeof window === "undefined" || window.innerWidth < 1024) return;
+
+    PILLARS.forEach((pillar, index) => {
+      const card = cardsRef.current[index];
+      const isActive = active === pillar.id;
+      const isAnyActive = active !== null;
+
+      if (card) {
+        gsap.to(card, {
+          flexGrow: isAnyActive ? (isActive ? 3 : 1) : 1,
+          y: isAnyActive ? 0 : (index * 32),
+          duration: 0.7,
+          ease: "power4.out",
+        });
+      }
+    });
+  }, [active]);
+
   return (
-    <section ref={sectionRef} className="py-24 bg-[#0A0A0A] border-t border-white/5 relative overflow-hidden z-[100]">
+    <section ref={sectionRef} className="pt-24 pb-40 bg-[#0A0A0A] border-t border-white/5 relative overflow-hidden z-[100]">
       <div className="max-w-7xl mx-auto px-6 relative z-[110]">
         
         <div className="mb-16">
@@ -109,33 +135,27 @@ export function CoursePillars() {
           </h2>
         </div>
 
-        <div 
-          className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[480px]"
-          onMouseLeave={() => { if (window.innerWidth >= 1024) setActive(null); }}
-        >
+        <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[620px] items-start">
           {PILLARS.map((pillar, index) => {
             const isActive = active === pillar.id;
-            const isAnyActive = active !== null;
             
             return (
               <div 
                 key={pillar.id}
                 ref={(el) => { if (el) cardsRef.current[index] = el; }}
                 onMouseEnter={() => setActive(pillar.id)}
-                onMouseOver={() => setActive(pillar.id)}
                 onClick={() => setActive(pillar.id)}
-                className={`pillar-card group relative z-50 overflow-hidden rounded-3xl cursor-pointer flex flex-col justify-end p-8 border
-                  ${!isAnyActive 
-                    ? `lg:flex-[1] bg-[#1A1A1A] border-white/5 ${STAIRS[index]}` 
-                    : isActive 
-                      ? `lg:flex-[3] ${pillar.bgClass} border-white/20 shadow-2xl lg:translate-y-0` 
-                      : `lg:flex-[1] bg-[#1A1A1A] border-white/5 lg:translate-y-0 opacity-100` 
-                  }
+                className={`pillar-card group relative z-50 overflow-hidden rounded-3xl cursor-pointer flex flex-col justify-end p-8 border transition-colors duration-500 h-full lg:h-[500px]
+                  ${isActive ? `${pillar.bgClass} border-white/20 shadow-2xl` : 'bg-[#1A1A1A] border-white/5'}
                 `}
-                style={{ WebkitTapHighlightColor: 'transparent' }}
+                style={{ 
+                  WebkitTapHighlightColor: 'transparent',
+                  flexBasis: '0%',
+                  flexGrow: 1
+                }}
               >
                 <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
-                  <div className={`p-4 rounded-xl w-fit transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]
+                  <div className={`p-4 rounded-xl w-fit transition-all duration-700 ease-out
                     ${isActive 
                       ? 'bg-white text-black scale-110 shadow-lg' 
                       : 'bg-white/10 text-white'}`}
@@ -144,16 +164,16 @@ export function CoursePillars() {
                   </div>
                   
                   <div className="mt-8">
-                    <p className={`text-xs font-black uppercase tracking-[0.2em] mb-4 transition-colors duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]
+                    <p className={`text-xs font-black uppercase tracking-[0.2em] mb-4 transition-colors duration-700
                       ${isActive ? 'text-white/90' : 'text-white/40'}`}>
                       {pillar.subtitle}
                     </p>
-                    <h3 className={`font-black text-white transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] tracking-tighter 
+                    <h3 className={`font-black text-white transition-all duration-700 tracking-tighter 
                       ${isActive ? 'text-4xl lg:text-5xl mb-6' : 'text-xl lg:text-2xl'}`}>
                       {pillar.title}
                     </h3>
                     
-                    <div className={`overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]
+                    <div className={`overflow-hidden transition-all duration-700
                       ${isActive ? 'max-h-[300px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
                       <p className="text-white leading-relaxed text-base md:text-lg font-medium antialiased">
                         {pillar.desc}
