@@ -1,4 +1,9 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 const VISITS_CONTENT = {
@@ -35,9 +40,42 @@ const VISITS = [
 ];
 
 export function VisitsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ctx = gsap.context(() => {
+      // Set initial state for cards
+      gsap.set(cardsRef.current, { x: 100, opacity: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=150%",
+          scrub: 1,
+          pin: true,
+        }
+      });
+
+      tl.to(cardsRef.current, {
+        x: 0,
+        opacity: 1,
+        stagger: 0.2,
+        ease: "power2.out",
+        duration: 1
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="bg-white py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section ref={sectionRef} className="bg-white py-20 md:py-28 h-screen flex flex-col justify-center overflow-hidden">
+      <div className="mx-auto max-w-6xl px-6 w-full">
         <div className="mb-20 flex flex-col items-center text-center">
           <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4">
             {VISITS_CONTENT.subtitle}
@@ -49,10 +87,10 @@ export function VisitsSection() {
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 mb-20">
           {VISITS.map((visit, index) => (
-            <AnimatedSection 
+            <div 
               key={visit.id} 
-              delay={index * 150}
-              className="group flex flex-col rounded-3xl border border-[#E84E1B]/10 bg-white p-10 transition-all duration-300 ease-out hover:shadow-[0_20px_60px_rgba(232,78,27,0.15)] hover:-translate-y-3 hover:scale-[1.02] hover:border-[#E84E1B]/30"
+              ref={(el) => { cardsRef.current[index] = el; }}
+              className="group flex flex-col rounded-3xl border border-[#E84E1B]/10 bg-white p-10 transition-all duration-300 ease-out hover:shadow-[0_20px_60px_rgba(232,78,27,0.15)] hover:-translate-y-3 hover:scale-[1.02] hover:border-[#E84E1B]/30 will-change-[transform,opacity]"
             >
               <div className="mb-6 flex items-center justify-between">
                 <span className="text-sm font-black text-[#E84E1B]/30">{visit.date}</span>
@@ -66,7 +104,7 @@ export function VisitsSection() {
               <p className="text-[#E84E1B]/70 leading-relaxed text-lg">
                 {visit.description}
               </p>
-            </AnimatedSection>
+            </div>
           ))}
         </div>
 

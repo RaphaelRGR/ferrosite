@@ -1,13 +1,31 @@
+"use client";
+
+import { useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ManifestoSection } from "@/components/sections/ManifestoSection";
-import { MetricsSection } from "@/components/sections/MetricsSection";
+import { NumbersSection } from "@/components/sections/NumbersSection";
 import { AboutSection } from "@/components/sections/AboutSection";
+import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
 import { VisitsSection } from "@/components/sections/VisitsSection";
 import { EventsSection } from "@/components/sections/EventsSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 
 export default function HomePage() {
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <main className="relative bg-[#0A0A0A] text-white overflow-x-hidden">
       
@@ -26,8 +44,9 @@ export default function HomePage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[40px] bg-[#E84E1B] blur-[60px] opacity-20 pointer-events-none" />
 
         <ManifestoSection />
-        <MetricsSection />
+        <NumbersSection />
         <AboutSection />
+        <HowItWorksSection />
         <VisitsSection />
         <EventsSection />
         <CompaniesSection />
