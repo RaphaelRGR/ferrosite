@@ -73,7 +73,7 @@ export function CurriculumFlowchart() {
               const fromR = fromEl.getBoundingClientRect();
               const toR = toEl.getBoundingClientRect();
               
-              const offset = (index - (s.pre.length - 1) / 2) * 8;
+              const offset = (index - ((s.pre?.length ?? 1) - 1) / 2) * 8;
               
               const x1 = fromR.right - containerRect.left;
               const y1 = fromR.top - containerRect.top + (fromR.height / 2);
