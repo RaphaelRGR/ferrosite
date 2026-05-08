@@ -88,11 +88,11 @@ export function HowItWorksSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-[#0A0A0A] py-32 flex items-start border-t border-white/5 relative">
+    <section ref={sectionRef} className="bg-[#0A0A0A] py-32 flex items-start border-t border-white/5 relative will-change-transform">
       <div className="mx-auto max-w-6xl px-6 w-full flex flex-col md:flex-row gap-16 items-start">
         
         {/* Coluna Pinned */}
-        <div ref={leftColRef} className="md:w-1/3">
+        <div ref={leftColRef} className="md:w-1/3 will-change-transform">
           <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4 block">
             Como funciona
           </span>
@@ -107,7 +107,7 @@ export function HowItWorksSection() {
             <div 
               key={step.id} 
               ref={(el) => { stepsRef.current[index] = el; }}
-              className="group pl-8 border-l-2 border-white/10 opacity-30 transition-all duration-500 ease-out [&.is-active]:opacity-100 [&.is-active]:border-[#E84E1B]"
+              className="group pl-8 border-l-2 border-white/10 opacity-30 transition-all duration-500 ease-out [&.is-active]:opacity-100 [&.is-active]:border-[#E84E1B] will-change-[opacity,border-color]"
             >
               <div className="flex items-center gap-4 mb-4 text-white">
                 <div className="text-[#E84E1B] transition-colors">

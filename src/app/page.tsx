@@ -9,9 +9,11 @@ import { ManifestoSection } from "@/components/sections/ManifestoSection";
 import { NumbersSection } from "@/components/sections/NumbersSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
+import { InnovationSection } from "@/components/sections/InnovationSection";
 import { VisitsSection } from "@/components/sections/VisitsSection";
 import { EventsSection } from "@/components/sections/EventsSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
+import { PartnersSection } from "@/components/sections/PartnersSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 
 if (typeof window !== "undefined") {
@@ -49,9 +51,11 @@ export default function HomePage() {
         <NumbersSection />
         <AboutSection />
         <HowItWorksSection />
+        <InnovationSection />
         <VisitsSection />
         <EventsSection />
         <CompaniesSection />
+        <PartnersSection />
         <CtaSection />
         
       </div>
