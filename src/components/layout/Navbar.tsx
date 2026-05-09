@@ -90,10 +90,26 @@ export function Navbar() {
     }
   }, [isVisible]);
 
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsProjectsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsProjectsOpen(false);
+    }, 300);
+  };
+
   // Fecha menus ao mudar de rota
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsProjectsOpen(false);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [pathname]);
 
   const navItemStyles = "text-white/80 hover:text-[#E84E1B] transition-all duration-300 font-medium text-[13px] uppercase tracking-wider";
@@ -137,8 +153,8 @@ export function Navbar() {
             {/* DROPDOWN PROJETOS */}
             <div 
               className="relative"
-              onMouseEnter={() => setIsProjectsOpen(true)}
-              onMouseLeave={() => setIsProjectsOpen(false)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <button className={`flex items-center gap-1.5 ${navItemStyles} outline-none`}>
                 Projetos
