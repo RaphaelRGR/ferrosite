@@ -3,8 +3,6 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
-import { Navbar } from "@/components/layout/Navbar";
-
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
