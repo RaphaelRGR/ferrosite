@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EFM 2012.2 - Fluxograma Interativo UFSC</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;700&display=swap');
+
+  :root {
+    --math: #3b82f6; --physics: #22c55e; --mech: #f59e0b;
+    --fluid: #eab308; --elec: #a855f7; --railway: #14b8a6;
+    --material: #8b4513; --human: #94a3b8; --design: #06b6d4;
+    --comp: #6366f1; --project: #ec4899; --mgmt: #64748b;
+    --hdr-bg: #0f172a; --bg: #f1f5f9; --card-bg: #ffffff;
+    --text: #0f172a; --border: #e2e8f0; --line-op: 0.3;
+  }
+
+  [data-theme="dark"] {
+    --bg: #020617; --card-bg: #1e293b; --text: #f8fafc;
+    --border: #334155; --hdr-bg: #000000; --line-op: 0.2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, color 0.3s, opacity 0.3s; }
+  
+  body { 
+    font-family: 'Barlow', sans-serif; background: var(--bg); color: var(--text); 
+    padding: 20px; display: flex; flex-direction: column; align-items: center; 
+    min-width: 1950px;
+  }
+
+  #page-container { width: 1900px; position: relative; }
+
+  /* Header */
+  .header { 
+    display: flex; align-items: center; border-bottom: 4px solid var(--hdr-bg); 
+    padding-bottom: 20px; margin-bottom: 20px; gap: 25px; 
+  }
+  .ufsc-brand { 
+    background: var(--hdr-bg); color: #fff; padding: 15px 20px; border-radius: 8px; 
+    font-family: 'Barlow Condensed'; font-weight: 700; font-size: 22px; text-align: center;
+  }
+  .header-info h1 { 
+    font-family: 'Barlow Condensed'; font-size: 32px; color: var(--hdr-bg); 
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  
+  .controls { margin-left: auto; display: flex; gap: 10px; }
+  .btn {
+    background: var(--hdr-bg); color: #fff; border: none; padding: 10px 20px; 
+    border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px;
+  }
+
+  /* Grid System */
+  #grid-wrapper { position: relative; }
+  #svg-layer { 
+    position: absolute; top: 0; left: 0; pointer-events: none; 
+    z-index: 5; overflow: visible; width: 100%; height: 100%; 
+  }
+  
+  .phase-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; }
+  .phase-column { 
+    display: flex; flex-direction: column; gap: 8px; 
+    background: rgba(0,0,0,0.02); padding: 8px; border-radius: 8px; min-height: 1000px;
+  }
+  .phase-tag { 
+    background: var(--hdr-bg); color: #fff; text-align: center; padding: 10px; 
+    border-radius: 4px; font-family: 'Barlow Condensed'; font-weight: 700; font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  /* Cards */
+  .disc-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 8px; font-size: 10px; position: relative; z-index: 10; cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 3px;
+  }
+  .disc-card::before { 
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; 
+    border-radius: 4px 4px 0 0; 
+  }
+  
+  /* Categoria Colors */
+  .math::before { background: var(--math); } .physics::before { background: var(--physics); }
+  .mech::before { background: var(--mech); } .fluid::before { background: var(--fluid); }
+  .elec::before { background: var(--elec); } .railway::before { background: var(--railway); }
+  .material::before { background: var(--material); } .human::before { background: var(--human); }
+  .design::before { background: var(--design); } .comp::before { background: var(--comp); }
+  .project::before { background: var(--project); } .mgmt::before { background: var(--mgmt); }
+
+  .disc-card .id { font-weight: 700; font-size: 9px; opacity: 0.6; }
+  .disc-card .name { font-weight: 700; line-height: 1.2; min-height: 24px; display: block; overflow: hidden; }
+  .disc-card .hours { font-size: 8px; color: #64748b; text-align: right; margin-top: 1px; }
+
+  /* Interactivity States */
+  .dimmed { opacity: 0.08; filter: grayscale(1); pointer-events: none; }
+  .active-path { border: 2px solid var(--text); z-index: 100; transform: scale(1.02); box-shadow: 0 8px 12px rgba(0,0,0,0.1); }
+
+  /* Optativas Section */
+  .optativas-area { margin-top: 30px; border-top: 2px solid var(--border); padding-top: 20px; }
+  .optativas-title { font-family: 'Barlow Condensed'; font-weight: 700; font-size: 18px; margin-bottom: 15px; color: var(--hdr-bg); }
+  .optativas-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+
+  /* Modal */
+  .modal-overlay { 
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+    display: none; z-index: 2000; align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box { 
+    background: var(--card-bg); width: 550px; padding: 30px; border-radius: 12px; 
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  }
+  .modal-box h2 { font-family: 'Barlow Condensed'; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+
+  @media print {
+    @page { size: A3 landscape; margin: 5mm; }
+    body { min-width: 0; padding: 0; background: #fff; zoom: 0.6; }
+    #page-container { width: 100%; }
+    .controls { display: none !important; }
+    .phase-column { min-height: auto; background: transparent !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="page-container">
+  <div class="header">
+    <div class="ufsc-brand">UFSC<br><span style="font-size:10px">JOINVILLE</span></div>
+    <div class="header-info">
+      <h1>Engenharia Ferroviária e Metroviária</h1>
+      <p>Fluxograma 2012.2 • Carga Total: 4374 H/A • Resolução nº 06/CGRAD/2012</p>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="toggleTheme()">🌓 TEMA</button>
+      <button class="btn" onclick="window.print()">🖨️ IMPRIMIR</button>
+    </div>
+  </div>
+
+  <div id="grid-wrapper">
+    <svg id="svg-layer"></svg>
+    <div class="phase-grid" id="main-grid"></div>
+  </div>
+
+  <div class="optativas-area">
+    <div class="optativas-title">DISCIPLINAS OPTATIVAS DISPONÍVEIS (2012.2)</div>
+    <div class="optativas-grid" id="optativas-grid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <h2 id="m-title">Título</h2>
+    <p id="m-content" style="line-height:1.6; font-size:14px; margin-bottom:20px;">Conteúdo...</p>
+    <button class="btn" style="width:100%" onclick="closeModal()">FECHAR</button>
+  </div>
+</div>
+
+<script>
+const CURRICULO_2012 = [
+  { phase: 1, subjects: [
+    { id: "EMB5001", cat: "math", name: "Cálculo Diferencial e Integral I", hours: 72, ementa: "Funções de uma variável real, limites, derivadas e integrais básicas." },
+    { id: "EMB5003", cat: "design", name: "Representação Gráfica", hours: 72, ementa: "Desenho técnico manual e computacional, projeções e modelagem básica." },
+    { id: "EMB5004", cat: "human", name: "Introdução a Engenharia", hours: 72, ementa: "Contextualização à vida acadêmica e profissional. Ética e responsabilidade social." },
+    { id: "EMB5005", cat: "math", name: "Geometria Analítica", hours: 72, ementa: "Matrizes, determinantes, álgebra vetorial e estudo da reta e do plano." },
+    { id: "EMB5006", cat: "material", name: "Química Tecnológica", hours: 72, ementa: "Estrutura atômica, ligações, estequiometria e corrosão metálica." },
+    { id: "EMB5028", cat: "human", name: "Comunicação e Expressão", hours: 54, ementa: "Construção de textos técnico-científicos e normas ABNT." }
+  ]},
+  { phase: 2, subjects: [
+    { id: "EMB5002", cat: "physics", name: "Física - Introdução à Mecânica", hours: 72, pre: ["EMB5001"] },
+    { id: "EMB5007", cat: "math", name: "Álgebra Linear", hours: 72, pre: ["EMB5005"] },
+    { id: "EMB5010", cat: "math", name: "Estatística e Probabilidade", hours: 72 },
+    { id: "EMB5012", cat: "design", name: "Desenho e Modelagem Geométrica", hours: 54, pre: ["EMB5003"] },
+    { id: "EMB5013", cat: "comp", name: "Introdução à Programação", hours: 72, ementa: "Lógica de programação e implementação em linguagem de alto nível." },
+    { id: "EMB5029", cat: "math", name: "Cálculo Diferencial e Integral II", hours: 72, pre: ["EMB5001"] }
+  ]},
+  { phase: 3, subjects: [
+    { id: "EMB5009", cat: "fluid", name: "Termodinâmica", hours: 72, pre: ["EMB5029"] },
+    { id: "EMB5011", cat: "mech", name: "Estática", hours: 72, pre: ["EMB5002"] },
+    { id: "EMB5016", cat: "math", name: "Cálculo Numérico", hours: 72, pre: ["EMB5001", "EMB5013"] },
+    { id: "EMB5022", cat: "material", name: "Ciência dos Materiais", hours: 72, pre: ["EMB5001", "EMB5006"] },
+    { id: "EMB5026", cat: "human", name: "Ergonomia e Segurança", hours: 36 },
+    { id: "EMB5030", cat: "math", name: "Cálculo Vetorial", hours: 72, pre: ["EMB5029"] },
+    { id: "EMB5033", cat: "math", name: "Metrologia", hours: 54, pre: ["EMB5010"] }
+  ]},
+  { phase: 4, subjects: [
+    { id: "EMB5014", cat: "math", name: "Séries e Equações Diferenciais", hours: 72, pre: ["EMB5007", "EMB5029"] },
+    { id: "EMB5015", cat: "mech", name: "Dinâmica", hours: 72, pre: ["EMB5011"] },
+    { id: "EMB5017", cat: "fluid", name: "Mecânica dos Fluidos", hours: 72, pre: ["EMB5009", "EMB5030"] },
+    { id: "EMB5021", cat: "mech", name: "Mecânica dos Sólidos I", hours: 72, pre: ["EMB5011", "EMB5022"] },
+    { id: "EMB5027", cat: "project", name: "Metodologia de Projeto", hours: 72 },
+    { id: "EMB5031", cat: "physics", name: "Eletromagnetismo", hours: 72, pre: ["EMB5030"] }
+  ]},
+  { phase: 5, subjects: [
+    { id: "EMB5102", cat: "material", name: "Processo de Fabricação", hours: 72, pre: ["EMB5022"] },
+    { id: "EMB5103", cat: "fluid", name: "Transmissão de Calor I", hours: 72, pre: ["EMB5014", "EMB5017"] },
+    { id: "EMB5104", cat: "mech", name: "Mecânica dos Sólidos II", hours: 72, pre: ["EMB5021"] },
+    { id: "EMB5105", cat: "mech", name: "Mecanismos", hours: 36, pre: ["EMB5015"] },
+    { id: "EMB5108", cat: "elec", name: "Circuitos Elétricos", hours: 72, pre: ["EMB5031"] },
+    { id: "EMB5109", cat: "mgmt", name: "Gestão Industrial", hours: 72, ementa: "Estratégia, PCP, gestão de pessoas e economia." },
+    { id: "EMB5115", cat: "mech", name: "Vibrações", hours: 72, pre: ["EMB5014", "EMB5015"] }
+  ]},
+  { phase: 6, subjects: [
+    { id: "EMB5024", cat: "fluid", name: "Sistemas Hidro-Pneumáticos", hours: 36, pre: ["EMB5017"] },
+    { id: "EMB5106", cat: "fluid", name: "Máquinas de Fluxo e Propulsão", hours: 72, pre: ["EMB5017"] },
+    { id: "EMB5110", cat: "mech", name: "Elementos de Máquinas", hours: 72, pre: ["EMB5104", "EMB5105"] },
+    { id: "EMB5111", cat: "comp", name: "Introdução ao Controle", hours: 72, pre: ["EMB5014"] },
+    { id: "EMB5116", cat: "elec", name: "Eletrônica Analógica", hours: 72, pre: ["EMB5108"] },
+    { id: "EMB5502", cat: "material", name: "Ligações Permanentes", hours: 72, pre: ["EMB5102"] },
+    { id: "EMB5605", cat: "elec", name: "Eletrônica de Potência", hours: 72, pre: ["EMB5116"] },
+    { id: "EMB5627", cat: "elec", name: "Sistemas Motrizes I", hours: 72, pre: ["EMB5108"] }
+  ]},
+  { phase: 7, subjects: [
+    { id: "EMB5503", cat: "elec", name: "Sistemas de Comunicação", hours: 72, pre: ["EMB5116"] },
+    { id: "EMB5506", cat: "railway", name: "Dinâmica Ferroviária e Metro.", hours: 54, pre: ["EMB5115"] },
+    { id: "EMB5507", cat: "railway", name: "Veículos de Tração I", hours: 72, pre: ["EMB5106"] },
+    { id: "EMB5508", cat: "railway", name: "Sistemas Veiculares: Suspensão", hours: 72, pre: ["EMB5110"] },
+    { id: "EMB5525", cat: "railway", name: "Eng. Ferroviária: Fundamentos", hours: 54, ementa: "História, mercado e legislação das ferrovias." },
+    { id: "EMB5628", cat: "elec", name: "Sistemas Motrizes II", hours: 54, pre: ["EMB5627"] }
+  ]},
+  { phase: 8, subjects: [
+    { id: "EMB5509", cat: "railway", name: "Veículos de Tração II", hours: 72, pre: ["EMB5507", "EMB5605"] },
+    { id: "EMB5510", cat: "railway", name: "Vagões e Carros Metroviários", hours: 72, pre: ["EMB5021", "EMB5102"] },
+    { id: "EMB5511", cat: "railway", name: "Sinalização e Controle Tráfego", hours: 54, pre: ["EMB5503"] },
+    { id: "EMB5512", cat: "railway", name: "Manutenção Ferroviária I", hours: 72, pre: ["EMB5107", "EMB5507"] },
+    { id: "EMB5513", cat: "railway", name: "Operação Ferroviária e Metro.", hours: 54, pre: ["EMB5109"] },
+    { id: "EMB5515", cat: "comp", name: "Métodos Computacionais Eng.", hours: 72, pre: ["EMB5016"] },
+    { id: "EMB5521", cat: "project", name: "Planejamento do TCC", hours: 36, pre: ["EMB5027"] }
+  ]},
+  { phase: 9, subjects: [
+    { id: "EMB5514", cat: "railway", name: "Via Permanente", hours: 54, pre: ["EMB5011", "EMB5012"] },
+    { id: "EMB5516", cat: "railway", name: "Planejamento Transp. Público", hours: 72, pre: ["EMB5513"] },
+    { id: "EMB5517", cat: "railway", name: "Manutenção Ferroviária II", hours: 72, pre: ["EMB5512"] },
+    { id: "EMB5518", cat: "railway", name: "Segurança e Prev. Acidentes", hours: 54, pre: ["EMB5506"] },
+    { id: "EMB5519", cat: "mgmt", name: "Gestão de Empreendimentos", hours: 36, pre: ["EMB5109"] },
+    { id: "EMB5520", cat: "elec", name: "Transmissão e Distr. Energia", hours: 54, pre: ["EMB5605"] },
+    { id: "EMB5522", cat: "project", name: "Trabalho de Conclusão (TCC)", hours: 72, pre: ["EMB5521"] }
+  ]},
+  { phase: 10, subjects: [
+    { id: "EMB5523", cat: "project", name: "Estágio Curricular Obrigatório", hours: 396, ementa: "Vivência prática em indústria ou instituição de pesquisa." }
+  ]}
+];
+
+const OPTATIVAS_2012 = [
+  { id: "EMB5019", cat: "human", name: "Ética e Disciplina Consciente", hours: 36 },
+  { id: "EMB5023", cat: "human", name: "Fundamentos Eng. Mobilidade", hours: 36 },
+  { id: "EMB5107", cat: "mgmt", name: "Manutenção e Confiabilidade", hours: 36, pre: ["EMB5010"] },
+  { id: "EMB5113", cat: "comp", name: "Modelagem de Sistemas", hours: 72 },
+  { id: "EMB5032", cat: "human", name: "Avaliação Impactos Ambientais", hours: 36 },
+  { id: "LSB7904", cat: "human", name: "Libras I", hours: 72 }
+];
+
+// Injeção de Cards no Grid Principal
+const grid = document.getElementById('main-grid');
+CURRICULO_2012.forEach(p => {
+  const col = document.createElement('div');
+  col.className = 'phase-column';
+  col.innerHTML = `<div class="phase-tag">${p.phase}ª FASE</div>`;
+  p.subjects.forEach(s => {
+    const card = document.createElement('div');
+    card.className = `disc-card ${s.cat}`;
+    card.dataset.id = s.id;
+    card.onclick = () => openModal(s);
+    card.innerHTML = `<span class="id">${s.id}</span><span class="name">${s.name}</span><div class="hours">${s.hours} H/A</div>`;
+    col.appendChild(card);
+  });
+  grid.appendChild(col);
+});
+
+// Injeção de Optativas
+const optGrid = document.getElementById('optativas-grid');
+OPTATIVAS_2012.forEach(s => {
+  const card = document.createElement('div');
+  card.className = `disc-card ${s.cat}`;
+  card.dataset.id = s.id;
+  card.onclick = () => openModal(s);
+  card.innerHTML = `<span class="id">${s.id}</span><span class="name">${s.name}</span><div class="hours">${s.hours} H/A</div>`;
+  optGrid.appendChild(card);
+});
+
+function toggleTheme() {
+  const body = document.body;
+  body.setAttribute('data-theme', body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  setTimeout(drawConnections, 200);
+}
+
+function openModal(s) {
+  document.getElementById('m-title').innerText = `${s.id} - ${s.name}`;
+  let content = `<strong>Carga Horária:</strong> ${s.hours} H/A<br>`;
+  content += `<strong>Área:</strong> ${s.cat.toUpperCase()}<br>`;
+  if(s.pre) content += `<strong>Pré-requisitos:</strong> ${s.pre.join(', ')}<br>`;
+  content += `<br>${s.ementa || "Consulte o SIGA para a ementa detalhada desta disciplina do currículo 20122."}`;
+  
+  document.getElementById('m-content').innerHTML = content;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+function drawConnections(targetId = null) {
+  const svg = document.getElementById('svg-layer');
+  const wrap = document.getElementById('grid-wrapper');
+  svg.setAttribute('width', wrap.offsetWidth);
+  svg.setAttribute('height', wrap.offsetHeight);
+  svg.innerHTML = '';
+
+  const elMap = {};
+  document.querySelectorAll('.disc-card').forEach(el => elMap[el.dataset.id] = el);
+
+  CURRICULO_2012.forEach(p => p.subjects.forEach(s => {
+    if(!s.pre) return;
+    s.pre.forEach((preId, index) => {
+      const from = elMap[preId];
+      const to = elMap[s.id];
+      if(!from || !to) return;
+
+      const fromR = from.getBoundingClientRect();
+      const toR = to.getBoundingClientRect();
+      const wrapR = wrap.getBoundingClientRect();
+
+      const offset = (index - (s.pre.length - 1) / 2) * 6;
+      const x1 = fromR.right - wrapR.left;
+      const y1 = fromR.top - wrapR.top + (fromR.height / 2);
+      const x2 = toR.left - wrapR.left;
+      const y2 = toR.top - wrapR.top + (toR.height / 2) + offset;
+
+      const isActive = (targetId === s.id);
+      const color = window.getComputedStyle(from, '::before').backgroundColor;
+      const midX = x1 + (x2 - x1) * 0.45;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`);
+      path.setAttribute('stroke', color);
+      path.setAttribute('stroke-width', isActive ? '3' : '1.2');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('opacity', targetId ? (isActive ? '1' : '0.05') : '0.15');
+      svg.appendChild(path);
+    });
+  }));
+}
+
+document.querySelectorAll('.disc-card').forEach(card => {
+  card.onmouseenter = () => {
+    const id = card.dataset.id;
+    const dependencies = new Set();
+    const findPre = (cid) => {
+      [...CURRICULO_2012, {subjects: OPTATIVAS_2012}].forEach(p => p.subjects.forEach(s => {
+        if(s.id === cid && s.pre) { s.pre.forEach(pid => { dependencies.add(pid); findPre(pid); }); }
+      }));
+    };
+    findPre(id);
+    document.querySelectorAll('.disc-card').forEach(d => {
+      if(d.dataset.id !== id && !dependencies.has(d.dataset.id)) d.classList.add('dimmed');
+      else d.classList.add('active-path');
+    });
+    drawConnections(id);
+  };
+  card.onmouseleave = () => {
+    document.querySelectorAll('.disc-card').forEach(d => d.classList.remove('dimmed', 'active-path'));
+    drawConnections();
+  };
+});
+
+window.onload = () => setTimeout(drawConnections, 400);
+window.onresize = drawConnections;
+</script>
+</body>
+</html>

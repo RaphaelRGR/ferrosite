@@ -3,6 +3,8 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
+import { Navbar } from "@/components/layout/Navbar";
+
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,32 +18,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className="scroll-smooth">
+    <html lang="pt-BR" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className={`${geist.className} bg-[#0A0A0A] text-white selection:bg-[#E84E1B] selection:text-white`}>
 
         {/* NAVBAR - Glassmorphism Premium */}
-        <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-black/20 backdrop-blur-md border-b border-white/5 transition-all duration-500">
-          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-4 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E84E1B] to-[#ff7a4d] flex items-center justify-center text-xl shadow-lg shadow-[#E84E1B]/20 group-hover:rotate-6 transition-transform duration-500">
-                🚂
-              </div>
-              <div className="flex flex-col justify-center">
-                <span className="font-black text-sm leading-none tracking-tight uppercase">Engenharia Ferroviária</span>
-                <span className="text-white/40 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">UFSC Joinville</span>
-              </div>
-            </Link>
+        <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-[#0A0A0A]/40 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between transition-all duration-500">
+          <Link href="/" className="flex items-center gap-4 group">
+            <span className="text-[#E84E1B] font-bold text-2xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">🚂</span>
+            <span className="font-bold text-sm leading-tight tracking-tight">
+              Engenharia Ferroviária<br />
+              <span className="text-white/40 font-normal text-[11px] uppercase tracking-widest">UFSC Joinville</span>
+            </span>
+          </Link>
+          
+          <div className="hidden md:flex gap-10 text-sm font-bold items-center uppercase tracking-widest text-[11px]">
+            <Link href="/sobre" className="text-white/60 hover:text-white transition-colors">Sobre</Link>
+            <Link href="/visitas" className="text-white/60 hover:text-white transition-colors">Visitas</Link>
+            <Link href="/eventos" className="text-white/60 hover:text-white transition-colors">Eventos</Link>
+            <Link href="/noticias" className="text-white/60 hover:text-white transition-colors">Notícias</Link>
             
-            <div className="hidden md:flex gap-12 text-[10px] font-black items-center uppercase tracking-[0.2em]">
-              <Link href="/sobre" className="text-white/50 hover:text-white transition-all hover:tracking-[0.3em]">Sobre</Link>
-              <Link href="/visitas" className="text-white/50 hover:text-white transition-all hover:tracking-[0.3em]">Visitas</Link>
-              <Link href="/eventos" className="text-white/50 hover:text-white transition-all hover:tracking-[0.3em]">Eventos</Link>
-              <Link href="/noticias" className="text-white/50 hover:text-white transition-all hover:tracking-[0.3em]">Notícias</Link>
-              
-              <Link href="/portal" className="relative group overflow-hidden bg-white text-black px-8 py-3 rounded-full font-black transition-all hover:bg-[#E84E1B] hover:text-white hover:shadow-[0_0_30px_rgba(232,78,27,0.4)]">
-                <span className="relative z-10">Portal do Aluno</span>
-              </Link>
-            </div>
+            <Link href="/portal" className="bg-[#E84E1B] px-8 py-3 rounded-full text-white shadow-[0_0_15px_rgba(232,78,27,0.2)] hover:shadow-[0_0_30px_rgba(232,78,27,0.4)] hover:-translate-y-0.5 transition-all">
+              Portal do Aluno
+            </Link>
           </div>
         </nav>
 
