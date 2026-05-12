@@ -8,28 +8,32 @@ import { NextResponse, type NextRequest } from 'next/server'
  * garantindo que tokens expirados sejam renovados automaticamente.
  */
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request })
+  const supabaseResponse = NextResponse.next({ request })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          )
-          supabaseResponse = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
+  const url  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? ''
+  const key  = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+
+  // Guard: se as variáveis forem placeholders ou estiverem vazias,
+  // não tenta criar o cliente para evitar crash em desenvolvimento.
+  if (!url || !key || url.includes('placeholder')) {
+    return supabaseResponse
+  }
+
+  const supabase = createServerClient(url, key, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
       },
-    }
-  )
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) =>
+          request.cookies.set(name, value)
+        )
+        cookiesToSet.forEach(({ name, value, options }) =>
+          supabaseResponse.cookies.set(name, value, options)
+        )
+      },
+    },
+  })
 
   // Atualiza a sessão — não remova essa linha
   await supabase.auth.getUser()

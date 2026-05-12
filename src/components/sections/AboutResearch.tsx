@@ -1,12 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 const RESEARCH_LINES = [
   {
@@ -31,76 +25,50 @@ const RESEARCH_LINES = [
   }
 ];
 
+/**
+ * AboutResearch — linhas de pesquisa sem gsap.
+ */
 export function AboutResearch() {
-  const containerRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const ctx = gsap.context(() => {
-      cardsRef.current.forEach((card, index) => {
-        if (!card) return;
-        
-        gsap.fromTo(card, 
-          { opacity: 0, x: -50 },
-          {
-            opacity: 1, 
-            x: 0, 
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              end: "top 60%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={containerRef} className="bg-[#0A0A0A] py-32 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="bg-[#0A0A0A] py-20 md:py-32 overflow-hidden">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         
-        <div className="mb-20 md:w-2/3">
-          <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4 block">
+        <AnimatedSection className="mb-16 md:mb-20 md:w-2/3">
+          <span className="text-[#E84E1B] font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block">
             Linhas de Pesquisa
           </span>
-          <h2 className="text-4xl font-black text-white tracking-tighter sm:text-5xl mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tighter mb-6 leading-tight">
             O Laboratório do Setor
           </h2>
-          <p className="text-xl text-white/60 leading-relaxed">
+          <p className="text-lg sm:text-xl text-white/60 leading-relaxed">
             Não somos apenas um curso técnico. Somos o braço de pesquisa e desenvolvimento que as grandes concessionárias procuram quando a teoria dos livros não basta para resolver problemas reais de via.
           </p>
-        </div>
+        </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {RESEARCH_LINES.map((item, index) => (
-            <div 
+            <AnimatedSection 
               key={index}
-              ref={(el) => { cardsRef.current[index] = el; }}
-              className="bg-[#111111] border border-white/10 p-10 rounded-2xl group hover:border-[#E84E1B]/50 transition-colors duration-300"
+              delay={index * 150}
+              translateY="translate-y-12"
             >
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#E84E1B] transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-white/60 text-lg leading-relaxed mb-8">
-                {item.description}
-              </p>
-              
-              <div className="flex flex-wrap gap-3">
-                {item.tags.map(tag => (
-                  <span key={tag} className="px-4 py-2 rounded-full bg-[#1A1A1A] text-white/40 text-xs font-bold uppercase tracking-wider group-hover:bg-[#E84E1B]/10 group-hover:text-[#E84E1B] transition-colors">
-                    {tag}
-                  </span>
-                ))}
+              <div className="bg-[#111111] border border-white/10 p-8 md:p-10 rounded-2xl group hover:border-[#E84E1B]/50 transition-all duration-300 h-full">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 group-hover:text-[#E84E1B] transition-colors tracking-tight">
+                  {item.title}
+                </h3>
+                <p className="text-white/60 text-base sm:text-lg leading-relaxed mb-8">
+                  {item.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-2 sm:gap-3 mt-auto">
+                  {item.tags.map(tag => (
+                    <span key={tag} className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1A1A1A] text-white/40 text-[10px] font-bold uppercase tracking-wider group-hover:bg-[#E84E1B]/10 group-hover:text-[#E84E1B] transition-colors">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
 

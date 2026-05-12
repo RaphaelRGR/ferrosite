@@ -1,57 +1,71 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useEffect } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+const MANIFESTO_TEXT =
+  "R$ 600 bilhões em investimentos previstos para o setor ferroviário brasileiro.";
+const MANIFESTO_SUB =
+  "Os engenheiros que vão executar isso estão sendo formados agora, no CTJ.";
 
-const MANIFESTO_TEXT = "R$ 600 bilhões em investimentos previstos para o setor ferroviário brasileiro.";
-const MANIFESTO_SUB = "Os engenheiros que vão executar isso estão sendo formados agora, no CTJ.";
-
+/**
+ * ManifestoSection — sem gsap.
+ * Efeito de palavra por palavra via IntersectionObserver + CSS transitions.
+ */
 export function ManifestoSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
+  const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
-      if (!textRef.current) return;
-      const spans = textRef.current.querySelectorAll("span");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Ativa cada palavra com delay em cascata
+            wordsRef.current.forEach((span, i) => {
+              if (!span) return;
+              setTimeout(() => {
+                span.style.opacity = "1";
+                span.style.transform = "translateY(0)";
+              }, i * 60);
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
 
-      gsap.to(spans, {
-        opacity: 1,
-        stagger: 0.1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-          end: "bottom 40%",
-          scrub: 1,
-        }
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
 
   const words = MANIFESTO_TEXT.split(" ");
 
   return (
-    <section ref={containerRef} className="bg-transparent py-20 md:py-28 relative">
-      <AnimatedSection className="mx-auto max-w-5xl px-6 text-center relative z-10">
-        <h3 ref={textRef} className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl md:text-6xl mb-8 drop-shadow-xl flex flex-wrap justify-center gap-x-3 gap-y-2">
+    <section ref={sectionRef} className="bg-transparent py-16 sm:py-20 md:py-28 relative">
+      <AnimatedSection className="mx-auto max-w-5xl px-4 sm:px-6 text-center relative z-10">
+        {/* Título palavra por palavra */}
+        <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white mb-6 sm:mb-8 drop-shadow-xl flex flex-wrap justify-center gap-x-2 sm:gap-x-3 gap-y-1 sm:gap-y-2">
           {words.map((word, i) => (
-            <span key={i} className="opacity-[0.15] will-change-[opacity]">
+            <span
+              key={i}
+              ref={(el) => { wordsRef.current[i] = el; }}
+              className="will-change-[opacity,transform]"
+              style={{
+                opacity: 0,
+                transform: "translateY(8px)",
+                transition: "opacity 0.5s ease, transform 0.5s ease",
+              }}
+            >
               {word}
             </span>
           ))}
         </h3>
-        <p className="text-white opacity-80 text-lg md:text-xl font-medium tracking-wide drop-shadow-md">
+
+        <p className="text-white/70 text-base sm:text-lg md:text-xl font-medium tracking-wide drop-shadow-md max-w-2xl mx-auto">
           {MANIFESTO_SUB}
         </p>
       </AnimatedSection>

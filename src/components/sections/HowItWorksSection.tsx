@@ -61,25 +61,46 @@ export function HowItWorksSection() {
     if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const ctx = gsap.context(() => {
-      // Pin apenas a coluna da esquerda
+      // Pin da coluna da esquerda com ajuste de centralização vertical
       ScrollTrigger.create({
         trigger: leftColRef.current,
-        start: "top 30%",
+        start: "top 25%",
         endTrigger: sectionRef.current,
-        end: "bottom 80%",
+        end: "bottom 75%",
         pin: true,
         pinSpacing: false,
       });
 
-      stepsRef.current.forEach((step) => {
+      // Animação para cada etapa
+      stepsRef.current.forEach((step, i) => {
         if (!step) return;
         
-        ScrollTrigger.create({
-          trigger: step,
-          start: "top 60%",
-          end: "bottom 40%",
-          toggleClass: "is-active"
-        });
+        const content = step.querySelector('.step-content');
+        const line = step.querySelector('.step-line');
+        
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: step,
+            start: "top 60%",
+            end: "bottom 40%",
+            toggleActions: "play reverse play reverse",
+            onEnter: () => step.classList.add('is-active'),
+            onLeave: () => step.classList.remove('is-active'),
+            onEnterBack: () => step.classList.add('is-active'),
+            onLeaveBack: () => step.classList.remove('is-active'),
+          }
+        })
+        .to(content, { 
+          x: 20, 
+          opacity: 1, 
+          duration: 0.5, 
+          ease: "power2.out" 
+        })
+        .to(line, { 
+          scaleY: 1, 
+          duration: 0.5, 
+          ease: "power2.inOut" 
+        }, 0);
       });
 
     }, sectionRef);
@@ -88,36 +109,50 @@ export function HowItWorksSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-[#0A0A0A] py-32 flex items-start border-t border-white/5 relative will-change-transform">
-      <div className="mx-auto max-w-6xl px-6 w-full flex flex-col md:flex-row gap-16 items-start">
+    <section ref={sectionRef} className="bg-[#0A0A0A] py-32 md:py-48 flex items-start border-t border-white/5 relative overflow-hidden">
+      {/* Background Glow sutil */}
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#E84E1B] opacity-[0.03] blur-[150px] rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+
+      <div className="mx-auto max-w-6xl px-6 w-full flex flex-col md:flex-row gap-16 md:gap-32 items-start">
         
         {/* Coluna Pinned */}
-        <div ref={leftColRef} className="md:w-1/3 will-change-transform">
-          <span className="text-[#E84E1B] font-bold tracking-widest uppercase text-xs mb-4 block">
-            Como funciona
+        <div ref={leftColRef} className="md:w-2/5 will-change-transform">
+          <span className="text-[#E84E1B] font-bold tracking-[0.3em] uppercase text-[10px] mb-6 block">
+            Jornada Acadêmica
           </span>
-          <h2 className="text-4xl font-black tracking-tighter text-white sm:text-5xl">
-            Da sala de aula aos trilhos
+          <h2 className="text-4xl font-black tracking-tighter text-white sm:text-6xl md:text-7xl leading-[0.9] mb-8">
+            Da sala de aula <br />
+            <span className="text-white/20 transition-colors duration-700 group-[.is-active]:text-white">aos trilhos</span>
           </h2>
+          <p className="text-white/40 text-lg max-w-sm leading-relaxed">
+            Entenda o processo de formação e como conectamos você diretamente com as maiores empresas do setor.
+          </p>
         </div>
 
         {/* Coluna Scrollavel */}
-        <div className="md:w-2/3 flex flex-col gap-24 py-10">
+        <div className="md:w-3/5 flex flex-col gap-32 md:gap-48 py-20">
           {STEPS.map((step, index) => (
             <div 
               key={step.id} 
               ref={(el) => { stepsRef.current[index] = el; }}
-              className="group pl-8 border-l-2 border-white/10 opacity-30 transition-all duration-500 ease-out [&.is-active]:opacity-100 [&.is-active]:border-[#E84E1B] will-change-[opacity,border-color]"
+              className="group relative pl-12 transition-all duration-700 ease-out"
             >
-              <div className="flex items-center gap-4 mb-4 text-white">
-                <div className="text-[#E84E1B] transition-colors">
-                  {step.icon}
-                </div>
-                <h3 className="text-2xl font-bold">{step.title}</h3>
+              {/* Linha de progresso vertical individual */}
+              <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white/5">
+                <div className="step-line absolute inset-0 bg-[#E84E1B] origin-top scale-y-0 transition-transform duration-500" />
               </div>
-              <p className="text-white/70 text-lg leading-relaxed">
-                {step.text}
-              </p>
+
+              <div className="step-content opacity-20 translate-x-[-10px] transition-all duration-700 ease-out group-[.is-active]:opacity-100 group-[.is-active]:translate-x-0">
+                <div className="flex items-center gap-6 mb-6 text-white">
+                  <div className="text-[#E84E1B] p-3 rounded-2xl bg-[#E84E1B]/5 border border-[#E84E1B]/10 shadow-[0_0_20px_rgba(232,78,27,0.1)] transition-transform duration-500 group-hover:scale-110">
+                    {step.icon}
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight">{step.title}</h3>
+                </div>
+                <p className="text-white/50 text-lg md:text-xl leading-relaxed max-w-xl group-hover:text-white/80 transition-colors duration-500">
+                  {step.text}
+                </p>
+              </div>
             </div>
           ))}
         </div>

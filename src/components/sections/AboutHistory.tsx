@@ -1,12 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 const EVENTS = [
   {
@@ -31,40 +25,14 @@ const EVENTS = [
   }
 ];
 
+/**
+ * AboutHistory — linha do tempo responsiva sem gsap.
+ */
 export function AboutHistory() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      itemsRef.current.forEach((item, index) => {
-        if (!item) return;
-
-        gsap.fromTo(
-          item,
-          { opacity: 0, x: index % 2 === 0 ? -50 : 50 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            scrollTrigger: {
-              trigger: item,
-              start: "top 85%",
-              end: "top 65%",
-              scrub: true,
-            }
-          }
-        );
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={containerRef} className="bg-[#0A0A0A] py-32 overflow-hidden">
-      <div className="mx-auto max-w-4xl px-6">
-        <h2 className="text-4xl font-black text-center text-white mb-20 tracking-tighter sm:text-5xl">
+    <section className="bg-[#0A0A0A] py-20 md:py-32 overflow-hidden">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-center text-white mb-16 md:mb-20 tracking-tighter">
           Nossa Trajetória
         </h2>
         
@@ -73,23 +41,26 @@ export function AboutHistory() {
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/10 -translate-x-1/2" />
 
           {EVENTS.map((event, index) => (
-            <div 
-              key={event.year} 
-              ref={(el) => { itemsRef.current[index] = el; }}
-              className={`relative mb-20 md:w-1/2 ${index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12 md:ml-auto md:text-left"}`}
+            <AnimatedSection 
+              key={event.year}
+              delay={index * 150}
+              translateY="translate-y-8"
+              className={`relative mb-16 md:mb-20 md:w-1/2 ${index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12 md:ml-auto md:text-left"}`}
             >
-              {/* Dot */}
-              <div className="absolute left-[-21px] top-2 w-10 h-10 rounded-full bg-[#111111] border border-[#E84E1B] flex items-center justify-center z-10 md:left-auto md:right-[-20px] md:group-odd:right-[-20px] md:group-even:left-[-20px] md:hidden" />
+              {/* Dot mobile */}
+              <div className="absolute left-[-21px] top-2 w-10 h-10 rounded-full bg-[#111111] border border-[#E84E1B] flex md:hidden items-center justify-center z-10" />
+              
+              {/* Dot desktop */}
               <div className={`hidden md:flex absolute top-2 w-4 h-4 rounded-full bg-[#E84E1B] shadow-[0_0_15px_rgba(232,78,27,0.5)] z-10 ${index % 2 === 0 ? "right-[-8.5px]" : "left-[-8.5px]"}`} />
 
               <span className="text-[#E84E1B] font-mono text-lg font-bold mb-2 block">
                 {event.year}
               </span>
-              <h3 className="text-2xl font-bold text-white mb-4">{event.title}</h3>
-              <p className="text-white/50 text-lg leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 tracking-tight">{event.title}</h3>
+              <p className="text-white/50 text-base sm:text-lg leading-relaxed">
                 {event.description}
               </p>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
       </div>

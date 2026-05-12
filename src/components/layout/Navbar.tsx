@@ -1,177 +1,214 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import gsap from 'gsap';
 
 /**
- * Navbar refatorada:
- * - Formato arredondado (pill)
- * - Esconde ao rolar para baixo, aparece ao rolar para cima
- * - Animações fluidas (GSAP)
+ * Navbar pill centralizada e flutuante.
+ * - Esconde ao rolar para baixo (após 80px)
+ * - Reaparece ao rolar para cima
+ * - Animações feitas 100% com CSS transitions (sem gsap)
+ * - Responsiva com menu mobile
  */
 
+// Links principais de navegação
 const NAV_LINKS = [
-  { name: 'Sobre', href: '/sobre' },
-  { name: 'Curso', href: '/curso' },
-  { name: 'Visitas', href: '/visitas' },
-  { name: 'Eventos', href: '/eventos' },
-  { name: 'Notícias', href: '/noticias' },
+  { name: 'Sobre',     href: '/sobre'     },
+  { name: 'Curso',     href: '/curso'     },
+  { name: 'Visitas',   href: '/visitas'   },
+  { name: 'Eventos',   href: '/eventos'   },
+  { name: 'Notícias',  href: '/noticias'  },
 ];
 
+// Sub-links do dropdown "Projetos"
 const PROJECT_LINKS = [
-  { name: 'Comunica Ferro', href: '/projetos/comunica-ferro' },
-  { name: 'Cavalos de Ferro', href: '/projetos/cavalos-de-ferro' },
-  { name: 'Ferro Lab', href: '/projetos/ferro-lab' },
-  { name: 'Projetos de Extensão', href: '/projetos/extensao' },
+  { name: 'Comunica Ferro',       href: '/projetos/comunica-ferro'    },
+  { name: 'Cavalos de Ferro',     href: '/projetos/cavalos-de-ferro'  },
+  { name: 'Ferro Lab',            href: '/projetos/ferro-lab'         },
+  { name: 'Projetos de Extensão', href: '/projetos/extensao'          },
 ];
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  
-  const navRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
-  const pathname = usePathname();
+  const [scrolled, setScrolled]             = useState(false);   // passou de 50px?
+  const [visible, setVisible]               = useState(true);    // visibilidade da pill
+  const [mobileOpen, setMobileOpen]         = useState(false);   // menu mobile aberto?
+  const [projectsOpen, setProjectsOpen]     = useState(false);   // dropdown projetos?
+  const [projectsMounted, setProjectsMounted] = useState(false); // para animação de entrada
 
-  // Controle de scroll para visibilidade e background
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Background translúcido após scroll inicial
-      setIsScrolled(currentScrollY > 50);
+  const lastScrollY  = useRef(0);
+  const dropTimeout  = useRef<NodeJS.Timeout | null>(null);
+  const pathname     = usePathname();
 
-      // Lógica de esconder/mostrar baseado na direção
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      
-      lastScrollY.current = currentScrollY;
-    };
+  // ─── Lógica de scroll ────────────────────────────────────────────────────────
+  const handleScroll = useCallback(() => {
+    const y = window.scrollY;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Deixa o fundo mais opaco após 50px de scroll
+    setScrolled(y > 50);
+
+    // Esconde ao descer (após 80px), mostra ao subir
+    if (y > lastScrollY.current && y > 80) {
+      setVisible(false);
+      setProjectsOpen(false); // fecha dropdown ao esconder
+    } else {
+      setVisible(true);
+    }
+
+    lastScrollY.current = y;
   }, []);
 
-  // Animação GSAP para entrada/saída "fluida"
   useEffect(() => {
-    if (!navRef.current) return;
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
-    if (isVisible) {
-      gsap.to(navRef.current, {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        ease: "power4.out", // Suave e rápido no final
-        display: "block"
-      });
-    } else {
-      gsap.to(navRef.current, {
-        y: -100,
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.5,
-        ease: "power2.inOut",
-        onComplete: () => {
-          if (!isVisible && navRef.current) {
-             // Mantém display block se mobile menu estiver aberto ou algo assim, mas aqui simplificamos
-          }
-        }
-      });
-    }
-  }, [isVisible]);
-
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsProjectsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsProjectsOpen(false);
-    }, 300);
-  };
-
-  // Fecha menus ao mudar de rota
+  // ─── Fecha menus ao navegar ──────────────────────────────────────────────────
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-    setIsProjectsOpen(false);
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    setMobileOpen(false);
+    setProjectsOpen(false);
+    setProjectsMounted(false);
   }, [pathname]);
 
-  const navItemStyles = "text-white/80 hover:text-[#E84E1B] transition-all duration-300 font-medium text-[13px] uppercase tracking-wider";
+  // ─── Hover no dropdown "Projetos" ────────────────────────────────────────────
+  const openProjects = () => {
+    if (dropTimeout.current) clearTimeout(dropTimeout.current);
+    setProjectsMounted(true);
+    // Pequeno delay para o mount acontecer antes da transição CSS
+    requestAnimationFrame(() => requestAnimationFrame(() => setProjectsOpen(true)));
+  };
+
+  const closeProjects = () => {
+    setProjectsOpen(false);
+    // Aguarda a animação de saída antes de desmontar
+    dropTimeout.current = setTimeout(() => setProjectsMounted(false), 300);
+  };
+
+  useEffect(() => () => {
+    if (dropTimeout.current) clearTimeout(dropTimeout.current);
+  }, []);
+
+  // ─── Estilo base dos links ───────────────────────────────────────────────────
+  const linkCls = (href: string) =>
+    `relative text-[11px] font-black uppercase tracking-[0.15em] transition-colors duration-200 ${
+      pathname === href ? 'text-[#E84E1B]' : 'text-white/60 hover:text-white'
+    }`;
 
   return (
-    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6 pointer-events-none">
-      <nav 
-        ref={navRef}
-        className={`pointer-events-auto max-w-5xl w-full transition-all duration-500 ease-in-out px-8 py-3 rounded-full border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)] backdrop-blur-md ${
-          isScrolled ? 'bg-black/60' : 'bg-black/20'
-        }`}
+    /*
+      Container full-width fixo no topo.
+      pointer-events-none para não bloquear cliques fora da pill.
+    */
+    <div
+      className="fixed top-5 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
+      style={{
+        /* Animação de visibilidade com transform + opacity */
+        transform: visible ? 'translateY(0)' : 'translateY(-140%)',
+        opacity:   visible ? 1 : 0,
+        transition: visible
+          ? 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease'  /* spring ao entrar */
+          : 'transform 0.4s cubic-bezier(0.4, 0, 0.6, 1), opacity 0.3s ease',       /* suave ao sair    */
+      }}
+    >
+      {/* ── PILL PRINCIPAL ─────────────────────────────────────────────────── */}
+      <nav
+        className="pointer-events-auto w-full max-w-4xl rounded-full border border-white/10 px-5 py-2.5 shadow-[0_8px_40px_rgba(0,0,0,0.5)] transition-all duration-500"
+        style={{
+          background: scrolled
+            ? 'rgba(10, 10, 10, 0.75)'
+            : 'rgba(10, 10, 10, 0.35)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+        }}
       >
-        <div className="flex items-center justify-between">
-          
+        <div className="flex items-center justify-between gap-4">
+
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="relative w-8 h-8 overflow-hidden rounded-full border border-white/20 transition-transform group-hover:scale-110">
-              <Image 
-                src="/logo-icon.png"
-                width={32}
-                height={32}
-                alt="Logo"
-                className="object-cover"
-              />
+          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-black transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110"
+              style={{ background: 'linear-gradient(135deg, #E84E1B, #ff7a4d)' }}
+            >
+              🚂
             </div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-white font-bold text-xs leading-tight tracking-tight">
-                ENGENHARIA FERROVIÁRIA
+            <div className="hidden sm:flex flex-col leading-none">
+              <span className="text-white font-black text-[10px] tracking-[0.12em] uppercase">
+                Eng. Ferroviária
+              </span>
+              <span className="text-white/30 font-bold text-[8px] tracking-[0.2em] uppercase mt-0.5">
+                UFSC Joinville
               </span>
             </div>
           </Link>
 
-          {/* NAV LINKS (DESKTOP) */}
-          <div className="hidden lg:flex items-center gap-7">
+          {/* ── LINKS DESKTOP ──────────────────────────────────────────────── */}
+          <div className="hidden lg:flex items-center gap-6">
             {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className={navItemStyles}>
+              <Link key={link.href} href={link.href} className={linkCls(link.href)}>
                 {link.name}
+                {/* sublinhado animado no link ativo */}
+                <span
+                  className="absolute -bottom-0.5 left-0 h-px bg-[#E84E1B] transition-all duration-300"
+                  style={{ width: pathname === link.href ? '100%' : '0%' }}
+                />
               </Link>
             ))}
 
             {/* DROPDOWN PROJETOS */}
-            <div 
+            <div
               className="relative"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={openProjects}
+              onMouseLeave={closeProjects}
             >
-              <button className={`flex items-center gap-1.5 ${navItemStyles} outline-none`}>
+              <button
+                className={`flex items-center gap-1 ${linkCls('/projetos')} outline-none cursor-default`}
+                aria-expanded={projectsOpen}
+              >
                 Projetos
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform duration-300 ${isProjectsOpen ? 'rotate-180' : ''}`}>
+                {/* Seta giratória */}
+                <svg
+                  width="8" height="8" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" strokeWidth="3"
+                  className="mt-px"
+                  style={{
+                    transform:  projectsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }}
+                >
                   <path d="m6 9 6 6 6-6"/>
                 </svg>
               </button>
 
-              {isProjectsOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[220px] bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+              {/* Dropdown animado */}
+              {projectsMounted && (
+                <div
+                  className="absolute top-full left-1/2 mt-4 w-52 rounded-2xl border border-white/10 overflow-hidden shadow-2xl"
+                  style={{
+                    transform:  projectsOpen ? 'translateX(-50%) translateY(0) scale(1)'    : 'translateX(-50%) translateY(-8px) scale(0.95)',
+                    opacity:    projectsOpen ? 1 : 0,
+                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease',
+                    background: 'rgba(8, 8, 8, 0.92)',
+                    backdropFilter: 'blur(24px)',
+                    WebkitBackdropFilter: 'blur(24px)',
+                  }}
+                >
+                  {/* Linha laranja decorativa no topo do dropdown */}
+                  <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E84E1B]/60 to-transparent" />
                   <div className="py-2">
-                    {PROJECT_LINKS.map((link) => (
-                      <Link 
-                        key={link.href} 
+                    {PROJECT_LINKS.map((link, i) => (
+                      <Link
+                        key={link.href}
                         href={link.href}
-                        className="block px-5 py-2.5 text-xs text-white/70 hover:bg-[#E84E1B] hover:text-white transition-all"
+                        className="flex items-center gap-2.5 px-5 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 hover:text-white hover:bg-white/5 transition-all duration-200"
+                        style={{
+                          /* Entrada em cascata baseada no índice */
+                          transitionDelay: projectsOpen ? `${i * 40}ms` : '0ms',
+                        }}
                       >
+                        <span
+                          className="w-1 h-1 rounded-full bg-[#E84E1B] opacity-0 transition-opacity duration-200"
+                          style={{ opacity: pathname === link.href ? 1 : undefined }}
+                        />
                         {link.name}
                       </Link>
                     ))}
@@ -179,34 +216,124 @@ export function Navbar() {
                 </div>
               )}
             </div>
+          </div>
 
-            <Link href="/portal" className="bg-[#E84E1B] text-white px-5 py-2 rounded-full hover:scale-105 hover:shadow-[0_0_20px_rgba(232,78,27,0.4)] transition-all font-bold text-xs uppercase tracking-widest">
+          {/* BOTÃO PORTAL (desktop) */}
+          <div className="hidden lg:block shrink-0">
+            <Link
+              href="/portal"
+              className="relative overflow-hidden bg-[#E84E1B] text-white text-[10px] font-black uppercase tracking-[0.18em] px-5 py-2.5 rounded-full transition-all duration-300 hover:shadow-[0_0_25px_rgba(232,78,27,0.5)] hover:scale-105 active:scale-95"
+            >
               Portal
             </Link>
           </div>
 
-          {/* MOBILE TOGGLE */}
-          <button 
-            className="lg:hidden text-white p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          {/* BOTÃO HAMBURGUER (mobile) */}
+          <button
+            className="lg:hidden text-white p-1.5 rounded-full border border-white/10 hover:border-white/30 transition-all duration-200"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              {isMobileMenuOpen ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
-            </svg>
+            {/* Ícone animado com CSS */}
+            <div className="w-4 h-3 flex flex-col justify-between">
+              <span
+                className="block h-px bg-white rounded-full origin-center transition-all duration-300"
+                style={{
+                  transform: mobileOpen ? 'rotate(45deg) translateY(6px)' : 'none',
+                  width: '100%',
+                }}
+              />
+              <span
+                className="block h-px bg-white rounded-full transition-all duration-300"
+                style={{ opacity: mobileOpen ? 0 : 1, width: '75%' }}
+              />
+              <span
+                className="block h-px bg-white rounded-full origin-center transition-all duration-300"
+                style={{
+                  transform: mobileOpen ? 'rotate(-45deg) translateY(-6px)' : 'none',
+                  width: '100%',
+                }}
+              />
+            </div>
           </button>
         </div>
 
-        {/* MOBILE MENU */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4 flex flex-col gap-4 border-t border-white/10 pt-4 animate-in slide-in-from-top-2">
-            {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="text-white text-sm font-medium uppercase tracking-wide">
-                {link.name}
-              </Link>
-            ))}
-            <Link href="/portal" className="text-[#E84E1B] font-bold text-sm uppercase">Portal →</Link>
+        {/* ── MENU MOBILE PREMIUM ────────────────────────────────────────────────── */}
+        <div
+          className={`lg:hidden fixed inset-0 z-[-1] bg-black transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] ${
+            mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          {/* Background Decor */}
+          <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#E84E1B] blur-[120px] rounded-full animate-pulse" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#E84E1B] blur-[120px] rounded-full animate-pulse delay-1000" />
           </div>
-        )}
+
+          <div className="h-full flex flex-col px-8 pt-32 pb-12 overflow-y-auto">
+            <div className="flex flex-col gap-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">Navegação</p>
+              <div className="flex flex-col gap-6">
+                {NAV_LINKS.map((link, i) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-4xl font-black text-white hover:text-[#E84E1B] transition-colors"
+                    style={{
+                      transform: mobileOpen ? 'translateX(0)' : 'translateX(-20px)',
+                      opacity: mobileOpen ? 1 : 0,
+                      transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${0.1 + i * 0.1}s`,
+                    }}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-16 flex flex-col gap-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">Projetos</p>
+              <div className="grid grid-cols-1 gap-4">
+                {PROJECT_LINKS.map((link, i) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-lg font-bold text-white/40 hover:text-white transition-colors"
+                    style={{
+                      transform: mobileOpen ? 'translateY(0)' : 'translateY(10px)',
+                      opacity: mobileOpen ? 1 : 0,
+                      transition: `all 0.5s ease ${0.4 + i * 0.05}s`,
+                    }}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-auto pt-12 flex flex-col gap-8">
+              <Link
+                href="/portal"
+                className="w-full bg-[#E84E1B] text-white text-center py-5 rounded-2xl font-black uppercase tracking-widest text-sm shadow-[0_20px_40px_rgba(232,78,27,0.3)]"
+                style={{
+                  transform: mobileOpen ? 'scale(1)' : 'scale(0.9)',
+                  opacity: mobileOpen ? 1 : 0,
+                  transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s`,
+                }}
+              >
+                Portal do Aluno
+              </Link>
+              
+              <div className="flex justify-between items-center text-white/20">
+                <span className="text-[10px] font-bold uppercase tracking-widest">© 2026 UFSC Joinville</span>
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-xs">IG</div>
+                  <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-xs">LK</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
   );
