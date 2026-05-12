@@ -2,14 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
+// Conteúdo centralizado para facilitar manutenção
 const HERO_CONTENT = {
   badge: "Portal não oficial",
   title: "Engenharia Ferroviária",
@@ -20,130 +15,84 @@ const HERO_CONTENT = {
 };
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLSpanElement>(null);
+  // Ref para o indicador de scroll (fade-out ao rolar)
   const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Fade-out nativo do indicador ao rolar a página
+    const indicator = indicatorRef.current;
+    if (!indicator) return;
 
-    const ctx = gsap.context(() => {
-      // Reveal inicial
-      gsap.fromTo(
-        badgeRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
-      );
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.1 }
-      );
-      gsap.fromTo(
-        subtitleRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.2 }
-      );
-      gsap.fromTo(
-        descRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.4 }
-      );
-      gsap.fromTo(
-        buttonsRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.6 }
-      );
+    const handleScroll = () => {
+      const opacity = Math.max(0, 1 - window.scrollY / 200);
+      indicator.style.opacity = String(opacity);
+    };
 
-      // Parallax Video
-      gsap.to(videoRef.current, {
-        yPercent: 30,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        }
-      });
-
-      // Fade out content on scroll
-      gsap.to([contentRef.current, indicatorRef.current], {
-        opacity: 0,
-        y: -30,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        }
-      });
-      
-    }, containerRef);
-
-    return () => ctx.revert();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    // Altura de 112vh permite que a gaveta do site (que tem margem negativa)
-    // suba exatamente até o fim do vídeo sem quebrar a rolagem
+    // Altura de 112vh permite que a gaveta do site suba por cima do vídeo sem quebrar a rolagem
     <div className="relative h-[112vh] w-full">
       <section className="sticky top-0 flex h-[100vh] w-full flex-col items-center justify-center overflow-hidden bg-black">
-        
-        {/* VÍDEO DE FUNDO COM PARALLAX */}
-        <div ref={videoRef} className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none h-[130vh] -top-[15vh] will-change-transform">
+
+        {/* VÍDEO DE FUNDO */}
+        <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none">
           <iframe
             src="https://www.youtube.com/embed/vFH2lGROUI8?autoplay=1&mute=1&loop=1&playlist=vFH2lGROUI8&controls=0&disablekb=1&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&vq=hd1080"
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{ width: '177.78vh', height: '100vh', minWidth: '100%', minHeight: '56.25vw' }}
+            style={{ width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw" }}
             allow="autoplay; fullscreen"
             title="FerroSite hero background"
           />
         </div>
 
-        {/* FALLBACK MOBILE */}
+        {/* FALLBACK MOBILE - grade geométrica sutil */}
         <div className="absolute inset-0 z-0 md:hidden bg-black">
-          <div 
+          <div
             className="absolute inset-0 opacity-[0.08]"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M-10 10L10 -10M30 50L50 30' stroke='white' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
-              backgroundSize: "30px 30px"
+              backgroundSize: "30px 30px",
             }}
           />
         </div>
 
+        {/* OVERLAY CINEMÁTICO */}
         <div className="absolute inset-0 z-[1] bg-black/50 backdrop-blur-[2px]" />
 
-        {/* CONTEÚDO */}
-        <div className="relative z-10 flex flex-col items-center px-6 text-center lg:px-0 mx-auto max-w-5xl -mt-[10vh]">
+        {/* CONTEÚDO - pt-20 para compensar a Navbar fixa (80px) */}
+        <div className="relative z-10 flex flex-col items-center px-6 text-center lg:px-0 mx-auto max-w-5xl pt-20">
+
+          {/* Badge "Portal não oficial" */}
           <AnimatedSection delay={0} translateY="translate-y-12">
             <span className="mb-8 inline-block rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-[#E84E1B] backdrop-blur-md">
               {HERO_CONTENT.badge}
             </span>
-            <h1 ref={titleRef} className="mb-4 text-5xl font-black tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-2xl opacity-0 will-change-[opacity,transform]">
+          </AnimatedSection>
+
+          {/* Título principal */}
+          <AnimatedSection delay={100} translateY="translate-y-12">
+            <h1 className="mb-4 text-5xl font-black tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-2xl">
               {HERO_CONTENT.title}
             </h1>
-          </div>
+          </AnimatedSection>
 
+          {/* Subtítulo */}
           <AnimatedSection delay={200} translateY="translate-y-12">
             <h2 className="mb-10 text-2xl font-light tracking-tight text-white/90 sm:text-3xl md:text-4xl drop-shadow-lg">
               {HERO_CONTENT.subtitle}
             </h2>
-          </div>
+          </AnimatedSection>
 
-          <div>
-            <p ref={descRef} className="mx-auto mb-14 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl opacity-0 will-change-[opacity,transform]">
+          {/* Descrição e botões */}
+          <AnimatedSection delay={400} translateY="translate-y-12">
+            <p className="mx-auto mb-14 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl">
               {HERO_CONTENT.description}
             </p>
-            
-            <div ref={buttonsRef} className="flex flex-col gap-5 sm:flex-row sm:justify-center opacity-0 will-change-[opacity,transform]">
+
+            <div className="flex flex-col gap-5 sm:flex-row sm:justify-center">
               <Link
                 href="#portal"
                 className="group relative flex min-h-[60px] items-center justify-center overflow-hidden rounded-full bg-[#E84E1B] px-14 text-base font-bold text-white shadow-[0_0_20px_rgba(232,78,27,0.4)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(232,78,27,0.8)] hover:scale-105 hover:-translate-y-1 active:scale-95"
@@ -151,21 +100,25 @@ export function HeroSection() {
                 {HERO_CONTENT.primaryButton}
               </Link>
               <Link
-                href="/curso"
+                href="/sobre"
                 className="flex min-h-[60px] items-center justify-center rounded-full border border-white/30 bg-black/20 px-14 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/60 hover:scale-105 hover:-translate-y-1 active:scale-95"
               >
                 {HERO_CONTENT.secondaryButton}
               </Link>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
 
-        {/* Scroll Indicator (nativo do Tailwind) */}
-        <div ref={indicatorRef} className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce will-change-[opacity,transform]">
+        {/* Indicador de scroll - some ao rolar */}
+        <div
+          ref={indicatorRef}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce transition-opacity duration-300"
+        >
           <div className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center p-1">
             <div className="w-1 h-2 bg-white/50 rounded-full" />
           </div>
         </div>
+
       </section>
     </div>
   );
