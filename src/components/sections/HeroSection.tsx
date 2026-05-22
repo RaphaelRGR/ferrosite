@@ -39,13 +39,16 @@ export function HeroSection() {
 
         {/* VÍDEO DE FUNDO */}
         <div className="absolute inset-0 z-0 hidden md:block overflow-hidden pointer-events-none">
-          <iframe
-            src="https://www.youtube.com/embed/vFH2lGROUI8?autoplay=1&mute=1&loop=1&playlist=vFH2lGROUI8&controls=0&disablekb=1&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&vq=hd1080"
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{ width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw" }}
-            allow="autoplay; fullscreen"
-            title="FerroSite hero background"
-          />
+            style={{ width: '177.78vh', height: '100vh', minWidth: '100%', minHeight: '56.25vw' }}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
         </div>
 
         {/* FALLBACK MOBILE - grade geométrica sutil */}
