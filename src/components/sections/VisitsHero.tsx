@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 export function VisitsHero() {
   const titleRef = useRef<HTMLHeadingElement>(null);

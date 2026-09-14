@@ -17,7 +17,17 @@ export function ManifestoSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Com movimento reduzido as palavras devem ficar visíveis imediatamente:
+    // retornar cedo deixava o manifesto inteiro com opacity 0.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      wordsRef.current.forEach((span) => {
+        if (!span) return;
+        span.style.transition = "none";
+        span.style.opacity = "1";
+        span.style.transform = "none";
+      });
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -48,7 +58,7 @@ export function ManifestoSection() {
     <section ref={sectionRef} className="bg-transparent py-16 sm:py-20 md:py-28 relative">
       <AnimatedSection className="mx-auto max-w-5xl px-4 sm:px-6 text-center relative z-10">
         {/* Título palavra por palavra */}
-        <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white mb-6 sm:mb-8 drop-shadow-xl flex flex-wrap justify-center gap-x-2 sm:gap-x-3 gap-y-1 sm:gap-y-2">
+        <h3 data-testid="manifesto-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white mb-6 sm:mb-8 drop-shadow-xl flex flex-wrap justify-center gap-x-2 sm:gap-x-3 gap-y-1 sm:gap-y-2">
           {words.map((word, i) => (
             <span
               key={i}

@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Scripts de qualidade (baseline BASE-001)
+
+Node `>=20.9` (ver `.nvmrc`). Instale com `npm ci`.
+
+| Comando | O que faz |
+|---|---|
+| `npm run lint` | ESLint com `--max-warnings 0` (avisos bloqueiam) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest — invariantes das matrizes 2025/2016/2012 |
+| `npm run build` | build de produção |
+| `npm run test:e2e` | Playwright — smoke das rotas, links internos e reduced motion (exige `npm run build` antes; sobe `next start` na porta 3100) |
+| `npm run baseline:screenshots` | captura screenshots em `docs/baseline/screenshots/` nos 4 viewports de referência |
+| `npm run check` | lint → typecheck → test → build → test:e2e |
+
+Primeira execução do Playwright: `npx playwright install chromium`.
+
+Relatório da baseline: `docs/baseline/BASE-001-relatorio.md`.
+

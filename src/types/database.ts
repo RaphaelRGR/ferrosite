@@ -4,6 +4,6 @@
  */
 
 // TODO: Substituir pelo tipo Database gerado automaticamente pelo Supabase CLI
-export type Database = {
-  // Placeholder
-};
+// Placeholder estrito: `Record<string, never>` não admite propriedades, então nenhum
+// código consegue depender deste tipo antes de ele ser gerado (AUTH-001).
+export type Database = Record<string, never>;

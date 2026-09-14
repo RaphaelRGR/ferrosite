@@ -1,0 +1,12 @@
+{
+  "_comment": "Links internos quebrados conhecidos na baseline (auditoria 2026-09-14). O teste links.spec.ts falha se surgir um novo OU se um destes for corrigido sem atualizar esta lista. Os /projetos/* vêm do dropdown/menu da Navbar; #portal vem do CTA principal da Home (HeroSection).",
+  "brokenPaths": [
+    "/projetos/cavalos-de-ferro",
+    "/projetos/comunica-ferro",
+    "/projetos/extensao",
+    "/projetos/ferro-lab"
+  ],
+  "brokenFragments": [
+    "/#portal"
+  ]
+}

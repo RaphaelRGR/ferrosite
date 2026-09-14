@@ -4,6 +4,5 @@
  */
 
 // TODO: Definir os tipos ou interfaces para os Eventos
-export interface Evento {
-  // Placeholder
-}
+// Placeholder estrito: nenhuma propriedade até o domínio ser modelado.
+export type Evento = Record<string, never>;

@@ -4,6 +4,5 @@
  */
 
 // TODO: Definir os tipos ou interfaces para as Notícias
-export interface Noticia {
-  // Placeholder
-}
+// Placeholder estrito: nenhuma propriedade até o domínio ser modelado.
+export type Noticia = Record<string, never>;

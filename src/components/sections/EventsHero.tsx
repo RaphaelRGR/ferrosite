@@ -3,6 +3,24 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
+// Posições pseudo-aleatórias determinísticas (mulberry32 com seed fixa).
+// Math.random() no render gerava valores diferentes no servidor e no cliente
+// (hydration mismatch) e viola a pureza do render.
+const PARTICLE_COUNT = 20;
+const PARTICLE_POSITIONS: { top: string; left: string }[] = (() => {
+  let seed = 0x5a17;
+  const next = () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  return Array.from({ length: PARTICLE_COUNT }, () => ({
+    top: `${(next() * 100).toFixed(2)}%`,
+    left: `${(next() * 100).toFixed(2)}%`,
+  }));
+})();
+
 export function EventsHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -43,14 +61,11 @@ export function EventsHero() {
       {/* Background Decorativo */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#E84E1B] blur-[150px] opacity-10 rounded-full" />
-        {[...Array(20)].map((_, i) => (
-          <div 
-            key={i} 
+        {PARTICLE_POSITIONS.map((pos, i) => (
+          <div
+            key={i}
             className="bg-particle absolute w-1 h-1 bg-white/20 rounded-full"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
+            style={pos}
           />
         ))}
       </div>

@@ -34,7 +34,6 @@ export function NumbersSection() {
 
 function Counter({ target, format }: { target: number, format: (v: number) => string }) {
   const [count, setCount] = useState(0);
-  const countRef = useRef(0);
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

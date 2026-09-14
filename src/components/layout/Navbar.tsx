@@ -40,6 +40,17 @@ export function Navbar() {
   const dropTimeout  = useRef<NodeJS.Timeout | null>(null);
   const pathname     = usePathname();
 
+  // ─── Fecha menus ao navegar ──────────────────────────────────────────────────
+  // Ajuste de estado durante o render (padrão "storing information from previous
+  // renders") em vez de setState dentro de useEffect, que gera render em cascata.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setMobileOpen(false);
+    setProjectsOpen(false);
+    setProjectsMounted(false);
+  }
+
   // ─── Lógica de scroll ────────────────────────────────────────────────────────
   const handleScroll = useCallback(() => {
     const y = window.scrollY;
@@ -62,13 +73,6 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
-
-  // ─── Fecha menus ao navegar ──────────────────────────────────────────────────
-  useEffect(() => {
-    setMobileOpen(false);
-    setProjectsOpen(false);
-    setProjectsMounted(false);
-  }, [pathname]);
 
   // ─── Hover no dropdown "Projetos" ────────────────────────────────────────────
   const openProjects = () => {

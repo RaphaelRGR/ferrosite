@@ -51,8 +51,6 @@ const PILLARS = [
   }
 ];
 
-const STAIRS = ["lg:translate-y-0", "lg:translate-y-8", "lg:translate-y-16", "lg:translate-y-24"];
-
 export function CoursePillars() {
   const [active, setActive] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -69,7 +67,7 @@ export function CoursePillars() {
   }, [active]);
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       // Animação de entrada
       gsap.fromTo(".pillar-card", 
         { y: 80, opacity: 0 },
@@ -86,7 +84,7 @@ export function CoursePillars() {
         }
       );
 
-      let mm = gsap.matchMedia();
+      const mm = gsap.matchMedia();
       mm.add("(max-width: 1023px)", () => {
         PILLARS.forEach((pillar, index) => {
           ScrollTrigger.create({

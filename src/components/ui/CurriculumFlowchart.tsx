@@ -4,6 +4,15 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { CURRICULUMS, Subject, Phase } from "@/data/curriculums";
 import { SubjectModal } from "./SubjectModal";
 
+// Segmento SVG que liga um pré-requisito à disciplina que o exige.
+interface FlowLine {
+  id: string;
+  d: string;
+  color: string;
+  width: number;
+  opacity: number;
+}
+
 // Cores baseadas nas categorias para as bolinhas/linhas
 const CAT_COLORS: Record<string, string> = {
   math: "#3b82f6", physics: "#22c55e", mech: "#f59e0b",
@@ -20,7 +29,7 @@ export function CurriculumFlowchart() {
   
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const [lines, setLines] = useState<any[]>([]);
+  const [lines, setLines] = useState<FlowLine[]>([]);
 
   const activeCurriculum = CURRICULUMS.find(c => c.year === selectedYear) || CURRICULUMS[0];
 
@@ -58,7 +67,7 @@ export function CurriculumFlowchart() {
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const newLines: any[] = [];
+    const newLines: FlowLine[] = [];
 
     activeCurriculum.phases.forEach(p => p.subjects.forEach(s => {
       if (s.id === hoveredId || activeDependencies.has(s.id)) {

@@ -41,6 +41,9 @@ export function InnovationSection() {
             <div className="absolute -inset-4 bg-[#E84E1B]/5 rounded-[40px] scale-95 group-hover:scale-100 transition-transform duration-700" />
             <div className="relative aspect-[4/3] rounded-[32px] overflow-hidden border border-black/5 shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-10" />
+              {/* Imagem remota placeholder sem pipeline editorial; migrar para next/image
+                  com remotePatterns/dimensões quando a imagem oficial existir (PUBLIC-001). */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src="https://images.unsplash.com/photo-1515165599668-759998240ce9?auto=format&fit=crop&q=80&w=1200" 
                 alt="Tecnologia Ferroviária"

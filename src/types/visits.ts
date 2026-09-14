@@ -4,6 +4,5 @@
  */
 
 // TODO: Definir os tipos ou interfaces para as Visitas
-export interface Visita {
-  // Placeholder
-}
+// Placeholder estrito: nenhuma propriedade até o domínio ser modelado.
+export type Visita = Record<string, never>;

@@ -58,7 +58,16 @@ export function HowItWorksSection() {
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Com movimento reduzido, todas as etapas ficam ativas (opacidade/posição finais)
+    // em vez de permanecerem esmaecidas à espera de um ScrollTrigger que não existe.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      stepsRef.current.forEach((step) => step?.classList.add('is-active'));
+      stepsRef.current.forEach((step) => {
+        const line = step?.querySelector<HTMLElement>('.step-line');
+        if (line) line.style.transform = 'scaleY(1)';
+      });
+      return;
+    }
 
     const ctx = gsap.context(() => {
       // Pin da coluna da esquerda com ajuste de centralização vertical
@@ -72,7 +81,7 @@ export function HowItWorksSection() {
       });
 
       // Animação para cada etapa
-      stepsRef.current.forEach((step, i) => {
+      stepsRef.current.forEach((step) => {
         if (!step) return;
         
         const content = step.querySelector('.step-content');
@@ -142,7 +151,7 @@ export function HowItWorksSection() {
                 <div className="step-line absolute inset-0 bg-[#E84E1B] origin-top scale-y-0 transition-transform duration-500" />
               </div>
 
-              <div className="step-content opacity-20 translate-x-[-10px] transition-all duration-700 ease-out group-[.is-active]:opacity-100 group-[.is-active]:translate-x-0">
+              <div data-testid="journey-step-content" className="step-content opacity-20 translate-x-[-10px] transition-all duration-700 ease-out group-[.is-active]:opacity-100 group-[.is-active]:translate-x-0">
                 <div className="flex items-center gap-6 mb-6 text-white">
                   <div className="text-[#E84E1B] p-3 rounded-2xl bg-[#E84E1B]/5 border border-[#E84E1B]/10 shadow-[0_0_20px_rgba(232,78,27,0.1)] transition-transform duration-500 group-hover:scale-110">
                     {step.icon}

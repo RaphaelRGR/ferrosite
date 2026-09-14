@@ -4,6 +4,10 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 const PAST_EVENTS = [
   { id: 1, title: "Semana Acadêmica 2025", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4" },
   { id: 2, title: "Visita Vale Tubarão", image: "https://images.unsplash.com/photo-1541888941259-7a94966f4699" },
