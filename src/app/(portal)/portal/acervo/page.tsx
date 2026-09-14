@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function PortalAcervoPage() {
   return (
-    <main>
+    <>
       <h1>Acervo</h1>
       {/* TODO: Implementar conteúdo da página */}
-    </main>
+    </>
   );
 }

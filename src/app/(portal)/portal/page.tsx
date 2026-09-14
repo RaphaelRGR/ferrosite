@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function PortalDashboardPage() {
   return (
-    <main>
+    <>
       <h1>Dashboard do Portal</h1>
       {/* TODO: Implementar conteúdo da página */}
-    </main>
+    </>
   );
 }

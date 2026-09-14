@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function PortalQuestoesPage() {
   return (
-    <main>
+    <>
       <h1>Questões</h1>
       {/* TODO: Implementar conteúdo da página */}
-    </main>
+    </>
   );
 }

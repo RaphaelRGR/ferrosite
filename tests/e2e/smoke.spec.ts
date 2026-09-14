@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { GRADE_ASSETS, HTML_ROUTES } from "../helpers/routes";
+import { GRADE_ASSETS, HTML_ROUTES, PORTAL_ROUTES, PUBLIC_ROUTES } from "../helpers/routes";
 
 /**
  * Smoke: cada rota existente responde e renderiza sem exceção não tratada.
@@ -29,6 +29,40 @@ for (const route of HTML_ROUTES) {
   });
 }
 
+/**
+ * Landmarks (ARCH-001 / critério global de 31): exatamente um <main> com id
+ * "conteudo", um skip link apontando para ele, e o shell público não vaza
+ * para o Portal (nem o do Portal para o site).
+ */
+for (const route of HTML_ROUTES) {
+  test(`${route} tem um único <main id="conteudo"> e um skip link`, async ({ page }) => {
+    await page.goto(route, { waitUntil: "load" });
+    await expect(page.locator("main")).toHaveCount(1);
+    await expect(page.locator("main#conteudo")).toHaveCount(1);
+    await expect(page.locator('a[href="#conteudo"]')).toHaveCount(1);
+  });
+}
+
+for (const route of PUBLIC_ROUTES) {
+  test(`${route} usa o shell público (Navbar + footer) sem shell do Portal`, async ({ page }) => {
+    await page.goto(route, { waitUntil: "load" });
+    await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCount(1);
+    await expect(page.locator("footer")).toHaveCount(1);
+    await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(0);
+    await expect(page.locator("[data-theme]")).toHaveCount(0);
+  });
+}
+
+for (const route of PORTAL_ROUTES) {
+  test(`${route} usa o shell do Portal sem Navbar/footer públicos`, async ({ page }) => {
+    await page.goto(route, { waitUntil: "load" });
+    await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(1);
+    await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCount(0);
+    await expect(page.locator("footer")).toHaveCount(0);
+    await expect(page.locator("[data-theme]")).toHaveCount(1);
+  });
+}
+
 for (const asset of GRADE_ASSETS) {
   test(`GET ${asset} continua servido (fallback documental das grades)`, async ({ request }) => {
     const response = await request.get(asset);
@@ -41,9 +75,11 @@ for (const asset of GRADE_ASSETS) {
 test("rota inexistente responde 404 com a página not-found", async ({ page }) => {
   const response = await page.goto("/rota-que-nao-existe");
   expect(response?.status()).toBe(404);
-  // A not-found atual usa <h2> e não tem <h1> (critério 31 pendente); só garante que renderizou.
-  await expect(page.getByRole("heading").first()).toBeAttached();
+  await expect(page.locator("h1")).toHaveText(/não encontrada/i);
   await expect(page.getByRole("link", { name: /página inicial/i })).toBeAttached();
+  // A 404 continua dentro do shell público, com um único <main>.
+  await expect(page.locator("main#conteudo")).toHaveCount(1);
+  await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCount(1);
 });
 
 test("callback OAuth ainda é um stub: redireciona incondicionalmente para /portal", async ({ request }) => {

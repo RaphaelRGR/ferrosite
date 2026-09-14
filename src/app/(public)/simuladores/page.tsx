@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function SimuladoresPage() {
   return (
-    <main>
+    <div>
       <h1>Simuladores</h1>
       {/* TODO: Implementar conteúdo da página */}
-    </main>
+    </div>
   );
 }

@@ -31,7 +31,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="relative bg-[#0A0A0A] text-white overflow-x-hidden">
+    <div className="relative bg-[#0A0A0A] text-white overflow-x-hidden">
       
       {/* HERO FIXED NO FUNDO */}
       <HeroSection />
@@ -59,6 +59,6 @@ export default function HomePage() {
         <CtaSection />
         
       </div>
-    </main>
+    </div>
   );
 }

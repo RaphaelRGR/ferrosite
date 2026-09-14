@@ -116,6 +116,7 @@ export function Navbar() {
     >
       {/* ── PILL PRINCIPAL ─────────────────────────────────────────────────── */}
       <nav
+        aria-label="Navegação principal"
         className="pointer-events-auto w-full max-w-4xl rounded-full border border-white/10 px-5 py-2.5 shadow-[0_8px_40px_rgba(0,0,0,0.5)] transition-all duration-500"
         style={{
           background: scrolled

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function VisitasPage() {
   return (
-    <main className="bg-[#0A0A0A] min-h-screen">
+    <div className="bg-[#0A0A0A] min-h-screen">
       <VisitsHero />
       <VisitsStats />
       <VisitsGallery />
@@ -25,6 +25,6 @@ export default function VisitasPage() {
       <div className="py-20 border-t border-white/5">
         <CtaSection />
       </div>
-    </main>
+    </div>
   );
 }

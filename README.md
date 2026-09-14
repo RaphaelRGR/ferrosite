@@ -42,7 +42,7 @@ Node `>=20.9` (ver `.nvmrc`). Instale com `npm ci`.
 | Comando | O que faz |
 |---|---|
 | `npm run lint` | ESLint com `--max-warnings 0` (avisos bloqueiam) |
-| `npm run typecheck` | `tsc --noEmit` |
+| `npm run typecheck` | `next typegen && tsc --noEmit` (regenera os tipos de rota antes) |
 | `npm test` | Vitest — invariantes das matrizes 2025/2016/2012 |
 | `npm run build` | build de produção |
 | `npm run test:e2e` | Playwright — smoke das rotas, links internos e reduced motion (exige `npm run build` antes; sobe `next start` na porta 3100) |

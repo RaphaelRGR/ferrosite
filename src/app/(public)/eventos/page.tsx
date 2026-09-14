@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function EventosPage() {
   return (
-    <main className="bg-[#0A0A0A] min-h-screen">
+    <div className="bg-[#0A0A0A] min-h-screen">
       <EventsHero />
       <FeaturedEvent />
       <EventsGrid />
@@ -21,6 +21,6 @@ export default function EventosPage() {
       <div className="py-20 border-t border-white/5 bg-[#0A0A0A]">
         <CtaSection />
       </div>
-    </main>
+    </div>
   );
 }

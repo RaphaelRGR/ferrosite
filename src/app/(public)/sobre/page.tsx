@@ -17,7 +17,7 @@ import { CtaSection } from "@/components/sections/CtaSection";
 
 export default function SobrePage() {
   return (
-    <main className="bg-[#0A0A0A] min-h-screen">
+    <div className="bg-[#0A0A0A] min-h-screen">
       <AboutHero />
       <StoryJourney />
       <AboutIdentity />
@@ -26,6 +26,6 @@ export default function SobrePage() {
       <div className="py-20 border-t border-white/5">
         <CtaSection />
       </div>
-    </main>
+    </div>
   );
 }

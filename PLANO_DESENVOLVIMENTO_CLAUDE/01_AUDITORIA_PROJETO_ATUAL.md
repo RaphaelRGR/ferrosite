@@ -119,3 +119,7 @@ Relatório completo: `docs/baseline/BASE-001-relatorio.md`.
 - Reduced motion em `ManifestoSection`/`HowItWorksSection` corrigido (conteúdo visível) e coberto por teste que comprovadamente falha na versão anterior.
 - Achados novos: matriz 2012 tem pré-requisito na mesma fase (`EMB5605`→`EMB5116`, `[CONTEÚDO PENDENTE]` para FLOW-001); matriz 2016 contém slots `OPT-1..4` entre as obrigatórias; `not-found.tsx` não tem `h1`; a Home nunca atinge `networkidle` por causa do `hero.mp4` (~35 MB).
 - Inalterados por escopo: Portal aberto, callback stub, `middleware` depreciado (Next sugere `proxy`), conteúdo hard-coded, links `/projetos/*` e `#portal` (listados em `tests/e2e/known-broken-links.json`).
+
+## Estado após ARCH-001 (2026-09-14)
+
+Relatório: `docs/baseline/ARCH-001-relatorio.md`. Root layout mínimo; `(public)` com `PublicShell` (skip link, Navbar, `main#conteudo`, footer); `(portal)` com shell próprio, `data-theme` fixo e ponto marcado para o guard de AUTH-002. `<main>` aninhados eliminados em todas as rotas; P1-1 resolvido. URLs e visual público inalterados; Portal passa a base neutra clara. Smoke: 46 testes.

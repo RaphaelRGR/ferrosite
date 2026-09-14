@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function CursoPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A]">
+    <div className="min-h-screen bg-[#0A0A0A]">
       <CursoHero />
       <CoursePillars />
       <CourseCrea />
       <CurriculumFlowchart />
-    </main>
+    </div>
   );
 }
