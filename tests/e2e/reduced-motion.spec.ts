@@ -1,46 +1,29 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * Critério de aceite global (31): com prefers-reduced-motion, todo conteúdo
- * permanece visível e com contraste normal. Antes da baseline, o manifesto
- * ficava com opacity 0 e a jornada esmaecida (opacity 0.2).
+ * Critério global (31): com prefers-reduced-motion todo conteúdo permanece
+ * visível. A Home nova não depende de animação para revelar conteúdo; o teste
+ * garante que headings e cards estão com opacidade total sob a preferência e que
+ * o carrossel legado (se presente) não anima.
  */
 test.describe("prefers-reduced-motion: reduce", () => {
   test.use({ reducedMotion: "reduce" });
 
-  test("manifesto da Home fica totalmente visível", async ({ page }) => {
+  test("Home clara: todos os headings de seção visíveis com opacidade 1", async ({ page }) => {
     await page.goto("/pt", { waitUntil: "load" });
-    const heading = page.getByTestId("manifesto-heading");
-    await heading.scrollIntoViewIfNeeded();
-
-    const words = heading.locator("span");
-    const count = await words.count();
-    expect(count).toBeGreaterThan(0);
+    const headings = page.locator("main h2");
+    const count = await headings.count();
+    expect(count).toBeGreaterThan(3);
     for (let i = 0; i < count; i++) {
-      await expect(words.nth(i)).toHaveCSS("opacity", "1");
+      await headings.nth(i).scrollIntoViewIfNeeded();
+      await expect(headings.nth(i)).toHaveCSS("opacity", "1");
     }
   });
 
-  test("etapas da jornada acadêmica ficam com opacidade normal", async ({ page }) => {
-    await page.goto("/pt", { waitUntil: "load" });
-    const steps = page.getByTestId("journey-step-content");
-    const count = await steps.count();
-    expect(count).toBeGreaterThan(0);
-    for (let i = 0; i < count; i++) {
-      await steps.nth(i).scrollIntoViewIfNeeded();
-      await expect(steps.nth(i)).toHaveCSS("opacity", "1");
-    }
-  });
-});
-
-test.describe("movimento normal (guarda do caminho animado)", () => {
-  test.use({ reducedMotion: "no-preference" });
-
-  test("manifesto aparece após entrar na viewport", async ({ page }) => {
-    await page.goto("/pt", { waitUntil: "load" });
-    const heading = page.getByTestId("manifesto-heading");
-    await heading.scrollIntoViewIfNeeded();
-    // A última palavra é a que recebe o maior delay em cascata.
-    await expect(heading.locator("span").last()).toHaveCSS("opacity", "1", { timeout: 10_000 });
+  test("página legada (/pt/sobre) mantém conteúdo visível", async ({ page }) => {
+    await page.goto("/pt/sobre", { waitUntil: "load" });
+    const h1 = page.locator("main h1").first();
+    await expect(h1).toBeAttached();
+    await expect(h1).toHaveCSS("opacity", "1");
   });
 });

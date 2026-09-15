@@ -1,13 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { CATALOG_ROUTE, LOGIN_ROUTE, PUBLIC_ROUTES } from "../helpers/routes";
+import { CATALOG_ROUTE, LIGHT_PATHS, LOGIN_ROUTE, PUBLIC_ROUTES, localized } from "../helpers/routes";
 
 /**
  * axe-core: sem violações sérias/críticas onde o novo design system é usado
  * (catálogo nos dois temas e Portal). Nas rotas públicas legadas, que serão
  * substituídas em PUBLIC-*, as violações são apenas registradas como baseline.
  */
-const STRICT_ROUTES = [CATALOG_ROUTE, LOGIN_ROUTE];
+const STRICT_ROUTES = [CATALOG_ROUTE, LOGIN_ROUTE, ...LIGHT_PATHS.flatMap((p) => [localized("pt", p), localized("en", p)])];
 
 for (const route of STRICT_ROUTES) {
   test(`axe: ${route} sem violações sérias ou críticas`, async ({ page }, testInfo) => {

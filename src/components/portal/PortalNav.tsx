@@ -21,7 +21,7 @@ export function PortalNav({ items, label, onNavigate }: { items: NavItem[]; labe
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
             className={`relative flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface ${
-              active ? "bg-surface-2 text-action" : "text-fg-muted hover:bg-surface-2 hover:text-fg"
+              active ? "bg-surface-2 text-link" : "text-fg-muted hover:bg-surface-2 hover:text-fg"
             }`}
           >
             {active && <span aria-hidden="true" className="absolute left-0 top-2 bottom-2 w-1 rounded-full bg-action" />}

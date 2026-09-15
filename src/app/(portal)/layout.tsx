@@ -85,7 +85,7 @@ export default async function PortalLayout({ children }: { children: React.React
                 </span>
                 <Link
                   href="/pt"
-                  className="hidden rounded text-xs font-bold uppercase tracking-widest text-fg-muted underline-offset-4 hover:text-action hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:inline"
+                  className="hidden rounded text-xs font-bold uppercase tracking-widest text-fg-muted underline-offset-4 hover:text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:inline"
                 >
                   {dict.auth.backToSite}
                 </Link>

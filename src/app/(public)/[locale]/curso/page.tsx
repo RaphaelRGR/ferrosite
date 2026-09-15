@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-
 import { PendingPage } from "@/components/layout/PendingContent";
+import {
+  AboutCourse,
+  CourseCta,
+  CourseHero,
+  CourseJourney,
+  CourseLabs,
+  CoursePillarsSection,
+} from "@/components/public/course/CourseSections";
+import { CurriculumFlowchart } from "@/components/ui/CurriculumFlowchart";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { CursoHero } from "@/components/sections/CursoHero";
-import { CoursePillars } from "@/components/sections/CoursePillars";
-import { CourseCrea } from "@/components/sections/CourseCrea";
-import { CurriculumFlowchart } from "@/components/ui/CurriculumFlowchart";
 
 const PATH = "/curso";
 
@@ -18,18 +22,31 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/curso">)
   return publicPageMetadata(l, PATH, getDictionary(l).pages.course);
 }
 
+/**
+ * O Curso (04 §O Curso, guia §7): hero → sobre/dados → pilares → trajetória
+ * (derivada do dataset) → fluxograma interativo (preservado; FLOW-002 refaz a
+ * visualização) → laboratórios (PDF do portfólio) → CTA. Conteúdo institucional
+ * sob quarentena; EN mostra indisponibilidade até haver conteúdo por locale.
+ */
 export default async function CursoPage({ params }: PageProps<"/[locale]/curso">) {
   const { locale } = await params;
-  // Conteúdo editorial desta página só existe em PT (BASE-002/PUBLIC-*): EN mostra indisponibilidade explícita.
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   if (l !== "pt") return <PendingPage locale={l} dict={getDictionary(l)} path={PATH} />;
+  const dict = getDictionary(l).course;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
-      <UnverifiedContent section="curso.hero" badgePosition="bottom-left"><CursoHero /></UnverifiedContent>
-      <UnverifiedContent section="curso.pillars"><CoursePillars /></UnverifiedContent>
-      <UnverifiedContent section="curso.crea"><CourseCrea /></UnverifiedContent>
-      <UnverifiedContent section="curso.curriculum"><CurriculumFlowchart /></UnverifiedContent>
-    </div>
+    <>
+      <CourseHero dict={dict.hero} />
+      <AboutCourse dict={dict.about} />
+      <CoursePillarsSection dict={dict.pillars} />
+      <CourseJourney locale={l} dict={dict.journey} />
+      <UnverifiedContent section="curso.flowchart">
+        <div id="fluxograma">
+          <CurriculumFlowchart />
+        </div>
+      </UnverifiedContent>
+      <CourseLabs dict={dict.labs} />
+      <CourseCta dict={dict.cta} />
+    </>
   );
 }

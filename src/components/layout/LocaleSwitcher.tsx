@@ -13,10 +13,13 @@ export function LocaleSwitcher({
   current,
   labels,
   ariaLabel,
+  tone = "dark",
 }: {
   current: Locale;
   labels: Dictionary["locale"];
   ariaLabel: string;
+  /** dark: sobre a Navbar escura legada; light: sobre superfícies claras (tokens). */
+  tone?: "dark" | "light";
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -34,7 +37,7 @@ export function LocaleSwitcher({
         const active = locale === current;
         return (
           <span key={locale} className="flex items-center gap-1">
-            {index > 0 && <span aria-hidden="true" className="text-white/20">/</span>}
+            {index > 0 && <span aria-hidden="true" className={tone === "light" ? "text-line-strong" : "text-white/20"}>|</span>}
             <a
               href={href}
               hrefLang={LOCALE_TAGS[locale]}
@@ -42,7 +45,9 @@ export function LocaleSwitcher({
               aria-current={active ? "true" : undefined}
               onClick={choose(locale, href)}
               className={`rounded px-1.5 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${
-                active ? "text-[#E84E1B]" : "text-white/60 hover:text-white"
+                tone === "light"
+                  ? active ? "text-link" : "text-fg-muted hover:text-fg"
+                  : active ? "text-[#E84E1B]" : "text-white/60 hover:text-white"
               }`}
             >
               <span aria-hidden="true">{locale === "pt" ? labels.ptShort : labels.enShort}</span>

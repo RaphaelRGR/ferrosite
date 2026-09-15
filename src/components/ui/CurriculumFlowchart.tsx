@@ -132,8 +132,8 @@ export function CurriculumFlowchart() {
                 onClick={() => setSelectedYear(c.year)}
                 className={`px-6 py-2 rounded-md font-bold text-sm transition-all ${
                   selectedYear === c.year 
-                    ? "bg-[#E84E1B] text-white shadow-lg shadow-[#E84E1B]/20" 
-                    : "text-gray-500 hover:text-white hover:bg-white/5"
+                    ? "bg-[#c63d0e] text-white shadow-lg shadow-[#E84E1B]/20" 
+                    : "text-gray-300 hover:text-white hover:bg-white/5"
                 }`}
               >
                 Grade {c.year}
@@ -142,7 +142,7 @@ export function CurriculumFlowchart() {
           </div>
         </div>
 
-        <div className="overflow-x-auto pb-10 custom-scrollbar">
+        <div className="overflow-x-auto pb-10 custom-scrollbar" tabIndex={0} role="region" aria-label="Fluxograma curricular (rolagem horizontal)">
           <div ref={containerRef} className="relative min-w-[1500px] py-4">
             
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible">
@@ -192,7 +192,7 @@ export function CurriculumFlowchart() {
                       >
                         <div className="flex justify-between items-start">
                           <span className="text-[9px] font-bold text-gray-500 font-mono tracking-tighter">{subject.id}</span>
-                          {subject.ext && <span className="text-[7px] font-black bg-[#E84E1B] text-white px-1 rounded-sm">EXT</span>}
+                          {subject.ext && <span className="text-[9px] font-black bg-[#c63d0e] text-white px-1 rounded-sm">EXT</span>}
                         </div>
                         <h3 className="text-[11px] font-bold text-white leading-snug flex-1 mt-1 tracking-tight">
                           {subject.name}

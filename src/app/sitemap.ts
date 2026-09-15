@@ -3,7 +3,7 @@ import { LOCALE_TAGS, LOCALES, localizePath } from "@/i18n/config";
 import { SITE_URL } from "@/i18n/metadata";
 
 // Rotas públicas atuais; hubs/detalhes entram em PUBLIC-002 com dados reais.
-const PUBLIC_PATHS = ["/", "/curso", "/sobre", "/visitas", "/eventos", "/noticias", "/simuladores"];
+const PUBLIC_PATHS = ["/", "/curso", "/sobre", "/experiencias", "/projetos", "/eventos", "/noticias", "/simuladores"];
 
 /** Sitemap por locale com alternates hreflang (24). */
 export default function sitemap(): MetadataRoute.Sitemap {

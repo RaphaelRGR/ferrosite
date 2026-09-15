@@ -8,8 +8,9 @@ import { localeAlternates, SITE_URL } from "@/i18n/metadata";
 
 /**
  * Root layout do site público, sob `[locale]` (24: locale explícito; 23: `lang`
- * por locale). Tema escuro no <html> é o visual atual do site (PUBLIC-001 migra
- * para claro). Portal e catálogo têm root layouts próprios (ARCH-001).
+ * por locale). Site claro (PUBLIC-001, guia §2); rotas ainda não migradas
+ * pintam o próprio fundo escuro até serem refeitas. Portal e catálogo têm root
+ * layouts próprios (ARCH-001).
  */
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -34,7 +35,7 @@ export default async function PublicLayout({ children, params }: LayoutProps<"/[
   const dict = getDictionary(locale);
 
   return (
-    <HtmlShell lang={LOCALE_TAGS[locale]} theme="dark">
+    <HtmlShell lang={LOCALE_TAGS[locale]} theme="light">
       <PublicShell locale={locale} dict={dict}>
         {children}
       </PublicShell>

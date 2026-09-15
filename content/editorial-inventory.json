@@ -1,151 +1,337 @@
 {
   "_meta": {
     "schema": 1,
-    "description": "Quarentena editorial (BASE-002). Inventário de todo conteúdo institucional hard-coded no protótipo, extraído do código em 2026-09-14. Cada entrada nasce UNVERIFIED e só vira VERIFIED com fonte primária, owner e verified_at. decision: confirmar | corrigir | descartar. Nada aqui foi importado de mockups. Registro mínimo conforme 35_CONTEUDOS_INSTITUCIONAIS_PENDENTES.md.",
+    "description": "Quarentena editorial (BASE-002). Inventário de todo conteúdo institucional hard-coded no protótipo, extraído do código em 2026-09-14. Cada entrada nasce UNVERIFIED e só vira VERIFIED com fonte primária, owner e verified_at. decision: confirmar | corrigir | descartar. Nada aqui foi importado de mockups. Registro mínimo conforme 35_CONTEUDOS_INSTITUCIONAIS_PENDENTES.md. Atualizado em 2026-09-15 (PUBLIC-001): seções legadas da Home/Curso ficaram sem consumidor; novas seções apontam para src/content/staging.ts.",
     "extracted_at": "2026-09-14",
-    "statuses": ["UNVERIFIED", "VERIFIED", "DISCARDED"],
-    "kinds": ["claim", "metric", "date", "event", "news", "visit", "partner", "person", "narrative", "legal", "image", "curriculum", "cta"],
+    "statuses": [
+      "UNVERIFIED",
+      "VERIFIED",
+      "DISCARDED"
+    ],
+    "kinds": [
+      "claim",
+      "metric",
+      "date",
+      "event",
+      "news",
+      "visit",
+      "partner",
+      "person",
+      "narrative",
+      "legal",
+      "image",
+      "curriculum",
+      "cta"
+    ],
     "render_policy": "review: conteúdo UNVERIFIED é exibido com marca visível 'Conteúdo em verificação'; strict (NEXT_PUBLIC_CONTENT_MODE=strict): conteúdo UNVERIFIED/DISCARDED não é renderizado. VERIFIED renderiza sem marca."
   },
   "sections": [
     {
       "id": "home.hero",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/i18n/dictionaries/pt.ts (hero) + src/components/sections/HeroSection.tsx",
       "title": "Hero da Home",
       "entries": [
-        { "content_id": "home.hero.badge", "kind": "claim", "value_pt": "Portal não oficial", "value_en": "Unofficial website", "notes": "Relação FerroSite/Comunica Ferro/curso indefinida (35)." },
-        { "content_id": "home.hero.unico-sc", "kind": "claim", "value_pt": "O único curso de Santa Catarina.", "value_en": "The only program of its kind in Santa Catarina.", "notes": "Conflita com 'Único no Brasil' (CursoHero) e 'primeiro do Sul' (AboutHistory). Ver 33." },
-        { "content_id": "home.hero.video", "kind": "image", "value_pt": "public/videos/hero.mp4 (~35 MB)", "notes": "Origem, direitos e conteúdo (locomotiva a vapor) não documentados; 25 pede IMG-002." }
+        {
+          "content_id": "home.hero.badge",
+          "kind": "claim",
+          "value_pt": "Portal não oficial",
+          "value_en": "Unofficial website",
+          "notes": "Relação FerroSite/Comunica Ferro/curso indefinida (35)."
+        },
+        {
+          "content_id": "home.hero.unico-sc",
+          "kind": "claim",
+          "value_pt": "O único curso de Santa Catarina.",
+          "value_en": "The only program of its kind in Santa Catarina.",
+          "notes": "Conflita com 'Único no Brasil' (CursoHero) e 'primeiro do Sul' (AboutHistory). Ver 33."
+        },
+        {
+          "content_id": "home.hero.video",
+          "kind": "image",
+          "value_pt": "public/videos/hero.mp4 (~35 MB)",
+          "notes": "Origem, direitos e conteúdo (locomotiva a vapor) não documentados; 25 pede IMG-002."
+        }
       ]
     },
     {
       "id": "home.manifesto",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/ManifestoSection.tsx",
       "title": "Manifesto (R$ 600 bi)",
       "entries": [
-        { "content_id": "home.manifesto.600bi", "kind": "metric", "value_pt": "R$ 600 bilhões em investimentos previstos para o setor ferroviário brasileiro.", "notes": "Sem fonte no repositório; repetido em HowItWorks." },
-        { "content_id": "home.manifesto.ctj", "kind": "claim", "value_pt": "Os engenheiros que vão executar isso estão sendo formados agora, no CTJ." }
+        {
+          "content_id": "home.manifesto.600bi",
+          "kind": "metric",
+          "value_pt": "R$ 600 bilhões em investimentos previstos para o setor ferroviário brasileiro.",
+          "notes": "Sem fonte no repositório; repetido em HowItWorks."
+        },
+        {
+          "content_id": "home.manifesto.ctj",
+          "kind": "claim",
+          "value_pt": "Os engenheiros que vão executar isso estão sendo formados agora, no CTJ."
+        }
       ]
     },
     {
       "id": "home.numbers",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/NumbersSection.tsx",
       "title": "Números animados",
       "entries": [
-        { "content_id": "home.numbers.1o", "kind": "metric", "value_pt": "1º — Curso focado em Engenharia Ferroviária no Brasil" },
-        { "content_id": "home.numbers.103bi", "kind": "metric", "value_pt": "R$ 103 Bi — Previstos no Novo PAC para obras em ferrovias", "notes": "Conflita com R$ 600 bi do manifesto; fonte (Novo PAC) não referenciada." },
-        { "content_id": "home.numbers.30000km", "kind": "metric", "value_pt": "+30.000 km — De malha ferroviária em expansão e modernização no país" },
-        { "content_id": "home.numbers.15anos", "kind": "metric", "value_pt": "15 anos — De tradição formando a elite técnica do setor (desde 2009)", "notes": "Depende da data de criação (2009 em StoryJourney vs 2014 em AboutHistory)." }
+        {
+          "content_id": "home.numbers.1o",
+          "kind": "metric",
+          "value_pt": "1º — Curso focado em Engenharia Ferroviária no Brasil"
+        },
+        {
+          "content_id": "home.numbers.103bi",
+          "kind": "metric",
+          "value_pt": "R$ 103 Bi — Previstos no Novo PAC para obras em ferrovias",
+          "notes": "Conflita com R$ 600 bi do manifesto; fonte (Novo PAC) não referenciada."
+        },
+        {
+          "content_id": "home.numbers.30000km",
+          "kind": "metric",
+          "value_pt": "+30.000 km — De malha ferroviária em expansão e modernização no país"
+        },
+        {
+          "content_id": "home.numbers.15anos",
+          "kind": "metric",
+          "value_pt": "15 anos — De tradição formando a elite técnica do setor (desde 2009)",
+          "notes": "Depende da data de criação (2009 em StoryJourney vs 2014 em AboutHistory)."
+        }
       ]
     },
     {
       "id": "home.about",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/AboutSection.tsx",
       "title": "A Engenharia que move o país",
       "entries": [
-        { "content_id": "home.about.unico-sc", "kind": "claim", "value_pt": "O único curso de Santa Catarina." },
-        { "content_id": "home.about.narrativa", "kind": "narrative", "value_pt": "Formamos profissionais para projetar, construir e operar os sistemas que são a espinha dorsal da logística nacional. […]" },
-        { "content_id": "home.about.foto", "kind": "image", "value_pt": "[ foto em breve ] (placeholder)" }
+        {
+          "content_id": "home.about.unico-sc",
+          "kind": "claim",
+          "value_pt": "O único curso de Santa Catarina."
+        },
+        {
+          "content_id": "home.about.narrativa",
+          "kind": "narrative",
+          "value_pt": "Formamos profissionais para projetar, construir e operar os sistemas que são a espinha dorsal da logística nacional. […]"
+        },
+        {
+          "content_id": "home.about.foto",
+          "kind": "image",
+          "value_pt": "[ foto em breve ] (placeholder)"
+        }
       ]
     },
     {
       "id": "home.how-it-works",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/HowItWorksSection.tsx",
       "title": "Jornada acadêmica (4 etapas)",
       "entries": [
-        { "content_id": "home.how.vagas", "kind": "metric", "value_pt": "20 vagas por semestre via SiSU e Vestibular UFSC. Turno integral, 5 anos de formação técnica e humanística no CTJ — Joinville.", "notes": "Vagas, ingresso, turno e duração: confirmar com a coordenação/edital." },
-        { "content_id": "home.how.pratica", "kind": "narrative", "value_pt": "Visitas técnicas a concessionárias, laboratórios e operadoras. Contato real com locomotivas, via permanente e sistemas de sinalização." },
-        { "content_id": "home.how.ifmg", "kind": "partner", "value_pt": "Parceria com IFMG Santos Dumont. Competições como Cavalos de Ferro. Projetos do Comunica Ferro […]", "notes": "Parceria com IFMG precisa de instrumento/autorização." },
-        { "content_id": "home.how.mercado", "kind": "claim", "value_pt": "Rumo, MRS, VLI, Vale, ANPTrilhos. O Brasil vai investir R$ 600 bilhões em ferrovias. Os engenheiros que vão executar isso saem daqui.", "notes": "Empresas citadas como destino; R$ 600 bi sem fonte." }
+        {
+          "content_id": "home.how.vagas",
+          "kind": "metric",
+          "value_pt": "20 vagas por semestre via SiSU e Vestibular UFSC. Turno integral, 5 anos de formação técnica e humanística no CTJ — Joinville.",
+          "notes": "Vagas, ingresso, turno e duração: confirmar com a coordenação/edital."
+        },
+        {
+          "content_id": "home.how.pratica",
+          "kind": "narrative",
+          "value_pt": "Visitas técnicas a concessionárias, laboratórios e operadoras. Contato real com locomotivas, via permanente e sistemas de sinalização."
+        },
+        {
+          "content_id": "home.how.ifmg",
+          "kind": "partner",
+          "value_pt": "Parceria com IFMG Santos Dumont. Competições como Cavalos de Ferro. Projetos do Comunica Ferro […]",
+          "notes": "Parceria com IFMG precisa de instrumento/autorização."
+        },
+        {
+          "content_id": "home.how.mercado",
+          "kind": "claim",
+          "value_pt": "Rumo, MRS, VLI, Vale, ANPTrilhos. O Brasil vai investir R$ 600 bilhões em ferrovias. Os engenheiros que vão executar isso saem daqui.",
+          "notes": "Empresas citadas como destino; R$ 600 bi sem fonte."
+        }
       ]
     },
     {
       "id": "home.innovation",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/InnovationSection.tsx",
       "title": "Inovação nos Trilhos",
       "entries": [
-        { "content_id": "home.innovation.15projetos", "kind": "metric", "value_pt": "15+ Projetos Ativos" },
-        { "content_id": "home.innovation.excelencia", "kind": "claim", "value_pt": "UFSC — Excelência Acadêmica" },
-        { "content_id": "home.innovation.lab", "kind": "claim", "value_pt": "Laboratório de Inovação — Centro Tecnológico de Joinville", "notes": "Nome de laboratório não consta no portfólio de laboratórios (14)." },
-        { "content_id": "home.innovation.linhas", "kind": "narrative", "value_pt": "Sistemas Autônomos; Manutenção Preditiva (IA para fadiga em trilhos); Energia Sustentável — descrições de pesquisa", "notes": "Confrontar com linhas reais dos labs (14)." },
-        { "content_id": "home.innovation.imagem", "kind": "image", "value_pt": "images.unsplash.com/photo-1515165599668… (remota, alt 'Tecnologia Ferroviária')", "consent_or_license": "Unsplash License (não documental)", "notes": "Placeholder não documental; 25 exige foto real/autorizada ou conceito claramente marcado." }
+        {
+          "content_id": "home.innovation.15projetos",
+          "kind": "metric",
+          "value_pt": "15+ Projetos Ativos"
+        },
+        {
+          "content_id": "home.innovation.excelencia",
+          "kind": "claim",
+          "value_pt": "UFSC — Excelência Acadêmica"
+        },
+        {
+          "content_id": "home.innovation.lab",
+          "kind": "claim",
+          "value_pt": "Laboratório de Inovação — Centro Tecnológico de Joinville",
+          "notes": "Nome de laboratório não consta no portfólio de laboratórios (14)."
+        },
+        {
+          "content_id": "home.innovation.linhas",
+          "kind": "narrative",
+          "value_pt": "Sistemas Autônomos; Manutenção Preditiva (IA para fadiga em trilhos); Energia Sustentável — descrições de pesquisa",
+          "notes": "Confrontar com linhas reais dos labs (14)."
+        },
+        {
+          "content_id": "home.innovation.imagem",
+          "kind": "image",
+          "value_pt": "images.unsplash.com/photo-1515165599668… (remota, alt 'Tecnologia Ferroviária')",
+          "consent_or_license": "Unsplash License (não documental)",
+          "notes": "Placeholder não documental; 25 exige foto real/autorizada ou conceito claramente marcado."
+        }
       ]
     },
     {
       "id": "home.visits",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/VisitsSection.tsx",
       "title": "Calendário de Visitas (resumo)",
       "entries": [
-        { "content_id": "home.visits.rumo", "kind": "visit", "value_pt": "RUMO Logística — 18 Jun 2026 — Visita ao CCO da maior operadora do país" },
-        { "content_id": "home.visits.buenos-aires", "kind": "visit", "value_pt": "Buenos Aires, ARG — Jul 2026 — Intercâmbio técnico com a UTN e visita à rede metroviária Emova" },
-        { "content_id": "home.visits.polo-mineiro", "kind": "visit", "value_pt": "Polo Mineiro — Nov 2026 — Imersão no complexo ferroviário de Minas Gerais e oficinas da VLI" },
-        { "content_id": "home.visits.status", "kind": "claim", "value_pt": "Rótulos de status (Inscrições abertas / Em breve) sem sistema real por trás", "notes": "Affordance falsa; PUBLIC-002." }
+        {
+          "content_id": "home.visits.rumo",
+          "kind": "visit",
+          "value_pt": "RUMO Logística — 18 Jun 2026 — Visita ao CCO da maior operadora do país"
+        },
+        {
+          "content_id": "home.visits.buenos-aires",
+          "kind": "visit",
+          "value_pt": "Buenos Aires, ARG — Jul 2026 — Intercâmbio técnico com a UTN e visita à rede metroviária Emova"
+        },
+        {
+          "content_id": "home.visits.polo-mineiro",
+          "kind": "visit",
+          "value_pt": "Polo Mineiro — Nov 2026 — Imersão no complexo ferroviário de Minas Gerais e oficinas da VLI"
+        },
+        {
+          "content_id": "home.visits.status",
+          "kind": "claim",
+          "value_pt": "Rótulos de status (Inscrições abertas / Em breve) sem sistema real por trás",
+          "notes": "Affordance falsa; PUBLIC-002."
+        }
       ]
     },
     {
       "id": "home.events",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/EventsSection.tsx",
       "title": "Agenda de Eventos (resumo)",
       "entries": [
-        { "content_id": "home.events.cavalos-2026", "kind": "event", "value_pt": "Cavalos de Ferro 2026 — 01 Julho — 'A maior competição estudantil de engenharia ferroviária das Américas' — Inscrições Abertas", "notes": "Superlativo sem fonte; data/inscrição não confirmadas." },
-        { "content_id": "home.events.hackferro", "kind": "event", "value_pt": "HackFerro — Setembro — Desenvolvendo soluções tecnológicas […] — Em Breve" }
+        {
+          "content_id": "home.events.cavalos-2026",
+          "kind": "event",
+          "value_pt": "Cavalos de Ferro 2026 — 01 Julho — 'A maior competição estudantil de engenharia ferroviária das Américas' — Inscrições Abertas",
+          "notes": "Superlativo sem fonte; data/inscrição não confirmadas."
+        },
+        {
+          "content_id": "home.events.hackferro",
+          "kind": "event",
+          "value_pt": "HackFerro — Setembro — Desenvolvendo soluções tecnológicas […] — Em Breve"
+        }
       ]
     },
     {
       "id": "home.companies",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/CompaniesSection.tsx + public/empresas/*.png",
       "title": "Carrossel de logos",
       "entries": [
-        { "content_id": "home.companies.rotulo", "kind": "claim", "value_pt": "Empresas parceiras e destinos de egressos", "notes": "Parceria e destino de egressos são relações diferentes (33); categorizar cada empresa." },
-        { "content_id": "home.companies.logos", "kind": "partner", "value_pt": "Rumo Logística, MRS Logística, VLI, Vale, ANPTrilhos, FTC, Lanfranco (logos em public/empresas)", "consent_or_license": null, "notes": "Autorização de uso de marca por empresa: pendente (35)." }
+        {
+          "content_id": "home.companies.rotulo",
+          "kind": "claim",
+          "value_pt": "Empresas parceiras e destinos de egressos",
+          "notes": "Parceria e destino de egressos são relações diferentes (33); categorizar cada empresa."
+        },
+        {
+          "content_id": "home.companies.logos",
+          "kind": "partner",
+          "value_pt": "Rumo Logística, MRS Logística, VLI, Vale, ANPTrilhos, FTC, Lanfranco (logos em public/empresas)",
+          "consent_or_license": null,
+          "notes": "Autorização de uso de marca por empresa: pendente (35)."
+        }
       ]
     },
     {
       "id": "home.partners",
-      "route": "/",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/PartnersSection.tsx",
       "title": "Rede de Colaboração",
       "entries": [
-        { "content_id": "home.partners.lista", "kind": "partner", "value_pt": "ANTT, DNIT, VALE, MRS, RUMO, VLI (placeholders estilizados)", "notes": "Órgãos reguladores listados como 'parceiros estratégicos' sem instrumento." },
-        { "content_id": "home.partners.texto", "kind": "claim", "value_pt": "Mantemos parcerias estratégicas com os principais órgãos reguladores e concessionárias de ferrovias do país […]" }
+        {
+          "content_id": "home.partners.lista",
+          "kind": "partner",
+          "value_pt": "ANTT, DNIT, VALE, MRS, RUMO, VLI (placeholders estilizados)",
+          "notes": "Órgãos reguladores listados como 'parceiros estratégicos' sem instrumento."
+        },
+        {
+          "content_id": "home.partners.texto",
+          "kind": "claim",
+          "value_pt": "Mantemos parcerias estratégicas com os principais órgãos reguladores e concessionárias de ferrovias do país […]"
+        }
       ]
     },
     {
       "id": "curso.hero",
-      "route": "/curso",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/CursoHero.tsx",
       "title": "Hero do Curso",
       "entries": [
-        { "content_id": "curso.hero.unico-brasil", "kind": "claim", "value_pt": "Único no Brasil", "notes": "Conflita com 'único de SC' e 'primeiro do Sul'; MetricsSection (não usada) diz '3 de 3 cursos no Brasil'." },
-        { "content_id": "curso.hero.elite", "kind": "claim", "value_pt": "Projetado do zero para dominar a malha logística. Formamos a elite técnica disputada pelas maiores gigantes da infraestrutura do país." }
+        {
+          "content_id": "curso.hero.unico-brasil",
+          "kind": "claim",
+          "value_pt": "Único no Brasil",
+          "notes": "Conflita com 'único de SC' e 'primeiro do Sul'; MetricsSection (não usada) diz '3 de 3 cursos no Brasil'."
+        },
+        {
+          "content_id": "curso.hero.elite",
+          "kind": "claim",
+          "value_pt": "Projetado do zero para dominar a malha logística. Formamos a elite técnica disputada pelas maiores gigantes da infraestrutura do país."
+        }
       ]
     },
     {
-      "id": "curso.pillars",
-      "route": "/curso",
+      "id": "curso.pillars-legacy",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/CoursePillars.tsx",
       "title": "Os 4 pilares da formação",
       "entries": [
-        { "content_id": "curso.pillars.texto", "kind": "narrative", "value_pt": "Material Rodante; Via Permanente; Sinalização (O Cérebro da Malha); Logística (A Eficiência Total) — descrições", "notes": "Confrontar com PPC; '15.000 toneladas', '80km/h' são exemplos ilustrativos." }
+        {
+          "content_id": "curso.pillars-legacy.texto",
+          "kind": "narrative",
+          "value_pt": "Material Rodante; Via Permanente; Sinalização (O Cérebro da Malha); Logística (A Eficiência Total) — descrições",
+          "notes": "Confrontar com PPC; '15.000 toneladas', '80km/h' são exemplos ilustrativos."
+        }
       ]
     },
     {
       "id": "curso.crea",
-      "route": "/curso",
+      "route": "(legado sem consumidor — substituído em PUBLIC-001)",
       "component": "src/components/sections/CourseCrea.tsx",
       "title": "Atribuição profissional (CREA)",
       "entries": [
-        { "content_id": "curso.crea.dupla", "kind": "legal", "value_pt": "Nossos egressos não têm restrições. A estrutura da matriz curricular confere dupla atribuição no CREA/CONFEA, integrando os profissionais à Câmara de Engenharia Mecânica […]", "notes": "Redação jurídica precisa de validação (CREA-SC/CONFEA; Art. 12). Risco alto (33)." },
-        { "content_id": "curso.crea.lista", "kind": "legal", "value_pt": "Projetos mecânicos, termodinâmicos e de fluidos; Responsabilidade técnica em plantas industriais; Peritagem e emissão de laudos; Especialidade adicional restrita em operação e via ferroviária" }
+        {
+          "content_id": "curso.crea.dupla",
+          "kind": "legal",
+          "value_pt": "Nossos egressos não têm restrições. A estrutura da matriz curricular confere dupla atribuição no CREA/CONFEA, integrando os profissionais à Câmara de Engenharia Mecânica […]",
+          "notes": "Redação jurídica precisa de validação (CREA-SC/CONFEA; Art. 12). Risco alto (33)."
+        },
+        {
+          "content_id": "curso.crea.lista",
+          "kind": "legal",
+          "value_pt": "Projetos mecânicos, termodinâmicos e de fluidos; Responsabilidade técnica em plantas industriais; Peritagem e emissão de laudos; Especialidade adicional restrita em operação e via ferroviária"
+        }
       ]
     },
     {
@@ -154,10 +340,33 @@
       "component": "src/data/curriculums.ts + src/components/ui/CurriculumFlowchart.tsx + public/grades/*",
       "title": "Fluxograma curricular (matrizes 2025/2016/2012)",
       "entries": [
-        { "content_id": "curso.curriculum.2025", "kind": "curriculum", "value_pt": "Matriz 2025: 60 obrigatórias + 15 optativas", "source": "public/grades/grade2025.pdf (origem do PDF não registrada)", "notes": "Validação de paridade TS×PDF em FLOW-001." },
-        { "content_id": "curso.curriculum.2016", "kind": "curriculum", "value_pt": "Matriz 2016: 61 obrigatórias (inclui slots OPT-1..4) + 15 optativas", "source": "public/grades/grade2016.pdf", "notes": "FLOW-001." },
-        { "content_id": "curso.curriculum.2012", "kind": "curriculum", "value_pt": "Matriz 2012: 61 obrigatórias + 6 optativas", "source": "public/grades/grade2012.pdf", "notes": "EMB5512→EMB5107 (optativa) e EMB5605→EMB5116 (mesma fase) pendentes; FLOW-001." },
-        { "content_id": "curso.curriculum.ementas", "kind": "narrative", "value_pt": "Ementas/‘Visão Geral & Impacto’ de 13/15/10 disciplinas em tom editorial (ex.: 'A disciplina mais complexa e exclusiva do curso')", "notes": "Textos não são ementas oficiais; separar ementa oficial de copy editorial." }
+        {
+          "content_id": "curso.curriculum.2025",
+          "kind": "curriculum",
+          "value_pt": "Matriz 2025: 60 obrigatórias + 15 optativas",
+          "source": "public/grades/grade2025.pdf (origem do PDF não registrada)",
+          "notes": "Validação de paridade TS×PDF em FLOW-001."
+        },
+        {
+          "content_id": "curso.curriculum.2016",
+          "kind": "curriculum",
+          "value_pt": "Matriz 2016: 61 obrigatórias (inclui slots OPT-1..4) + 15 optativas",
+          "source": "public/grades/grade2016.pdf",
+          "notes": "FLOW-001."
+        },
+        {
+          "content_id": "curso.curriculum.2012",
+          "kind": "curriculum",
+          "value_pt": "Matriz 2012: 61 obrigatórias + 6 optativas",
+          "source": "public/grades/grade2012.pdf",
+          "notes": "EMB5512→EMB5107 (optativa) e EMB5605→EMB5116 (mesma fase) pendentes; FLOW-001."
+        },
+        {
+          "content_id": "curso.curriculum.ementas",
+          "kind": "narrative",
+          "value_pt": "Ementas/‘Visão Geral & Impacto’ de 13/15/10 disciplinas em tom editorial (ex.: 'A disciplina mais complexa e exclusiva do curso')",
+          "notes": "Textos não são ementas oficiais; separar ementa oficial de copy editorial."
+        }
       ]
     },
     {
@@ -166,7 +375,11 @@
       "component": "src/components/sections/AboutHero.tsx",
       "title": "Hero do Sobre",
       "entries": [
-        { "content_id": "sobre.hero.titulo", "kind": "claim", "value_pt": "Nossa História & Propósito — A Engenharia que Transforma o Brasil" }
+        {
+          "content_id": "sobre.hero.titulo",
+          "kind": "claim",
+          "value_pt": "Nossa História & Propósito — A Engenharia que Transforma o Brasil"
+        }
       ]
     },
     {
@@ -175,12 +388,42 @@
       "component": "src/components/sections/StoryJourney.tsx",
       "title": "Uma Jornada de Inovação (linha do tempo)",
       "entries": [
-        { "content_id": "sobre.story.2009", "kind": "date", "value_pt": "04 Agosto 2009 — Criado através do programa REUNI, o curso inicia suas atividades na inauguração do campus de Joinville da UFSC. Fomos o primeiro c[urso…]", "notes": "AboutHistory (não usado) diz 2014. Fonte: ato de criação/PPC." },
-        { "content_id": "sobre.story.2013", "kind": "person", "value_pt": "2013 / 2014 — Marcos Imhof se torna oficialmente o primeiro Engenheiro Ferroviário graduado do país pela nossa instituição", "consent_or_license": null, "notes": "Dado pessoal + alegação 'primeiro do país': consentimento e fonte." },
-        { "content_id": "sobre.story.2023", "kind": "claim", "value_pt": "2023 — Excelência Científica — premiação de melhor trabalho no Encontro de Físi[ca…]", "notes": "Nome do evento, edição e comprovante." },
-        { "content_id": "sobre.story.2024", "kind": "claim", "value_pt": "2024 — UFSC Joinville indicada como Melhor Instituição de Ensino no Prêmio Revista Ferroviária; egressos faturam o Prêmio Inovação da ANTT", "notes": "Links/atos oficiais dos prêmios." },
-        { "content_id": "sobre.story.comunica", "kind": "narrative", "value_pt": "O Presente — Projeto Comunica Ferro — 'estratégia agressiva de comunicação e do nosso Instagram oficial' […]" },
-        { "content_id": "sobre.story.ferrolab", "kind": "narrative", "value_pt": "O Futuro — A Conquista do FerroLab: laboratório operando de dentro de um container real […]", "notes": "Projeto futuro apresentado como plano; status real desconhecido." }
+        {
+          "content_id": "sobre.story.2009",
+          "kind": "date",
+          "value_pt": "04 Agosto 2009 — Criado através do programa REUNI, o curso inicia suas atividades na inauguração do campus de Joinville da UFSC. Fomos o primeiro c[urso…]",
+          "notes": "AboutHistory (não usado) diz 2014. Fonte: ato de criação/PPC."
+        },
+        {
+          "content_id": "sobre.story.2013",
+          "kind": "person",
+          "value_pt": "2013 / 2014 — Marcos Imhof se torna oficialmente o primeiro Engenheiro Ferroviário graduado do país pela nossa instituição",
+          "consent_or_license": null,
+          "notes": "Dado pessoal + alegação 'primeiro do país': consentimento e fonte."
+        },
+        {
+          "content_id": "sobre.story.2023",
+          "kind": "claim",
+          "value_pt": "2023 — Excelência Científica — premiação de melhor trabalho no Encontro de Físi[ca…]",
+          "notes": "Nome do evento, edição e comprovante."
+        },
+        {
+          "content_id": "sobre.story.2024",
+          "kind": "claim",
+          "value_pt": "2024 — UFSC Joinville indicada como Melhor Instituição de Ensino no Prêmio Revista Ferroviária; egressos faturam o Prêmio Inovação da ANTT",
+          "notes": "Links/atos oficiais dos prêmios."
+        },
+        {
+          "content_id": "sobre.story.comunica",
+          "kind": "narrative",
+          "value_pt": "O Presente — Projeto Comunica Ferro — 'estratégia agressiva de comunicação e do nosso Instagram oficial' […]"
+        },
+        {
+          "content_id": "sobre.story.ferrolab",
+          "kind": "narrative",
+          "value_pt": "O Futuro — A Conquista do FerroLab: laboratório operando de dentro de um container real […]",
+          "notes": "Projeto futuro apresentado como plano; status real desconhecido."
+        }
       ]
     },
     {
@@ -189,7 +432,12 @@
       "component": "src/components/sections/AboutIdentity.tsx",
       "title": "Missão, Visão e Valores",
       "entries": [
-        { "content_id": "sobre.identity.mvv", "kind": "narrative", "value_pt": "Missão ('preencher um vazio histórico na logística nacional'), Visão ('epicentro da inovação metroferroviária na América Latina'), Valores", "notes": "Missão/visão/valores oficiais não localizados (35)." }
+        {
+          "content_id": "sobre.identity.mvv",
+          "kind": "narrative",
+          "value_pt": "Missão ('preencher um vazio histórico na logística nacional'), Visão ('epicentro da inovação metroferroviária na América Latina'), Valores",
+          "notes": "Missão/visão/valores oficiais não localizados (35)."
+        }
       ]
     },
     {
@@ -198,56 +446,132 @@
       "component": "src/components/sections/AboutResearch.tsx",
       "title": "Linhas de Pesquisa",
       "entries": [
-        { "content_id": "sobre.research.linhas", "kind": "narrative", "value_pt": "Dinâmica Ferroviária e Roda-Trilho; Logística e Otimização de Malhas; Via Permanente e Infraestrutura; Sinalização e Controle de Tráfego", "notes": "Confrontar com portfólio de laboratórios (14) e grupos de pesquisa reais." },
-        { "content_id": "sobre.research.claim", "kind": "claim", "value_pt": "Somos o braço de pesquisa e desenvolvimento que as grandes concessionárias procuram […]" }
+        {
+          "content_id": "sobre.research.linhas",
+          "kind": "narrative",
+          "value_pt": "Dinâmica Ferroviária e Roda-Trilho; Logística e Otimização de Malhas; Via Permanente e Infraestrutura; Sinalização e Controle de Tráfego",
+          "notes": "Confrontar com portfólio de laboratórios (14) e grupos de pesquisa reais."
+        },
+        {
+          "content_id": "sobre.research.claim",
+          "kind": "claim",
+          "value_pt": "Somos o braço de pesquisa e desenvolvimento que as grandes concessionárias procuram […]"
+        }
       ]
     },
     {
       "id": "visitas.hero",
-      "route": "/visitas",
+      "route": "/experiencias",
       "component": "src/components/sections/VisitsHero.tsx",
       "title": "Hero de Visitas",
       "entries": [
-        { "content_id": "visitas.hero.texto", "kind": "narrative", "value_pt": "Experiência em Campo — A VIDA NOS [TRILHOS] — Onde a teoria da sala de aula encontra a magnitude da Engenharia Ferroviária" }
+        {
+          "content_id": "visitas.hero.texto",
+          "kind": "narrative",
+          "value_pt": "Experiência em Campo — A VIDA NOS [TRILHOS] — Onde a teoria da sala de aula encontra a magnitude da Engenharia Ferroviária"
+        }
       ]
     },
     {
       "id": "visitas.stats",
-      "route": "/visitas",
+      "route": "/experiencias",
       "component": "src/components/sections/VisitsStats.tsx",
       "title": "Números de visitas",
       "entries": [
-        { "content_id": "visitas.stats.48", "kind": "metric", "value_pt": "48+ Visitas Realizadas" },
-        { "content_id": "visitas.stats.15", "kind": "metric", "value_pt": "15 Empresas Parceiras" },
-        { "content_id": "visitas.stats.1200", "kind": "metric", "value_pt": "1.2k Alunos Impactados" },
-        { "content_id": "visitas.stats.3paises", "kind": "metric", "value_pt": "03 Países Visitados" }
+        {
+          "content_id": "visitas.stats.48",
+          "kind": "metric",
+          "value_pt": "48+ Visitas Realizadas"
+        },
+        {
+          "content_id": "visitas.stats.15",
+          "kind": "metric",
+          "value_pt": "15 Empresas Parceiras"
+        },
+        {
+          "content_id": "visitas.stats.1200",
+          "kind": "metric",
+          "value_pt": "1.2k Alunos Impactados"
+        },
+        {
+          "content_id": "visitas.stats.3paises",
+          "kind": "metric",
+          "value_pt": "03 Países Visitados"
+        }
       ]
     },
     {
       "id": "visitas.gallery",
-      "route": "/visitas",
+      "route": "/experiencias",
       "component": "src/components/sections/VisitsGallery.tsx",
       "title": "Memórias Técnicas (galeria)",
       "entries": [
-        { "content_id": "visitas.gallery.rumo-2023", "kind": "visit", "value_pt": "CCO Rumo Logística — Curitiba - PR — 2023 — 'maior Centro de Controle Operacional da América Latina'" },
-        { "content_id": "visitas.gallery.vli", "kind": "visit", "value_pt": "Terminal de Grãos (VLI) — Santos - SP — 'maior porto do país'" },
-        { "content_id": "visitas.gallery.mrs-2024", "kind": "visit", "value_pt": "Oficinas da MRS — Jundiaí - SP — 2024" },
-        { "content_id": "visitas.gallery.vale-2022", "kind": "visit", "value_pt": "Vale - EFVM — Vitória - ES — 2022" },
-        { "content_id": "visitas.gallery.imagens", "kind": "image", "value_pt": "Imagens remotas Unsplash usadas como fotos das visitas", "consent_or_license": "Unsplash License (não documental)", "notes": "Fotografia documental deve ser real e autorizada (25)." },
-        { "content_id": "visitas.gallery.relatorio", "kind": "cta", "value_pt": "Ver Relatório Técnico → (sem destino)" }
+        {
+          "content_id": "visitas.gallery.rumo-2023",
+          "kind": "visit",
+          "value_pt": "CCO Rumo Logística — Curitiba - PR — 2023 — 'maior Centro de Controle Operacional da América Latina'"
+        },
+        {
+          "content_id": "visitas.gallery.vli",
+          "kind": "visit",
+          "value_pt": "Terminal de Grãos (VLI) — Santos - SP — 'maior porto do país'"
+        },
+        {
+          "content_id": "visitas.gallery.mrs-2024",
+          "kind": "visit",
+          "value_pt": "Oficinas da MRS — Jundiaí - SP — 2024"
+        },
+        {
+          "content_id": "visitas.gallery.vale-2022",
+          "kind": "visit",
+          "value_pt": "Vale - EFVM — Vitória - ES — 2022"
+        },
+        {
+          "content_id": "visitas.gallery.imagens",
+          "kind": "image",
+          "value_pt": "Imagens remotas Unsplash usadas como fotos das visitas",
+          "consent_or_license": "Unsplash License (não documental)",
+          "notes": "Fotografia documental deve ser real e autorizada (25)."
+        },
+        {
+          "content_id": "visitas.gallery.relatorio",
+          "kind": "cta",
+          "value_pt": "Ver Relatório Técnico → (sem destino)"
+        }
       ]
     },
     {
       "id": "visitas.schedule",
-      "route": "/visitas",
+      "route": "/experiencias",
       "component": "src/components/sections/VisitsSchedule.tsx",
       "title": "Próximos embarques",
       "entries": [
-        { "content_id": "visitas.schedule.rumo", "kind": "visit", "value_pt": "RUMO Logística — 18 Jun 2026 — CCO e oficinas em Curitiba" },
-        { "content_id": "visitas.schedule.utn", "kind": "visit", "value_pt": "UTN - Buenos Aires — Jul 2026 — Missão Internacional" },
-        { "content_id": "visitas.schedule.vli", "kind": "visit", "value_pt": "VLI Logística — Set 2026 — Terminal Integrador Portuário (TIP) em Santos" },
-        { "content_id": "visitas.schedule.vale", "kind": "visit", "value_pt": "Vale - EFVM — Nov 2026" },
-        { "content_id": "visitas.schedule.regra", "kind": "claim", "value_pt": "As inscrições para visitas técnicas são exclusivas para alunos do curso e abrem geralmente 30 dias antes da data prevista.", "notes": "Regra de processo não confirmada; botão 'Ver Edital de Seleção' sem destino." }
+        {
+          "content_id": "visitas.schedule.rumo",
+          "kind": "visit",
+          "value_pt": "RUMO Logística — 18 Jun 2026 — CCO e oficinas em Curitiba"
+        },
+        {
+          "content_id": "visitas.schedule.utn",
+          "kind": "visit",
+          "value_pt": "UTN - Buenos Aires — Jul 2026 — Missão Internacional"
+        },
+        {
+          "content_id": "visitas.schedule.vli",
+          "kind": "visit",
+          "value_pt": "VLI Logística — Set 2026 — Terminal Integrador Portuário (TIP) em Santos"
+        },
+        {
+          "content_id": "visitas.schedule.vale",
+          "kind": "visit",
+          "value_pt": "Vale - EFVM — Nov 2026"
+        },
+        {
+          "content_id": "visitas.schedule.regra",
+          "kind": "claim",
+          "value_pt": "As inscrições para visitas técnicas são exclusivas para alunos do curso e abrem geralmente 30 dias antes da data prevista.",
+          "notes": "Regra de processo não confirmada; botão 'Ver Edital de Seleção' sem destino."
+        }
       ]
     },
     {
@@ -256,7 +580,11 @@
       "component": "src/components/sections/EventsHero.tsx",
       "title": "Hero de Eventos",
       "entries": [
-        { "content_id": "eventos.hero.calendario", "kind": "date", "value_pt": "Calendário 2026 — De competições internacionais a workshops técnicos […]" }
+        {
+          "content_id": "eventos.hero.calendario",
+          "kind": "date",
+          "value_pt": "Calendário 2026 — De competições internacionais a workshops técnicos […]"
+        }
       ]
     },
     {
@@ -265,7 +593,12 @@
       "component": "src/components/sections/FeaturedEvent.tsx",
       "title": "Evento principal",
       "entries": [
-        { "content_id": "eventos.featured.cavalos", "kind": "event", "value_pt": "Cavalos de Ferro 2026 — 01-05 Julho 2026 — Santa Catarina — 'A maior competição estudantil de engenharia ferroviária das Américas' — Edição de Aniversário: 10 anos", "notes": "Datas, local, superlativo e '10 anos' sem fonte; botão 'Inscrever Equipe' sem ação." }
+        {
+          "content_id": "eventos.featured.cavalos",
+          "kind": "event",
+          "value_pt": "Cavalos de Ferro 2026 — 01-05 Julho 2026 — Santa Catarina — 'A maior competição estudantil de engenharia ferroviária das Américas' — Edição de Aniversário: 10 anos",
+          "notes": "Datas, local, superlativo e '10 anos' sem fonte; botão 'Inscrever Equipe' sem ação."
+        }
       ]
     },
     {
@@ -274,11 +607,32 @@
       "component": "src/components/sections/EventsGrid.tsx",
       "title": "Próximos encontros",
       "entries": [
-        { "content_id": "eventos.grid.hackferro", "kind": "event", "value_pt": "HackFerro 2026 — Maratona de programação […]" },
-        { "content_id": "eventos.grid.simposio", "kind": "event", "value_pt": "Simpósio Sul de Ferrovias — Apresentação de artigos científicos […]" },
-        { "content_id": "eventos.grid.rumo", "kind": "event", "value_pt": "Visita Técnica: Rumo Logística — 'maior concessionária do país'" },
-        { "content_id": "eventos.grid.ertms", "kind": "event", "value_pt": "Workshop: Sinalização ERTMS" },
-        { "content_id": "eventos.grid.filtros", "kind": "cta", "value_pt": "Filtros de categoria sem ação", "notes": "PUBLIC-002." }
+        {
+          "content_id": "eventos.grid.hackferro",
+          "kind": "event",
+          "value_pt": "HackFerro 2026 — Maratona de programação […]"
+        },
+        {
+          "content_id": "eventos.grid.simposio",
+          "kind": "event",
+          "value_pt": "Simpósio Sul de Ferrovias — Apresentação de artigos científicos […]"
+        },
+        {
+          "content_id": "eventos.grid.rumo",
+          "kind": "event",
+          "value_pt": "Visita Técnica: Rumo Logística — 'maior concessionária do país'"
+        },
+        {
+          "content_id": "eventos.grid.ertms",
+          "kind": "event",
+          "value_pt": "Workshop: Sinalização ERTMS"
+        },
+        {
+          "content_id": "eventos.grid.filtros",
+          "kind": "cta",
+          "value_pt": "Filtros de categoria sem ação",
+          "notes": "PUBLIC-002."
+        }
       ]
     },
     {
@@ -287,9 +641,22 @@
       "component": "src/components/sections/PastEventsGallery.tsx",
       "title": "Galeria de eventos passados",
       "entries": [
-        { "content_id": "eventos.past.lista", "kind": "event", "value_pt": "Semana Acadêmica 2025; Visita Vale Tubarão; Competição Cavalos de Ferro 2024; Workshop Sinalização" },
-        { "content_id": "eventos.past.imagens", "kind": "image", "value_pt": "4 imagens remotas Unsplash como registro de eventos", "consent_or_license": "Unsplash License (não documental)" },
-        { "content_id": "eventos.past.cta", "kind": "cta", "value_pt": "Ver Galeria → (sem destino)" }
+        {
+          "content_id": "eventos.past.lista",
+          "kind": "event",
+          "value_pt": "Semana Acadêmica 2025; Visita Vale Tubarão; Competição Cavalos de Ferro 2024; Workshop Sinalização"
+        },
+        {
+          "content_id": "eventos.past.imagens",
+          "kind": "image",
+          "value_pt": "4 imagens remotas Unsplash como registro de eventos",
+          "consent_or_license": "Unsplash License (não documental)"
+        },
+        {
+          "content_id": "eventos.past.cta",
+          "kind": "cta",
+          "value_pt": "Ver Galeria → (sem destino)"
+        }
       ]
     },
     {
@@ -298,7 +665,12 @@
       "component": "src/components/sections/NewsHero.tsx",
       "title": "Hero de Notícias",
       "entries": [
-        { "content_id": "noticias.hero.texto", "kind": "narrative", "value_pt": "News & Updates — O QUE HÁ DE NOVO NOS TRILHOS", "notes": "Mistura EN/PT no PT." }
+        {
+          "content_id": "noticias.hero.texto",
+          "kind": "narrative",
+          "value_pt": "News & Updates — O QUE HÁ DE NOVO NOS TRILHOS",
+          "notes": "Mistura EN/PT no PT."
+        }
       ]
     },
     {
@@ -307,8 +679,19 @@
       "component": "src/components/sections/NewsFeatured.tsx",
       "title": "Notícia em destaque",
       "entries": [
-        { "content_id": "noticias.featured.hidrogenio", "kind": "news", "value_pt": "12 Maio, 2026 — UFSC Joinville lidera pesquisa sobre hidrogênio verde em trens. — 'projeto inovador que visa substituir motores diesel por células de combustível a hidrogênio' […]", "notes": "Notícia sem fonte; pode ser fictícia." },
-        { "content_id": "noticias.featured.autor", "kind": "person", "value_pt": "Raphael Garcia — Editor Chefe", "consent_or_license": null, "notes": "Dado pessoal; cargo não confirmado." }
+        {
+          "content_id": "noticias.featured.hidrogenio",
+          "kind": "news",
+          "value_pt": "12 Maio, 2026 — UFSC Joinville lidera pesquisa sobre hidrogênio verde em trens. — 'projeto inovador que visa substituir motores diesel por células de combustível a hidrogênio' […]",
+          "notes": "Notícia sem fonte; pode ser fictícia."
+        },
+        {
+          "content_id": "noticias.featured.autor",
+          "kind": "person",
+          "value_pt": "Raphael Garcia — Editor Chefe",
+          "consent_or_license": null,
+          "notes": "Dado pessoal; cargo não confirmado."
+        }
       ]
     },
     {
@@ -317,13 +700,43 @@
       "component": "src/components/sections/NewsGrid.tsx",
       "title": "Arquivo de notícias",
       "entries": [
-        { "content_id": "noticias.grid.08mai", "kind": "news", "value_pt": "08 Mai — Novos laboratórios de sinalização são inaugurados no CTJ." },
-        { "content_id": "noticias.grid.05mai", "kind": "news", "value_pt": "05 Mai — Setor ferroviário prevê contratação recorde de engenheiros." },
-        { "content_id": "noticias.grid.02mai", "kind": "news", "value_pt": "02 Mai — Projeto Cavalos de Ferro recebe patrocínio da Rumo.", "notes": "Cita empresa como patrocinadora: exige confirmação da empresa." },
-        { "content_id": "noticias.grid.28abr", "kind": "news", "value_pt": "28 Abr — Alunos desenvolvem sensor IoT para monitoramento de trilhos." },
-        { "content_id": "noticias.grid.25abr", "kind": "news", "value_pt": "25 Abr — I Simpósio de Ferrovias Sustentáveis reúne especialistas." },
-        { "content_id": "noticias.grid.20abr", "kind": "news", "value_pt": "20 Abr — Pós-graduação em Engenharia de Via Permanente abre inscrições." },
-        { "content_id": "noticias.grid.paginacao", "kind": "cta", "value_pt": "Setas ← → e 'Carregar mais notícias' sem ação", "notes": "PUBLIC-002." }
+        {
+          "content_id": "noticias.grid.08mai",
+          "kind": "news",
+          "value_pt": "08 Mai — Novos laboratórios de sinalização são inaugurados no CTJ."
+        },
+        {
+          "content_id": "noticias.grid.05mai",
+          "kind": "news",
+          "value_pt": "05 Mai — Setor ferroviário prevê contratação recorde de engenheiros."
+        },
+        {
+          "content_id": "noticias.grid.02mai",
+          "kind": "news",
+          "value_pt": "02 Mai — Projeto Cavalos de Ferro recebe patrocínio da Rumo.",
+          "notes": "Cita empresa como patrocinadora: exige confirmação da empresa."
+        },
+        {
+          "content_id": "noticias.grid.28abr",
+          "kind": "news",
+          "value_pt": "28 Abr — Alunos desenvolvem sensor IoT para monitoramento de trilhos."
+        },
+        {
+          "content_id": "noticias.grid.25abr",
+          "kind": "news",
+          "value_pt": "25 Abr — I Simpósio de Ferrovias Sustentáveis reúne especialistas."
+        },
+        {
+          "content_id": "noticias.grid.20abr",
+          "kind": "news",
+          "value_pt": "20 Abr — Pós-graduação em Engenharia de Via Permanente abre inscrições."
+        },
+        {
+          "content_id": "noticias.grid.paginacao",
+          "kind": "cta",
+          "value_pt": "Setas ← → e 'Carregar mais notícias' sem ação",
+          "notes": "PUBLIC-002."
+        }
       ]
     },
     {
@@ -332,7 +745,12 @@
       "component": "src/components/sections/NewsNewsletter.tsx",
       "title": "Newsletter",
       "entries": [
-        { "content_id": "noticias.newsletter.promessa", "kind": "claim", "value_pt": "Toda semana, uma curadoria especial com as principais notícias […] *Não enviamos spam. Cancele a qualquer momento.", "notes": "Serviço inexistente; formulário cancela o submit; coleta de e-mail sem política de privacidade (LGPD)." }
+        {
+          "content_id": "noticias.newsletter.promessa",
+          "kind": "claim",
+          "value_pt": "Toda semana, uma curadoria especial com as principais notícias […] *Não enviamos spam. Cancele a qualquer momento.",
+          "notes": "Serviço inexistente; formulário cancela o submit; coleta de e-mail sem política de privacidade (LGPD)."
+        }
       ]
     },
     {
@@ -341,9 +759,212 @@
       "component": "src/components/sections/MetricsSection.tsx, AboutHistory.tsx, AboutPillars.tsx",
       "title": "Componentes sem uso com afirmações",
       "entries": [
-        { "content_id": "unused.metrics.3de3", "kind": "metric", "value_pt": "3 de 3 — Cursos de Eng. Ferroviária no Brasil; 9.000 km — Malha ferroviária em leilão; 2026 — Ano do 1º HackFerro", "notes": "Não renderizado; contradiz 'único no Brasil'." },
-        { "content_id": "unused.history.2014", "kind": "date", "value_pt": "2014 Fundação do Curso; 2018 Criação do Comunica Ferro; 2020 Lançamento do FerroSite; 2024 Referência Nacional", "notes": "Não renderizado; conflita com 2009 (StoryJourney)." },
-        { "content_id": "unused.pillars.sul", "kind": "claim", "value_pt": "único curso de Engenharia Ferroviária e Metroviária do Sul do Brasil", "notes": "Não renderizado; terceira variante do superlativo." }
+        {
+          "content_id": "unused.metrics.3de3",
+          "kind": "metric",
+          "value_pt": "3 de 3 — Cursos de Eng. Ferroviária no Brasil; 9.000 km — Malha ferroviária em leilão; 2026 — Ano do 1º HackFerro",
+          "notes": "Não renderizado; contradiz 'único no Brasil'."
+        },
+        {
+          "content_id": "unused.history.2014",
+          "kind": "date",
+          "value_pt": "2014 Fundação do Curso; 2018 Criação do Comunica Ferro; 2020 Lançamento do FerroSite; 2024 Referência Nacional",
+          "notes": "Não renderizado; conflita com 2009 (StoryJourney)."
+        },
+        {
+          "content_id": "unused.pillars.sul",
+          "kind": "claim",
+          "value_pt": "único curso de Engenharia Ferroviária e Metroviária do Sul do Brasil",
+          "notes": "Não renderizado; terceira variante do superlativo."
+        }
+      ]
+    },
+    {
+      "id": "home.indicators",
+      "route": "/",
+      "component": "src/components/public/home/HomeSections.tsx (IndicatorsStrip) + src/content/staging.ts INDICATORS",
+      "title": "Home — indicadores",
+      "entries": [
+        {
+          "content_id": "home.indicators.1o",
+          "kind": "metric",
+          "value_pt": "1º — Curso focado em Engenharia Ferroviária no Brasil",
+          "notes": "Herdado de NumbersSection; conflita com variantes de pioneirismo."
+        },
+        {
+          "content_id": "home.indicators.103bi",
+          "kind": "metric",
+          "value_pt": "R$ 103 bi — Previstos no Novo PAC para obras em ferrovias",
+          "notes": "Fonte (Novo PAC) não referenciada."
+        },
+        {
+          "content_id": "home.indicators.30000km",
+          "kind": "metric",
+          "value_pt": "+30.000 km — De malha ferroviária em expansão e modernização"
+        },
+        {
+          "content_id": "home.indicators.48visitas",
+          "kind": "metric",
+          "value_pt": "48+ — Visitas técnicas realizadas",
+          "notes": "Herdado de VisitsStats."
+        }
+      ]
+    },
+    {
+      "id": "home.projects",
+      "route": "/",
+      "component": "HomeSections.tsx (FeaturedProjects) + staging FEATURED_PROJECTS",
+      "title": "Home — projetos em destaque",
+      "entries": [
+        {
+          "content_id": "home.projects.lista",
+          "kind": "narrative",
+          "value_pt": "Comunica Ferro (Comunicação); Cavalos de Ferro (Competição); Ferro Lab (Extensão); Projetos de Extensão ([CONTEÚDO PENDENTE])",
+          "notes": "Nomes vindos da Navbar; categorias e descrições são paráfrases do copy legado, sem cadastro oficial."
+        }
+      ]
+    },
+    {
+      "id": "home.experiences",
+      "route": "/",
+      "component": "HomeSections.tsx (ExperiencesPreview) + staging EXPERIENCES",
+      "title": "Home — experiências",
+      "entries": [
+        {
+          "content_id": "home.experiences.lista",
+          "kind": "visit",
+          "value_pt": "Vale-EFVM 2022; CCO Rumo 2023; Oficinas MRS 2024; RUMO 18 jun 2026; UTN Buenos Aires jul 2026; VLI set 2026",
+          "notes": "Herdado de VisitsGallery/VisitsSchedule."
+        }
+      ]
+    },
+    {
+      "id": "home.news",
+      "route": "/",
+      "component": "HomeSections.tsx (NewsPreview) + staging NEWS",
+      "title": "Home — notícias",
+      "entries": [
+        {
+          "content_id": "home.news.lista",
+          "kind": "news",
+          "value_pt": "Hidrogênio verde (12 mai 2026); Laboratórios de sinalização (08 mai 2026); Sensor IoT (28 abr 2026)",
+          "notes": "Herdado de NewsFeatured/NewsGrid; possivelmente fictícias."
+        }
+      ]
+    },
+    {
+      "id": "home.partners-strip",
+      "route": "/",
+      "component": "HomeSections.tsx (PartnersStrip) + staging PARTNER_LOGOS",
+      "title": "Home — faixa de logos",
+      "entries": [
+        {
+          "content_id": "home.partners-strip.logos",
+          "kind": "partner",
+          "value_pt": "Rumo, MRS, VLI, Vale, ANPTrilhos, FTC, Lanfranco",
+          "consent_or_license": null,
+          "notes": "Autorização de marca e classificação do vínculo pendentes."
+        }
+      ]
+    },
+    {
+      "id": "curso.about",
+      "route": "/curso",
+      "component": "CourseSections.tsx (AboutCourse) + staging ABOUT_COURSE_TEXT",
+      "title": "Curso — sobre",
+      "entries": [
+        {
+          "content_id": "curso.about.texto",
+          "kind": "narrative",
+          "value_pt": "Formamos profissionais para projetar, construir e operar […] é referência técnica e inovação no setor.",
+          "notes": "Herdado de AboutSection; 'referência técnica' sem fonte."
+        }
+      ]
+    },
+    {
+      "id": "curso.facts",
+      "route": "/curso",
+      "component": "CourseSections.tsx (AboutCourse) + staging COURSE_FACTS",
+      "title": "Curso — dados básicos",
+      "entries": [
+        {
+          "content_id": "curso.facts.dados",
+          "kind": "metric",
+          "value_pt": "5 anos (10 fases); Integral, presencial em Joinville; SiSU e Vestibular UFSC; 20 vagas por semestre",
+          "notes": "Herdado de HowItWorksSection; confirmar com coordenação/edital."
+        }
+      ]
+    },
+    {
+      "id": "curso.pillars",
+      "route": "/curso",
+      "component": "CourseSections.tsx (CoursePillarsSection) + staging PILLARS",
+      "title": "Curso — 4 pilares",
+      "entries": [
+        {
+          "content_id": "curso.pillars.texto",
+          "kind": "narrative",
+          "value_pt": "Material Rodante; Via Permanente; Sinalização; Logística — textos de CoursePillars",
+          "notes": "'15.000 toneladas' e '80km/h' são ilustrativos."
+        }
+      ]
+    },
+    {
+      "id": "curso.flowchart",
+      "route": "/curso",
+      "component": "src/components/ui/CurriculumFlowchart.tsx",
+      "title": "Curso — fluxograma interativo",
+      "entries": [
+        {
+          "content_id": "curso.flowchart.dados",
+          "kind": "curriculum",
+          "value_pt": "Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts)",
+          "source": "public/grades/*.pdf",
+          "notes": "Paridade com PDF em FLOW-001."
+        }
+      ]
+    },
+    {
+      "id": "curso.labs",
+      "route": "/curso",
+      "component": "CourseSections.tsx (CourseLabs) + staging LABS",
+      "title": "Curso — laboratórios",
+      "entries": [
+        {
+          "content_id": "curso.labs.lista",
+          "kind": "narrative",
+          "value_pt": "14 laboratórios: LMSE, LMS, LabDSE, Robótica Avançada, NSO, LaCMa, LDTPav, LABMCI, LASC, IDA Lab, LIFE, Aeolus, LTS, LAV",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf p.2 (2026)",
+          "notes": "LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio."
+        }
+      ]
+    },
+    {
+      "id": "projetos.hub",
+      "route": "/projetos",
+      "component": "src/app/(public)/[locale]/projetos/page.tsx + staging FEATURED_PROJECTS",
+      "title": "Projetos — hub",
+      "entries": [
+        {
+          "content_id": "projetos.hub.lista",
+          "kind": "narrative",
+          "value_pt": "Mesma lista de home.projects",
+          "notes": "Hub real chega com PUBLIC-002/PUB-001."
+        }
+      ]
+    },
+    {
+      "id": "projetos.detalhe",
+      "route": "/projetos/[slug]",
+      "component": "src/app/(public)/[locale]/projetos/[slug]/page.tsx",
+      "title": "Projetos — detalhe",
+      "entries": [
+        {
+          "content_id": "projetos.detalhe.resumo",
+          "kind": "narrative",
+          "value_pt": "Título/categoria/resumo de staging; corpo marcado como pendente",
+          "notes": "Sem equipe, marcos, resultados até aprovação."
+        }
       ]
     }
   ]

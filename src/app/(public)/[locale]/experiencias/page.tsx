@@ -15,15 +15,15 @@ import { VisitsGallery } from "@/components/sections/VisitsGallery";
 import { VisitsSchedule } from "@/components/sections/VisitsSchedule";
 import { CtaSection } from "@/components/sections/CtaSection";
 
-const PATH = "/visitas";
+const PATH = "/experiencias";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/visitas">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[locale]/experiencias">): Promise<Metadata> {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   return publicPageMetadata(l, PATH, getDictionary(l).pages.visits);
 }
 
-export default async function VisitasPage({ params }: PageProps<"/[locale]/visitas">) {
+export default async function VisitasPage({ params }: PageProps<"/[locale]/experiencias">) {
   const { locale } = await params;
   // Conteúdo editorial desta página só existe em PT (BASE-002/PUBLIC-*): EN mostra indisponibilidade explícita.
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;

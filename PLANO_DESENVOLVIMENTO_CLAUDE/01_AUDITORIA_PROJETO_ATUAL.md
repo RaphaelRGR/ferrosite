@@ -143,3 +143,7 @@ Relatório: `docs/baseline/AUTH-001-002-relatorio.md`. Migration `supabase/migra
 ## Estado após PORTAL-001 (2026-09-15)
 
 Relatório: `docs/baseline/PORTAL-001-relatorio.md`. Shell do Portal com sidebar/drawer/header, tema persistente sem flash, navegação por permissão, 404 própria e páginas honestas (sem KPIs fictícios). Harness de RLS em Postgres embutido valida as migrations reais (13 cenários). E2E autenticado real contra o Supabase (login/logout/tema).
+
+## Estado após PUBLIC-001 (2026-09-15)
+
+Relatório: `docs/baseline/PUBLIC-001-relatorio.md`. Site público claro com header/footer novos, Home e Curso refeitos na direção das referências, hub/detalhe de projetos (links 404 eliminados), `/visitas`→`/experiencias`, staging tipado sob quarentena, token `text-link`. Axe estrito nas páginas novas; e2e 121.

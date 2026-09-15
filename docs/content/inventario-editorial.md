@@ -8,9 +8,9 @@ Política: nada abaixo é publicado como fato. Em modo `review` (default) o site
 
 | Total | UNVERIFIED | VERIFIED | DISCARDED | Seções |
 |---|---|---|---|---|
-| 90 | 90 | 0 | 0 | 31 |
+| 105 | 105 | 0 | 0 | 43 |
 
-Por tipo: claim 19 · metric 12 · narrative 11 · visit 11 · event 8 · news 7 · image 5 · cta 4 · partner 3 · curriculum 3 · date 3 · legal 2 · person 2
+Por tipo: claim 19 · metric 17 · narrative 17 · visit 12 · event 8 · news 8 · image 5 · partner 4 · curriculum 4 · cta 4 · date 3 · legal 2 · person 2
 
 ## Decisões pendentes (owner humano)
 
@@ -18,7 +18,7 @@ Para cada linha: **confirmar** (com fonte primária e responsável), **corrigir*
 
 ### Hero da Home — `home.hero`
 
-Rota: `/` · Código: `src/i18n/dictionaries/pt.ts (hero) + src/components/sections/HeroSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/i18n/dictionaries/pt.ts (hero) + src/components/sections/HeroSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -28,7 +28,7 @@ Rota: `/` · Código: `src/i18n/dictionaries/pt.ts (hero) + src/components/secti
 
 ### Manifesto (R$ 600 bi) — `home.manifesto`
 
-Rota: `/` · Código: `src/components/sections/ManifestoSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/ManifestoSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -37,7 +37,7 @@ Rota: `/` · Código: `src/components/sections/ManifestoSection.tsx`
 
 ### Números animados — `home.numbers`
 
-Rota: `/` · Código: `src/components/sections/NumbersSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/NumbersSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -48,7 +48,7 @@ Rota: `/` · Código: `src/components/sections/NumbersSection.tsx`
 
 ### A Engenharia que move o país — `home.about`
 
-Rota: `/` · Código: `src/components/sections/AboutSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/AboutSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -58,7 +58,7 @@ Rota: `/` · Código: `src/components/sections/AboutSection.tsx`
 
 ### Jornada acadêmica (4 etapas) — `home.how-it-works`
 
-Rota: `/` · Código: `src/components/sections/HowItWorksSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/HowItWorksSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -69,7 +69,7 @@ Rota: `/` · Código: `src/components/sections/HowItWorksSection.tsx`
 
 ### Inovação nos Trilhos — `home.innovation`
 
-Rota: `/` · Código: `src/components/sections/InnovationSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/InnovationSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -81,7 +81,7 @@ Rota: `/` · Código: `src/components/sections/InnovationSection.tsx`
 
 ### Calendário de Visitas (resumo) — `home.visits`
 
-Rota: `/` · Código: `src/components/sections/VisitsSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/VisitsSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -92,7 +92,7 @@ Rota: `/` · Código: `src/components/sections/VisitsSection.tsx`
 
 ### Agenda de Eventos (resumo) — `home.events`
 
-Rota: `/` · Código: `src/components/sections/EventsSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/EventsSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -101,7 +101,7 @@ Rota: `/` · Código: `src/components/sections/EventsSection.tsx`
 
 ### Carrossel de logos — `home.companies`
 
-Rota: `/` · Código: `src/components/sections/CompaniesSection.tsx + public/empresas/*.png`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CompaniesSection.tsx + public/empresas/*.png`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -110,7 +110,7 @@ Rota: `/` · Código: `src/components/sections/CompaniesSection.tsx + public/emp
 
 ### Rede de Colaboração — `home.partners`
 
-Rota: `/` · Código: `src/components/sections/PartnersSection.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/PartnersSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -119,24 +119,24 @@ Rota: `/` · Código: `src/components/sections/PartnersSection.tsx`
 
 ### Hero do Curso — `curso.hero`
 
-Rota: `/curso` · Código: `src/components/sections/CursoHero.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CursoHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
 | `curso.hero.unico-brasil` | claim | Único no Brasil | — | — | UNVERIFIED | — | — | Conflita com 'único de SC' e 'primeiro do Sul'; MetricsSection (não usada) diz '3 de 3 cursos no Brasil'. |
 | `curso.hero.elite` | claim | Projetado do zero para dominar a malha logística. Formamos a elite técnica disputada pelas maiores gigantes da infraestrutura do país. | — | — | UNVERIFIED | — | — | — |
 
-### Os 4 pilares da formação — `curso.pillars`
+### Os 4 pilares da formação — `curso.pillars-legacy`
 
-Rota: `/curso` · Código: `src/components/sections/CoursePillars.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CoursePillars.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
-| `curso.pillars.texto` | narrative | Material Rodante; Via Permanente; Sinalização (O Cérebro da Malha); Logística (A Eficiência Total) — descrições | — | — | UNVERIFIED | — | — | Confrontar com PPC; '15.000 toneladas', '80km/h' são exemplos ilustrativos. |
+| `curso.pillars-legacy.texto` | narrative | Material Rodante; Via Permanente; Sinalização (O Cérebro da Malha); Logística (A Eficiência Total) — descrições | — | — | UNVERIFIED | — | — | Confrontar com PPC; '15.000 toneladas', '80km/h' são exemplos ilustrativos. |
 
 ### Atribuição profissional (CREA) — `curso.crea`
 
-Rota: `/curso` · Código: `src/components/sections/CourseCrea.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CourseCrea.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -194,7 +194,7 @@ Rota: `/sobre` · Código: `src/components/sections/AboutResearch.tsx`
 
 ### Hero de Visitas — `visitas.hero`
 
-Rota: `/visitas` · Código: `src/components/sections/VisitsHero.tsx`
+Rota: `/experiencias` · Código: `src/components/sections/VisitsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -202,7 +202,7 @@ Rota: `/visitas` · Código: `src/components/sections/VisitsHero.tsx`
 
 ### Números de visitas — `visitas.stats`
 
-Rota: `/visitas` · Código: `src/components/sections/VisitsStats.tsx`
+Rota: `/experiencias` · Código: `src/components/sections/VisitsStats.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -213,7 +213,7 @@ Rota: `/visitas` · Código: `src/components/sections/VisitsStats.tsx`
 
 ### Memórias Técnicas (galeria) — `visitas.gallery`
 
-Rota: `/visitas` · Código: `src/components/sections/VisitsGallery.tsx`
+Rota: `/experiencias` · Código: `src/components/sections/VisitsGallery.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -226,7 +226,7 @@ Rota: `/visitas` · Código: `src/components/sections/VisitsGallery.tsx`
 
 ### Próximos embarques — `visitas.schedule`
 
-Rota: `/visitas` · Código: `src/components/sections/VisitsSchedule.tsx`
+Rota: `/experiencias` · Código: `src/components/sections/VisitsSchedule.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -322,4 +322,103 @@ Rota: `(sem consumidor)` · Código: `src/components/sections/MetricsSection.tsx
 | `unused.metrics.3de3` | metric | 3 de 3 — Cursos de Eng. Ferroviária no Brasil; 9.000 km — Malha ferroviária em leilão; 2026 — Ano do 1º HackFerro | — | — | UNVERIFIED | — | — | Não renderizado; contradiz 'único no Brasil'. |
 | `unused.history.2014` | date | 2014 Fundação do Curso; 2018 Criação do Comunica Ferro; 2020 Lançamento do FerroSite; 2024 Referência Nacional | — | — | UNVERIFIED | — | — | Não renderizado; conflita com 2009 (StoryJourney). |
 | `unused.pillars.sul` | claim | único curso de Engenharia Ferroviária e Metroviária do Sul do Brasil | — | — | UNVERIFIED | — | — | Não renderizado; terceira variante do superlativo. |
+
+### Home — indicadores — `home.indicators`
+
+Rota: `/` · Código: `src/components/public/home/HomeSections.tsx (IndicatorsStrip) + src/content/staging.ts INDICATORS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `home.indicators.1o` | metric | 1º — Curso focado em Engenharia Ferroviária no Brasil | — | — | UNVERIFIED | — | — | Herdado de NumbersSection; conflita com variantes de pioneirismo. |
+| `home.indicators.103bi` | metric | R$ 103 bi — Previstos no Novo PAC para obras em ferrovias | — | — | UNVERIFIED | — | — | Fonte (Novo PAC) não referenciada. |
+| `home.indicators.30000km` | metric | +30.000 km — De malha ferroviária em expansão e modernização | — | — | UNVERIFIED | — | — | — |
+| `home.indicators.48visitas` | metric | 48+ — Visitas técnicas realizadas | — | — | UNVERIFIED | — | — | Herdado de VisitsStats. |
+
+### Home — projetos em destaque — `home.projects`
+
+Rota: `/` · Código: `HomeSections.tsx (FeaturedProjects) + staging FEATURED_PROJECTS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `home.projects.lista` | narrative | Comunica Ferro (Comunicação); Cavalos de Ferro (Competição); Ferro Lab (Extensão); Projetos de Extensão ([CONTEÚDO PENDENTE]) | — | — | UNVERIFIED | — | — | Nomes vindos da Navbar; categorias e descrições são paráfrases do copy legado, sem cadastro oficial. |
+
+### Home — experiências — `home.experiences`
+
+Rota: `/` · Código: `HomeSections.tsx (ExperiencesPreview) + staging EXPERIENCES`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `home.experiences.lista` | visit | Vale-EFVM 2022; CCO Rumo 2023; Oficinas MRS 2024; RUMO 18 jun 2026; UTN Buenos Aires jul 2026; VLI set 2026 | — | — | UNVERIFIED | — | — | Herdado de VisitsGallery/VisitsSchedule. |
+
+### Home — notícias — `home.news`
+
+Rota: `/` · Código: `HomeSections.tsx (NewsPreview) + staging NEWS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `home.news.lista` | news | Hidrogênio verde (12 mai 2026); Laboratórios de sinalização (08 mai 2026); Sensor IoT (28 abr 2026) | — | — | UNVERIFIED | — | — | Herdado de NewsFeatured/NewsGrid; possivelmente fictícias. |
+
+### Home — faixa de logos — `home.partners-strip`
+
+Rota: `/` · Código: `HomeSections.tsx (PartnersStrip) + staging PARTNER_LOGOS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `home.partners-strip.logos` | partner | Rumo, MRS, VLI, Vale, ANPTrilhos, FTC, Lanfranco | — | — | UNVERIFIED | — | — | Autorização de marca e classificação do vínculo pendentes. |
+
+### Curso — sobre — `curso.about`
+
+Rota: `/curso` · Código: `CourseSections.tsx (AboutCourse) + staging ABOUT_COURSE_TEXT`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `curso.about.texto` | narrative | Formamos profissionais para projetar, construir e operar […] é referência técnica e inovação no setor. | — | — | UNVERIFIED | — | — | Herdado de AboutSection; 'referência técnica' sem fonte. |
+
+### Curso — dados básicos — `curso.facts`
+
+Rota: `/curso` · Código: `CourseSections.tsx (AboutCourse) + staging COURSE_FACTS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `curso.facts.dados` | metric | 5 anos (10 fases); Integral, presencial em Joinville; SiSU e Vestibular UFSC; 20 vagas por semestre | — | — | UNVERIFIED | — | — | Herdado de HowItWorksSection; confirmar com coordenação/edital. |
+
+### Curso — 4 pilares — `curso.pillars`
+
+Rota: `/curso` · Código: `CourseSections.tsx (CoursePillarsSection) + staging PILLARS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `curso.pillars.texto` | narrative | Material Rodante; Via Permanente; Sinalização; Logística — textos de CoursePillars | — | — | UNVERIFIED | — | — | '15.000 toneladas' e '80km/h' são ilustrativos. |
+
+### Curso — fluxograma interativo — `curso.flowchart`
+
+Rota: `/curso` · Código: `src/components/ui/CurriculumFlowchart.tsx`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `curso.flowchart.dados` | curriculum | Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts) | public/grades/*.pdf | — | UNVERIFIED | — | — | Paridade com PDF em FLOW-001. |
+
+### Curso — laboratórios — `curso.labs`
+
+Rota: `/curso` · Código: `CourseSections.tsx (CourseLabs) + staging LABS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `curso.labs.lista` | narrative | 14 laboratórios: LMSE, LMS, LabDSE, Robótica Avançada, NSO, LaCMa, LDTPav, LABMCI, LASC, IDA Lab, LIFE, Aeolus, LTS, LAV | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf p.2 (2026) | — | UNVERIFIED | — | — | LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio. |
+
+### Projetos — hub — `projetos.hub`
+
+Rota: `/projetos` · Código: `src/app/(public)/[locale]/projetos/page.tsx + staging FEATURED_PROJECTS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `projetos.hub.lista` | narrative | Mesma lista de home.projects | — | — | UNVERIFIED | — | — | Hub real chega com PUBLIC-002/PUB-001. |
+
+### Projetos — detalhe — `projetos.detalhe`
+
+Rota: `/projetos/[slug]` · Código: `src/app/(public)/[locale]/projetos/[slug]/page.tsx`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `projetos.detalhe.resumo` | narrative | Título/categoria/resumo de staging; corpo marcado como pendente | — | — | UNVERIFIED | — | — | Sem equipe, marcos, resultados até aprovação. |
 

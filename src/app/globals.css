@@ -8,8 +8,8 @@
 :root {
   /* primitivos */
   --brand-orange: #e84e1b;        /* laranja institucional (logo) */
-  --brand-orange-deep: #d3420f;   /* 4,57:1 com branco: usado em ações com texto branco */
-  --brand-orange-deeper: #b8380c;
+  --brand-orange-deep: #c63d0e;   /* 5,1:1 com branco e 4,76:1 sobre o canvas claro: ações e texto de ação */
+  --brand-orange-deeper: #a8330b;
   --brand-orange-soft: #ff8a5b;
 }
 
@@ -27,6 +27,7 @@
   --border-strong: #6f7783;   /* ≥3:1 sobre surface (bordas de controles) */
   --action-primary: var(--brand-orange-deep);
   --action-primary-hover: var(--brand-orange-deeper);
+  --text-link: var(--brand-orange-deeper); /* texto de link/ativo: AA sobre canvas e todas as surfaces */
   --accent: var(--brand-orange);
   --focus-ring: var(--brand-orange-deep);
   --status-success: #1b6f45;
@@ -46,6 +47,7 @@
   --border-strong: #6e747c;
   --action-primary: var(--brand-orange-deep);
   --action-primary-hover: var(--brand-orange-deeper);
+  --text-link: var(--brand-orange-soft);   /* no escuro, laranja claro para texto */
   --accent: var(--brand-orange);
   --focus-ring: var(--brand-orange-soft);
   --status-success: #5ccf95;
@@ -67,6 +69,7 @@
   --color-line-strong: var(--border-strong);
   --color-action: var(--action-primary);
   --color-action-hover: var(--action-primary-hover);
+  --color-link: var(--text-link);
   --color-accent: var(--accent);
   --color-focus: var(--focus-ring);
   --color-success: var(--status-success);

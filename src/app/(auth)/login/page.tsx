@@ -30,7 +30,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       <p className="mt-4 text-center">
         <Link
           href="/pt"
-          className="rounded text-xs font-bold uppercase tracking-widest text-fg-muted underline-offset-4 hover:text-action hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+          className="rounded text-xs font-bold uppercase tracking-widest text-fg-muted underline-offset-4 hover:text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
         >
           {dict.backToSite}
         </Link>

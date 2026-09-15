@@ -64,7 +64,7 @@ test.describe("documento por locale", () => {
     await expect(page.locator("footer")).not.toContainText("direitos");
     await expect(page.getByRole("heading", { name: "Content in preparation" })).toBeAttached();
     await expect(page.getByTestId("manifesto-heading")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "Enter the Portal" })).toBeAttached();
+    await expect(page.getByRole("link", { name: "Access the Portal" })).toBeAttached();
   });
 
   test("/en/curso mostra indisponibilidade explícita com link para o PT em vez de conteúdo em português", async ({ page }) => {

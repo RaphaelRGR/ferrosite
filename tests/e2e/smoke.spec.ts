@@ -49,9 +49,8 @@ for (const route of PUBLIC_ROUTES) {
     await expect(page.getByRole("navigation", { name: /Navegação principal|Main navigation/ })).toHaveCount(1);
     await expect(page.locator("footer")).toHaveCount(1);
     await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(0);
-    // Tema do site vive no <html> (escuro até PUBLIC-001); nenhum escopo claro dentro.
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-    await expect(page.locator('[data-theme="light"]')).toHaveCount(0);
+    // Site público claro (PUBLIC-001): tema no <html>, sem escopos escuros novos.
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   });
 }
 
