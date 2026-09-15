@@ -1,0 +1,1125 @@
+{
+  "id": "2012",
+  "year": 2012,
+  "name": {
+    "pt": "Grade 2012",
+    "en": "Curriculum 2012"
+  },
+  "source": {
+    "file": "public/grades/grade2012.pdf",
+    "sha256": "4dabf58dbd9902e575a5cd7655698739bbb99ab966e6285f2aa851d3af1b918f",
+    "title": "604 - ENGENHARIA FERROVIÁRIA E METROVIÁRIA [Campus Joinville]",
+    "curriculumCode": "20122",
+    "extractedAt": "2026-09-15",
+    "tool": "scripts/curriculum_from_pdf.py"
+  },
+  "prerequisitesSource": "legacy-unverified",
+  "unknownPrerequisites": [],
+  "phases": [
+    {
+      "phase": 1,
+      "subjects": [
+        {
+          "id": "EMB5001",
+          "name": "Cálculo Diferencial e Integral I",
+          "shortName": "Cálculo Diferencial e Integral I",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Noções sobre funções de uma variável real. Limite e continuidade. Derivada. Aplicações de Derivada. Integral definida e indefinida - Método da substituição e Integração por partes."
+        },
+        {
+          "id": "EMB5003",
+          "name": "Representação Gráfica",
+          "shortName": "Representação Gráfica",
+          "cat": "design",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [
+            "EMB5035"
+          ],
+          "ext": false,
+          "syllabus": "Noções fundamentais para elaboração e interpretação de esboços e desenhos técnicos, elementos básicos de construção reta, plano e ponto. Construção de objetos envolvendo intersecção, secção, planificação e modelagem. Aplicação das projeções nos desenhos de engenharia por meio manual e computacional."
+        },
+        {
+          "id": "EMB5004",
+          "name": "Introdução a Engenharia",
+          "shortName": "Introdução a Engenharia",
+          "cat": "human",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [
+            "EMB5038"
+          ],
+          "ext": false,
+          "syllabus": "Contextualização à vida acadêmica (a universidade, o curso de engenharia da mobilidade, o currículo, serviços de apoio, laboratórios). Contextualização à vida profissional. Funções do engenheiro no contexto tecnológico e social. O mercado de trabalho na engenharia. Métodos científicos na resolução de problemas de engenharia. Introdução à atividade profissional do engenheiro: especificação, projeto, implementação, construção de protótipos e testes para problemas, dispositivos e situações da engenharia da mobilidade. Gestão da inovação e da tecnologia. Ética, moral, valores e ética profissional. O Código de ética como ferramenta para o fortalecimento da cultura organizacional. Disciplina consciente. Tutoria na disciplina consciente. A responsabilidade dos estudantes na disciplina consciente. Responsabilidade social. Diferenças vs desigualdades. A igualdade étnico racial na engenharia."
+        },
+        {
+          "id": "EMB5005",
+          "name": "Geometria Analítica",
+          "shortName": "Geometria Analítica",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Matrizes. Determinantes. Sistemas lineares. Álgebra vetorial. Estudo da reta e do plano. Curvas planas. Superfícies."
+        },
+        {
+          "id": "EMB5006",
+          "name": "Química Tecnológica",
+          "shortName": "Química Tecnológica",
+          "cat": "material",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Estrutura Atômica. Ligações Químicas. Mol. Estequiometria. Combustão e Combustíveis. Siderurgia: Obtenção do ferro gusa e do aço. Aços especiais. Corrosão metálica: Oxidação-redução. Equação de Nernst. Mecanismos de corrosão. Meios corrosivos. Métodos de controle e monitoramento da corrosão. Polímeros: Estrutura química de polímeros. Cristalinidade. Propriedades químicas. Propriedades mecânicas. Principais polímeros de uso geral. Tratamento de águas. Tratamento de efluentes industriais. Atividades Laboratoriais."
+        },
+        {
+          "id": "EMB5028",
+          "name": "Comunicação e Expressão",
+          "shortName": "Comunicação e Expressão",
+          "cat": "human",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [
+            "EMB5037"
+          ],
+          "ext": false,
+          "syllabus": "Comunicação e linguagem: diversos tipos de linguagem verbal e não verbal. Aspectos fundamentais para a construção de textos. Estrutura e produção de textos com base em parâmetros da linguagem técnico-científica: resumo, resenha, relatório, artigo. O texto acadêmico e as normas da ABNT. Metodologia científica. Formas de comunicação oral: características. Técnicas de apresentação em público."
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "subjects": [
+        {
+          "id": "EMB5002",
+          "name": "Fisica - Introdução à Mecânica",
+          "shortName": "Física - Introdução à Mecânica",
+          "cat": "physics",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5001"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5034"
+          ],
+          "ext": false,
+          "syllabus": "Unidades de medida e vetores. Cinemática. Leis de Newton e aplicações. Trabalho e energia potencial. Conservação da energia. Conservação da quantidade de movimento."
+        },
+        {
+          "id": "EMB5007",
+          "name": "Álgebra Linear",
+          "shortName": "Álgebra Linear",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5005"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Espaços vetoriais. Transformações lineares. Mudança de base. Produto interno. Transformações ortogonais. Autovalores e autovetores de um operador. Diagonalização."
+        },
+        {
+          "id": "EMB5010",
+          "name": "Estatística e Probabilidade",
+          "shortName": "Estatística e Probabilidade",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Estatística descritiva e análise exploratória de dados. Teoria da probabilidade. Variáveis aleatórias discretas e contínuas, e suas principais distribuições de probabilidade. Estimação de parâmetros. Teste de hipóteses para parâmetros: média, proporção e variância. Comparação entre dois tratamentos."
+        },
+        {
+          "id": "EMB5012",
+          "name": "Desenho e Modelagem Geométrica",
+          "shortName": "Desenho e Modelagem Geométrica",
+          "cat": "design",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5003"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Sistemas CAD, metodologia para modelamento de produtos tridimensionais. Práticas com software CAD. Técnicas de modelamento sólido. Modelamento de produtos, geração de desenho de engenharia, normas de desenho técnico, desenho de conjunto, montagem, lista de materiais."
+        },
+        {
+          "id": "EMB5013",
+          "name": "Introdução à Programação de",
+          "shortName": "Introdução à Programação",
+          "cat": "comp",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Componentes básicos de um computador. Sistemas de numeração. Lógica de programação: formalização de problemas com representação em pseudocódigo (algoritmos), tipos de dados, estruturas de seleção e repetição, fluxo de execução (modularização), estruturas de dados homogêneas (vetores e matrizes), manipulação de arquivos. Implementação prática de algoritmos em uma linguagem de alto nível."
+        },
+        {
+          "id": "EMB5029",
+          "name": "Cálculo Diferencial e Integral II",
+          "shortName": "Cálculo Diferencial e Integral II",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5001"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5008"
+          ],
+          "ext": false,
+          "syllabus": "Métodos de integração. Aplicações da integral definida. Integrais impróprias. Funções de várias variáveis. Derivadas parciais. Aplicações das derivadas parciais. Integração múltipla."
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "subjects": [
+        {
+          "id": "EMB5009",
+          "name": "Termodinâmica",
+          "shortName": "Termodinâmica",
+          "cat": "fluid",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5029"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Introdução e conceitos básicos. Trabalho e calor. Propriedades de substâncias puras. Primeira lei da termodinâmica. Primeira lei da termodinâmica aplicada a volumes de controle. Segunda lei da termodinâmica. Entropia e a segunda lei da termodinâmica."
+        },
+        {
+          "id": "EMB5011",
+          "name": "Estática",
+          "shortName": "Estática",
+          "cat": "mech",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5002"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Estudo do equilíbrio de partículas e corpos rígidos no plano e no espaço. Determinação das reações em apoios padrão utilizados na Engenharia. Cálculo de centróides de áreas e de volumes de figuras simples e compostas. Análise de forças distribuídas como cargas concentradas. Cálculo de momento de inércia de superfície para áreas simples e compostas. Cálculo de momento de inércia de massa para sólidos simples e compostos. Análise de Treliças, Estruturas e Máquinas. Determinação de forças axiais, forças cortantes e momentos fletores em estruturas e vigas. Construção de diagramas de força cortante e momento fletor."
+        },
+        {
+          "id": "EMB5016",
+          "name": "Cálculo Numérico",
+          "shortName": "Cálculo Numérico",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5001",
+            "EMB5013"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Introdução à matemática computacional, erros e aritmética de ponto flutuante. Solução de equações algébricas e transcendentais. Solução de sistemas de equações lineares, métodos diretos e iterativos. Solução de sistemas de equações não-lineares. Interpolação. Ajuste de curvas. Integração numérica."
+        },
+        {
+          "id": "EMB5022",
+          "name": "Ciência dos Materiais",
+          "shortName": "Ciência dos Materiais",
+          "cat": "material",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5001",
+            "EMB5006"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Introdução a Ciência e Engenharia dos Materiais – materiais aplicados na engenharia. Tipos, classificação e aplicações dos diversos materiais. Estrutura atômica e ligações inter-atômicas. Materiais cristalinos e não cristalinos. Imperfeições nos sólidos. Difusão. Processos metalográficos. Diagramas de equilíbrio. Comportamento mecânico e dinâmico dos materiais. Falhas, fratura, fadiga e fluência. Estrutura e propriedades dos materiais metálicos, cerâmicos e poliméricos. Introdução a compósitos."
+        },
+        {
+          "id": "EMB5026",
+          "name": "Ergonomia e Segurança",
+          "shortName": "Ergonomia e Segurança",
+          "cat": "human",
+          "hours": 36,
+          "classesPerWeek": 2,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Conceitos básicos. Fisiologia do trabalho. Antropometria e Biomecânica. Variáveis ambientais: iluminação e cores, ruído, vibrações, temperatura. Introdução à análise ergonômica do trabalho. Cognição no trabalho. Ergonomia do produto. Segurança no trabalho."
+        },
+        {
+          "id": "EMB5030",
+          "name": "Cálculo Vetorial",
+          "shortName": "Cálculo Vetorial",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5029"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5008"
+          ],
+          "ext": false,
+          "syllabus": "Funções vetoriais. Limites, derivadas e integrais de funções vetoriais. Parametrização de curvas e superfícies. Campos vetoriais. Gradiente, divergente e rotacional. Integrais de linha. Integrais de superfície. Teorema de Green. Teorema de Stokes. Teorema de Gauss."
+        },
+        {
+          "id": "EMB5033",
+          "name": "Metrologia",
+          "shortName": "Metrologia",
+          "cat": "math",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5010"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5018"
+          ],
+          "ext": false,
+          "syllabus": "Conceitos fundamentais da metrologia científica e industrial; Sistema Internacional de Unidades; Medições diretas e Indiretas; Erros de medição; Características de sistemas de medição; Calibração; Estimativa de incerteza de medição; Especificação geométrica; Medição de comprimento, ângulo, forma e rugosidade."
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "subjects": [
+        {
+          "id": "EMB5014",
+          "name": "Séries e Equações Diferenciais",
+          "shortName": "Séries e Equações Diferenciais",
+          "cat": "math",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5007",
+            "EMB5029"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Sequências e séries infinitas. Séries de potências. Séries de Taylor. Série de Fourier. Equações diferenciais de 1ª ordem. Equações diferenciais lineares de ordem n. Noções sobre transformada de Laplace. Noções sobre equações diferenciais parciais. Soluções em séries para equações diferencias lineares. Noções sobre métodos numéricos para solução de equações diferenciais."
+        },
+        {
+          "id": "EMB5015",
+          "name": "Dinâmica",
+          "shortName": "Dinâmica",
+          "cat": "mech",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5011"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5041"
+          ],
+          "ext": false,
+          "syllabus": "Estudo da cinemática das partículas e do corpo rígido. Cinemática do \tponto material, Dinâmica do  ponto   material. Trabalho, Energia e Momento linear. Cinemática dos corpos rígidos.  Dinâmica dos corpos rígidos. Energia, Impulso linear e Impulso angular para corpos rígidos.  Vibrações forçadas sem amortecimento. Vibrações forçadas com amortecimento."
+        },
+        {
+          "id": "EMB5017",
+          "name": "Mecânica dos Fluidos",
+          "shortName": "Mecânica dos Fluidos",
+          "cat": "fluid",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5009",
+            "EMB5030"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Conceitos fundamentais. Estática dos fluidos. Formulação integral e diferencial das leis de conservação. Escoamento invíscido incompressível. Análise dimensional e semelhança. Escoamento interno viscoso incompressível: escoamento laminar completamente desenvolvido e escoamento em tubos e dutos. Escoamento externo viscoso incompressível: teoria da camada limite e forças de arrasto e sustentação sobre corpos imersos."
+        },
+        {
+          "id": "EMB5021",
+          "name": "Mecânica dos Sólidos I",
+          "shortName": "Mecânica dos Sólidos I",
+          "cat": "mech",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5011",
+            "EMB5022"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Análise de Tensão – Conceitos e Definições, Tensão normal média; Tensão cisalhante média; Cisalhamento puro e duplo, Tensão admissível. Análise de Deformação – Conceitos e Definições; Deformação específica; Deformação por cisalhamento. Relação entre Tensão e Deformação – Equações Constitutivas; Lei de Hooke; Razão de Poisson; Carga Axial – Deformação térmica; membros estaticamente indeterminados, Equações de Compatibilidade, concentração de tensão. Torção – Deformação por torção; fórmula da torção; deflexão torcional; concentração de tensão. Flexão – Diagrama de Força Cortante (Cisalhamento) e Momento fletor; deformação por flexão, Flexão simples plana, oblíqua, seções assimétricas"
+        },
+        {
+          "id": "EMB5027",
+          "name": "Metodologia de Projeto de Produto",
+          "shortName": "Metodologia de Projeto",
+          "cat": "project",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [
+            "EMB5042"
+          ],
+          "ext": false,
+          "syllabus": "Introdução: A visão do projeto e do produto no contexto histórico, ambiental, e de custo. Importância do projeto de produtos. Modelos do processo e planejamento do projeto de produtos. Métodos e ferramentas para a especificação de problemas de projeto e de concepção de produtos. Projeto preliminar: modelagem, análise e simulação de soluções de projeto; projeto detalhado. Construção e teste de protótipos. Aplicações: produtos em engenharia veicular; transporte, infraestrutura, sistemas embarcados em nível de software e hardware. Noções de Engenharia de Sistemas."
+        },
+        {
+          "id": "EMB5031",
+          "name": "Eletromagnetismo",
+          "shortName": "Eletromagnetismo",
+          "cat": "physics",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5030"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5043"
+          ],
+          "ext": false,
+          "syllabus": "Lei de Coulomb. O Campo Elétrico e Potencial Eletrostático. Capacitância e Capacitores. Corrente Elétrica. Campo Magnético. A Lei de Ampere. A Lei da Indução. Circuitos. As Equações de Maxwell."
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "subjects": [
+        {
+          "id": "EMB5102",
+          "name": "Processo de Fabricação 1458 hs",
+          "shortName": "Processo de Fabricação",
+          "cat": "material",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5022"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Classificação e descrição sumária dos diversos processos de fabricação. Fundamento dos processos de fundição contínua e em moldes: principais parâmetros, ferramentas, máquinas e equipamentos, campo de aplicações. Fundamento dos processos de conformação de materiais metálicos (laminação, forjamento, trefilação, extrusão e estampagem): principais parâmetros, ferramentas, máquinas e equipamentos, campo de aplicações. Fundamentos de metalurgia do pó: sinterização. Fundamentos dos processos de usinagem: torneamento, furação, fresamento, retificação, eletroerosão. Principais parâmetros dos processos de usinagem. Ferramentas de corte: materiais, revestimentos e geometrias, desgaste. Qualidade de superfícies após processo específico de fabricação, erros dimensionais. Máquinas e equipamentos. Introdução ao Comando Numérico Computadorizado (CNC). Introdução a programação e simulação da usinagem CNC e integração entre sistemas CAD\\CAM\\CNC."
+        },
+        {
+          "id": "EMB5103",
+          "name": "Transmissão de Calor I 1458 hs",
+          "shortName": "Transmissão de Calor I",
+          "cat": "fluid",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5014",
+            "EMB5017"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Mecanismos básicos de transmissão de calor. Princípios básicos da condução de calor. Condução unidimensional em regime permanente. Condução bidimensional em regime permanente. Condução em regime transiente. Métodos numéricos aplicados. Princípios básicos da radiação térmica. Radiação entre superfícies. Introdução à convecção."
+        },
+        {
+          "id": "EMB5104",
+          "name": "Mecânica dos Sólidos II 1458 hs",
+          "shortName": "Mecânica dos Sólidos II",
+          "cat": "mech",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5021"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Cisalhamento em Vigas Longas – tensões de cisalhamento em vigas; cisalhamento em estruturas compostas. Cargas Combinadas - Campos de tensão em cascas cilíndricas e esféricas delgadas. Vasos de Pressão. Transformação de Tensão – Estado Plano de Tensão, Tensões Principais, Círculo de Mohr. Deflexão Transversal em Vigas – Linha Elástica, Equações de Equilíbrio, Vigas estaticamente indeterminadas. Flambagem de Colunas – Carga Crítica; Flambagem elástica e inelástica de vigas. Critérios de Falhas Estáticas para Materiais Dúcteis – Teoria da Tensão Cisalhante Máxima; Teoria da Energia de Distorção, Tensão Equivalente de von Mises, Fator de segurança. Critério de Falha Estática para Materiais Frágeis – Teoria da Tensão Normal Máxima. Métodos de Energia."
+        },
+        {
+          "id": "EMB5105",
+          "name": "Mecanismos 1458 hs",
+          "shortName": "Mecanismos",
+          "cat": "mech",
+          "hours": 36,
+          "classesPerWeek": 2,
+          "pre": [
+            "EMB5015"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Conceitos e notações aplicadas a mecanismos. Estudo de tipos de mecanismos. Conceitos elementares de síntese dimensional de mecanismos articulados. Análise cinemática de cames planos e engrenagens de dentes retos e helicoidais."
+        },
+        {
+          "id": "EMB5108",
+          "name": "Circuitos Elétricos",
+          "shortName": "Circuitos Elétricos",
+          "cat": "elec",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5031"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5025"
+          ],
+          "ext": false,
+          "syllabus": "Conceitos básicos e leis fundamentais. Circuitos de corrente contínua. Circuitos de corrente alternada. Análise de potência em circuitos de corrente alternada. Circuitos trifásicos."
+        },
+        {
+          "id": "EMB5109",
+          "name": "Gestão Industrial",
+          "shortName": "Gestão Industrial",
+          "cat": "mgmt",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [
+            "EMB5120"
+          ],
+          "ext": false,
+          "syllabus": "A empresa como sistema, Evolução do pensamento administrativo, Planejamento Estratégico, Gestão de recursos materiais e humanos. Planejamento e Controle da Produção, Empreendedorismo. Noções de Economia."
+        },
+        {
+          "id": "EMB5115",
+          "name": "Vibrações 1458 hs",
+          "shortName": "Vibrações",
+          "cat": "mech",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5014",
+            "EMB5015"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Introdução aos problemas de vibração em engenharia. Terminologia. Princípios Básicos. Sistemas com um grau de liberdade: vibração livre, métodos de energia, amortecimento e vibração forçada. Sistemas com dois graus de liberdade: vibração livre e forçada. Sistemas com múltiplos graus de liberdade. Introdução aos sistemas contínuos. Introdução aos sistemas de medição de vibrações."
+        }
+      ]
+    },
+    {
+      "phase": 6,
+      "subjects": [
+        {
+          "id": "EMB5024",
+          "name": "Sistemas Hidráulicos e Pneumáticos",
+          "shortName": "Sistemas Hidro-Pneumáticos",
+          "cat": "fluid",
+          "hours": 36,
+          "classesPerWeek": 2,
+          "pre": [
+            "EMB5017"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5047"
+          ],
+          "ext": false,
+          "syllabus": "Definição de sistemas hidráulicos e pneumáticos. Campo de aplicação e características. SISTEMAS HIDRÁULICOS: Estrutura típica dos circuitos hidráulicos. Características construtivas e comportamentais dos principais componentes: bombas e atuadores lineares e rotativos, válvulas de controle direcional, de pressão e de vazão. Circuitos hidráulicos básicos. SISTEMAS PNEUMÁTICOS: Estrutura típica dos circuitos pneumáticos. Características construtivas e modelos comportamentais dos principais componentes: atuadores lineares e rotativos e ventosas, válvulas de controle direcional, de pressão e de vazão. Circuitos pneumáticos básicos."
+        },
+        {
+          "id": "EMB5106",
+          "name": "Máquinas de Fluxo e Propulsão 1458 hs",
+          "shortName": "Máquinas de Fluxo e Propulsão",
+          "cat": "fluid",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5017"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Introdução às máquinas de fluxo; Elementos construtivos, classificação das máquinas e convenções; Leis de conservação aplicadas às máquinas de fluxo; Escoamento compressível em máquinas de fluxo; Triângulos de velocidades e cálculo de torque e potência ; Cavitação, perdas e eficiência em máquinas de fluxo; Análise dimensional, similaridade e velocidade específica; Máquinas movidas e máquinas motoras; Instalações hidráulicas; Anteprojeto"
+        },
+        {
+          "id": "EMB5110",
+          "name": "Elementos de Máquinas 1458 hs",
+          "shortName": "Elementos de Máquinas",
+          "cat": "mech",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5104",
+            "EMB5105"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Estudo de uniões por parafusos. Molas helicoidais. Eixos e árvores. Ligações entre cubo e eixo. Mancais de rolamento e escorregamento. Engrenagens cilíndricas. Redutores. Acoplamentos. Freios e embreagens."
+        },
+        {
+          "id": "EMB5111",
+          "name": "Introdução ao Controle",
+          "shortName": "Introdução ao Controle",
+          "cat": "comp",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5014"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5047"
+          ],
+          "ext": false,
+          "syllabus": "Modelagem de sistemas de 1ª e de 2ª ordem. Resposta de sistemas lineares no domínio do tempo. Funções de transferência e diagramas de bloco. Resposta de sistemas de 1ª e de 2ª ordem. Estabilidade. Controladores básicos. Lugar das raízes. Método das frequências. Projeto de compensadores."
+        },
+        {
+          "id": "EMB5116",
+          "name": "Eletrônica Analógica",
+          "shortName": "Eletrônica Analógica",
+          "cat": "elec",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5108"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5025"
+          ],
+          "ext": false,
+          "syllabus": "Introdução à eletrônica. Junção PN. Diodos. Circuitos com diodos: ceifadores, grampeadores retificadores. Transistor de junção bipolar. Polarização e circuitos amplificadores com transistores bipolares. Transistores de efeito de campo (FETs) e suas aplicações. Amplificadores Operacionais. Circuitos com amplificadores operacionais operando em malha aberta e em malha fechada com realimentação positiva e negativa. Filtros analógicos."
+        },
+        {
+          "id": "EMB5502",
+          "name": "Ligações Permanentes",
+          "shortName": "Ligações Permanentes",
+          "cat": "material",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5102"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5307"
+          ],
+          "ext": false,
+          "syllabus": "Classificação dos processos de união. União por conformação: Tipos de dobras, técnicas operacionais e aplicações. União por processo de rebitagem: Tipos de rebites e aplicações. Processos de soldagem a arco: Técnicas operacionais, terminologia, tipos de juntas, física do arco voltaico e fontes de energia. Fundamentos de metalurgia da soldagem. Processo oxi-acetilênico. Brasagem. Soldagem por resistência. Modernos processos de união: Laser, feixe de elétrons e soldagem por atrito. Processos híbridos e derivativos: Plasma-MIG, TIG com múltiplos catodos, curto-circuito controlado, Laser-MIG e Laser-TIG. Aplicações das técnicas de união no âmbito da engenharia da mobilidade."
+        },
+        {
+          "id": "EMB5605",
+          "name": "Eletrônica de Potência",
+          "shortName": "Eletrônica de Potência",
+          "cat": "elec",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5116"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5305"
+          ],
+          "ext": false,
+          "syllabus": "Dispositivos semicondutores de potência. Conversores CA-CC: Retificadores não controlados e controlados. Modulação PWM. Conversores CC-CC clássicos: não isolados e isolados. Conversores CC-CA: Inversores."
+        },
+        {
+          "id": "EMB5627",
+          "name": "Sistemas Motrizes I",
+          "shortName": "Sistemas Motrizes I",
+          "cat": "elec",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5108"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5112"
+          ],
+          "ext": false,
+          "syllabus": "Circuitos Magnéticos. Transformadores: tipos, ensaios, circuito equivalente, regulação e rendimento. Transformadores trifásicos. Autotransformadores. Introdução e princípios de máquinas elétricas.Fundamentos da conversão eletromecânica da energia. Campos Girantes. Máquina de corrente contínua. Máquina síncrona."
+        }
+      ]
+    },
+    {
+      "phase": 7,
+      "subjects": [
+        {
+          "id": "EMB5503",
+          "name": "Sistemas de Comunicação",
+          "shortName": "Sistemas de Comunicação",
+          "cat": "elec",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5116"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5312"
+          ],
+          "ext": false,
+          "syllabus": "Princípios de comunicação: transmissão da informação, multiplexação e modulação, comutação, codificação, detecção de erros, meios físicos de transmissão. Interfaces e barramentos (RS 232, IEEE 488 – GPIB, USB, etc.). Redes sem fio: Introdução à comunicação sem fios, tipos e alcance, redes locais sem fios. Fundamentos tecnológicos de comunicação sem fios. Conceitos básicos: Bluetooth, IEEE 802.11x, Telefonia Celular, Comunicação via satélite, Sistemas de localização, GPS. Redes de comunicação aplicadas a sistemas embarcados."
+        },
+        {
+          "id": "EMB5506",
+          "name": "Dinâmica Ferroviária e Metroviária",
+          "shortName": "Dinâmica Ferroviária e Metro.",
+          "cat": "railway",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5115"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5536"
+          ],
+          "ext": false,
+          "syllabus": "Características do Material Rodante. Elementos da Via Permanente. Noções sobre Veículos Ferroviários e Metroviários. Conceitos Fundamentais de Cinemática e Dinâmica de Partículas e Corpos Rígidos. Teoria da Aderência. Mecânica do Contato Roda-Trilho. Forças de Resistência ao Movimento. Forças de Tração e de Frenagem. Dinâmica Ferroviária Longitudinal – locomotiva diesel-elétrica. Dinâmica Metroviária – Trens de Alta Velocidade (TAV), Veículo Leve sobre Trilhos (VLT) e Veículo de Levitação Magnética (Maglev)."
+        },
+        {
+          "id": "EMB5507",
+          "name": "Veículos de Tração I",
+          "shortName": "Veículos de Tração I",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5106"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5529"
+          ],
+          "ext": false,
+          "syllabus": "Locomotiva a vapor e a diesel: princípios de funcionamento. Motor Diesel: características e componentes. Ciclos de Trabalho: Motor de Quatro Tempos, Motor de Dois Tempos, rendimento, potência, consumo de combustível, conjugado. Sistemas do Motor Diesel:. Injetores de combustível, características do Óleo Diesel, governador e Controle da Rotação e equipamentos de proteção do Motor Diesel. Sistema de Injeção Eletrônica."
+        },
+        {
+          "id": "EMB5508",
+          "name": "Sistemas Veiculares: Suspensão, Direção e",
+          "shortName": "Sistemas Veiculares: Suspensão",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5110"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Conceito de suspensão. Análise dinâmica. Análise em operação. Exigências sobre os sistemas de suspensão. Tipos de suspensões. Considerações cinemáticas da suspensão. Exigências sobre os sistemas de direção. Tipos de direções. Considerações cinemáticas da direção. Constituição e características de rodado e trilhos de rolamento. Nomenclatura. Capacidade e efeitos de carga. Projeto de rodado. Forças desenvolvidas na suspensão durante a frenagem e partida."
+        },
+        {
+          "id": "EMB5525",
+          "name": "Engenharia Ferroviária e Metroviária:",
+          "shortName": "Eng. Ferroviária: Fundamentos",
+          "cat": "railway",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "História das ferrovias. Locomotivas a vapor, diesel, diesel-elétrica, elétrica. Vagões de carga. Trens de passageiro. Sinalização ferroviária e metroviária. Terminais de carga. Indicadores de desempenho de ferrovias/metrovias. Mercado ferroviário/ metroviário. Pátios e terminais ferroviários. Tecnologias de transporte ferroviário e metroviário. Modelo púbico/privado de ferrovias e metrovias. Introdução ao projeto de veículo ferroviário e metroviário.A Regulamentação das Ferrovias. Regulamento Geral para Operação Ferroviária e Metroviária. Regulamentação referente ao Pessoal (principais leis trabalhistas e de segurança do trabalho). Regulamento referente ao Meio Ambiente (licenciamento ambiental e principais atribuições dos órgãos legisladores). Regulamento dos Tributos em Ferrovia e Metrovia. Regulamentação de Transporte de Produtos Perigosos."
+        },
+        {
+          "id": "EMB5628",
+          "name": "Sistemas Motrizes II",
+          "shortName": "Sistemas Motrizes II",
+          "cat": "elec",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5627"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5112"
+          ],
+          "ext": false,
+          "syllabus": "Máquina Elementar. Máquina Síncrona. Máquina de indução trifásica. Máquina de corrente contínua. Circuito equivalente, torque e potência. Máquinas Especiais: motor de indução monofásico, bifásico, motor universal, outros tipos de motores especiais."
+        }
+      ]
+    },
+    {
+      "phase": 8,
+      "subjects": [
+        {
+          "id": "EMB5509",
+          "name": "Veículos de Tração II",
+          "shortName": "Veículos de Tração II",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5507",
+            "EMB5605"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5528"
+          ],
+          "ext": false,
+          "syllabus": "Motores elétricos aplicados a sistemas ferroviários e metroviários. Tração Elétrica em corrente contínua. Tração Elétrica em corrente alternada. Freios. Proteção e manutenção do sistema de tração. Locomotivas diesel- elétrica e locomotivas elétricas. Veículos Leves sobre Trilhos. Trens de alta velocidade. Trem por levitação magnética. Veículos de Transporte Metropolitano."
+        },
+        {
+          "id": "EMB5510",
+          "name": "Vagões Ferroviários e Carros Metroviários 1746 hs Ob",
+          "shortName": "Vagões e Carros Metroviários",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5021",
+            "EMB5102"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Vagões ferroviários (tipos e aplicações). Sistemas constituintes de vagões de carga (estrutura, truque, aparelho de choque e tração, freio). Considerações de projeto de vagões. Carros de passageiros emetroviários. Considerações de projeto em carros de passageiros e metroviários."
+        },
+        {
+          "id": "EMB5511",
+          "name": "Sinalização e Controle de Tráfego",
+          "shortName": "Sinalização e Controle Tráfego",
+          "cat": "railway",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5503"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5532"
+          ],
+          "ext": false,
+          "syllabus": "Estudo dos dispositivos detectores de estado da via, do estado dos elementos da via e de integridade do trem. Estudos dos elementos que atuam sobre os elementos da via ou sobre o licenciamento de trens. Sistemas de Sinalização: Classificação dos Sistemas baseados em Critérios; Principio da Falha Segura. Níveis de Segurança. Estado da Arte: no Brasil e no mundo. Centro de Controle Operacional: Arquitetura Sistêmica."
+        },
+        {
+          "id": "EMB5512",
+          "name": "Manutenção Ferroviária e Metroviária I 1746 hs Ob",
+          "shortName": "Manutenção Ferroviária I",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5107",
+            "EMB5507"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Conceitos básicos de manutenção: Mantenabilidade, confiabilidade. Indicadores de desempenho da manutenção. Introdução ao conceito de falhas em componentes mecânicos. Tópicos da Mecânica da Fratura. Mecânica da Fratura Aplicada à Fadiga e Fluência. Mecanismos de desgaste e corrosão. Fundamentos de tribologia. Tipos de manutenção: manutenção corretiva, manutenção preventiva e manutenção preditiva. Técnicas de análise utilizadas na manutenção. Instalações e equipamentos de oficinas: oficina de locomotivas, oficina de vagões e oficina de carros metroviários. Tipos de manutenção ferroviária: manutenção rápida e pesada de locomotivas, manutenção rápida e pesada de vagões."
+        },
+        {
+          "id": "EMB5513",
+          "name": "Operação Ferroviária e Metroviária",
+          "shortName": "Operação Ferroviária e Metro.",
+          "cat": "railway",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5109"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5537"
+          ],
+          "ext": false,
+          "syllabus": "Planejamento operacional de ferrovias e metrovias. DBO - Diretrizes Básicas Operacionais de ferrovias e metrovias. Capacidades de Transporte. Estações, Pátios e Terminais. Transporte intermodal.Transporte por contêineres."
+        },
+        {
+          "id": "EMB5515",
+          "name": "Métodos Computacionais para Engenharia",
+          "shortName": "Métodos Computacionais Eng.",
+          "cat": "comp",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5016"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5302"
+          ],
+          "ext": false,
+          "syllabus": "Introdução aos métodos de diferenças finitas e elementos finitos. Aspectos matemáticos das equações governantes. Método das diferenças finitas. Método dos elementos finitos. Método dos resíduos ponderados. Problemas unidimensionais. Problemas bidimensionais. Principais tipos de elementos utilizados em análise estrutural e suas aplicações."
+        },
+        {
+          "id": "EMB5521",
+          "name": "Planejamento do Trabalho de Conclusão",
+          "shortName": "Planejamento do TCC",
+          "cat": "project",
+          "hours": 36,
+          "classesPerWeek": 2,
+          "pre": [
+            "EMB5027"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "A pesquisa e o método científico. Formulação do problema de pesquisa. Construção de hipóteses. Tipos e características da pesquisa. Elaboração de projetos de pesquisa. Elaboração de relatórios. Nesta etapa será proposto o projeto para o trabalho de conclusão do curso, tendo o seguinte conteúdo: título, tema, problematização, hipóteses, objetivos, justificativa, metodologia, resultados esperados, cronograma, relação das principais referência bibliográficas, aprovação do professor orientador."
+        }
+      ]
+    },
+    {
+      "phase": 9,
+      "subjects": [
+        {
+          "id": "EMB5514",
+          "name": "Via Permanente",
+          "shortName": "Via Permanente",
+          "cat": "railway",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5011",
+            "EMB5012"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5535"
+          ],
+          "ext": false,
+          "syllabus": "Noções de ferrovias e metrovias: Infra-estrutura e super-estrutura (trilho, dormente, fixação, lastro juntas, aparelhos de mudança de vias e lubridificadores). Dimensionamento da superestrutura. Interação veículo x via (trem x linha). Projeto geométrico da via, geometria da linha / tolerâncias. Estabilidade da linha e esforços atuantes. Manutenção da via permanente. Deterioração das características da linha. Equipamentos de manutenção da via. Acidentes referentes à via permanente"
+        },
+        {
+          "id": "EMB5516",
+          "name": "Planejamento de Transporte Público 1746 hs Ob",
+          "shortName": "Planejamento Transp. Público",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5513"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Métodos de planejamento de transportes públicos nas áreas urbanas. Tecnologias e operações características dos veículos, instalações e sistemas. Técnicas de planejamento de curto prazo: Coleta e análise de dados; o modelo de escolha, estratégias operacionais, análise financeira. Concepção de sistemas para melhoraria do desempenho."
+        },
+        {
+          "id": "EMB5517",
+          "name": "Manutenção Ferroviária e Metroviária II 1746 hs Ob",
+          "shortName": "Manutenção Ferroviária II",
+          "cat": "railway",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5512"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Manutenção de componentes e sistemas ferroviários (caldeiraria, freio, fundidos, eletromecânica, material rodante). Tipos de manutenção metroviária (carros de passageiros, trem metroviário). Manutenção centrada em confiabilidade (MCC). Árvore de análise de falha (AAF). Análise dos modos de falha e dos efeitos (FMEA). Gestão da Manutenção. Manutenção para produtividade total (TPM). Custos da manutenção."
+        },
+        {
+          "id": "EMB5518",
+          "name": "Segurança e Prevenção de Acidentes",
+          "shortName": "Segurança e Prev. Acidentes",
+          "cat": "railway",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5506"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Perícia dos acidentes ferroviários e metroviários. Conceitos e definições de acidentes ferroviários e metroviários. Dinâmica trem-via dos acidentes ferroviários e metroviários. Análise, reconstrução e prevenção dos acidentes ferroviários e metroviários."
+        },
+        {
+          "id": "EMB5519",
+          "name": "Gestão de Empreendimentos Ferroviários",
+          "shortName": "Gestão de Empreendimentos",
+          "cat": "mgmt",
+          "hours": 36,
+          "classesPerWeek": 2,
+          "pre": [
+            "EMB5109"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Processo empreendedor. Oportunidade de negócios. O processo de inovação. Estudo de viabilidade. Plano de Negócios. Fundador e equipe do novo negócio. Financiamento para novos negócios. O negócio ferrovia e metrovia."
+        },
+        {
+          "id": "EMB5520",
+          "name": "Sistema de Transmissão e Distribuição de",
+          "shortName": "Transmissão e Distr. Energia",
+          "cat": "elec",
+          "hours": 54,
+          "classesPerWeek": 3,
+          "pre": [
+            "EMB5605"
+          ],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Introdução, subestações de energia elétrica: equipamentos elétricos, proteção, aterramento, supervisão e controle. Transmissão de energia: Transformadores de potência, Catenárias CA e CC, third rail. Qualidade de energia."
+        },
+        {
+          "id": "EMB5522",
+          "name": "Trabalho de Conclusão de Curso",
+          "shortName": "Trabalho de Conclusão (TCC)",
+          "cat": "project",
+          "hours": 72,
+          "classesPerWeek": 4,
+          "pre": [
+            "EMB5521"
+          ],
+          "preAny": [],
+          "equivalents": [
+            "EMB5045"
+          ],
+          "ext": false,
+          "syllabus": "Consolidação dos conhecimentos obtidos no Curso com o objetivo de desenvolver a capacitação do aluno na concepção, implementação e ou avaliação de soluções em situações da área da mobilidade"
+        }
+      ]
+    },
+    {
+      "phase": 10,
+      "subjects": [
+        {
+          "id": "EMB5523",
+          "name": "Estágio Curricular Obrigatório 3420 hs Ob",
+          "shortName": "Estágio Curricular Obrigatório",
+          "cat": "project",
+          "hours": 396,
+          "classesPerWeek": 22,
+          "pre": [],
+          "preAny": [],
+          "equivalents": [],
+          "ext": false,
+          "syllabus": "Vivência em indústrias, ou em instituições de pesquisa, ou em empresas, que se utilizam dos conteúdos técnicos que compõe o curso; Treinamento prático a partir da aplicação dos conhecimentos técnicos adquiridos no curso; Desenvolvimento ou aperfeiçoamento do relacionamento profissional e humano."
+        }
+      ]
+    }
+  ],
+  "optatives": [
+    {
+      "id": "EMB5032",
+      "name": "Avaliação de Impactos Ambientais",
+      "shortName": "Avaliação Impactos Ambientais",
+      "cat": "human",
+      "hours": 36,
+      "classesPerWeek": 2,
+      "pre": [],
+      "preAny": [],
+      "equivalents": [
+        "EMB5020"
+      ],
+      "ext": false,
+      "syllabus": "Poluição Ambiental. Controle de Poluição do Solo, Água e Ar, Impactos Ambientais, Gestão Ambiental. Produção mais Limpa. Riscos e Impactos Tecnológicos."
+    },
+    {
+      "id": "EMB5019",
+      "name": "Ética e Disciplina Consciente",
+      "shortName": "Ética e Disciplina Consciente",
+      "cat": "human",
+      "hours": 36,
+      "classesPerWeek": 2,
+      "pre": [],
+      "preAny": [],
+      "equivalents": [],
+      "ext": false,
+      "syllabus": "Ética, Moral, Valores, e Ética Profissional. O Código de Ética como ferramenta para o fortalecimento da Cultura Organizacional. Disciplina Consciente. Tutoria na Disciplina Consciente. A Responsabilidade dos Alunos na Disciplina Consciente. Responsabilidade Social."
+    },
+    {
+      "id": "EMB5023",
+      "name": "Fundamentos em Engenharia da",
+      "shortName": "Fundamentos Eng. Mobilidade",
+      "cat": "human",
+      "hours": 36,
+      "classesPerWeek": 2,
+      "pre": [],
+      "preAny": [],
+      "equivalents": [],
+      "ext": false,
+      "syllabus": "Conceito de engenharia da mobilidade: veicular e de transporte. Processo global da engenharia de transportes e de infraestrutura. O planejamento, projeto e operação de transportes. Caracterização dos sistemas veiculares: Sistemas motrizes; estruturas; sistemas de navegação; embarcados; acessórios; e de comunicação. Caracterização dos sistemas de transporte: armazenar, transportar, distribuir, operar, manter e gerenciar.  Fatores de integração dos modais de transporte: portos, aeroportos, ferrovias, hidrovias e vias terrestres, sistemas de controle, comunicação, e integração de pessoas e de cargas. Fatores ambientais: riscos e impactos decorrentes da presença do mobiliário na operação sistemas, para o meio ambiente e para as populações"
+    },
+    {
+      "id": "EMB5099",
+      "name": "Estágio Não Obrigatório",
+      "shortName": "Estágio Não Obrigatório",
+      "cat": "project",
+      "hours": 72,
+      "classesPerWeek": 4,
+      "pre": [],
+      "preAny": [],
+      "equivalents": [],
+      "ext": false,
+      "syllabus": "Estágio Não Obrigatório"
+    },
+    {
+      "id": "EMB5107",
+      "name": "Manutenção e Confiabilidade 1458 hs",
+      "shortName": "Manutenção e Confiabilidade",
+      "cat": "mgmt",
+      "hours": 36,
+      "classesPerWeek": 2,
+      "pre": [
+        "EMB5010"
+      ],
+      "preAny": [],
+      "equivalents": [],
+      "ext": false,
+      "syllabus": "Atribuição da engenharia de manutenção e conceitos de mantenabilidade. Gestão da manutenção: manutenção para produtividade total (TPM), manutenção centrada em confiabilidade (MCC), manutenção classe mundial, outros modelos. Ferramentas para análise de falha: Árvore de falha (FTA), análise dos modos de falha e dos efeitos (FMEA), análise dos modos de falha, dos efeitos e da criticidade (FMECA), árvore de eventos (ET). Técnicas de análise na manutenção, monitoração visual, da integridade estrutural, de ruído, de vibrações, de óleos, de lubrificantes, de partículas de desgaste e monitoração dos instrumentos e de suas medidas. Função de variável aleatória. Confiabilidade Funcional. Confiabilidade em Sistemas."
+    },
+    {
+      "id": "EMB5113",
+      "name": "Modelagem de Sistemas 1458 hs",
+      "shortName": "Modelagem de Sistemas",
+      "cat": "comp",
+      "hours": 72,
+      "classesPerWeek": 4,
+      "pre": [],
+      "preAny": [],
+      "equivalents": [],
+      "ext": false,
+      "syllabus": "Introdução à engenharia de sistemas. Formalismos de modelagem de sistemas discretos. Formalismos de modelagem de software (UML)."
+    },
+    {
+      "id": "LSB7904",
+      "name": "Língua Brasileira de Sinais I (PCC 18horas-",
+      "shortName": "Libras I",
+      "cat": "human",
+      "hours": 72,
+      "classesPerWeek": 4,
+      "pre": [],
+      "preAny": [],
+      "equivalents": [],
+      "ext": false,
+      "syllabus": "Desmistificação de idéias recebidas relativamente às línguas de sinais. A língua de sinais enquanto língua utilizada pela comunidade surda brasileira. Introdução à língua brasileira de sinais: usar a língua em contextos que exigem comunicação básica, como se apresentar, realizar perguntas, responder perguntas e dar informações sobre alguns aspectos pessoais (nome, endereço, telefone). Conhecer aspectos culturais específicos da comunidade surda brasileira."
+    }
+  ],
+  "activities": []
+}

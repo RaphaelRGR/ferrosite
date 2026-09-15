@@ -42,20 +42,24 @@ export function SubjectModal({ subject, isOpen, onClose }: SubjectModalProps) {
           </div>
 
           <div className="mb-8">
-            <h3 className="mb-2 text-sm font-bold uppercase tracking-wider text-fg-muted">Visão Geral &amp; Impacto</h3>
-            <p className="text-lg leading-relaxed text-fg">
-              {subject.ementa ||
-                "Informações detalhadas sobre esta disciplina estão sendo atualizadas. Ela compõe um pilar importante da sua formação como engenheiro."}
+            <h3 className="mb-2 text-sm font-bold uppercase tracking-wider text-fg-muted">Ementa oficial</h3>
+            <p className="text-base leading-relaxed text-fg">
+              {subject.syllabus || "Ementa não constante no currículo oficial (atividade, estágio ou slot de optativa)."}
             </p>
           </div>
 
-          {subject.pre && subject.pre.length > 0 && (
+          {(subject.pre.length > 0 || subject.preAny.length > 0) && (
             <div className="mb-6">
               <h3 className="mb-2 text-sm font-bold uppercase tracking-wider text-fg-muted">Pré-requisitos</h3>
               <ul className="flex flex-wrap gap-2">
                 {subject.pre.map((preId) => (
                   <li key={preId} className="rounded border border-line bg-surface-2 px-3 py-1 font-mono text-sm text-fg">
                     {preId}
+                  </li>
+                ))}
+                {subject.preAny.map((group) => (
+                  <li key={group.join("|")} className="rounded border border-dashed border-line bg-surface-2 px-3 py-1 font-mono text-sm text-fg">
+                    {group.join(" ou ")}
                   </li>
                 ))}
               </ul>

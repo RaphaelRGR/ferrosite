@@ -147,3 +147,7 @@ Relatório: `docs/baseline/PORTAL-001-relatorio.md`. Shell do Portal com sidebar
 ## Estado após PUBLIC-001 (2026-09-15)
 
 Relatório: `docs/baseline/PUBLIC-001-relatorio.md`. Site público claro com header/footer novos, Home e Curso refeitos na direção das referências, hub/detalhe de projetos (links 404 eliminados), `/visitas`→`/experiencias`, staging tipado sob quarentena, token `text-link`. Axe estrito nas páginas novas; e2e 121.
+
+## Estado após FLOW-001/002 (2026-09-15)
+
+Relatório: `docs/baseline/FLOW-001-002-relatorio.md`. Currículos gerados dos PDFs oficiais (content/curriculum/*.json com sha256), divergências do protótipo corrigidas com fonte (2025: +2 atividades e 4 pré-requisitos; 2016: +EMB5103 e pré-requisitos; ementas oficiais), 2012 sem pré-requisitos no PDF (arestas legadas marcadas). Explorador novo: claro, teclado/toque, ancestrais + dependentes, optativas, zoom/fase, lista, URL, diálogo acessível, axe estrito. Unit 103, e2e 128.

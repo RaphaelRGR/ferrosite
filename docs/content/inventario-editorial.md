@@ -8,7 +8,7 @@ Política: nada abaixo é publicado como fato. Em modo `review` (default) o site
 
 | Total | UNVERIFIED | VERIFIED | DISCARDED | Seções |
 |---|---|---|---|---|
-| 105 | 105 | 0 | 0 | 43 |
+| 105 | 104 | 0 | 1 | 43 |
 
 Por tipo: claim 19 · metric 17 · narrative 17 · visit 12 · event 8 · news 8 · image 5 · partner 4 · curriculum 4 · cta 4 · date 3 · legal 2 · person 2
 
@@ -145,14 +145,14 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Fluxograma curricular (matrizes 2025/2016/2012) — `curso.curriculum`
 
-Rota: `/curso` · Código: `src/data/curriculums.ts + src/components/ui/CurriculumFlowchart.tsx + public/grades/*`
+Rota: `/curso` · Código: `content/curriculum/*.json (gerado dos PDFs oficiais por scripts/curriculum_from_pdf.py) + src/data/curriculums.ts`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
-| `curso.curriculum.2025` | curriculum | Matriz 2025: 60 obrigatórias + 15 optativas | public/grades/grade2025.pdf (origem do PDF não registrada) | — | UNVERIFIED | — | — | Validação de paridade TS×PDF em FLOW-001. |
-| `curso.curriculum.2016` | curriculum | Matriz 2016: 61 obrigatórias (inclui slots OPT-1..4) + 15 optativas | public/grades/grade2016.pdf | — | UNVERIFIED | — | — | FLOW-001. |
-| `curso.curriculum.2012` | curriculum | Matriz 2012: 61 obrigatórias + 6 optativas | public/grades/grade2012.pdf | — | UNVERIFIED | — | — | EMB5512→EMB5107 (optativa) e EMB5605→EMB5116 (mesma fase) pendentes; FLOW-001. |
-| `curso.curriculum.ementas` | narrative | Ementas/‘Visão Geral & Impacto’ de 13/15/10 disciplinas em tom editorial (ex.: 'A disciplina mais complexa e exclusiva do curso') | — | — | UNVERIFIED | — | — | Textos não são ementas oficiais; separar ementa oficial de copy editorial. |
+| `curso.curriculum.2025` | curriculum | Matriz 2025 (currículo 20251): 62 obrigatórias (incl. atividades complementares/extensão) + 24 optativas | public/grades/grade2025.pdf — CURRÍCULO DO CURSO 604, SeTIC/UFSC (sha256 no JSON) | — | UNVERIFIED | — | — | Estrutura, cargas, pré-requisitos e ementas extraídos do PDF em 2026-09-15. Falta owner/verified_at institucional. |
+| `curso.curriculum.2016` | curriculum | Matriz 2016: 61 obrigatórias (4 slots de optativa obrigatória) + 28 optativas | public/grades/grade2016.pdf (sha256 no JSON) | — | UNVERIFIED | — | — | Pré-requisitos EMB5109 e EMB5628 citados no PDF não pertencem ao currículo (registrados em unknownPrerequisites). |
+| `curso.curriculum.2012` | curriculum | Matriz 2012: 61 obrigatórias + 7 optativas | public/grades/grade2012.pdf (sha256 no JSON) | — | UNVERIFIED | — | — | O PDF não traz pré-requisitos: as arestas exibidas são as legadas do protótipo (prerequisitesSource=legacy-unverified), incluindo EMB5512→EMB5107 e EMB5605→EMB5116 (ambas fase 6). Confirmar com a coordenação. |
+| `curso.curriculum.ementas` | narrative | Ementas editoriais do protótipo (13/15/10 disciplinas) — substituídas pelas ementas oficiais do PDF; texto preservado em src/data/curriculums.legacy.ts | — | — | DISCARDED | — | descartar | Não eram ementas oficiais. Removidas da UI em FLOW-001. |
 
 ### Hero do Sobre — `sobre.hero`
 
@@ -392,11 +392,11 @@ Rota: `/curso` · Código: `CourseSections.tsx (CoursePillarsSection) + staging 
 
 ### Curso — fluxograma interativo — `curso.flowchart`
 
-Rota: `/curso` · Código: `src/components/ui/CurriculumFlowchart.tsx`
+Rota: `/curso` · Código: `src/components/curriculum/CurriculumExplorer.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
-| `curso.flowchart.dados` | curriculum | Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts) | public/grades/*.pdf | — | UNVERIFIED | — | — | Paridade com PDF em FLOW-001. |
+| `curso.flowchart.dados` | curriculum | Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts) | content/curriculum/*.json (PDFs oficiais) | — | UNVERIFIED | — | — | Fluxograma refeito em FLOW-002; dados canônicos com sha256 do PDF. |
 
 ### Curso — laboratórios — `curso.labs`
 

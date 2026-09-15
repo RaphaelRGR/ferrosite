@@ -9,7 +9,8 @@ import {
   CourseLabs,
   CoursePillarsSection,
 } from "@/components/public/course/CourseSections";
-import { CurriculumFlowchart } from "@/components/ui/CurriculumFlowchart";
+import { Suspense } from "react";
+import { CurriculumExplorer } from "@/components/curriculum/CurriculumExplorer";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
@@ -24,15 +25,16 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/curso">)
 
 /**
  * O Curso (04 §O Curso, guia §7): hero → sobre/dados → pilares → trajetória
- * (derivada do dataset) → fluxograma interativo (preservado; FLOW-002 refaz a
- * visualização) → laboratórios (PDF do portfólio) → CTA. Conteúdo institucional
+ * (derivada do dataset) → explorador do fluxograma (FLOW-002) → laboratórios
+ * (PDF do portfólio) → CTA. Conteúdo institucional
  * sob quarentena; EN mostra indisponibilidade até haver conteúdo por locale.
  */
 export default async function CursoPage({ params }: PageProps<"/[locale]/curso">) {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   if (l !== "pt") return <PendingPage locale={l} dict={getDictionary(l)} path={PATH} />;
-  const dict = getDictionary(l).course;
+  const full = getDictionary(l);
+  const dict = full.course;
 
   return (
     <>
@@ -41,8 +43,13 @@ export default async function CursoPage({ params }: PageProps<"/[locale]/curso">
       <CoursePillarsSection dict={dict.pillars} />
       <CourseJourney locale={l} dict={dict.journey} />
       <UnverifiedContent section="curso.flowchart">
-        <div id="fluxograma">
-          <CurriculumFlowchart />
+        <div id="fluxograma" className="bg-canvas">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+            {/* useSearchParams exige Suspense em páginas estáticas */}
+            <Suspense fallback={<p className="text-fg-muted">{full.states.loading}</p>}>
+              <CurriculumExplorer labels={full.flowchart} locale={l} />
+            </Suspense>
+          </div>
         </div>
       </UnverifiedContent>
       <CourseLabs dict={dict.labs} />

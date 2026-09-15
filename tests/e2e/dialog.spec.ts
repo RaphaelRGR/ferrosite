@@ -25,11 +25,12 @@ test("catálogo: diálogo abre, prende o foco, fecha com Escape e devolve o foco
   await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
 });
 
-test("fluxograma: clicar em uma disciplina abre um diálogo acessível com seu nome", async ({ page }) => {
-  await page.goto("/pt/curso", { waitUntil: "load" });
-  const card = page.getByText("EMB5001", { exact: true }).first();
-  await card.scrollIntoViewIfNeeded();
-  await card.click();
+test("fluxograma: selecionar uma disciplina e pedir detalhes abre um diálogo acessível com seu nome", async ({ page }) => {
+  await page.goto("/pt/curso#fluxograma", { waitUntil: "load" });
+  const region = page.getByRole("region", { name: /Grafo curricular/ });
+  await region.scrollIntoViewIfNeeded();
+  await region.getByRole("button", { name: /^EMB5001 / }).click();
+  await page.getByRole("button", { name: "Detalhes" }).click();
 
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();

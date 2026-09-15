@@ -337,35 +337,37 @@
     {
       "id": "curso.curriculum",
       "route": "/curso",
-      "component": "src/data/curriculums.ts + src/components/ui/CurriculumFlowchart.tsx + public/grades/*",
+      "component": "content/curriculum/*.json (gerado dos PDFs oficiais por scripts/curriculum_from_pdf.py) + src/data/curriculums.ts",
       "title": "Fluxograma curricular (matrizes 2025/2016/2012)",
       "entries": [
         {
           "content_id": "curso.curriculum.2025",
           "kind": "curriculum",
-          "value_pt": "Matriz 2025: 60 obrigatórias + 15 optativas",
-          "source": "public/grades/grade2025.pdf (origem do PDF não registrada)",
-          "notes": "Validação de paridade TS×PDF em FLOW-001."
+          "value_pt": "Matriz 2025 (currículo 20251): 62 obrigatórias (incl. atividades complementares/extensão) + 24 optativas",
+          "source": "public/grades/grade2025.pdf — CURRÍCULO DO CURSO 604, SeTIC/UFSC (sha256 no JSON)",
+          "notes": "Estrutura, cargas, pré-requisitos e ementas extraídos do PDF em 2026-09-15. Falta owner/verified_at institucional."
         },
         {
           "content_id": "curso.curriculum.2016",
           "kind": "curriculum",
-          "value_pt": "Matriz 2016: 61 obrigatórias (inclui slots OPT-1..4) + 15 optativas",
-          "source": "public/grades/grade2016.pdf",
-          "notes": "FLOW-001."
+          "value_pt": "Matriz 2016: 61 obrigatórias (4 slots de optativa obrigatória) + 28 optativas",
+          "source": "public/grades/grade2016.pdf (sha256 no JSON)",
+          "notes": "Pré-requisitos EMB5109 e EMB5628 citados no PDF não pertencem ao currículo (registrados em unknownPrerequisites)."
         },
         {
           "content_id": "curso.curriculum.2012",
           "kind": "curriculum",
-          "value_pt": "Matriz 2012: 61 obrigatórias + 6 optativas",
-          "source": "public/grades/grade2012.pdf",
-          "notes": "EMB5512→EMB5107 (optativa) e EMB5605→EMB5116 (mesma fase) pendentes; FLOW-001."
+          "value_pt": "Matriz 2012: 61 obrigatórias + 7 optativas",
+          "source": "public/grades/grade2012.pdf (sha256 no JSON)",
+          "notes": "O PDF não traz pré-requisitos: as arestas exibidas são as legadas do protótipo (prerequisitesSource=legacy-unverified), incluindo EMB5512→EMB5107 e EMB5605→EMB5116 (ambas fase 6). Confirmar com a coordenação."
         },
         {
           "content_id": "curso.curriculum.ementas",
           "kind": "narrative",
-          "value_pt": "Ementas/‘Visão Geral & Impacto’ de 13/15/10 disciplinas em tom editorial (ex.: 'A disciplina mais complexa e exclusiva do curso')",
-          "notes": "Textos não são ementas oficiais; separar ementa oficial de copy editorial."
+          "value_pt": "Ementas editoriais do protótipo (13/15/10 disciplinas) — substituídas pelas ementas oficiais do PDF; texto preservado em src/data/curriculums.legacy.ts",
+          "notes": "Não eram ementas oficiais. Removidas da UI em FLOW-001.",
+          "status": "DISCARDED",
+          "decision": "descartar"
         }
       ]
     },
@@ -912,15 +914,15 @@
     {
       "id": "curso.flowchart",
       "route": "/curso",
-      "component": "src/components/ui/CurriculumFlowchart.tsx",
+      "component": "src/components/curriculum/CurriculumExplorer.tsx",
       "title": "Curso — fluxograma interativo",
       "entries": [
         {
           "content_id": "curso.flowchart.dados",
           "kind": "curriculum",
           "value_pt": "Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts)",
-          "source": "public/grades/*.pdf",
-          "notes": "Paridade com PDF em FLOW-001."
+          "source": "content/curriculum/*.json (PDFs oficiais)",
+          "notes": "Fluxograma refeito em FLOW-002; dados canônicos com sha256 do PDF."
         }
       ]
     },

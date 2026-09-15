@@ -1,24 +1,23 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { CURRICULUMS, type CurriculumData, type Subject } from "@/data/curriculums";
+import { allSubjects, CURRICULUMS, prerequisiteCodes, type CurriculumData, type Subject } from "@/data/curriculums";
 
 /**
- * Invariantes das três matrizes curriculares (2025, 2016, 2012).
- *
- * Estes testes protegem os dados contra regressão acidental. Eles NÃO validam
- * o conteúdo contra a fonte oficial (PDF/PPC) — isso é escopo de FLOW-001.
- * Divergências já conhecidas ficam registradas em KNOWN_EXCEPTIONS: o teste
- * falha tanto se surgir uma divergência nova quanto se uma conhecida for
- * removida sem atualizar a lista (para forçar registro explícito da decisão).
+ * Invariantes das três matrizes (FLOW-001). A fonte canônica são os JSON
+ * gerados dos PDFs oficiais; estes testes protegem estrutura e grafo.
+ * Divergências conhecidas ficam em KNOWN_EXCEPTIONS: o teste falha tanto se
+ * surgir uma nova quanto se uma conhecida sumir sem atualizar a lista.
  */
-
 const EXPECTED_YEARS = [2025, 2016, 2012] as const;
 const EXPECTED_PHASES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-// Snapshot estrutural do dataset atual (auditoria de 2026-09-14).
-const EXPECTED_COUNTS: Record<number, { main: number; optativas: number }> = {
-  2025: { main: 60, optativas: 15 },
-  2016: { main: 61, optativas: 15 },
-  2012: { main: 61, optativas: 6 },
+// Snapshot estrutural extraído dos PDFs (2026-09-15).
+const EXPECTED_COUNTS: Record<number, { main: number; optatives: number }> = {
+  2025: { main: 62, optatives: 24 },
+  2016: { main: 61, optatives: 28 },
+  2012: { main: 61, optatives: 7 },
 };
 
 const KNOWN_CATEGORIES = new Set([
@@ -27,11 +26,15 @@ const KNOWN_CATEGORIES = new Set([
 ]);
 
 const KNOWN_EXCEPTIONS = {
-  // Disciplina obrigatória cujo pré-requisito está apenas nas optativas.
-  // Como as optativas não geram nós no fluxograma, a aresta não é desenhada hoje.
-  mainRequiresOptativa: { 2025: [], 2016: [], 2012: ["EMB5512->EMB5107"] } as Record<number, string[]>,
-  // Pré-requisito declarado na mesma fase da disciplina que o exige.
-  // [CONTEÚDO PENDENTE] validar contra o PDF oficial em FLOW-001 antes de corrigir.
+  // Obrigatória cujo pré-requisito está apenas nas optativas (aresta não desenhável até FLOW-002 incluir optativas).
+  mainRequiresOptative: {
+    2025: [],
+    2016: [],
+    // 2012: pré-requisitos legados sem fonte no PDF (prerequisitesSource = legacy-unverified).
+    2012: ["EMB5512->EMB5107"],
+  } as Record<number, string[]>,
+  // Pré-requisito declarado na mesma fase. Em 2012 o PDF não traz pré-requisitos; a aresta é legada
+  // (EMB5605 e EMB5116 estão ambas na fase 6 no PDF). [CONTEÚDO PENDENTE] até a coordenação confirmar.
   samePhasePrerequisite: { 2025: [], 2016: [], 2012: ["EMB5605->EMB5116"] } as Record<number, string[]>,
 };
 
@@ -39,20 +42,15 @@ function mainSubjects(c: CurriculumData): Subject[] {
   return c.phases.flatMap((p) => p.subjects);
 }
 
-function allSubjects(c: CurriculumData): Subject[] {
-  return [...mainSubjects(c), ...c.optativas];
-}
-
 function edges(subjects: Subject[]): Array<[string, string]> {
-  return subjects.flatMap((s) => (s.pre ?? []).map((pre): [string, string] => [s.id, pre]));
+  return subjects.flatMap((s) => prerequisiteCodes(s).map((pre): [string, string] => [s.id, pre]));
 }
 
 /** Detecta ciclos no grafo de pré-requisitos (DFS com três cores). */
 function findCycle(subjects: Subject[]): string[] | null {
-  const preOf = new Map(subjects.map((s) => [s.id, s.pre ?? []]));
+  const preOf = new Map(subjects.map((s) => [s.id, prerequisiteCodes(s)]));
   const state = new Map<string, "visiting" | "done">();
   const stack: string[] = [];
-
   const visit = (id: string): string[] | null => {
     const st = state.get(id);
     if (st === "done") return null;
@@ -67,7 +65,6 @@ function findCycle(subjects: Subject[]): string[] | null {
     state.set(id, "done");
     return null;
   };
-
   for (const s of subjects) {
     const cycle = visit(s.id);
     if (cycle) return cycle;
@@ -81,8 +78,22 @@ describe("catálogo de matrizes", () => {
     expect(CURRICULUMS.map((c) => c.id)).toEqual(EXPECTED_YEARS.map(String));
   });
 
-  it("cada matriz tem nome não vazio", () => {
-    for (const c of CURRICULUMS) expect(c.name.trim().length).toBeGreaterThan(0);
+  it("cada matriz declara nome PT/EN, fonte (PDF oficial) e origem dos pré-requisitos", () => {
+    for (const c of CURRICULUMS) {
+      expect(c.name.pt.length).toBeGreaterThan(0);
+      expect(c.name.en.length).toBeGreaterThan(0);
+      expect(c.source.file).toMatch(/^public\/grades\/grade\d{4}\.pdf$/);
+      expect(c.source.curriculumCode).toMatch(/^\d{5}$/);
+      expect(["pdf", "legacy-unverified"]).toContain(c.prerequisitesSource);
+    }
+    expect(CURRICULUMS.find((c) => c.year === 2012)?.prerequisitesSource).toBe("legacy-unverified");
+  });
+
+  it("o JSON foi gerado do PDF atual (sha256 confere): trocar o PDF exige regenerar", () => {
+    for (const c of CURRICULUMS) {
+      const sha = createHash("sha256").update(readFileSync(path.resolve(process.cwd(), c.source.file))).digest("hex");
+      expect(sha, `${c.source.file} mudou; rode scripts/curriculum_from_pdf.py`).toBe(c.source.sha256);
+    }
   });
 });
 
@@ -90,7 +101,7 @@ describe.each(CURRICULUMS.map((c) => [c.year, c] as const))("matriz %i", (year, 
   const main = mainSubjects(curriculum);
   const all = allSubjects(curriculum);
   const mainIds = new Set(main.map((s) => s.id));
-  const optIds = new Set(curriculum.optativas.map((s) => s.id));
+  const optIds = new Set(curriculum.optatives.map((s) => s.id));
   const phaseOf = new Map<string, number>();
   curriculum.phases.forEach((p) => p.subjects.forEach((s) => phaseOf.set(s.id, p.phase)));
 
@@ -100,38 +111,42 @@ describe.each(CURRICULUMS.map((c) => [c.year, c] as const))("matriz %i", (year, 
   });
 
   it("mantém a contagem de disciplinas obrigatórias e optativas do snapshot", () => {
-    expect({ main: main.length, optativas: curriculum.optativas.length }).toEqual(EXPECTED_COUNTS[year]);
+    expect({ main: main.length, optatives: curriculum.optatives.length }).toEqual(EXPECTED_COUNTS[year]);
   });
 
-  it("não tem IDs duplicados entre obrigatórias e optativas", () => {
+  it("não tem IDs duplicados entre obrigatórias, optativas e atividades", () => {
     const ids = all.map((s) => s.id);
     const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
     expect(duplicates).toEqual([]);
   });
 
-  it("toda disciplina tem id, nome, categoria conhecida e carga horária inteira positiva", () => {
-    // Código UFSC (ex.: EMB5001, LSB7904) ou slot de optativa obrigatória da grade 2016 (OPT-1..4).
+  it("toda disciplina tem id, nomes, categoria conhecida e carga horária inteira positiva", () => {
     const ID_PATTERN = /^([A-Z]{3}\d{4}|OPT-\d+)$/;
     for (const s of all) {
       expect(s.id, `id inválido em ${JSON.stringify(s)}`).toMatch(ID_PATTERN);
       expect(s.name.trim().length, `nome vazio em ${s.id}`).toBeGreaterThan(0);
+      expect(s.shortName.trim().length, `nome curto vazio em ${s.id}`).toBeGreaterThan(0);
       expect(KNOWN_CATEGORIES.has(s.cat), `categoria desconhecida "${s.cat}" em ${s.id}`).toBe(true);
       expect(Number.isInteger(s.hours) && s.hours > 0, `carga inválida em ${s.id}: ${s.hours}`).toBe(true);
     }
   });
 
-  it("todo pré-requisito referencia uma disciplina existente (obrigatória ou optativa)", () => {
-    const known = new Set(all.map((s) => s.id));
-    const missing = edges(all).filter(([, pre]) => !known.has(pre)).map(([id, pre]) => `${id}->${pre}`);
+  it("disciplinas com código oficial têm ementa (exceto atividades/estágio)", () => {
+    const missing = all.filter((s) => /^[A-Z]{3}\d{4}$/.test(s.id) && s.cat !== "project" && !s.syllabus.trim()).map((s) => s.id);
     expect(missing).toEqual([]);
   });
 
-  it("nenhuma disciplina é pré-requisito de si mesma", () => {
-    const selfLoops = edges(all).filter(([id, pre]) => id === pre).map(([id]) => id);
-    expect(selfLoops).toEqual([]);
+  it("todo pré-requisito referencia uma disciplina do currículo ou consta em unknownPrerequisites", () => {
+    const known = new Set(all.map((s) => s.id));
+    const unknown = new Set(curriculum.unknownPrerequisites);
+    const missing = edges(all).filter(([, pre]) => !known.has(pre) && !unknown.has(pre)).map(([id, pre]) => `${id}->${pre}`);
+    expect(missing).toEqual([]);
+    // e nada listado como desconhecido pode, na verdade, existir
+    expect([...unknown].filter((c) => known.has(c))).toEqual([]);
   });
 
-  it("o grafo de pré-requisitos é acíclico", () => {
+  it("nenhuma disciplina é pré-requisito de si mesma e o grafo é acíclico", () => {
+    expect(edges(all).filter(([id, pre]) => id === pre)).toEqual([]);
     expect(findCycle(all)).toBeNull();
   });
 
@@ -140,7 +155,7 @@ describe.each(CURRICULUMS.map((c) => [c.year, c] as const))("matriz %i", (year, 
       .filter(([, pre]) => !mainIds.has(pre) && optIds.has(pre))
       .map(([id, pre]) => `${id}->${pre}`)
       .sort();
-    expect(found).toEqual([...KNOWN_EXCEPTIONS.mainRequiresOptativa[year]].sort());
+    expect(found).toEqual([...KNOWN_EXCEPTIONS.mainRequiresOptative[year]].sort());
   });
 
   it("pré-requisitos ficam em fase anterior, exceto as divergências registradas", () => {
