@@ -95,6 +95,10 @@ export const en: Dictionary = {
     },
     simulators: { title: "Simulators", description: "Simulators of the Railway Engineering program at UFSC." },
   },
+  quarantine: {
+    badge: "Content under review",
+    explanation: "This content has not been validated against an official source yet and may change or be removed.",
+  },
   states: {
     notFoundTitle: "Page not found",
     notFoundDescription: "We could not find the content you requested.",

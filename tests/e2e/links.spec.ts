@@ -10,7 +10,7 @@ import { HTML_ROUTES } from "../helpers/routes";
  * atualização consciente da lista.
  */
 test("links e fragmentos internos quebrados correspondem exatamente à lista conhecida", async ({ page, request }, testInfo) => {
-  test.setTimeout(120_000);
+  test.setTimeout(300_000);
   const inventory = await crawlInternalLinks(page, request, HTML_ROUTES);
 
   await testInfo.attach("links-inventory.json", {

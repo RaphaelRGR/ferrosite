@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+
 import { PendingPage } from "@/components/layout/PendingContent";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -29,10 +31,10 @@ export default async function VisitasPage({ params }: PageProps<"/[locale]/visit
 
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
-      <VisitsHero />
-      <VisitsStats />
-      <VisitsGallery />
-      <VisitsSchedule />
+      <UnverifiedContent section="visitas.hero" badgePosition="bottom-left"><VisitsHero /></UnverifiedContent>
+      <UnverifiedContent section="visitas.stats"><VisitsStats /></UnverifiedContent>
+      <UnverifiedContent section="visitas.gallery"><VisitsGallery /></UnverifiedContent>
+      <UnverifiedContent section="visitas.schedule"><VisitsSchedule /></UnverifiedContent>
       
       <div className="py-20 border-t border-white/5">
         <CtaSection locale={l} content={getDictionary(l).cta} />

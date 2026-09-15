@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+
 import { PendingPage } from "@/components/layout/PendingContent";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -30,10 +32,10 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
 
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
-      <AboutHero />
-      <StoryJourney />
-      <AboutIdentity />
-      <AboutResearch />
+      <UnverifiedContent section="sobre.hero" badgePosition="bottom-left"><AboutHero /></UnverifiedContent>
+      <UnverifiedContent section="sobre.story"><StoryJourney /></UnverifiedContent>
+      <UnverifiedContent section="sobre.identity"><AboutIdentity /></UnverifiedContent>
+      <UnverifiedContent section="sobre.research"><AboutResearch /></UnverifiedContent>
       
       <div className="py-20 border-t border-white/5">
         <CtaSection locale={l} content={getDictionary(l).cta} />

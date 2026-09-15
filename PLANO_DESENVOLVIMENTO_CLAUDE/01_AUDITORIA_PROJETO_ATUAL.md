@@ -131,3 +131,7 @@ Relatório: `docs/baseline/DS-001-relatorio.md`. Tokens semânticos com temas cl
 ## Estado após I18N-001 (2026-09-14)
 
 Relatório: `docs/baseline/I18N-001-relatorio.md`. Site público sob `/pt` e `/en` (root layout por locale com `lang` real, `generateStaticParams`, canonical/hreflang/OG, sitemap e robots); URLs antigas redirecionam 307 por cookie → Accept-Language → pt; `middleware.ts` migrado para `proxy.ts`. Catálogos tipados em `src/i18n` (EN obrigado a cobrir todas as chaves), `Intl` para formatação, seletor PT/EN na Navbar. Em EN, conteúdo editorial não traduzido aparece como indisponibilidade explícita (não há PT como fallback). Portal segue sem prefixo até decisão de escopo. Unit 70, e2e 94.
+
+## Estado após BASE-002 (2026-09-14)
+
+Relatório: `docs/baseline/BASE-002-relatorio.md`. Inventário editorial em `content/editorial-inventory.json` (90 entradas, 31 seções, todas UNVERIFIED; relatório em `docs/content/inventario-editorial.md`). 26 seções públicas envolvidas por `<UnverifiedContent>`: em modo review exibem selo "Conteúdo em verificação"; em `NEXT_PUBLIC_CONTENT_MODE=strict` não renderizam. Texto original preservado como evidência. Testes impedem seção inventariada sem selo e VERIFIED sem fonte/owner/data. Pendente: decisão confirmar/corrigir/descartar por linha pelo owner editorial.

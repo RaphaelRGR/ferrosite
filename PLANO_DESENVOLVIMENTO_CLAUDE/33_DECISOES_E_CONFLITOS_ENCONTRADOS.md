@@ -20,6 +20,7 @@
 - 15+ projetos, 48 visitas, 1,2 mil alunos e três países não têm fonte.
 - Empresas aparecem como parceiras e destinos de egressos na mesma faixa; relações não equivalentes.
 - Notícias/eventos/visitas 2022–2026 e pessoas dos mockups não são dados confirmados.
+- **BASE-002 (2026-09-14):** todos os itens acima estão inventariados em `content/editorial-inventory.json` com status UNVERIFIED e marcados no site com o selo "Conteúdo em verificação"; a tabela de conflitos consolidada está em `docs/baseline/BASE-002-relatorio.md`.
 
 ## Conflitos de escopo
 

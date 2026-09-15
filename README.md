@@ -48,8 +48,9 @@ Node `>=20.9` (ver `.nvmrc`). Instale com `npm ci`.
 | `npm run test:e2e` | Playwright — smoke das rotas, links internos e reduced motion (exige `npm run build` antes; sobe `next start` na porta 3100) |
 | `npm run baseline:screenshots` | captura screenshots em `docs/baseline/screenshots/` nos 4 viewports de referência |
 | `npm run check` | lint → typecheck → test → build → test:e2e |
+| `npm run content:report` | regenera `docs/content/inventario-editorial.md` a partir de `content/editorial-inventory.json` |
 
 Primeira execução do Playwright: `npx playwright install chromium`.
 
-Relatórios por tarefa em `docs/baseline/` (BASE-001, ARCH-001, DS-001, I18N-001). Site público é servido em `/pt` e `/en`; defina `NEXT_PUBLIC_SITE_URL` em produção para canonical/sitemap absolutos.
+Relatórios por tarefa em `docs/baseline/` (BASE-001, ARCH-001, DS-001, I18N-001, BASE-002). Conteúdo institucional não verificado aparece com o selo "Conteúdo em verificação"; `NEXT_PUBLIC_CONTENT_MODE=strict` o oculta. Site público é servido em `/pt` e `/en`; defina `NEXT_PUBLIC_SITE_URL` em produção para canonical/sitemap absolutos.
 

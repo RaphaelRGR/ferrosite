@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { HeroSection } from "@/components/sections/HeroSection";
+import { UnverifiedContent } from "@/components/content/UnverifiedContent";
 import { PendingSection } from "@/components/layout/PendingContent";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -44,7 +45,9 @@ export function HomeContent({ locale, dict, showEditorial }: HomeContentProps) {
     <div className="relative bg-[#0A0A0A] text-white overflow-x-hidden">
       
       {/* HERO FIXED NO FUNDO */}
-      <HeroSection locale={locale} content={dict.hero} />
+      <UnverifiedContent section="home.hero" badgePosition="bottom-left">
+        <HeroSection locale={locale} content={dict.hero} />
+      </UnverifiedContent>
       
       {/* 
         EFEITO GAVETA (iOS SHEET):
@@ -59,15 +62,15 @@ export function HomeContent({ locale, dict, showEditorial }: HomeContentProps) {
 
         {showEditorial ? (
           <>
-            <ManifestoSection />
-            <NumbersSection />
-            <AboutSection />
-            <HowItWorksSection />
-            <InnovationSection />
-            <VisitsSection />
-            <EventsSection />
-            <CompaniesSection />
-            <PartnersSection />
+            <UnverifiedContent section="home.manifesto"><ManifestoSection /></UnverifiedContent>
+            <UnverifiedContent section="home.numbers"><NumbersSection /></UnverifiedContent>
+            <UnverifiedContent section="home.about"><AboutSection /></UnverifiedContent>
+            <UnverifiedContent section="home.how-it-works"><HowItWorksSection /></UnverifiedContent>
+            <UnverifiedContent section="home.innovation"><InnovationSection /></UnverifiedContent>
+            <UnverifiedContent section="home.visits"><VisitsSection /></UnverifiedContent>
+            <UnverifiedContent section="home.events"><EventsSection /></UnverifiedContent>
+            <UnverifiedContent section="home.companies"><CompaniesSection /></UnverifiedContent>
+            <UnverifiedContent section="home.partners"><PartnersSection /></UnverifiedContent>
           </>
         ) : (
           <PendingSection dict={dict} />

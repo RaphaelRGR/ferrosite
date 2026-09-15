@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+
 import { PendingPage } from "@/components/layout/PendingContent";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -25,10 +27,10 @@ export default async function EventosPage({ params }: PageProps<"/[locale]/event
 
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
-      <EventsHero />
-      <FeaturedEvent />
-      <EventsGrid />
-      <PastEventsGallery />
+      <UnverifiedContent section="eventos.hero" badgePosition="bottom-left"><EventsHero /></UnverifiedContent>
+      <UnverifiedContent section="eventos.featured"><FeaturedEvent /></UnverifiedContent>
+      <UnverifiedContent section="eventos.grid"><EventsGrid /></UnverifiedContent>
+      <UnverifiedContent section="eventos.past"><PastEventsGallery /></UnverifiedContent>
       
       <div className="py-20 border-t border-white/5 bg-[#0A0A0A]">
         <CtaSection locale={l} content={getDictionary(l).cta} />

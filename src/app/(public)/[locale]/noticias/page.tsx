@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+
 import { PendingPage } from "@/components/layout/PendingContent";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -29,10 +31,10 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
 
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
-      <NewsHero />
-      <NewsFeatured />
-      <NewsGrid />
-      <NewsNewsletter />
+      <UnverifiedContent section="noticias.hero" badgePosition="bottom-left"><NewsHero /></UnverifiedContent>
+      <UnverifiedContent section="noticias.featured"><NewsFeatured /></UnverifiedContent>
+      <UnverifiedContent section="noticias.grid"><NewsGrid /></UnverifiedContent>
+      <UnverifiedContent section="noticias.newsletter"><NewsNewsletter /></UnverifiedContent>
       
       <div className="py-20 border-t border-white/5 bg-[#0A0A0A]">
         <CtaSection locale={l} content={getDictionary(l).cta} />

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+
 import { PendingPage } from "@/components/layout/PendingContent";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -24,10 +26,10 @@ export default async function CursoPage({ params }: PageProps<"/[locale]/curso">
 
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
-      <CursoHero />
-      <CoursePillars />
-      <CourseCrea />
-      <CurriculumFlowchart />
+      <UnverifiedContent section="curso.hero" badgePosition="bottom-left"><CursoHero /></UnverifiedContent>
+      <UnverifiedContent section="curso.pillars"><CoursePillars /></UnverifiedContent>
+      <UnverifiedContent section="curso.crea"><CourseCrea /></UnverifiedContent>
+      <UnverifiedContent section="curso.curriculum"><CurriculumFlowchart /></UnverifiedContent>
     </div>
   );
 }

@@ -94,6 +94,10 @@ export const pt = {
     },
     simulators: { title: "Simuladores", description: "Página de Simuladores do portal FerroSite" },
   },
+  quarantine: {
+    badge: "Conteúdo em verificação",
+    explanation: "Este conteúdo ainda não foi validado com fonte oficial e pode ser alterado ou removido.",
+  },
   states: {
     notFoundTitle: "Página não encontrada",
     notFoundDescription: "Não conseguimos localizar o conteúdo que você solicitou.",
