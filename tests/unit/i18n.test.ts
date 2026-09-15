@@ -30,7 +30,7 @@ describe("catálogos PT/EN", () => {
   it("não deixam texto PT em chaves de interface do EN (exceto nomes próprios)", () => {
     const allowedSame = new Set([
       "site.campus", "nav.portal", "locale.pt", "locale.en", "locale.ptShort", "locale.enShort",
-      "nav.projectLinks.comunicaFerro", "nav.projectLinks.cavalosDeFerro", "nav.projectLinks.ferroLab", "auth.email",
+      "nav.projectLinks.comunicaFerro", "nav.projectLinks.cavalosDeFerro", "nav.projectLinks.ferroLab", "auth.email", "portal.name",
     ]);
     const same = Object.keys(flatPt).filter((k) => flatPt[k] === flatEn[k] && !allowedSame.has(k));
     expect(same).toEqual([]);

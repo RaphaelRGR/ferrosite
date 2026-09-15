@@ -139,3 +139,7 @@ Relatório: `docs/baseline/BASE-002-relatorio.md`. Inventário editorial em `con
 ## Estado após AUTH-001/002 (2026-09-14)
 
 Relatório: `docs/baseline/AUTH-001-002-relatorio.md`. Migration `supabase/migrations/20260914000100_identity_and_core.sql` com profile/papéis/membership/project/mission/audit e RLS em todas as tabelas; guard fail-closed no proxy (503 sem config, 307 para /login sem sessão), login por senha/link mágico sem auto-cadastro, callback com `exchangeCodeForSession`, logout, gate por perfil ativo no layout do Portal. P0 1–4 e 6 da auditoria resolvidos no código. Pendente: aplicar migrations no projeto Supabase (senha do banco), gerar tipos, rodar testes de isolamento e o e2e autenticado.
+
+## Estado após PORTAL-001 (2026-09-15)
+
+Relatório: `docs/baseline/PORTAL-001-relatorio.md`. Shell do Portal com sidebar/drawer/header, tema persistente sem flash, navegação por permissão, 404 própria e páginas honestas (sem KPIs fictícios). Harness de RLS em Postgres embutido valida as migrations reais (13 cenários). E2E autenticado real contra o Supabase (login/logout/tema).

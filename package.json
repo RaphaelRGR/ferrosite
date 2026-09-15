@@ -12,11 +12,12 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test --project=e2e",
     "baseline:screenshots": "playwright test --project=baseline",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run test:rls && npm run build && npm run test:e2e",
     "content:report": "node scripts/content-inventory-report.mjs",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "db:push": "node scripts/db-push.mjs push",
-    "db:types": "node scripts/db-push.mjs types"
+    "db:types": "node scripts/db-push.mjs types",
+    "test:rls": "vitest run --config vitest.rls.config.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
@@ -31,10 +32,13 @@
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24",
+    "@types/pg": "8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "embedded-postgres": "17.10.0-beta.17",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "pg": "8.23.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "5.0.0"

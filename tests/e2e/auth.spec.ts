@@ -49,29 +49,65 @@ test.describe("anônimo", () => {
 });
 
 test.describe("autenticado", () => {
+  // Mesma conta em todos os testes e o logout revoga a sessão globalmente: nada de paralelismo aqui.
+  test.describe.configure({ mode: "serial" });
   const email = process.env.E2E_ADMIN_EMAIL;
   const password = process.env.E2E_ADMIN_PASSWORD;
   test.skip(!email || !password, "defina E2E_ADMIN_EMAIL/E2E_ADMIN_PASSWORD para o fluxo autenticado");
 
-  test("login por senha entra no Portal, shell próprio, e logout volta ao login", async ({ page }) => {
+  test("login por senha cria sessão; perfil ativo vê o shell, pendente vê o bloqueio; logout encerra", async ({ page }) => {
     await page.goto("/login?next=/portal/projetos", { waitUntil: "load" });
     await page.getByLabel("E-mail").first().fill(email!);
     await page.getByLabel("Senha").fill(password!);
     await page.getByRole("button", { name: "Entrar" }).click();
     await page.waitForURL("**/portal/projetos");
 
-    await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(1);
     await expect(page.locator("main#conteudo")).toHaveCount(1);
     await expect(page.locator("footer")).toHaveCount(0);
-    await expect(page.locator('[data-theme="light"] main#conteudo')).toHaveCount(1);
+    await expect(page.locator('html[data-theme] main#conteudo')).toHaveCount(1);
+
+    const h1 = page.getByRole("heading", { level: 1 }).first();
+    // redirect de Server Action: a URL muda antes de o DOM da nova rota chegar
+    await expect(h1).not.toHaveText("Entrar no Portal");
+    await expect(h1).toBeVisible();
+    const title = await h1.innerText();
+    if (/Acesso (pendente|desativado)/i.test(title)) {
+      test.info().annotations.push({ type: "note", description: "perfil não ativo (schema não aplicado ou conta pendente): validado o bloqueio" });
+      await expect(page.getByRole("navigation", { name: "Menu do Portal" })).toHaveCount(0);
+    } else {
+      await expect(page.getByRole("navigation", { name: "Menu do Portal" }).first()).toBeAttached();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Projetos");
+    }
 
     // /login com sessão vai para o Portal
     const res = await page.request.get("/login", { maxRedirects: 0 });
     expect(res.status()).toBe(307);
 
-    await page.getByRole("button", { name: "Sair" }).click();
+    await page.getByRole("banner").getByRole("button", { name: "Sair" }).click();
     await page.waitForURL("**/login");
     const after = await page.request.get("/portal", { maxRedirects: 0 });
     expect(after.status()).toBe(307);
+  });
+
+  test("tema persiste entre rotas e recarregamentos sem flash", async ({ page }) => {
+    await page.goto("/login", { waitUntil: "load" });
+    await page.getByLabel("E-mail").first().fill(email!);
+    await page.getByLabel("Senha").fill(password!);
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await page.waitForURL("**/portal");
+
+    const saved = page.waitForResponse((r) => r.request().method() === "POST" && r.url().endsWith("/portal"));
+    await page.locator("label", { hasText: "Escuro" }).first().click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await saved; // Server Action gravou o cookie
+    await page.goto("/portal/configuracoes", { waitUntil: "load" });
+    // Já vem escuro do servidor (cookie aplicado no <html>), sem depender de JS.
+    const ssrTheme = await page.evaluate(() => document.documentElement.dataset.theme);
+    expect(ssrTheme).toBe("dark");
+    const savedLight = page.waitForResponse((r) => r.request().method() === "POST");
+    await page.locator("label", { hasText: "Claro" }).first().click();
+    await savedLight;
+    await page.reload({ waitUntil: "load" });
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   });
 });

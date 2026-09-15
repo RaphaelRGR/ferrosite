@@ -1,4 +1,15 @@
 import { defineConfig, devices } from "@playwright/test";
+import { existsSync, readFileSync } from "node:fs";
+
+// Carrega .env.local (credenciais de teste e Supabase) sem dependência extra; não sobrescreve o ambiente.
+if (existsSync(".env.local")) {
+  for (const line of readFileSync(".env.local", "utf8").split(/\r?\n/)) {
+    const i = line.indexOf("=");
+    if (line.startsWith("#") || i < 0) continue;
+    const key = line.slice(0, i).trim();
+    if (!(key in process.env)) process.env[key] = line.slice(i + 1).trim();
+  }
+}
 
 /**
  * Dois projetos:
