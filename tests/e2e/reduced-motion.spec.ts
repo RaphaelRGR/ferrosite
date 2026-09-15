@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
  * Critério global (31): com prefers-reduced-motion todo conteúdo permanece
  * visível. A Home nova não depende de animação para revelar conteúdo; o teste
  * garante que headings e cards estão com opacidade total sob a preferência e que
- * o carrossel legado (se presente) não anima.
+ * o carrossel de logos (se presente) não anima.
  */
 test.describe("prefers-reduced-motion: reduce", () => {
   test.use({ reducedMotion: "reduce" });

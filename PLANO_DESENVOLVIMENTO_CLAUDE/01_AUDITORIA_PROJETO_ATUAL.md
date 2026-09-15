@@ -179,3 +179,7 @@ Relatório: `docs/baseline/REPORT-001-relatorio.md`. Migration 6: `compute_indic
 ## Estado após OPS-001 (2026-09-15)
 
 Relatório: `docs/baseline/OPS-001-relatorio.md`. CSP e cabeçalhos de segurança, logs JSON com redação, instrumentation (onRequestError), health endpoint, error boundaries estruturados e runbook (`docs/ops/runbook.md`). Unit 135, e2e 253.
+
+## Estado após CLEAN-001 (2026-09-15)
+
+Relatório: `docs/baseline/CLEAN-001-relatorio.md`. Legado sem consumidor removido (33 seções, Navbar, CurriculumFlowchart, SubjectModal, tipos órfãos, gsap, mídia do protótipo sem licença, assets do template, .gitkeep); grades legadas, `curriculums.legacy.ts`, logos sob quarentena e registros do inventário preservados; `/portal/acervo` → `/portal/arquivos`; `/portal/questoes` honesto (decisão pendente). README reescrito. Todas as etapas do backlog (30) estão concluídas em commits locais; pendências institucionais listadas em 33.

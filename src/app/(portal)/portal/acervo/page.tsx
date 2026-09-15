@@ -1,19 +1,6 @@
-/**
- * Acervo do Portal
- * Página para gerenciamento e visualização do acervo.
- */
-import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Acervo | Portal FerroSite",
-  description: "Acervo do portal FerroSite",
-};
-
+/** Rota legada do protótipo: o acervo virou Arquivos (FILE-001). Redirect preserva links antigos (28). */
 export default function PortalAcervoPage() {
-  return (
-    <>
-      <h1>Acervo</h1>
-      {/* TODO: Implementar conteúdo da página */}
-    </>
-  );
+  redirect("/portal/arquivos");
 }

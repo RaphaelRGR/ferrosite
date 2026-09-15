@@ -18,7 +18,7 @@ export function LocaleSwitcher({
   current: Locale;
   labels: Dictionary["locale"];
   ariaLabel: string;
-  /** dark: sobre a Navbar escura legada; light: sobre superfícies claras (tokens). */
+  /** dark: sobre superfícies escuras (hero/rodapé escuros); light: sobre superfícies claras (tokens). */
   tone?: "dark" | "light";
 }) {
   const pathname = usePathname();

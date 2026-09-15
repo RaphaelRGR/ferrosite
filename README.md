@@ -1,56 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FerroSite — Engenharia Ferroviária e Metroviária (UFSC Joinville)
 
-## Getting Started
+Site público (PT/EN) + Portal interno do curso. Next.js 16 (App Router, Turbopack), React 19, Tailwind 4, Supabase (Auth + Postgres com RLS). O plano de desenvolvimento e as decisões estão em `PLANO_DESENVOLVIMENTO_CLAUDE/`; cada etapa tem relatório em `docs/baseline/`.
 
-First, run the development server:
+## Começar
+
+Node `>=20.9` (ver `.nvmrc`). `npm ci`, copie `.env.example` para `.env.local` (sem as variáveis do Supabase o Portal responde 503 e o site funciona sem publicações), depois:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Scripts de qualidade (baseline BASE-001)
-
-Node `>=20.9` (ver `.nvmrc`). Instale com `npm ci`.
-
-| Comando | O que faz |
-|---|---|
-| `npm run lint` | ESLint com `--max-warnings 0` (avisos bloqueiam) |
-| `npm run typecheck` | `next typegen && tsc --noEmit` (regenera os tipos de rota antes) |
-| `npm test` | Vitest — invariantes das matrizes 2025/2016/2012 |
-| `npm run build` | build de produção |
-| `npm run test:e2e` | Playwright — smoke das rotas, links internos e reduced motion (exige `npm run build` antes; sobe `next start` na porta 3100) |
-| `npm run baseline:screenshots` | captura screenshots em `docs/baseline/screenshots/` nos 4 viewports de referência |
-| `npm run check` | lint → typecheck → test → build → test:e2e |
-| `npm run content:report` | regenera `docs/content/inventario-editorial.md` a partir de `content/editorial-inventory.json` |
 
 Primeira execução do Playwright: `npx playwright install chromium`.
 
-Relatórios por tarefa em `docs/baseline/` (BASE-001, ARCH-001, DS-001, I18N-001, BASE-002). Conteúdo institucional não verificado aparece com o selo "Conteúdo em verificação"; `NEXT_PUBLIC_CONTENT_MODE=strict` o oculta. Site público é servido em `/pt` e `/en`; defina `NEXT_PUBLIC_SITE_URL` em produção para canonical/sitemap absolutos.
+## Estrutura
 
+| Pasta | Conteúdo |
+|---|---|
+| `src/app/(public)/[locale]` | site público: Início, Curso (fluxograma dos PDFs oficiais), Projetos, Experiências, Notícias, Eventos, Laboratórios, Para Empresas (+ formulário de desafio), Sobre, pré-visualização por token |
+| `src/app/(portal)` | Portal: projetos/equipe/missões, pessoas, empresas/desafios (CRM), conteúdos (aprovação → publicação), arquivos, relatórios, configurações |
+| `src/app/(auth)`, `src/app/api` | login/callback, health |
+| `src/lib` | auth, portal (authz, ações, consultas), crm, content (Markdown restrito, projeção pública), observability, supabase (clientes server/browser/admin/public) |
+| `src/i18n` | catálogos PT/EN tipados, formatação, metadata |
+| `src/content`, `content/` | quarentena editorial (`editorial-inventory.json`), staging do protótipo, `labs.json` (gerado do portfólio), `curriculum/*.json` (gerado dos PDFs oficiais) |
+| `src/data`, `scripts/` | loaders e geradores (`curriculum_from_pdf.py`, `labs_from_pdf.py`, `db-types-local.mjs`) |
+| `supabase/migrations` | schema, RLS, triggers e funções (fonte única de verdade do banco) |
+| `tests/` | `unit` (Vitest), `rls` (migrations reais em Postgres embutido), `e2e` (Playwright + axe), `integration` (nuvem, opcional) |
+| `docs/` | relatórios por etapa, inventário editorial, `ops/runbook.md` |
+
+## Scripts
+
+| Comando | O que faz |
+|---|---|
+| `npm run lint` | ESLint com `--max-warnings 0` |
+| `npm run typecheck` | `next typegen && tsc --noEmit` |
+| `npm test` | Vitest (invariantes curriculares, i18n, quarentena, autorização, Markdown, formulário, logs) |
+| `npm run test:rls` | políticas/triggers reais em Postgres embutido (sem nuvem) |
+| `npm run test:e2e` | Playwright: smoke, links, axe estrito, quarentena, fluxograma, hubs, formulário, cabeçalhos (exige `npm run build`; porta 3100) |
+| `npm run test:integration` | contra o Supabase real (pula sem variáveis) |
+| `npm run build` | build de produção |
+| `npm run check` | lint → typecheck → test → test:rls → build → test:e2e |
+| `npm run db:push` / `npm run db:types` | aplica migrations / gera tipos contra a nuvem (`SUPABASE_DB_PASSWORD` em `.env.local`) |
+| `npm run db:types:local` | gera `src/types/database.ts` das migrations em Postgres embutido (sem Docker) |
+| `npm run content:report` | regenera `docs/content/inventario-editorial.md` |
+| `npm run baseline:screenshots` | screenshots de referência em `docs/baseline/screenshots/` |
+
+## Regras que o código respeita
+
+- Nenhuma afirmação institucional sem fonte: conteúdo herdado do protótipo aparece com o selo "Conteúdo em verificação" (`NEXT_PUBLIC_CONTENT_MODE=strict` o oculta); dados pessoais/contatos não são publicados; lacunas ficam como `[CONTEÚDO PENDENTE]`.
+- O site lê só a projeção pública aprovada (`public_publication`); o Portal produz, revisa, aprova e publica (snapshot, rollback, despublicação auditada).
+- Autorização decidida no servidor/RLS; máquinas de estado e guardas vivem em triggers; tudo crítico é auditado (append-only).
+- PT e EN têm conteúdo próprio; EN nunca mostra PT como fallback silencioso.
+- Currículos e laboratórios vêm de geradores sobre os PDFs oficiais (com sha256) — não editar os JSON à mão.
+
+Operação: `docs/ops/runbook.md`. Decisões e pendências institucionais: `PLANO_DESENVOLVIMENTO_CLAUDE/33_DECISOES_E_CONFLITOS_ENCONTRADOS.md`.

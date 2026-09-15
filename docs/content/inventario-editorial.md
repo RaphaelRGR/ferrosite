@@ -18,7 +18,7 @@ Para cada linha: **confirmar** (com fonte primária e responsável), **corrigir*
 
 ### Hero da Home — `home.hero`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/i18n/dictionaries/pt.ts (hero) + src/components/sections/HeroSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/i18n/dictionaries/pt.ts (hero) + src/components/sections/HeroSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -28,7 +28,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Manifesto (R$ 600 bi) — `home.manifesto`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/ManifestoSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/ManifestoSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -37,7 +37,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Números animados — `home.numbers`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/NumbersSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/NumbersSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -48,7 +48,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### A Engenharia que move o país — `home.about`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/AboutSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/AboutSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -58,7 +58,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Jornada acadêmica (4 etapas) — `home.how-it-works`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/HowItWorksSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/HowItWorksSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -69,7 +69,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Inovação nos Trilhos — `home.innovation`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/InnovationSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/InnovationSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -81,7 +81,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Calendário de Visitas (resumo) — `home.visits`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/VisitsSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/VisitsSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -92,7 +92,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Agenda de Eventos (resumo) — `home.events`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/EventsSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/EventsSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -101,7 +101,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Carrossel de logos — `home.companies`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CompaniesSection.tsx + public/empresas/*.png`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/CompaniesSection.tsx + public/empresas/*.png`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -110,7 +110,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Rede de Colaboração — `home.partners`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/PartnersSection.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/PartnersSection.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -119,7 +119,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Hero do Curso — `curso.hero`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CursoHero.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/CursoHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -128,7 +128,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Os 4 pilares da formação — `curso.pillars-legacy`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CoursePillars.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/CoursePillars.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -136,7 +136,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/
 
 ### Atribuição profissional (CREA) — `curso.crea`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-001)` · Código: `src/components/sections/CourseCrea.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/CourseCrea.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -156,7 +156,7 @@ Rota: `/curso` · Código: `content/curriculum/*.json (gerado dos PDFs oficiais 
 
 ### Hero do Sobre — `sobre.hero`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/AboutHero.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/AboutHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -164,7 +164,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Uma Jornada de Inovação (linha do tempo) — `sobre.story`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/StoryJourney.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/StoryJourney.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -177,7 +177,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Missão, Visão e Valores — `sobre.identity`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/AboutIdentity.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/AboutIdentity.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -185,7 +185,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Linhas de Pesquisa — `sobre.research`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/AboutResearch.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/AboutResearch.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -194,7 +194,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Hero de Visitas — `visitas.hero`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsHero.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/VisitsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -202,7 +202,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Números de visitas — `visitas.stats`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsStats.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/VisitsStats.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -213,7 +213,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Memórias Técnicas (galeria) — `visitas.gallery`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsGallery.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/VisitsGallery.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -226,7 +226,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Próximos embarques — `visitas.schedule`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsSchedule.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/VisitsSchedule.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -238,7 +238,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Hero de Eventos — `eventos.hero`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/EventsHero.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/EventsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -246,7 +246,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Evento principal — `eventos.featured`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/FeaturedEvent.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/FeaturedEvent.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -254,7 +254,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Próximos encontros — `eventos.grid`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/EventsGrid.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/EventsGrid.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -266,7 +266,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Galeria de eventos passados — `eventos.past`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/PastEventsGallery.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/PastEventsGallery.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -276,7 +276,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Hero de Notícias — `noticias.hero`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsHero.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/NewsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -284,7 +284,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Notícia em destaque — `noticias.featured`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsFeatured.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/NewsFeatured.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -293,7 +293,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Arquivo de notícias — `noticias.grid`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsGrid.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/NewsGrid.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -307,7 +307,7 @@ Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/
 
 ### Newsletter — `noticias.newsletter`
 
-Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsNewsletter.tsx`
+Rota: `(legado removido em CLEAN-001 — componente apagado; entradas preservadas para decisão editorial)` · Código: `src/components/sections/NewsNewsletter.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|

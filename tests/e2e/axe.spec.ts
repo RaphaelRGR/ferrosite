@@ -24,7 +24,7 @@ for (const route of STRICT_ROUTES) {
   });
 }
 
-// Inclui a 404: usa o shell público legado (Navbar/footer com texto white/30 e 8 px).
+// Inclui a 404 (mesmo shell público claro das demais rotas).
 test("axe: baseline das rotas públicas legadas (registro, não bloqueia)", async ({ page }, testInfo) => {
   test.setTimeout(180_000);
   const summary: Record<string, string[]> = {};
