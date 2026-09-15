@@ -7,15 +7,16 @@ describe("navegação do Portal", () => {
   const items = portalNavItems(getDictionary("pt").portal);
 
   it("só lista rotas existentes e rotuladas pelo catálogo", () => {
-    expect(items.map((i) => i.href)).toEqual(["/portal", "/portal/projetos", "/portal/configuracoes"]);
+    expect(items.map((i) => i.href)).toEqual(["/portal", "/portal/projetos", "/portal/pessoas", "/portal/configuracoes"]);
     for (const i of items) expect(i.label.length).toBeGreaterThan(0);
   });
 
   it("filtra por papel quando o item exige e mostra todos a contas ativas sem exigência", () => {
-    const withAdminOnly = [...items, { href: "/portal/pessoas", label: "Pessoas", icon: "", requires: ["admin" as const] }];
-    expect(visibleNavItems(withAdminOnly, { global_role: "member" }).map((i) => i.href)).not.toContain("/portal/pessoas");
-    expect(visibleNavItems(withAdminOnly, { global_role: "admin" }).map((i) => i.href)).toContain("/portal/pessoas");
-    expect(visibleNavItems(withAdminOnly, null)).toHaveLength(items.length);
+    // Pessoas exige admin/coordenação (11); os demais itens valem para qualquer conta ativa.
+    expect(visibleNavItems(items, { global_role: "member" }).map((i) => i.href)).not.toContain("/portal/pessoas");
+    expect(visibleNavItems(items, { global_role: "coordination" }).map((i) => i.href)).toContain("/portal/pessoas");
+    expect(visibleNavItems(items, { global_role: "admin" }).map((i) => i.href)).toContain("/portal/pessoas");
+    expect(visibleNavItems(items, null)).toHaveLength(items.length - 1);
   });
 
   it("marca o item ativo pelo prefixo, exceto o início que é exato", () => {

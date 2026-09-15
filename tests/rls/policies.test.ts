@@ -126,11 +126,13 @@ describe("projeto e membership", () => {
     expect(await rows(ids.external, "select id from public.project")).toHaveLength(1);
   });
 
-  it("projeto não pode ser apagado, só arquivado, e o arquivamento é consistente", async () => {
-    // Sem policy de DELETE o Postgres não erra: afeta 0 linhas. O projeto precisa continuar existindo.
+  it("projeto não pode ser apagado, só arquivado; arquivar direto de planejado é transição inválida", async () => {
+    // Sem policy de DELETE o Postgres não erra (0 linhas); com o trigger de PORTAL-002 ele erra. Em ambos, o projeto continua.
+    // Autenticado: sem policy de DELETE, 0 linhas (sem erro). Superusuário/service role: o trigger barra.
     await rows(ids.admin, "delete from public.project where id = $1", [projectId]);
+    await expect(h.admin.query("delete from public.project where id = $1", [projectId])).rejects.toThrow(/exclusão não permitida/);
     expect(await h.admin.query("select 1 from public.project where id = $1", [projectId])).toMatchObject({ rowCount: 1 });
-    expect(await fails(ids.admin, "update public.project set status = 'archived' where id = $1", [projectId])).toMatch(/project_archived_consistency/);
+    expect(await fails(ids.admin, "update public.project set status = 'archived', updated_by = $2 where id = $1", [projectId, ids.admin])).toMatch(/transição de projeto inválida: planned → archived/);
   });
 });
 

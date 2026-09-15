@@ -13,18 +13,20 @@ export interface NavItem {
 const ICONS = {
   dashboard: "M3 11.5 12 4l9 7.5M5 10v10h5v-6h4v6h5V10",
   projects: "M3 7h6l2 2h10v11H3z",
+  people: "M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0Zm-12 9a8 8 0 0 1 16 0",
   settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.1-1l2-1.5-2-3.4-2.3.9a7.5 7.5 0 0 0-1.7-1L15 3.5H9l-.3 2.5a7.5 7.5 0 0 0-1.7 1L4.7 6.1l-2 3.4 2 1.5a7.4 7.4 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9a7.5 7.5 0 0 0 1.7 1L9 20.5h6l.3-2.5a7.5 7.5 0 0 0 1.7-1l2.3.9 2-3.4-2-1.5c.1-.3.1-.7.1-1Z",
 } as const;
 
 /**
  * Itens de navegação do Portal. Só rotas que existem e têm função entram aqui
- * (03: página inexistente não aparece na navegação). Missões, Pessoas, Arquivos,
- * Relatórios etc. entram quando suas fatias forem entregues.
+ * (03: página inexistente não aparece na navegação). Missões vivem dentro do
+ * projeto; Arquivos, Relatórios etc. entram quando suas fatias forem entregues.
  */
 export function portalNavItems(dict: Dictionary["portal"]): NavItem[] {
   return [
     { href: "/portal", label: dict.nav.dashboard, icon: ICONS.dashboard },
     { href: "/portal/projetos", label: dict.nav.projects, icon: ICONS.projects },
+    { href: "/portal/pessoas", label: dict.nav.people, icon: ICONS.people, requires: ["admin", "coordination"] },
     { href: "/portal/configuracoes", label: dict.nav.settings, icon: ICONS.settings },
   ];
 }

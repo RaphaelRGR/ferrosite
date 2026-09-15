@@ -31,6 +31,8 @@ describe("catálogos PT/EN", () => {
     const allowedSame = new Set([
       "site.campus", "nav.portal", "locale.pt", "locale.en", "locale.ptShort", "locale.enShort",
       "nav.projectLinks.comunicaFerro", "nav.projectLinks.cavalosDeFerro", "nav.projectLinks.ferroLab", "auth.email", "portal.name", "home.hero.subtitle", "newsPage.newsletterTitle", "events.title",
+      // Portal: termos idênticos nas duas línguas (Kanban, Checklist, Item, E-mail) e o traço de "vazio".
+      "portal.missions.kanban", "portal.missions.checklist", "portal.missions.itemLabel", "portal.people.email", "portal.common.none",
     ]);
     const same = Object.keys(flatPt).filter((k) => flatPt[k] === flatEn[k] && !allowedSame.has(k));
     expect(same).toEqual([]);

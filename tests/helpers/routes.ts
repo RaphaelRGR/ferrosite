@@ -20,6 +20,12 @@ export const PORTAL_ROUTES = [
   "/portal/projetos",
   "/portal/questoes",
   "/portal/acervo",
+  "/portal/projetos/novo",
+  "/portal/projetos/qualquer-slug",
+  "/portal/projetos/qualquer-slug/equipe",
+  "/portal/projetos/qualquer-slug/missoes",
+  "/portal/projetos/qualquer-slug/missoes/nova",
+  "/portal/pessoas",
 ] as const;
 
 // Catálogo de componentes (ferramenta de desenvolvimento, noindex, fora da navegação).

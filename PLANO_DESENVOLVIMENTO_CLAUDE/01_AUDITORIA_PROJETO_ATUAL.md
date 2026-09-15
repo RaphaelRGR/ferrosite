@@ -159,3 +159,7 @@ Relatório: `docs/baseline/PUBLIC-002-relatorio.md`. Experiências (filtro por U
 ## Estado após LAB-001 (2026-09-15)
 
 Relatório: `docs/baseline/LAB-001-relatorio.md`. Portfólio de laboratórios extraído para `content/labs.json` (sha256; sem contatos), 14 labs (11 detalhados, Robótica marcada como duplicata do LabDSE, 3 só índice), taxonomia de 20 capacidades com relação administrada e níveis descrita/potencial/pendente, hub `/laboratorios` por capacidade (URL), 28 páginas de laboratório, `/para-empresas` sem formulário nem e-mail até CRM-001. Unit 113, e2e 222.
+
+## Estado após AUTH-003 / PORTAL-002 / PORTAL-003 (2026-09-15)
+
+Relatório: `docs/baseline/AUTH-003-PORTAL-002-003-relatorio.md`. Migration 2 com máquinas de estado de projeto/missão no servidor, histórico de negócio separado da auditoria, checklist/comentários, guardas (responsável ∈ equipe; remoção exige reatribuir), busca de perfil com escopo e tipos gerados localmente. Portal: CRUD de projetos com busca/filtro/paginação por URL, equipe (papel/prazo/externo), missões em lista/Kanban/calendário com transição por botões, detalhe com checklist/comentários/histórico, página Pessoas. Unit 122, RLS 28, e2e 228.
