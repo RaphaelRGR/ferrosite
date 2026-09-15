@@ -6,9 +6,13 @@ import { LOCALE_TAGS, type Locale } from "./config";
  */
 export const INSTITUTIONAL_TIME_ZONE = "America/Sao_Paulo";
 
-export function formatDate(locale: Locale, date: Date, options?: Intl.DateTimeFormatOptions): string {
+const COMPONENT_KEYS: Array<keyof Intl.DateTimeFormatOptions> = ["weekday", "era", "year", "month", "day", "hour", "minute", "second", "fractionalSecondDigits"];
+
+export function formatDate(locale: Locale, date: Date, options: Intl.DateTimeFormatOptions = {}): string {
+  // dateStyle não pode coexistir com componentes (day/month/…): o default só entra quando nenhum foi pedido.
+  const hasComponents = COMPONENT_KEYS.some((k) => k in options);
   return new Intl.DateTimeFormat(LOCALE_TAGS[locale], {
-    dateStyle: "long",
+    ...(hasComponents || options.dateStyle || options.timeStyle ? {} : { dateStyle: "long" }),
     timeZone: INSTITUTIONAL_TIME_ZONE,
     ...options,
   }).format(date);

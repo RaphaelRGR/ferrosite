@@ -49,7 +49,8 @@ export async function signInWithMagicLink(_prev: AuthActionState, formData: Form
 export async function signOut(): Promise<void> {
   if (isSupabaseConfigured()) {
     const supabase = await createClient();
-    await supabase.auth.signOut();
+    // Sair encerra ESTA sessão (scope local); revogar todos os dispositivos é ação administrativa (desativar conta em Pessoas).
+    await supabase.auth.signOut({ scope: "local" });
   }
   redirect("/login");
 }

@@ -32,7 +32,9 @@ export const IDLE: ActionState = {};
 /** Traduz erro do Postgres/PostgREST em ActionError legível (mensagens de guard viram `db:<mensagem>`). */
 export function dbError(error: { code?: string; message: string } | null): ActionError {
   if (!error) return "server";
-  if (error.code === "42501" || /row-level security/.test(error.message)) return "forbidden";
+  if (/row-level security|permission denied/.test(error.message)) return "forbidden";
+  // 42501 vindo de um guard nosso traz a razão em português (ex.: "autor não aprova o próprio conteúdo"): mostrar.
+  if (error.code === "42501") return `db:${error.message}`;
   if (error.code === "23505") return "db:já existe um registro com esse identificador";
   if (error.code === "23514" || /transição|reatribua|responsável precisa|não pode mudar/.test(error.message)) return `db:${error.message}`;
   return `db:${error.message}`;

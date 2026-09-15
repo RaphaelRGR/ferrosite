@@ -49,7 +49,7 @@ test.describe("anônimo", () => {
 });
 
 test.describe("autenticado", () => {
-  // Mesma conta em todos os testes e o logout revoga a sessão globalmente: nada de paralelismo aqui.
+  // Mesma conta em todos os testes: em série para o estado de um teste não confundir o outro.
   test.describe.configure({ mode: "serial" });
   const email = process.env.E2E_ADMIN_EMAIL;
   const password = process.env.E2E_ADMIN_PASSWORD;
