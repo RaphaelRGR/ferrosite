@@ -20,7 +20,7 @@ test.describe("prefers-reduced-motion: reduce", () => {
     }
   });
 
-  test("página legada (/pt/sobre) mantém conteúdo visível", async ({ page }) => {
+  test("/pt/sobre mantém conteúdo visível", async ({ page }) => {
     await page.goto("/pt/sobre", { waitUntil: "load" });
     const h1 = page.locator("main h1").first();
     await expect(h1).toBeAttached();

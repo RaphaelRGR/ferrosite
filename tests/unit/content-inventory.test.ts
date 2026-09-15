@@ -82,10 +82,13 @@ describe("política de renderização", () => {
   it("status da seção é o pior status das entradas", () => {
     for (const s of CONTENT_SECTIONS) {
       const st = sectionStatus(s.id);
-      if (s.entries.some((e) => e.status === "DISCARDED" || e.decision === "descartar")) expect(st).toBe("DISCARDED");
-      else if (s.entries.every((e) => e.status === "VERIFIED" && e.decision === "confirmar")) expect(st).toBe("VERIFIED");
+      const live = s.entries.filter((e) => e.status !== "DISCARDED" && e.decision !== "descartar");
+      if (live.length === 0) expect(st).toBe("DISCARDED");
+      else if (live.every((e) => e.status === "VERIFIED" && e.decision === "confirmar")) expect(st).toBe("VERIFIED");
       else expect(st).toBe("UNVERIFIED");
     }
+    // uma entrada descartada não esconde a seção inteira (regressão encontrada em FLOW-001)
+    expect(sectionStatus("curso.curriculum")).toBe("UNVERIFIED");
     expect(() => sectionStatus("nao.existe")).toThrow();
   });
 });

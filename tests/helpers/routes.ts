@@ -3,9 +3,9 @@
  * Usado pelo smoke, pelo crawler de links e pela captura de screenshots.
  */
 // Caminhos públicos sem prefixo de locale (I18N-001 prefixa: /pt/..., /en/...).
-export const PUBLIC_PATHS = ["/", "/curso", "/projetos", "/projetos/comunica-ferro", "/sobre", "/experiencias", "/eventos", "/noticias", "/simuladores"] as const;
+export const PUBLIC_PATHS = ["/", "/curso", "/projetos", "/projetos/comunica-ferro", "/sobre", "/experiencias", "/experiencias/visitas.gallery.rumo-2023", "/eventos", "/noticias", "/noticias/noticias.grid.08mai", "/simuladores"] as const;
 // Páginas já migradas para o shell claro (PUBLIC-001): axe estrito.
-export const LIGHT_PATHS = ["/", "/curso", "/projetos", "/projetos/comunica-ferro"] as const;
+export const LIGHT_PATHS = [...PUBLIC_PATHS] as const;
 export const LOCALES = ["pt", "en"] as const;
 
 export function localized(locale: (typeof LOCALES)[number], path: string): string {

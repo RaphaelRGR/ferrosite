@@ -8,9 +8,9 @@ Política: nada abaixo é publicado como fato. Em modo `review` (default) o site
 
 | Total | UNVERIFIED | VERIFIED | DISCARDED | Seções |
 |---|---|---|---|---|
-| 105 | 104 | 0 | 1 | 43 |
+| 112 | 111 | 0 | 1 | 50 |
 
-Por tipo: claim 19 · metric 17 · narrative 17 · visit 12 · event 8 · news 8 · image 5 · partner 4 · curriculum 4 · cta 4 · date 3 · legal 2 · person 2
+Por tipo: claim 19 · narrative 19 · metric 17 · visit 14 · news 10 · event 8 · image 5 · partner 4 · curriculum 4 · date 4 · cta 4 · legal 2 · person 2
 
 ## Decisões pendentes (owner humano)
 
@@ -156,7 +156,7 @@ Rota: `/curso` · Código: `content/curriculum/*.json (gerado dos PDFs oficiais 
 
 ### Hero do Sobre — `sobre.hero`
 
-Rota: `/sobre` · Código: `src/components/sections/AboutHero.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/AboutHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -164,7 +164,7 @@ Rota: `/sobre` · Código: `src/components/sections/AboutHero.tsx`
 
 ### Uma Jornada de Inovação (linha do tempo) — `sobre.story`
 
-Rota: `/sobre` · Código: `src/components/sections/StoryJourney.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/StoryJourney.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -177,7 +177,7 @@ Rota: `/sobre` · Código: `src/components/sections/StoryJourney.tsx`
 
 ### Missão, Visão e Valores — `sobre.identity`
 
-Rota: `/sobre` · Código: `src/components/sections/AboutIdentity.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/AboutIdentity.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -185,7 +185,7 @@ Rota: `/sobre` · Código: `src/components/sections/AboutIdentity.tsx`
 
 ### Linhas de Pesquisa — `sobre.research`
 
-Rota: `/sobre` · Código: `src/components/sections/AboutResearch.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/AboutResearch.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -194,7 +194,7 @@ Rota: `/sobre` · Código: `src/components/sections/AboutResearch.tsx`
 
 ### Hero de Visitas — `visitas.hero`
 
-Rota: `/experiencias` · Código: `src/components/sections/VisitsHero.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -202,7 +202,7 @@ Rota: `/experiencias` · Código: `src/components/sections/VisitsHero.tsx`
 
 ### Números de visitas — `visitas.stats`
 
-Rota: `/experiencias` · Código: `src/components/sections/VisitsStats.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsStats.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -213,7 +213,7 @@ Rota: `/experiencias` · Código: `src/components/sections/VisitsStats.tsx`
 
 ### Memórias Técnicas (galeria) — `visitas.gallery`
 
-Rota: `/experiencias` · Código: `src/components/sections/VisitsGallery.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsGallery.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -226,7 +226,7 @@ Rota: `/experiencias` · Código: `src/components/sections/VisitsGallery.tsx`
 
 ### Próximos embarques — `visitas.schedule`
 
-Rota: `/experiencias` · Código: `src/components/sections/VisitsSchedule.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/VisitsSchedule.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -238,7 +238,7 @@ Rota: `/experiencias` · Código: `src/components/sections/VisitsSchedule.tsx`
 
 ### Hero de Eventos — `eventos.hero`
 
-Rota: `/eventos` · Código: `src/components/sections/EventsHero.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/EventsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -246,7 +246,7 @@ Rota: `/eventos` · Código: `src/components/sections/EventsHero.tsx`
 
 ### Evento principal — `eventos.featured`
 
-Rota: `/eventos` · Código: `src/components/sections/FeaturedEvent.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/FeaturedEvent.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -254,7 +254,7 @@ Rota: `/eventos` · Código: `src/components/sections/FeaturedEvent.tsx`
 
 ### Próximos encontros — `eventos.grid`
 
-Rota: `/eventos` · Código: `src/components/sections/EventsGrid.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/EventsGrid.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -266,7 +266,7 @@ Rota: `/eventos` · Código: `src/components/sections/EventsGrid.tsx`
 
 ### Galeria de eventos passados — `eventos.past`
 
-Rota: `/eventos` · Código: `src/components/sections/PastEventsGallery.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/PastEventsGallery.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -276,7 +276,7 @@ Rota: `/eventos` · Código: `src/components/sections/PastEventsGallery.tsx`
 
 ### Hero de Notícias — `noticias.hero`
 
-Rota: `/noticias` · Código: `src/components/sections/NewsHero.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsHero.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -284,7 +284,7 @@ Rota: `/noticias` · Código: `src/components/sections/NewsHero.tsx`
 
 ### Notícia em destaque — `noticias.featured`
 
-Rota: `/noticias` · Código: `src/components/sections/NewsFeatured.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsFeatured.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -293,7 +293,7 @@ Rota: `/noticias` · Código: `src/components/sections/NewsFeatured.tsx`
 
 ### Arquivo de notícias — `noticias.grid`
 
-Rota: `/noticias` · Código: `src/components/sections/NewsGrid.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsGrid.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -307,7 +307,7 @@ Rota: `/noticias` · Código: `src/components/sections/NewsGrid.tsx`
 
 ### Newsletter — `noticias.newsletter`
 
-Rota: `/noticias` · Código: `src/components/sections/NewsNewsletter.tsx`
+Rota: `(legado sem consumidor — substituído em PUBLIC-002)` · Código: `src/components/sections/NewsNewsletter.tsx`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
@@ -421,4 +421,60 @@ Rota: `/projetos/[slug]` · Código: `src/app/(public)/[locale]/projetos/[slug]/
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
 | `projetos.detalhe.resumo` | narrative | Título/categoria/resumo de staging; corpo marcado como pendente | — | — | UNVERIFIED | — | — | Sem equipe, marcos, resultados até aprovação. |
+
+### Experiências — hub — `experiencias.hub`
+
+Rota: `/experiencias` · Código: `src/app/(public)/[locale]/experiencias/page.tsx + staging EXPERIENCES`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `experiencias.hub.lista` | visit | Vale-EFVM 2022; CCO Rumo 2023; Oficinas MRS 2024; RUMO 18 jun 2026; UTN Buenos Aires jul 2026; VLI set 2026 | — | — | UNVERIFIED | — | — | Herdado de VisitsGallery/VisitsSchedule; datas futuras não confirmadas. |
+
+### Experiências — detalhe — `experiencias.detalhe`
+
+Rota: `/experiencias/[id]` · Código: `src/app/(public)/[locale]/experiencias/[id]/page.tsx`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `experiencias.detalhe.resumo` | visit | Título/data/local/resumo do staging; roteiro, resultados e galeria pendentes | — | — | UNVERIFIED | — | — | — |
+
+### Notícias — hub — `noticias.hub`
+
+Rota: `/noticias` · Código: `src/app/(public)/[locale]/noticias/page.tsx + staging NEWS`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `noticias.hub.lista` | news | Hidrogênio verde (12 mai 2026); Laboratórios de sinalização (08 mai 2026); Sensor IoT (28 abr 2026) | — | — | UNVERIFIED | — | — | Possivelmente fictícias; sem autor/fonte. |
+
+### Notícias — detalhe — `noticias.detalhe`
+
+Rota: `/noticias/[id]` · Código: `src/app/(public)/[locale]/noticias/[id]/page.tsx`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `noticias.detalhe.resumo` | news | Título/data/resumo do staging; corpo, autor e crédito pendentes | — | — | UNVERIFIED | — | — | — |
+
+### Sobre — linha do tempo — `sobre.historia`
+
+Rota: `/sobre` · Código: `src/app/(public)/[locale]/sobre/page.tsx + staging HISTORY`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `sobre.historia.marcos` | date | 2009 criação (REUNI); 2013/2014 primeira turma; 2023 premiação científica; 2024 Prêmio Revista Ferroviária e Prêmio Inovação ANTT | — | — | UNVERIFIED | — | — | Nome de pessoa removido; fontes (atos, prêmios) pendentes; conflita com 2014 do AboutHistory. |
+
+### Sobre — missão, visão e valores — `sobre.identidade`
+
+Rota: `/sobre` · Código: `sobre/page.tsx + staging IDENTITY`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `sobre.identidade.mvv` | narrative | Missão/visão/valores do AboutIdentity | — | — | UNVERIFIED | — | — | Não localizados em documento oficial. |
+
+### Sobre — linhas de pesquisa — `sobre.pesquisa`
+
+Rota: `/sobre` · Código: `sobre/page.tsx + staging RESEARCH_LINES`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `sobre.pesquisa.linhas` | narrative | Dinâmica Ferroviária e Roda-Trilho; Logística e Otimização de Malhas; Via Permanente e Infraestrutura; Sinalização e Controle de Tráfego | — | — | UNVERIFIED | — | — | Confrontar com o portfólio de laboratórios. |
 

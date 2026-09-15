@@ -99,3 +99,26 @@ export const ABOUT_COURSE_TEXT = {
   text: "Formamos profissionais para projetar, construir e operar os sistemas que são a espinha dorsal da logística nacional. O curso de Engenharia Ferroviária e Metroviária da UFSC Joinville é referência técnica e inovação no setor.",
   source: "AboutSection",
 };
+
+/** Linha do tempo — origem: StoryJourney. Nomes de pessoas removidos (dado pessoal sem consentimento). */
+export const HISTORY: Array<StagingItem & { when: string }> = [
+  { id: "sobre.story.2009", when: "2009", title: "Criação do curso", description: "Criado através do programa REUNI, o curso inicia suas atividades na inauguração do campus de Joinville da UFSC.", source: "StoryJourney" },
+  { id: "sobre.story.2013", when: "2013 / 2014", title: "Primeira turma formada", description: "A formatura da primeira turma é um marco histórico para o curso e para o setor.", source: "StoryJourney (sem o nome da pessoa citada)" },
+  { id: "sobre.story.2023", when: "2023", title: "Premiação científica", description: "Projetos de pesquisa do curso ganham destaque nacional, com premiação de melhor trabalho em encontro científico.", source: "StoryJourney" },
+  { id: "sobre.story.2024", when: "2024", title: "Reconhecimento do setor", description: "Indicação como Melhor Instituição de Ensino no Prêmio Revista Ferroviária e Prêmio Inovação da ANTT para egressos.", source: "StoryJourney" },
+];
+
+/** Missão, visão e valores — origem: AboutIdentity (não localizados em documento oficial). */
+export const IDENTITY: StagingItem[] = [
+  { id: "sobre.identity.missao", title: "Missão", meta: "Por que existimos?", description: "Não fomos criados apenas para diplomar engenheiros. Existimos para preencher um vazio histórico na logística nacional. Nossa missão é formar a elite técnica capaz de liderar o renascimento das ferrovias no Brasil, projetando e operando sistemas que movem a riqueza do país com segurança e eficiência máxima.", source: "AboutIdentity" },
+  { id: "sobre.identity.visao", title: "Visão", meta: "Onde queremos chegar?", description: "Ser o epicentro da inovação metroferroviária na América Latina. Queremos que cada quilômetro de novo trilho implantado no continente tenha a assinatura, a pesquisa ou a gestão de um profissional moldado no CTJ.", source: "AboutIdentity" },
+  { id: "sobre.identity.valores", title: "Valores", meta: "O que nos move?", description: "Rigor técnico inegociável, segurança operacional absoluta, sustentabilidade sistêmica e coragem para inovar em um setor tradicional.", source: "AboutIdentity" },
+];
+
+/** Linhas de pesquisa — origem: AboutResearch (confrontar com os laboratórios do portfólio). */
+export const RESEARCH_LINES: StagingItem[] = [
+  { id: "sobre.research.dinamica", title: "Dinâmica Ferroviária e Roda-Trilho", description: "Física do contato roda-trilho: fadiga, desgaste, descarrilamento e otimização de truques.", source: "AboutResearch" },
+  { id: "sobre.research.logistica", title: "Logística e Otimização de Malhas", description: "Cruzamentos, pátios e escoamento: modelos para aumentar capacidade e reduzir gargalos.", source: "AboutResearch" },
+  { id: "sobre.research.via", title: "Via Permanente e Infraestrutura", description: "Dormentes, lastros, sublastros e geotecnia ferroviária.", source: "AboutResearch" },
+  { id: "sobre.research.sinalizacao", title: "Sinalização e Controle de Tráfego", description: "Do PTC ao CBTC: telecomunicações e controle de tráfego ferroviário e metroviário.", source: "AboutResearch" },
+];

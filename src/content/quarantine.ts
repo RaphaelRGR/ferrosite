@@ -64,12 +64,17 @@ export function getContentSection(id: string): ContentSection | undefined {
   return SECTION_INDEX.get(id);
 }
 
-/** Uma seção é publicável sem marca quando todas as entradas estão VERIFIED com decisão de confirmar. */
+/**
+ * Entradas descartadas saem do cálculo (o conteúdo delas já não é exibido).
+ * A seção é DISCARDED só se todas forem; VERIFIED se todas as restantes estiverem
+ * VERIFIED com decisão de confirmar; senão UNVERIFIED (com selo).
+ */
 export function sectionStatus(id: string): ContentStatus {
   const section = SECTION_INDEX.get(id);
   if (!section) throw new Error(`Seção de conteúdo desconhecida: ${id}`);
-  if (section.entries.some((e) => e.status === "DISCARDED" || e.decision === "descartar")) return "DISCARDED";
-  if (section.entries.every((e) => e.status === "VERIFIED" && e.decision === "confirmar")) return "VERIFIED";
+  const live = section.entries.filter((e) => e.status !== "DISCARDED" && e.decision !== "descartar");
+  if (live.length === 0) return "DISCARDED";
+  if (live.every((e) => e.status === "VERIFIED" && e.decision === "confirmar")) return "VERIFIED";
   return "UNVERIFIED";
 }
 

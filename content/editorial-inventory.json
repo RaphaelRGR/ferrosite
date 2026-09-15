@@ -373,7 +373,7 @@
     },
     {
       "id": "sobre.hero",
-      "route": "/sobre",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/AboutHero.tsx",
       "title": "Hero do Sobre",
       "entries": [
@@ -386,7 +386,7 @@
     },
     {
       "id": "sobre.story",
-      "route": "/sobre",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/StoryJourney.tsx",
       "title": "Uma Jornada de Inovação (linha do tempo)",
       "entries": [
@@ -430,7 +430,7 @@
     },
     {
       "id": "sobre.identity",
-      "route": "/sobre",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/AboutIdentity.tsx",
       "title": "Missão, Visão e Valores",
       "entries": [
@@ -444,7 +444,7 @@
     },
     {
       "id": "sobre.research",
-      "route": "/sobre",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/AboutResearch.tsx",
       "title": "Linhas de Pesquisa",
       "entries": [
@@ -463,7 +463,7 @@
     },
     {
       "id": "visitas.hero",
-      "route": "/experiencias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/VisitsHero.tsx",
       "title": "Hero de Visitas",
       "entries": [
@@ -476,7 +476,7 @@
     },
     {
       "id": "visitas.stats",
-      "route": "/experiencias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/VisitsStats.tsx",
       "title": "Números de visitas",
       "entries": [
@@ -504,7 +504,7 @@
     },
     {
       "id": "visitas.gallery",
-      "route": "/experiencias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/VisitsGallery.tsx",
       "title": "Memórias Técnicas (galeria)",
       "entries": [
@@ -544,7 +544,7 @@
     },
     {
       "id": "visitas.schedule",
-      "route": "/experiencias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/VisitsSchedule.tsx",
       "title": "Próximos embarques",
       "entries": [
@@ -578,7 +578,7 @@
     },
     {
       "id": "eventos.hero",
-      "route": "/eventos",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/EventsHero.tsx",
       "title": "Hero de Eventos",
       "entries": [
@@ -591,7 +591,7 @@
     },
     {
       "id": "eventos.featured",
-      "route": "/eventos",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/FeaturedEvent.tsx",
       "title": "Evento principal",
       "entries": [
@@ -605,7 +605,7 @@
     },
     {
       "id": "eventos.grid",
-      "route": "/eventos",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/EventsGrid.tsx",
       "title": "Próximos encontros",
       "entries": [
@@ -639,7 +639,7 @@
     },
     {
       "id": "eventos.past",
-      "route": "/eventos",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/PastEventsGallery.tsx",
       "title": "Galeria de eventos passados",
       "entries": [
@@ -663,7 +663,7 @@
     },
     {
       "id": "noticias.hero",
-      "route": "/noticias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/NewsHero.tsx",
       "title": "Hero de Notícias",
       "entries": [
@@ -677,7 +677,7 @@
     },
     {
       "id": "noticias.featured",
-      "route": "/noticias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/NewsFeatured.tsx",
       "title": "Notícia em destaque",
       "entries": [
@@ -698,7 +698,7 @@
     },
     {
       "id": "noticias.grid",
-      "route": "/noticias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/NewsGrid.tsx",
       "title": "Arquivo de notícias",
       "entries": [
@@ -743,7 +743,7 @@
     },
     {
       "id": "noticias.newsletter",
-      "route": "/noticias",
+      "route": "(legado sem consumidor — substituído em PUBLIC-002)",
       "component": "src/components/sections/NewsNewsletter.tsx",
       "title": "Newsletter",
       "entries": [
@@ -966,6 +966,102 @@
           "kind": "narrative",
           "value_pt": "Título/categoria/resumo de staging; corpo marcado como pendente",
           "notes": "Sem equipe, marcos, resultados até aprovação."
+        }
+      ]
+    },
+    {
+      "id": "experiencias.hub",
+      "route": "/experiencias",
+      "component": "src/app/(public)/[locale]/experiencias/page.tsx + staging EXPERIENCES",
+      "title": "Experiências — hub",
+      "entries": [
+        {
+          "content_id": "experiencias.hub.lista",
+          "kind": "visit",
+          "value_pt": "Vale-EFVM 2022; CCO Rumo 2023; Oficinas MRS 2024; RUMO 18 jun 2026; UTN Buenos Aires jul 2026; VLI set 2026",
+          "notes": "Herdado de VisitsGallery/VisitsSchedule; datas futuras não confirmadas."
+        }
+      ]
+    },
+    {
+      "id": "experiencias.detalhe",
+      "route": "/experiencias/[id]",
+      "component": "src/app/(public)/[locale]/experiencias/[id]/page.tsx",
+      "title": "Experiências — detalhe",
+      "entries": [
+        {
+          "content_id": "experiencias.detalhe.resumo",
+          "kind": "visit",
+          "value_pt": "Título/data/local/resumo do staging; roteiro, resultados e galeria pendentes"
+        }
+      ]
+    },
+    {
+      "id": "noticias.hub",
+      "route": "/noticias",
+      "component": "src/app/(public)/[locale]/noticias/page.tsx + staging NEWS",
+      "title": "Notícias — hub",
+      "entries": [
+        {
+          "content_id": "noticias.hub.lista",
+          "kind": "news",
+          "value_pt": "Hidrogênio verde (12 mai 2026); Laboratórios de sinalização (08 mai 2026); Sensor IoT (28 abr 2026)",
+          "notes": "Possivelmente fictícias; sem autor/fonte."
+        }
+      ]
+    },
+    {
+      "id": "noticias.detalhe",
+      "route": "/noticias/[id]",
+      "component": "src/app/(public)/[locale]/noticias/[id]/page.tsx",
+      "title": "Notícias — detalhe",
+      "entries": [
+        {
+          "content_id": "noticias.detalhe.resumo",
+          "kind": "news",
+          "value_pt": "Título/data/resumo do staging; corpo, autor e crédito pendentes"
+        }
+      ]
+    },
+    {
+      "id": "sobre.historia",
+      "route": "/sobre",
+      "component": "src/app/(public)/[locale]/sobre/page.tsx + staging HISTORY",
+      "title": "Sobre — linha do tempo",
+      "entries": [
+        {
+          "content_id": "sobre.historia.marcos",
+          "kind": "date",
+          "value_pt": "2009 criação (REUNI); 2013/2014 primeira turma; 2023 premiação científica; 2024 Prêmio Revista Ferroviária e Prêmio Inovação ANTT",
+          "notes": "Nome de pessoa removido; fontes (atos, prêmios) pendentes; conflita com 2014 do AboutHistory."
+        }
+      ]
+    },
+    {
+      "id": "sobre.identidade",
+      "route": "/sobre",
+      "component": "sobre/page.tsx + staging IDENTITY",
+      "title": "Sobre — missão, visão e valores",
+      "entries": [
+        {
+          "content_id": "sobre.identidade.mvv",
+          "kind": "narrative",
+          "value_pt": "Missão/visão/valores do AboutIdentity",
+          "notes": "Não localizados em documento oficial."
+        }
+      ]
+    },
+    {
+      "id": "sobre.pesquisa",
+      "route": "/sobre",
+      "component": "sobre/page.tsx + staging RESEARCH_LINES",
+      "title": "Sobre — linhas de pesquisa",
+      "entries": [
+        {
+          "content_id": "sobre.pesquisa.linhas",
+          "kind": "narrative",
+          "value_pt": "Dinâmica Ferroviária e Roda-Trilho; Logística e Otimização de Malhas; Via Permanente e Infraestrutura; Sinalização e Controle de Tráfego",
+          "notes": "Confrontar com o portfólio de laboratórios."
         }
       ]
     }

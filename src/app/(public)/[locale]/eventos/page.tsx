@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-
 import { PendingPage } from "@/components/layout/PendingContent";
-import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
+import { SectionHeading } from "@/components/public/SectionHeading";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { LinkButton } from "@/components/ui/LinkButton";
+import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { EventsHero } from "@/components/sections/EventsHero";
-import { FeaturedEvent } from "@/components/sections/FeaturedEvent";
-import { EventsGrid } from "@/components/sections/EventsGrid";
-import { PastEventsGallery } from "@/components/sections/PastEventsGallery";
-import { CtaSection } from "@/components/sections/CtaSection";
 
 const PATH = "/eventos";
 
@@ -19,21 +15,34 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/eventos"
   return publicPageMetadata(l, PATH, getDictionary(l).pages.events);
 }
 
+/**
+ * Eventos (04): "não publicar os eventos 2026 atuais até validação" — a agenda
+ * nasce vazia e honesta (sem filtros/inscrições falsos). Os eventos do protótipo
+ * permanecem só no inventário. Competições e congressos entram por Experiências.
+ */
 export default async function EventosPage({ params }: PageProps<"/[locale]/eventos">) {
   const { locale } = await params;
-  // Conteúdo editorial desta página só existe em PT (BASE-002/PUBLIC-*): EN mostra indisponibilidade explícita.
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   if (l !== "pt") return <PendingPage locale={l} dict={getDictionary(l)} path={PATH} />;
+  const dict = getDictionary(l);
 
   return (
-    <div className="bg-[#0A0A0A] min-h-screen">
-      <UnverifiedContent section="eventos.hero" badgePosition="bottom-left"><EventsHero /></UnverifiedContent>
-      <UnverifiedContent section="eventos.featured"><FeaturedEvent /></UnverifiedContent>
-      <UnverifiedContent section="eventos.grid"><EventsGrid /></UnverifiedContent>
-      <UnverifiedContent section="eventos.past"><PastEventsGallery /></UnverifiedContent>
-      
-      <div className="py-20 border-t border-white/5 bg-[#0A0A0A]">
-        <CtaSection locale={l} content={getDictionary(l).cta} />
+    <div className="bg-canvas">
+      <section className="bg-surface">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+          <SectionHeading as="h1" eyebrow={dict.events.eyebrow} title={dict.events.title} description={dict.events.description} />
+        </div>
+      </section>
+      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+        <EmptyState
+          title={dict.events.emptyTitle}
+          description={dict.events.emptyDescription}
+          action={
+            <LinkButton href={localizePath(l, "/experiencias")} variant="secondary">
+              {dict.events.goToExperiences}
+            </LinkButton>
+          }
+        />
       </div>
     </div>
   );

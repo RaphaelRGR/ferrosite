@@ -10,10 +10,12 @@ const EXPECTED: Record<string, number> = {
   "/pt/curso": 6,
   "/pt/projetos": 1,
   "/pt/projetos/comunica-ferro": 1,
-  "/pt/sobre": 4,
-  "/pt/experiencias": 4,
-  "/pt/eventos": 4,
-  "/pt/noticias": 4,
+  "/pt/sobre": 3,
+  "/pt/experiencias": 1,
+  "/pt/experiencias?escopo=internacional": 1,
+  "/pt/eventos": 0,
+  "/pt/noticias": 1,
+  "/pt/noticias/noticias.grid.08mai": 1,
 };
 
 for (const [route, count] of Object.entries(EXPECTED)) {
@@ -23,7 +25,7 @@ for (const [route, count] of Object.entries(EXPECTED)) {
     await expect(marked).toHaveCount(count);
     const badges = page.locator('[data-content-status="unverified"] > p').filter({ hasText: "Conteúdo em verificação" });
     await expect(badges).toHaveCount(count);
-    await expect(badges.first()).toBeVisible();
+    if (count > 0) await expect(badges.first()).toBeVisible();
   });
 }
 
