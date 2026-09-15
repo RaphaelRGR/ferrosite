@@ -15,10 +15,12 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
     { name: dict.nav.projects, href: localizePath(locale, "/projetos") },
     { name: dict.nav.experiences, href: localizePath(locale, "/experiencias") },
     { name: dict.nav.news, href: localizePath(locale, "/noticias") },
+    { name: dict.nav.companies, href: localizePath(locale, "/para-empresas") },
   ];
   // Rotas que existem mas ficaram fora do menu principal (decisão pendente em 33).
   const secondary = [
     { name: dict.nav.about, href: localizePath(locale, "/sobre") },
+    { name: dict.nav.labs, href: localizePath(locale, "/laboratorios") },
     { name: dict.nav.events, href: localizePath(locale, "/eventos") },
     { name: dict.nav.simulators, href: localizePath(locale, "/simuladores") },
     { name: dict.nav.portal, href: "/portal" },

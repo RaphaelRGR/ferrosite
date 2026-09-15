@@ -8,9 +8,9 @@ Política: nada abaixo é publicado como fato. Em modo `review` (default) o site
 
 | Total | UNVERIFIED | VERIFIED | DISCARDED | Seções |
 |---|---|---|---|---|
-| 112 | 111 | 0 | 1 | 50 |
+| 140 | 139 | 0 | 1 | 54 |
 
-Por tipo: claim 19 · narrative 19 · metric 17 · visit 14 · news 10 · event 8 · image 5 · partner 4 · curriculum 4 · date 4 · cta 4 · legal 2 · person 2
+Por tipo: narrative 36 · claim 19 · metric 17 · visit 14 · person 13 · news 10 · event 8 · image 5 · partner 4 · curriculum 4 · date 4 · cta 4 · legal 2
 
 ## Decisões pendentes (owner humano)
 
@@ -400,11 +400,11 @@ Rota: `/curso` · Código: `src/components/curriculum/CurriculumExplorer.tsx`
 
 ### Curso — laboratórios — `curso.labs`
 
-Rota: `/curso` · Código: `CourseSections.tsx (CourseLabs) + staging LABS`
+Rota: `/curso` · Código: `CourseSections.tsx (CourseLabs) + src/data/labs.ts (content/labs.json)`
 
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
-| `curso.labs.lista` | narrative | 14 laboratórios: LMSE, LMS, LabDSE, Robótica Avançada, NSO, LaCMa, LDTPav, LABMCI, LASC, IDA Lab, LIFE, Aeolus, LTS, LAV | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf p.2 (2026) | — | UNVERIFIED | — | — | LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio. |
+| `curso.labs.lista` | narrative | 14 laboratórios: LMSE, LMS, LabDSE, Robótica Avançada, NSO, LaCMa, LDTPav, LABMCI, LASC, IDA Lab, LIFE, Aeolus, LTS, LAV | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2 | — | UNVERIFIED | — | — | LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio. |
 
 ### Projetos — hub — `projetos.hub`
 
@@ -477,4 +477,60 @@ Rota: `/sobre` · Código: `sobre/page.tsx + staging RESEARCH_LINES`
 | content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
 |---|---|---|---|---|---|---|---|---|
 | `sobre.pesquisa.linhas` | narrative | Dinâmica Ferroviária e Roda-Trilho; Logística e Otimização de Malhas; Via Permanente e Infraestrutura; Sinalização e Controle de Tráfego | — | — | UNVERIFIED | — | — | Confrontar com o portfólio de laboratórios. |
+
+### Laboratórios — hub e relação capacidade↔lab — `laboratorios.hub`
+
+Rota: `/laboratorios` · Código: `src/app/(public)/[locale]/laboratorios/page.tsx + src/data/{labs,capabilities}.ts`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `laboratorios.hub.lista` | narrative | 14 laboratórios do portfólio (11 com página, 1 duplicada, 3 só índice); primeira frase de 'O laboratório' em cada card | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) | — | UNVERIFIED | — | — | Ordem do PDF. |
+| `laboratorios.hub.capacidades` | narrative | Taxonomia de 20 capacidades (14) e vínculos lab↔capacidade com nível offered/prospective/pending derivados das seções 'Aplicações' | PLANO 14 + portfólio (seções Aplicações) | — | UNVERIFIED | — | — | Curadoria inicial; validar com coordenação. LDTPav: via permanente/geotecnia = potencial. LASC/IDA Lab: só pelo nome. |
+
+### Laboratórios — nome, sigla e responsável — `laboratorios.detalhe`
+
+Rota: `/laboratorios/[id]` · Código: `src/app/(public)/[locale]/laboratorios/[id]/page.tsx (cabeçalho)`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `laboratorios.responsavel.lmse` | person | Prof. Marcos Alves Rabelo, Dr. Eng. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.3 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.lms` | person | Prof. Marcelo Heidemann, D.Sc. — Civil/Geotechnical Engineer | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.4 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.labdse` | person | Prof. Régis Kovacs Scalice, Dr. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.5 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.robotica` | person | Prof. Roberto Simoni, Dr. Eng. — Coordenador do POSECM | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.6 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.nso` | person | Prof. Thiago Pontin Tancredi, Dr. Eng. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.7 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.lacma` | person | Prof. Wagner M. Pachekoski, Dr. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.8 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.life` | person | Prof. André Luís Condino Fujarra, Dr. Eng. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.9 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.aeolus` | person | Prof. Filipe Dutra da Silva, Dr. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.10 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.lts` | person | Prof. Tiago Vieira da Cunha, Dr. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.11 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.lav` | person | Prof. Thiago Antonio Fiorentin, Dr. Eng. · Prof. Yesid Ernesto Asaff, Dr. Eng. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.12 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+| `laboratorios.responsavel.ldtpav` | person | Prof. Breno Salgado Barra, Dr. Eng. · Prof. Yader Guerrero Pérez, Dr. Eng. | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.13 | — | UNVERIFIED | — | — | Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. |
+
+### Laboratórios — texto do portfólio por laboratório — `laboratorios.detalhe.conteudo`
+
+Rota: `/laboratorios/[id]` · Código: `laboratorios/[id]/page.tsx (seções)`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `laboratorios.detalhe.lmse` | narrative | LMSE — Laboratório de Mecânica dos Sólidos Experimental: 3 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.3 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.lms` | narrative | LMS — Laboratório de Mecânica dos Solos: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.4 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.labdse` | narrative | LabDSE — Laboratório de Desenvolvimento de Sistemas de Engenharia: 3 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.5 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.robotica` | narrative | Lab. Robótica Avançada — página do PDF com corpo idêntico ao LabDSE; nada publicado além de nome/responsável | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.6 | — | UNVERIFIED | — | — | Validar diferencial (14). |
+| `laboratorios.detalhe.nso` | narrative | NSO — Núcleo de Simulação e Otimização: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.7 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.lacma` | narrative | LaCMa — Laboratório de Caracterização de Materiais: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.8 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém typo de origem ('characterização'). |
+| `laboratorios.detalhe.life` | narrative | LIFE — Laboratório de Interações Fluido-Estrutura: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.9 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.aeolus` | narrative | Aeolus — Laboratório de Aerodinâmica: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.10 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.lts` | narrative | LTS — Laboratório de Tecnologia da Soldagem: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 3 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.11 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.lav` | narrative | LAV — Laboratório de Acústica e Vibrações: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.12 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém bio do professor (dado pessoal em documento institucional). |
+| `laboratorios.detalhe.ldtpav` | narrative | LDTPav — Laboratório de Desenvolvimento e Tecnologia em Pavimentação: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 3 aplicações (3 prospectivas) | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.13 | — | UNVERIFIED | — | — | Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. |
+| `laboratorios.detalhe.labmci` | narrative | LABMCI — só no índice do portfólio (nome); página pendente | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2 | — | UNVERIFIED | — | — | [CONTEÚDO PENDENTE] (35). |
+| `laboratorios.detalhe.lasc` | narrative | LASC — só no índice do portfólio (nome); página pendente | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2 | — | UNVERIFIED | — | — | [CONTEÚDO PENDENTE] (35). |
+| `laboratorios.detalhe.idalab` | narrative | IDA Lab — só no índice do portfólio (nome); página pendente | referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2 | — | UNVERIFIED | — | — | [CONTEÚDO PENDENTE] (35). |
+
+### Para Empresas — áreas de desafio — `empresas.capacidades`
+
+Rota: `/para-empresas` · Código: `src/app/(public)/[locale]/para-empresas/page.tsx`
+
+| content_id | tipo | valor (PT) | fonte | owner | status | verified_at | decisão | notas |
+|---|---|---|---|---|---|---|---|---|
+| `empresas.capacidades.contagens` | narrative | Por capacidade: nº de labs com capacidade descrita / potencial / sem página | src/data/capabilities.ts | — | UNVERIFIED | — | — | Derivado da mesma curadoria de laboratorios.hub.capacidades. |
 

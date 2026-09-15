@@ -34,7 +34,7 @@ function isUpcoming(when: string): boolean {
 export default async function ExperienciasPage({ params, searchParams }: PageProps<"/[locale]/experiencias">) {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
-  if (l !== "pt") return <PendingPage locale={l} dict={getDictionary(l)} path={PATH} />;
+  if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const dict = getDictionary(l);
   const sp = await searchParams;
   const scope: Scope = SCOPES.includes(sp.escopo as Scope) ? (sp.escopo as Scope) : "all";

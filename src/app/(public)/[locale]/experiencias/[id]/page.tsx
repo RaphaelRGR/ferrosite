@@ -28,7 +28,7 @@ export default async function ExperienciaPage({ params }: PageProps<"/[locale]/e
   const item = EXPERIENCES.find((e) => e.id === id);
   if (!item) notFound();
   const dict = getDictionary(l);
-  if (l !== "pt") return <PendingPage locale={l} dict={dict} path={`/experiencias/${id}`} />;
+  if (l !== "pt") return <PendingPage dict={dict} path={`/experiencias/${id}`} />;
 
   return (
     <section className="bg-canvas">

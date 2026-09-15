@@ -31,6 +31,7 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
     { name: labels.nav.projects, href: localizePath(locale, "/projetos") },
     { name: labels.nav.experiences, href: localizePath(locale, "/experiencias") },
     { name: labels.nav.news, href: localizePath(locale, "/noticias") },
+    { name: labels.nav.companies, href: localizePath(locale, "/para-empresas") },
   ];
   const isActive = (href: string) => (href === localizePath(locale, "/") ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
 

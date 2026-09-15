@@ -23,6 +23,8 @@ export function HtmlShell({
   return (
     <html lang={lang} className={`scroll-smooth ${geist.variable}`} data-theme={theme} data-scroll-behavior="smooth">
       {themeScript && (
+        // Root layout do App Router: <head> literal é o lugar do script anti-flash; a regra mira o pages/.
+        // eslint-disable-next-line @next/next/no-head-element
         <head>
           <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         </head>

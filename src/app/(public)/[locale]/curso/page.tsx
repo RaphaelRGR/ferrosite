@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/curso">)
 export default async function CursoPage({ params }: PageProps<"/[locale]/curso">) {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
-  if (l !== "pt") return <PendingPage locale={l} dict={getDictionary(l)} path={PATH} />;
+  if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const full = getDictionary(l);
   const dict = full.course;
 
@@ -52,7 +52,7 @@ export default async function CursoPage({ params }: PageProps<"/[locale]/curso">
           </div>
         </div>
       </UnverifiedContent>
-      <CourseLabs dict={dict.labs} />
+      <CourseLabs dict={dict.labs} locale={l} allLabel={full.labs.back} />
       <CourseCta dict={dict.cta} />
     </>
   );

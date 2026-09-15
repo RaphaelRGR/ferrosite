@@ -1,0 +1,426 @@
+{
+  "source": {
+    "file": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf",
+    "sha256": "e7909daf35fe078ff0b92108b36c6da574f3d8d6a44d34bd4d0cce254d25d6fe",
+    "title": "Portfólio de Laboratórios — Engenharia Ferroviária e Metroviária, UFSC Joinville",
+    "extractedAt": "2026-09-15",
+    "tool": "scripts/labs_from_pdf.py"
+  },
+  "labs": [
+    {
+      "id": "lmse",
+      "acronym": "LMSE",
+      "name": "Laboratório de Mecânica dos Sólidos Experimental",
+      "responsible": "Prof. Marcos Alves Rabelo, Dr. Eng.",
+      "page": 3,
+      "applicationsLabel": "APLICAÇÕES NO SETOR METROFERROVIÁRIO",
+      "about": [
+        "Ensaios experimentais em mecânica dos sólidos, estruturas e componentes mecânicos.",
+        "Equipamentos: Sistema de Aquisição de Dados Lynx ADS2002, extensômetros de alta precisão e corpos de prova instrumentados.",
+        "Atua em pesquisa, ensino e consultoria para indústria nas áreas de fadiga, fratura e análise modal experimental."
+      ],
+      "history": [
+        "Ensaios de fadiga e caracterização mecânica em projetos com parceiros industriais do polo de Joinville.",
+        "Instrumentação experimental de estruturas e componentes em projetos de P&D do Ágora Tech Park.",
+        "Consultoria em estruturas mecânicas, instrumentação e lean manufacturing para o setor industrial regional.",
+        "Recondutor de Supervisor do LIPEE (Laboratório Integrado de Pesquisa, Ensino e Extensão) em 2026."
+      ],
+      "applications": [
+        {
+          "text": "Ensaios de fadiga em trilhos, rodas, eixos e componentes de bogies conforme normas ferroviárias.",
+          "prospective": false
+        },
+        {
+          "text": "Caracterização mecânica de materiais usados em via permanente e material rodante.",
+          "prospective": false
+        },
+        {
+          "text": "Análise modal experimental de estruturas ferroviárias e identificação de modos de vibração.",
+          "prospective": false
+        },
+        {
+          "text": "Testes de integridade estrutural para certificação e qualificação de componentes ferroviários.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "lms",
+      "acronym": "LMS",
+      "name": "Laboratório de Mecânica dos Solos",
+      "responsible": "Prof. Marcelo Heidemann, D.Sc. — Civil/Geotechnical Engineer",
+      "page": 4,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Laboratório integrado de ensino, pesquisa e extensão em geotecnia, atendendo academia e empresas.",
+        "Equipamentos: CBR, condutividade hidráulica, compressão simples, triaxiais estáticos e dinâmicos, cisalhamento direto, sucção e adensamento oedométrico.",
+        "Pesquisador colaborador do grupo Construct-GEO da Universidade do Porto (FEUP), líder do grupo REASM (Experimental and Applied Soil Mechanics).",
+        "Pesquisas em comportamento de rejeitos de mineração, areias de fundição e solos residuais."
+      ],
+      "history": [
+        "Teses e dissertações sobre comportamento geotécnico de solos sob cargas cíclicas e dinâmicas.",
+        "Parcerias com instituições internacionais, incluindo a Faculdade de Engenharia da Universidade do Porto (FEUP).",
+        "Projetos de extensão com caracterização geotécnica para obras de infraestrutura na região de Joinville.",
+        "Publicação de relatório de capacidade técnica do LMS para atendimento a demandas industriais."
+      ],
+      "applications": [
+        {
+          "text": "Caracterização geotécnica de subleito ferroviário: ensaios de CBR, triaxial cíclico e capacidade de carga.",
+          "prospective": false
+        },
+        {
+          "text": "Avaliação de lastro e sublastro: granulometria, deformação permanente e degradação sob tráfego repetido.",
+          "prospective": false
+        },
+        {
+          "text": "Estudo de recalques e estabilidade de plataformas ferroviárias em solos moles e aterros.",
+          "prospective": false
+        },
+        {
+          "text": "Ensaios para dimensionamento de fundações de estruturas ferroviárias (pontes, passagens, terminais).",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "labdse",
+      "acronym": "LabDSE",
+      "name": "Laboratório de Desenvolvimento de Sistemas de Engenharia",
+      "responsible": "Prof. Régis Kovacs Scalice, Dr.",
+      "page": 5,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Desenvolvimento, integração e validação de sistemas de engenharia complexos, utilizando Engenharia de Sistemas, MBSE e plataformas experimentais para apoio ao ciclo completo de desenvolvimento.",
+        "Infraestrutura para modelagem, simulação, integração de hardware e software, metrologia e geodésia industrial, plataforma Stewart de seis graus de liberdade, robótica e ferramentas computacionais para suporte à decisão.",
+        "Compartilha infraestrutura com o Laboratório de Robótica Avançada, formando um ambiente integrado para o desenvolvimento, a instrumentação e a validação experimental de sistemas inteligentes."
+      ],
+      "history": [
+        "Atuação em graduação e pós-graduação (POSECM) em pesquisa aplicada em Engenharia de Sistemas, no desenvolvimento de produtos complexos e na integração multidisciplinar.",
+        "Desenvolvimento de metodologias MBSE, arquiteturas digitais e ferramentas computacionais para projeto, monitoramento e análise de sistemas de engenharia.",
+        "Projetos envolvendo metrologia e geodésia industrial, instrumentação de precisão, plataformas robóticas e validação experimental para aplicações industriais e de infraestrutura crítica.",
+        "Colaboração com empresas e centros de inovação em projetos de P&D voltados à digitalização, à automação e ao desenvolvimento de sistemas complexos."
+      ],
+      "applications": [
+        {
+          "text": "Engenharia de Sistemas para o desenvolvimento e a integração de veículos ferroviários, infraestrutura e sistemas de inspeção, utilizando MBSE ao longo de todo o ciclo de vida.",
+          "prospective": false
+        },
+        {
+          "text": "Geodésia industrial e metrologia de precisão para alinhamento, calibração, monitoramento dimensional e inspeção de componentes, estruturas e ativos.",
+          "prospective": false
+        },
+        {
+          "text": "Validação de sensores, sistemas embarcados e algoritmos de controle utilizando uma plataforma Stewart de seis graus de liberdade para simular movimentos e excitações dinâmicas.",
+          "prospective": false
+        },
+        {
+          "text": "Desenvolvimento de sistemas autônomos e soluções inteligentes para monitoramento, inspeção e apoio à operação e à manutenção ferroviárias.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "robotica",
+      "acronym": "Lab. Robótica Avançada",
+      "name": "Laboratório de Robótica Avançada",
+      "responsible": "Prof. Roberto Simoni, Dr. Eng. — Coordenador do POSECM",
+      "page": 6,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [],
+      "history": [],
+      "applications": [],
+      "duplicateOf": "labdse"
+    },
+    {
+      "id": "nso",
+      "acronym": "NSO",
+      "name": "Núcleo de Simulação e Otimização",
+      "responsible": "Prof. Thiago Pontin Tancredi, Dr. Eng.",
+      "page": 7,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Especializado em simulação estrutural, otimização e desenvolvimento de ferramentas computacionais para sistemas veiculares complexos.",
+        "Ferramentas: HPC (High Performance Computing), realidade virtual, inteligência artificial e Métodos de Elementos Finitos (MEF).",
+        "Desenvolvimento de procedimentos automatizados e otimizados para análise estrutural, com validação experimental.",
+        "Atuação em projetos de graduação e pós-graduação com forte componente computacional e de modelagem numérica."
+      ],
+      "history": [
+        "Publicação sobre modelo de contato simplificado para análise estrutural de Conjunto de Choque e Tração (CCT) usando MEF, aplicação direta ao setor ferroviário.",
+        "Desenvolvimento de ferramentas computacionais para análise estrutural de sistemas veiculares: procedimentos automatizados em MEF.",
+        "Projetos de pesquisa com simulação numérica de estruturas navais e aplicação de redes neurais para estimativa de comportamento estrutural.",
+        "Modelagem e análise de arrasto hidrodinâmico em submarinos, metodologia aplicável a dinâmica de veículos sobre trilhos."
+      ],
+      "applications": [
+        {
+          "text": "Simulação estrutural de componentes ferroviários: vagões, bogies, conjuntos de choque e tração (CCT) e caixas de veículos.",
+          "prospective": false
+        },
+        {
+          "text": "Projeto otimizado de sistemas veiculares complexos com apoio de HPC, reduzindo tempo e custo de desenvolvimento.",
+          "prospective": false
+        },
+        {
+          "text": "Realidade virtual aplicada ao treinamento e simulação de operações ferroviárias.",
+          "prospective": false
+        },
+        {
+          "text": "IA e redes neurais para estimativa de comportamento estrutural e fadiga de componentes ferroviários em serviço.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "lacma",
+      "acronym": "LaCMa",
+      "name": "Laboratório de Caracterização de Materiais",
+      "responsible": "Prof. Wagner M. Pachekoski, Dr.",
+      "page": 8,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Caracterização físico-química, térmica e mecânica de metais, polímeros, composites e materiais avançados.",
+        "Suporte a pesquisas científicas do CTJ e projetos de graduação e pós-graduação do campus.",
+        "Capacidade analítica para caracterização microestrutural, análise de fases, tratamentos térmicos e propriedades mecânicas.",
+        "Atendimento a demandas de empresas por caracterização e qualificação de materiais industriais."
+      ],
+      "history": [
+        "Projetos de pesquisa em polímeros reciclados, biopolímeros e materiais compósitos para aplicações de engenharia.",
+        "Caracterização de materiais cimentícios modificados por nanopartículas em parceria com UDESC e UEPG.",
+        "Suporte analítico a dissertações de mestrado do POSECM em materiais e processos de fabricação.",
+        "Colaboração com cursos de Engenharia Naval, Aeroespacial e Ferroviária do CTJ."
+      ],
+      "applications": [
+        {
+          "text": "Análise metalográfica e characterização de trilhos, rodas e eixos: composição, microestrutura e dureza.",
+          "prospective": false
+        },
+        {
+          "text": "Qualificação de dormentes poliméricos composites: análise de fadiga, fluência e degradação ambiental.",
+          "prospective": false
+        },
+        {
+          "text": "Caracterização de revestimentos protetores anticorrosão para estruturas ferroviárias.",
+          "prospective": false
+        },
+        {
+          "text": "Ensaios de conformidade para homologação de materiais junto a operadores e fabricantes ferroviários.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "life",
+      "acronym": "LIFE",
+      "name": "Laboratório de Interações Fluido-Estrutura",
+      "responsible": "Prof. André Luís Condino Fujarra, Dr. Eng.",
+      "page": 9,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Centro de excelência em P&D&I inaugurado em maio de 2025, com R$ 2,24 milhões investidos via Fapesc/MultiLab SC e mais de R$ 20 milhões em equipamentos.",
+        "Infraestrutura: túnel de vento (até 120 km/h), canal de água circulante, shaker eletrodinâmico, atuadores de 1 e 6 DoF, sensores de alta precisão e impressoras 3D para modelos.",
+        "Integrante da Plataforma Nacional de Infraestrutura de Pesquisa MCTI e laboratório multiusuário aberto a empresas, universidades e startups.",
+        "Desenvolve projetos completos: da concepção teórica aos testes experimentais e relatórios técnicos."
+      ],
+      "history": [
+        "Projeto de controle de ruídos ferroviários em desenvolvimento, com benefícios ambientais e sociais documentados.",
+        "Pesquisas em Floating Offshore Wind Turbines (FOWTs) e geração de energia limpa.",
+        "Projeto de redução de emissão de partículas finas em frenagem de veículos automotivos.",
+        "Referência nacional em engenharia naval e oceânica, com cobertura da ND+ e reconhecimento do setor produtivo."
+      ],
+      "applications": [
+        {
+          "text": "Análise de vibrações e dinâmica de bogies: ensaios com shaker e atuadores de múltiplos graus de liberdade.",
+          "prospective": false
+        },
+        {
+          "text": "Controle de ruído ferroviário: pesquisa ativa em atenuação de ruído de roda-trilho e estruturas.",
+          "prospective": false
+        },
+        {
+          "text": "Cargas aerodinâmicas em material rodante: ensaios em túnel de vento para trens de alta velocidade.",
+          "prospective": false
+        },
+        {
+          "text": "Dinâmica de pontes ferroviárias: análise de interação fluido-estrutura em pontes sobre cursos d'água e ventos cruzados.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "aeolus",
+      "acronym": "Aeolus",
+      "name": "Laboratório de Aerodinâmica",
+      "responsible": "Prof. Filipe Dutra da Silva, Dr.",
+      "page": 10,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Laboratório de estudos aerodinâmicos experimentais e computacionais, contando com um dos maiores túneis de vento do sul do Brasil, adquirido via chamada pública CT-Infra/FINEP",
+        "Infraestrutura composta por um túnel de vento de circuito fechado com 20 m de comprimento, seção de ensaios de 1,20 × 1,00 × 3,45 m e velocidade operacional de até 35 m/s, com potencial de ampliação para 90 m/s conforme o projeto original",
+        "Também conta com equipamentos para medição de forças aerodinâmicas, medição de velocidade por anemometria a fio quente, PIV e LDA, scanner de pressão e microfones",
+        "Linhas de pesquisa: otimização aerodinâmica de veículos e estruturas, escoamentos em alta velocidade e validação de CFD"
+      ],
+      "history": [
+        "Instalação do primeiro túnel de vento de grande porte em uma universidade Catarinense, no Campus de Joinville.",
+        "Estudos aerodinâmicos em estruturas cilíndricas, asas e aerofólios",
+        "Validação de códigos computacionais de CFD com dados experimentais do túnel de vento",
+        "Pesquisa em aerodinâmica e aeroacústica de hélices para aeronaves não tripuladas"
+      ],
+      "applications": [
+        {
+          "text": "Aerodinâmica de material rodante: medição de arrasto, sustentação e forças laterais em modelos de trens em escala.",
+          "prospective": false
+        },
+        {
+          "text": "Pressões em túneis ferroviários: análise do efeito pistão e conforto de passageiros em trens de alta velocidade.",
+          "prospective": false
+        },
+        {
+          "text": "Eficiência energética: otimização de geometrias de carenagem para redução de consumo em locomotivas e EMUs.",
+          "prospective": false
+        },
+        {
+          "text": "Esforços em passagens por estruturas: pontes, viadutos e cruzamentos, cargas transversais de vento sobre veículos.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "lts",
+      "acronym": "LTS",
+      "name": "Laboratório de Tecnologia da Soldagem",
+      "responsible": "Prof. Tiago Vieira da Cunha, Dr.",
+      "page": 11,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Referência nacional em ensino, pesquisa e inovação em processos de soldagem a arco.",
+        "Processos dominados: GMAW, GTAW, SAW, SMAW, PTA-P, PAW, Brazing, Clinching e tecnologias de aquecimento por indução eletromagnética próprias do LTS (LTS IHW-GMAW, IHW-GTAW e IHW-SAW).",
+        "Infraestrutura composta por modernos equipamentos de soldagem.",
+        "Atende diversos cursos de graduação em engenharia (Ferroviária, Naval, Automotiva e Aeroespacial) e pós-graduação (POSECM)."
+      ],
+      "history": [
+        "Estudo e Desenvolvimento da Indução Eletromagnética aplicada nos processos de soldagem a arco, tecnologia inovadora publicada em diversos periódicos internacionais e fonte de depósitos de patentes.",
+        "Projeto \"Melhoria no projeto de ferramentas de injeção de alumínio\", financiado pela Chamada Pública 2020/Linha IV, com equipamento PTA adquirido.",
+        "Concepção, caracterização e aplicação de tecnologia própria para oscilação longitudinal do arame no processo de soldagem GTAW.",
+        "Formação de recursos humanos a nível de mestrado e doutorado em processos de soldagem com foco em revestimento e caracterização de juntas soldadas."
+      ],
+      "applications": [
+        {
+          "text": "Revestimentos contra desgaste: aplicação de ligas resistente ao desgaste com o processo PTA-P.",
+          "prospective": false
+        },
+        {
+          "text": "Desenvolvimento de procedimentos de soldagem customizados às necessidades de construção do setor ferroviário.",
+          "prospective": false
+        },
+        {
+          "text": "Consultoria e treinamentos in company em processos de soldagem.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "lav",
+      "acronym": "LAV",
+      "name": "Laboratório de Acústica e Vibrações",
+      "responsible": "Prof. Thiago Antonio Fiorentin, Dr. Eng. · Prof. Yesid Ernesto Asaff, Dr. Eng.",
+      "page": 12,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Pesquisa em controle de ruído e vibrações em sistemas de transporte, com ênfase em aplicações ferroviárias.",
+        "Infraestrutura de medição acústica e vibratória, modelos numéricos em vibrações e análise dinâmica/estrutural de equipamentos.",
+        "Fiorentin: Dr. em Vibrações e Acústica pela UFSC, pesquisador visitante no ISVR, Institute of Sound and Vibration Research (Univ. Southampton, Inglaterra, 2011-2012).",
+        "Apresentou trabalho \"Análise Acústica de uma Ferrovia de Carga no Brasil\" na AEAMESP, confirmando atuação ativa e reconhecida no setor."
+      ],
+      "history": [
+        "Parceria com a VALE desde 2017: projeto de controle de ruído ferroviário, maior colaboração industria-universidade da área no CTJ.",
+        "2023: desenvolvimento de revestimento acústico sustentável para trilhos, feito com rejeitos minerais da Vale, em processo de patenteamento.",
+        "Coleta de dados em campo em Governador Valadares (MG) para medição de ruído em operação real de trens, com alunos de Engenharia Ferroviária.",
+        "Publicações em acústica veicular e ferroviária em journals internacionais; 164+ citações no Google Scholar"
+      ],
+      "applications": [
+        {
+          "text": "Controle de ruído roda-trilho: identificação das fontes e desenvolvimento de soluções de atenuação diretamente na fonte.",
+          "prospective": false
+        },
+        {
+          "text": "Revestimento acústico para trilhos com rejeitos minerais: alternativa sustentável e econômica às barreiras acústicas tradicionais.",
+          "prospective": false
+        },
+        {
+          "text": "Medição e monitoramento de vibrações em material rodante e infraestrutura: impacto em comunidades, estruturas e conforto de passageiros.",
+          "prospective": false
+        },
+        {
+          "text": "Conformidade acústica ferroviária com normas brasileiras e europeias: avaliação de impacto de ruído em áreas urbanas lindeiras às ferrovias.",
+          "prospective": false
+        }
+      ]
+    },
+    {
+      "id": "ldtpav",
+      "acronym": "LDTPav",
+      "name": "Laboratório de Desenvolvimento e Tecnologia em Pavimentação",
+      "responsible": "Prof. Breno Salgado Barra, Dr. Eng. · Prof. Yader Guerrero Pérez, Dr. Eng.",
+      "page": 13,
+      "applicationsLabel": "APLICAÇÕES NO SETOR FERROVIÁRIO",
+      "about": [
+        "Laboratório de Desenvolvimento e Tecnologia em Pavimentação (LDTPav), referência em ensino, pesquisa e extensão na área de pavimentação rodoviária.",
+        "Atua na caracterização física e mecânica de materiais pétreos, ligantes betuminosos e misturas asfálticas.",
+        "Infraestrutura composta pelo primeiro equipamento brasileiro de módulo complexo e fadiga baseado na metodologia francesa (LCPC/IFSTTAR), além de Prensa de Cisalhamento Giratória (PCG) e demais equipamentos de compactação e caracterização de misturas asfálticas.",
+        "Atende diretamente o curso de Engenharia Civil de Infraestrutura na graduação e a Área de Concentração de Materiais do Programa de Pós-Graduação em Engenharia e Ciências Mecânicas (Pós-ECM)."
+      ],
+      "history": [
+        "Sede do Grupo de Desenvolvimento e Pesquisa em Pavimentação (GDPPav), registrado no Diretório de Grupos de Pesquisa do CNPq.",
+        "Parceria de longa data com o Institut Français des Sciences et Technologies des Transports (IFSTTAR, atual Université Gustave Eiffel), na França, para desenvolvimento e validação de metodologias de ensaio.",
+        "Execução do Termo de Execução Descentralizada (TED) nº 702/2020, firmado com o DNIT, que viabilizou investimentos significativos na infraestrutura do laboratório.",
+        "Atuação em rede com o Laboratório de Pavimentação (LabPav) e o Laboratório de Transporte e Logística (Labtrans), ambos da UFSC Florianópolis, em projetos conjuntos de pesquisa aplicada."
+      ],
+      "applications": [
+        {
+          "text": "Caracterização de agregados minerais aplicável ao dimensionamento de lastro e sublastro ferroviário.",
+          "prospective": true
+        },
+        {
+          "text": "Metodologias de avaliação de desempenho mecânico de materiais que podem ser adaptadas ao estudo de camadas de via permanente.",
+          "prospective": true
+        },
+        {
+          "text": "Know-how em ensaios de fadiga e módulo de rigidez, com potencial de aplicação a problemas de deterioração de infraestrutura de transportes de forma geral.",
+          "prospective": true
+        }
+      ]
+    },
+    {
+      "id": "labmci",
+      "acronym": "LABMCI",
+      "name": "Motores de Combustão Interna",
+      "responsible": "",
+      "page": 2,
+      "applicationsLabel": "",
+      "about": [],
+      "history": [],
+      "applications": []
+    },
+    {
+      "id": "lasc",
+      "acronym": "LASC",
+      "name": "Automação e Sistemas de Controle",
+      "responsible": "",
+      "page": 2,
+      "applicationsLabel": "",
+      "about": [],
+      "history": [],
+      "applications": []
+    },
+    {
+      "id": "idalab",
+      "acronym": "IDA Lab",
+      "name": "Dados e Inteligência Artificial",
+      "responsible": "",
+      "page": 2,
+      "applicationsLabel": "",
+      "about": [],
+      "history": [],
+      "applications": []
+    }
+  ]
+}

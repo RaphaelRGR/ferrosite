@@ -32,7 +32,7 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
   if (!project) notFound();
   const dict = getDictionary(l);
-  if (l !== "pt") return <PendingPage locale={l} dict={dict} path={`/projetos/${slug}`} />;
+  if (l !== "pt") return <PendingPage dict={dict} path={`/projetos/${slug}`} />;
 
   return (
     <section className="bg-canvas">

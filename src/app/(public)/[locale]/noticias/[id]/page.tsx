@@ -27,7 +27,7 @@ export default async function NoticiaPage({ params }: PageProps<"/[locale]/notic
   const item = NEWS.find((n) => n.id === id);
   if (!item) notFound();
   const dict = getDictionary(l);
-  if (l !== "pt") return <PendingPage locale={l} dict={dict} path={`/noticias/${id}`} />;
+  if (l !== "pt") return <PendingPage dict={dict} path={`/noticias/${id}`} />;
 
   return (
     <article className="bg-canvas">

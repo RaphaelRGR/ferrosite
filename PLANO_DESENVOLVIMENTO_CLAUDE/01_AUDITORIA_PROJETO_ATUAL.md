@@ -155,3 +155,7 @@ Relatório: `docs/baseline/FLOW-001-002-relatorio.md`. Currículos gerados dos P
 ## Estado após PUBLIC-002 (2026-09-15)
 
 Relatório: `docs/baseline/PUBLIC-002-relatorio.md`. Experiências (filtro por URL, detalhes, inscrição honesta), Notícias (sem paginação/newsletter falsas, sem autor inventado), Eventos (agenda vazia até validação), Sobre (sem dados pessoais) e Simuladores refeitos no shell claro; nenhuma página pública tem botão sem ação; axe estrito em todas as rotas públicas; 16 seções legadas sem consumidor. Bug de política da quarentena (entrada descartada escondia a seção) corrigido. e2e 164.
+
+## Estado após LAB-001 (2026-09-15)
+
+Relatório: `docs/baseline/LAB-001-relatorio.md`. Portfólio de laboratórios extraído para `content/labs.json` (sha256; sem contatos), 14 labs (11 detalhados, Robótica marcada como duplicata do LabDSE, 3 só índice), taxonomia de 20 capacidades com relação administrada e níveis descrita/potencial/pendente, hub `/laboratorios` por capacidade (URL), 28 páginas de laboratório, `/para-empresas` sem formulário nem e-mail até CRM-001. Unit 113, e2e 222.

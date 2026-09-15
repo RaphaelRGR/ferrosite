@@ -929,14 +929,14 @@
     {
       "id": "curso.labs",
       "route": "/curso",
-      "component": "CourseSections.tsx (CourseLabs) + staging LABS",
+      "component": "CourseSections.tsx (CourseLabs) + src/data/labs.ts (content/labs.json)",
       "title": "Curso — laboratórios",
       "entries": [
         {
           "content_id": "curso.labs.lista",
           "kind": "narrative",
           "value_pt": "14 laboratórios: LMSE, LMS, LabDSE, Robótica Avançada, NSO, LaCMa, LDTPav, LABMCI, LASC, IDA Lab, LIFE, Aeolus, LTS, LAV",
-          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf p.2 (2026)",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
           "notes": "LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio."
         }
       ]
@@ -1062,6 +1062,266 @@
           "kind": "narrative",
           "value_pt": "Dinâmica Ferroviária e Roda-Trilho; Logística e Otimização de Malhas; Via Permanente e Infraestrutura; Sinalização e Controle de Tráfego",
           "notes": "Confrontar com o portfólio de laboratórios."
+        }
+      ]
+    },
+    {
+      "id": "laboratorios.hub",
+      "route": "/laboratorios",
+      "component": "src/app/(public)/[locale]/laboratorios/page.tsx + src/data/{labs,capabilities}.ts",
+      "title": "Laboratórios — hub e relação capacidade↔lab",
+      "entries": [
+        {
+          "content_id": "laboratorios.hub.lista",
+          "kind": "narrative",
+          "value_pt": "14 laboratórios do portfólio (11 com página, 1 duplicada, 3 só índice); primeira frase de 'O laboratório' em cada card",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…)",
+          "notes": "Ordem do PDF."
+        },
+        {
+          "content_id": "laboratorios.hub.capacidades",
+          "kind": "narrative",
+          "value_pt": "Taxonomia de 20 capacidades (14) e vínculos lab↔capacidade com nível offered/prospective/pending derivados das seções 'Aplicações'",
+          "source": "PLANO 14 + portfólio (seções Aplicações)",
+          "notes": "Curadoria inicial; validar com coordenação. LDTPav: via permanente/geotecnia = potencial. LASC/IDA Lab: só pelo nome."
+        }
+      ]
+    },
+    {
+      "id": "laboratorios.detalhe",
+      "route": "/laboratorios/[id]",
+      "component": "src/app/(public)/[locale]/laboratorios/[id]/page.tsx (cabeçalho)",
+      "title": "Laboratórios — nome, sigla e responsável",
+      "entries": [
+        {
+          "content_id": "laboratorios.responsavel.lmse",
+          "kind": "person",
+          "value_pt": "Prof. Marcos Alves Rabelo, Dr. Eng.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.3",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.lms",
+          "kind": "person",
+          "value_pt": "Prof. Marcelo Heidemann, D.Sc. — Civil/Geotechnical Engineer",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.4",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.labdse",
+          "kind": "person",
+          "value_pt": "Prof. Régis Kovacs Scalice, Dr.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.5",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.robotica",
+          "kind": "person",
+          "value_pt": "Prof. Roberto Simoni, Dr. Eng. — Coordenador do POSECM",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.6",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.nso",
+          "kind": "person",
+          "value_pt": "Prof. Thiago Pontin Tancredi, Dr. Eng.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.7",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.lacma",
+          "kind": "person",
+          "value_pt": "Prof. Wagner M. Pachekoski, Dr.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.8",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.life",
+          "kind": "person",
+          "value_pt": "Prof. André Luís Condino Fujarra, Dr. Eng.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.9",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.aeolus",
+          "kind": "person",
+          "value_pt": "Prof. Filipe Dutra da Silva, Dr.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.10",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.lts",
+          "kind": "person",
+          "value_pt": "Prof. Tiago Vieira da Cunha, Dr.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.11",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.lav",
+          "kind": "person",
+          "value_pt": "Prof. Thiago Antonio Fiorentin, Dr. Eng. · Prof. Yesid Ernesto Asaff, Dr. Eng.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.12",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        },
+        {
+          "content_id": "laboratorios.responsavel.ldtpav",
+          "kind": "person",
+          "value_pt": "Prof. Breno Salgado Barra, Dr. Eng. · Prof. Yader Guerrero Pérez, Dr. Eng.",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.13",
+          "classification": "public",
+          "consent_or_license": null,
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+        }
+      ]
+    },
+    {
+      "id": "laboratorios.detalhe.conteudo",
+      "route": "/laboratorios/[id]",
+      "component": "laboratorios/[id]/page.tsx (seções)",
+      "title": "Laboratórios — texto do portfólio por laboratório",
+      "entries": [
+        {
+          "content_id": "laboratorios.detalhe.lmse",
+          "kind": "narrative",
+          "value_pt": "LMSE — Laboratório de Mecânica dos Sólidos Experimental: 3 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.3",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.lms",
+          "kind": "narrative",
+          "value_pt": "LMS — Laboratório de Mecânica dos Solos: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.4",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.labdse",
+          "kind": "narrative",
+          "value_pt": "LabDSE — Laboratório de Desenvolvimento de Sistemas de Engenharia: 3 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.5",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.robotica",
+          "kind": "narrative",
+          "value_pt": "Lab. Robótica Avançada — página do PDF com corpo idêntico ao LabDSE; nada publicado além de nome/responsável",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.6",
+          "notes": "Validar diferencial (14)."
+        },
+        {
+          "content_id": "laboratorios.detalhe.nso",
+          "kind": "narrative",
+          "value_pt": "NSO — Núcleo de Simulação e Otimização: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.7",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.lacma",
+          "kind": "narrative",
+          "value_pt": "LaCMa — Laboratório de Caracterização de Materiais: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.8",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém typo de origem ('characterização')."
+        },
+        {
+          "content_id": "laboratorios.detalhe.life",
+          "kind": "narrative",
+          "value_pt": "LIFE — Laboratório de Interações Fluido-Estrutura: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.9",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.aeolus",
+          "kind": "narrative",
+          "value_pt": "Aeolus — Laboratório de Aerodinâmica: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.10",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.lts",
+          "kind": "narrative",
+          "value_pt": "LTS — Laboratório de Tecnologia da Soldagem: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 3 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.11",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.lav",
+          "kind": "narrative",
+          "value_pt": "LAV — Laboratório de Acústica e Vibrações: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.12",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém bio do professor (dado pessoal em documento institucional)."
+        },
+        {
+          "content_id": "laboratorios.detalhe.ldtpav",
+          "kind": "narrative",
+          "value_pt": "LDTPav — Laboratório de Desenvolvimento e Tecnologia em Pavimentação: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 3 aplicações (3 prospectivas)",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.13",
+          "classification": "public",
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+        },
+        {
+          "content_id": "laboratorios.detalhe.labmci",
+          "kind": "narrative",
+          "value_pt": "LABMCI — só no índice do portfólio (nome); página pendente",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
+          "notes": "[CONTEÚDO PENDENTE] (35)."
+        },
+        {
+          "content_id": "laboratorios.detalhe.lasc",
+          "kind": "narrative",
+          "value_pt": "LASC — só no índice do portfólio (nome); página pendente",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
+          "notes": "[CONTEÚDO PENDENTE] (35)."
+        },
+        {
+          "content_id": "laboratorios.detalhe.idalab",
+          "kind": "narrative",
+          "value_pt": "IDA Lab — só no índice do portfólio (nome); página pendente",
+          "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
+          "notes": "[CONTEÚDO PENDENTE] (35)."
+        }
+      ]
+    },
+    {
+      "id": "empresas.capacidades",
+      "route": "/para-empresas",
+      "component": "src/app/(public)/[locale]/para-empresas/page.tsx",
+      "title": "Para Empresas — áreas de desafio",
+      "entries": [
+        {
+          "content_id": "empresas.capacidades.contagens",
+          "kind": "narrative",
+          "value_pt": "Por capacidade: nº de labs com capacidade descrita / potencial / sem página",
+          "source": "src/data/capabilities.ts",
+          "notes": "Derivado da mesma curadoria de laboratorios.hub.capacidades."
         }
       ]
     }

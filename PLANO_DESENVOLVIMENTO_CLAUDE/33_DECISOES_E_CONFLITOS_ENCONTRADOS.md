@@ -43,6 +43,7 @@
 - Matriz 2012: `EMB5605` (fase 6) declara pré-requisito `EMB5116` (também fase 6). HTML legado repete o dado; PDF não conferido. `[CONTEÚDO PENDENTE]` para FLOW-001; registrado como exceção conhecida no teste de invariantes.
 - Matriz 2016: slots `OPT-1..OPT-4` ("Optativa Obrigatória I–IV") estão entre as obrigatórias das fases 8–9; a contagem 61 os inclui. Decidir modelagem em FLOW-001.
 - **FLOW-001 (2026-09-15):** os PDFs oficiais são a fonte canônica; os slots I–IV constam no PDF de 2016 (fases 8–9). O PDF de 2012 não traz pré-requisitos: as arestas de 2012 (incl. EMB5512→EMB5107 e EMB5605→EMB5116, ambas fase 6) são legadas e aguardam a coordenação. Ver `docs/baseline/FLOW-001-002-relatorio.md`.
+- **LAB-001 (2026-09-15):** Robótica Avançada tem, no PDF, corpo idêntico ao LabDSE → nada publicado além de nome/responsável até validar o diferencial. Aplicações do LDTPav são 100% prospectivas → selo "Potencial de aplicação", nunca serviço. LABMCI/LASC/IDA Lab só no índice → páginas com pendência, sem responsável inventado. Contatos do PDF nunca copiados. Texto do portfólio verbatim (typo 'characterização' e bio no LAV) registrado no inventário para decisão do owner. Ver `docs/baseline/LAB-001-relatorio.md`.
 
 ## Perguntas realmente bloqueadoras
 

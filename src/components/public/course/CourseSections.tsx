@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { UnverifiedContent } from "@/components/content/UnverifiedContent";
 import { HeroArt } from "@/components/public/HeroArt";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { ABOUT_COURSE_TEXT, COURSE_FACTS, LABS, PILLARS } from "@/content/staging";
+import { ABOUT_COURSE_TEXT, COURSE_FACTS, PILLARS } from "@/content/staging";
+import { hasDetail, LABS } from "@/data/labs";
 import { CURRICULUMS, type CurriculumData } from "@/data/curriculums";
 import { formatNumber } from "@/i18n/format";
-import type { Locale } from "@/i18n/config";
+import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 
 type CourseDict = Dictionary["course"];
@@ -141,7 +143,7 @@ export function CourseJourney({ locale, dict }: { locale: Locale; dict: CourseDi
   );
 }
 
-export function CourseLabs({ dict }: { dict: CourseDict["labs"] }) {
+export function CourseLabs({ dict, locale, allLabel }: { dict: CourseDict["labs"]; locale: Locale; allLabel: string }) {
   return (
     <UnverifiedContent section="curso.labs">
       <section className="bg-surface">
@@ -149,15 +151,25 @@ export function CourseLabs({ dict }: { dict: CourseDict["labs"] }) {
           <SectionHeading eyebrow={dict.eyebrow} title={dict.title} description={dict.description} />
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {LABS.map((lab) => (
-              <li key={lab.id} className="flex items-start gap-4 rounded-2xl border border-line bg-canvas p-5">
-                <span className="inline-flex min-w-16 justify-center rounded-lg border border-line bg-surface px-2 py-1 text-xs font-black text-link">{lab.acronym}</span>
-                <div>
-                  <p className="font-bold leading-snug">{lab.name}</p>
-                  {!lab.detailed && <p className="mt-1 text-xs text-fg-muted">{dict.pendingDetail}</p>}
-                </div>
+              <li key={lab.id}>
+                <Link
+                  href={localizePath(locale, `/laboratorios/${lab.id}`)}
+                  className="flex h-full items-start gap-4 rounded-2xl border border-line bg-canvas p-5 hover:border-line-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                >
+                  <span className="inline-flex min-w-16 justify-center rounded-lg border border-line bg-surface px-2 py-1 text-xs font-black text-link">{lab.acronym}</span>
+                  <span>
+                    <span className="block font-bold leading-snug">{lab.name}</span>
+                    {!hasDetail(lab) && <span className="mt-1 block text-xs text-fg-muted">{dict.pendingDetail}</span>}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
+          <div className="mt-8">
+            <LinkButton href={localizePath(locale, "/laboratorios")} variant="secondary">
+              {allLabel}
+            </LinkButton>
+          </div>
         </div>
       </section>
     </UnverifiedContent>

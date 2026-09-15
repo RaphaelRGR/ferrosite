@@ -16,6 +16,12 @@ const EXPECTED: Record<string, number> = {
   "/pt/eventos": 0,
   "/pt/noticias": 1,
   "/pt/noticias/noticias.grid.08mai": 1,
+  "/pt/laboratorios": 1,
+  "/pt/laboratorios?capacidade=logistica": 0,
+  "/pt/laboratorios/lav": 2,
+  "/pt/laboratorios/robotica": 1,
+  "/pt/laboratorios/lasc": 1,
+  "/pt/para-empresas": 1,
 };
 
 for (const [route, count] of Object.entries(EXPECTED)) {

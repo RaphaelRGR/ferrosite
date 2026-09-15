@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/sobre">)
 export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">) {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
-  if (l !== "pt") return <PendingPage locale={l} dict={getDictionary(l)} path={PATH} />;
+  if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const dict = getDictionary(l);
 
   return (

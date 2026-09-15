@@ -67,24 +67,6 @@ export const PARTNER_LOGOS: Array<{ id: string; name: string; src: string }> = [
   { id: "lanfranco", name: "Lanfranco", src: "/empresas/lanfranco.png" },
 ];
 
-/** Laboratórios mapeados — origem: referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf, p.2 (2026). */
-export const LABS: Array<{ id: string; acronym: string; name: string; detailed: boolean }> = [
-  { id: "lmse", acronym: "LMSE", name: "Laboratório de Mecânica dos Sólidos Experimental", detailed: true },
-  { id: "lms", acronym: "LMS", name: "Laboratório de Mecânica dos Solos", detailed: true },
-  { id: "labdse", acronym: "LabDSE", name: "Laboratório de Desenvolvimento de Sistemas de Engenharia", detailed: true },
-  { id: "robotica", acronym: "Lab. Robótica Avançada", name: "Laboratório de Robótica Avançada", detailed: true },
-  { id: "nso", acronym: "NSO", name: "Núcleo de Simulação e Otimização", detailed: true },
-  { id: "lacma", acronym: "LaCMa", name: "Laboratório de Caracterização de Materiais", detailed: true },
-  { id: "ldtpav", acronym: "LDTPav", name: "Laboratório de Desenvolvimento e Tecnologia em Pavimentação", detailed: true },
-  { id: "labmci", acronym: "LABMCI", name: "Motores de Combustão Interna", detailed: false },
-  { id: "lasc", acronym: "LASC", name: "Automação e Sistemas de Controle", detailed: false },
-  { id: "idalab", acronym: "IDA Lab", name: "Dados e Inteligência Artificial", detailed: false },
-  { id: "life", acronym: "LIFE", name: "Laboratório de Interações Fluido-Estrutura", detailed: true },
-  { id: "aeolus", acronym: "Aeolus", name: "Laboratório de Aerodinâmica", detailed: true },
-  { id: "lts", acronym: "LTS", name: "Laboratório de Tecnologia da Soldagem", detailed: true },
-  { id: "lav", acronym: "LAV", name: "Laboratório de Acústica e Vibrações", detailed: true },
-];
-
 /** Pilares — origem: CoursePillars (copy editorial; '15.000 toneladas' e '80km/h' são ilustrativos). */
 export const PILLARS: StagingItem[] = [
   { id: "mecanica", title: "Material Rodante", meta: "A Força Motriz", description: "Projetamos o coração das ferrovias. De truques superestruturados a locomotivas diesel-elétricas que tracionam 15.000 toneladas, tudo passa pela engenharia mecânica pesada.", source: "CoursePillars" },

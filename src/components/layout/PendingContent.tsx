@@ -1,5 +1,5 @@
 import { LinkButton } from "@/components/ui/LinkButton";
-import { localizePath, type Locale } from "@/i18n/config";
+import { localizePath } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 
 /**
@@ -7,7 +7,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
  * fallback invisível em página EN). Some quando o conteúdo editorial for
  * publicado por locale (BASE-002 / PUBLIC-001 / PUB-001).
  */
-export function PendingPage({ locale, dict, path }: { locale: Locale; dict: Pick<Dictionary, "pending">; path: string }) {
+export function PendingPage({ dict, path }: { dict: Pick<Dictionary, "pending">; path: string }) {
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center gap-6 px-4 pt-32 pb-20 text-center">
       <h1 className="text-3xl font-black sm:text-4xl">{dict.pending.pageTitle}</h1>

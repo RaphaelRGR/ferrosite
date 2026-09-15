@@ -56,7 +56,7 @@ test("sobre: linha do tempo sem nomes de pessoas e com selos de verificação", 
 });
 
 test("nenhuma página pública tem botões sem ação (31)", async ({ page }) => {
-  for (const route of ["/pt", "/pt/curso", "/pt/projetos", "/pt/experiencias", "/pt/noticias", "/pt/sobre", "/pt/eventos"]) {
+  for (const route of ["/pt", "/pt/curso", "/pt/projetos", "/pt/experiencias", "/pt/noticias", "/pt/sobre", "/pt/eventos", "/pt/laboratorios", "/pt/laboratorios/lav", "/pt/para-empresas"]) {
     await page.goto(route, { waitUntil: "load" });
     const dead = await page.locator("main button").evaluateAll((els) =>
       els.filter((el) => {
