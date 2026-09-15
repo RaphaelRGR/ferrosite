@@ -2,12 +2,18 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { UnverifiedContent } from "@/components/content/UnverifiedContent";
 import { PendingPage } from "@/components/layout/PendingContent";
+import { PublishedArticle } from "@/components/public/PublishedArticle";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { NEWS } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { getPublished } from "@/lib/content/public";
+
+// Slugs publicados pelo Portal renderizam sob demanda (ISR); os do staging são pré-renderizados.
+export const revalidate = 300;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) => NEWS.map((n) => ({ locale, id: n.id })));
@@ -16,17 +22,23 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/[locale]/noticias/[id]">): Promise<Metadata> {
   const { locale, id } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
+  const published = await getPublished("news", l, id);
+  if (published) return publicPageMetadata(l, `/noticias/${id}`, { title: published.title, description: published.summary });
   const item = NEWS.find((n) => n.id === id);
   return item ? publicPageMetadata(l, `/noticias/${id}`, { title: item.title, description: item.description }) : {};
 }
 
-/** Detalhe de notícia: título/data/resumo do staging + corpo pendente (sem autor inventado). */
+/** Notícia: publicação aprovada (projeção, sem selo) ou, no PT, item do staging sob quarentena com corpo pendente. */
 export default async function NoticiaPage({ params }: PageProps<"/[locale]/noticias/[id]">) {
   const { locale, id } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
+  const dict = getDictionary(l);
+  const published = await getPublished("news", l, id);
+  if (published) {
+    return <PublishedArticle item={published} locale={l} eyebrow={dict.newsPage.eyebrow} backHref={localizePath(l, "/noticias")} backLabel={dict.newsPage.back} labels={dict.published} />;
+  }
   const item = NEWS.find((n) => n.id === id);
   if (!item) notFound();
-  const dict = getDictionary(l);
   if (l !== "pt") return <PendingPage dict={dict} path={`/noticias/${id}`} />;
 
   return (

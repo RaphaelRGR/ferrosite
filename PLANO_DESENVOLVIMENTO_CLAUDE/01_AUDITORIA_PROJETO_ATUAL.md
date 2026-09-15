@@ -167,3 +167,7 @@ Relatório: `docs/baseline/AUTH-003-PORTAL-002-003-relatorio.md`. Migration 2 co
 ## Estado após CRM-001 (2026-09-15)
 
 Relatório: `docs/baseline/CRM-001-relatorio.md`. Migration 3: organização/contato/interação, pipeline com motivo e histórico, desafio com protocolo e cadeia de triagem, envio público só por service role com limites e auditoria sem PII. Site: formulário 'Tenho um desafio' (PT/EN) com consentimento, honeypot, tempo mínimo e confirmação por protocolo. Portal: Empresas e Desafios (triagem com labs relacionados por capacidade). Unit 127, RLS 36, e2e 243.
+
+## Estado após FILE-001 / PUB-001 (2026-09-15)
+
+Relatório: `docs/baseline/FILE-001-PUB-001-relatorio.md`. Migrations 4 e 5: file_asset com allowlist/consentimento/vínculos explícitos; conteúdo com revisões imutáveis, aprovação por terceiro, publicação como snapshot em projeção pública (view para anon), rollback, despublicação, preview por token e Markdown restrito. Site lê só a projeção (notícias/eventos). Portal: Conteúdos e Arquivos. Unit 132, RLS 45, e2e 250.

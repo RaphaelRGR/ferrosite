@@ -3,7 +3,7 @@ import { SITE_URL } from "@/i18n/metadata";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/portal", "/api", "/design-system"] }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/portal", "/api", "/design-system", "/pt/previa/", "/en/previa/"] }],
     sitemap: new URL("/sitemap.xml", SITE_URL).toString(),
   };
 }

@@ -44,6 +44,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      approval_request: {
+        Row: {
+          id: string;
+          item_id: string;
+          revision_id: string;
+          requested_by: string;
+          reviewer_id: string | null;
+          decision: Database["public"]["Enums"]["approval_decision"];
+          comment: string;
+          created_at: string;
+          decided_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          item_id: string;
+          revision_id: string;
+          requested_by: string;
+          reviewer_id?: string | null;
+          decision?: Database["public"]["Enums"]["approval_decision"];
+          comment?: string;
+          created_at?: string;
+          decided_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          item_id?: string;
+          revision_id?: string;
+          requested_by?: string;
+          reviewer_id?: string | null;
+          decision?: Database["public"]["Enums"]["approval_decision"];
+          comment?: string;
+          created_at?: string;
+          decided_at?: string | null;
+        };
+        Relationships: [];
+      };
       audit_event: {
         Row: {
           id: number;
@@ -123,6 +159,111 @@ export type Database = {
         };
         Relationships: [];
       };
+      content_item: {
+        Row: {
+          id: string;
+          type: Database["public"]["Enums"]["content_type"];
+          locale: string;
+          slug: string;
+          title: string;
+          summary: string;
+          body_md: string;
+          event_at: string | null;
+          event_place: string;
+          project_id: string | null;
+          organization_id: string | null;
+          cover_file_id: string | null;
+          source_note: string;
+          consent_confirmed: boolean;
+          status: Database["public"]["Enums"]["content_status"];
+          scheduled_for: string | null;
+          preview_token: string;
+          author_id: string;
+          updated_by: string;
+          created_at: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          id?: string;
+          type: Database["public"]["Enums"]["content_type"];
+          locale: string;
+          slug: string;
+          title: string;
+          summary?: string;
+          body_md?: string;
+          event_at?: string | null;
+          event_place?: string;
+          project_id?: string | null;
+          organization_id?: string | null;
+          cover_file_id?: string | null;
+          source_note?: string;
+          consent_confirmed?: boolean;
+          status?: Database["public"]["Enums"]["content_status"];
+          scheduled_for?: string | null;
+          preview_token?: string;
+          author_id: string;
+          updated_by: string;
+          created_at?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Update: {
+          id?: string;
+          type?: Database["public"]["Enums"]["content_type"];
+          locale?: string;
+          slug?: string;
+          title?: string;
+          summary?: string;
+          body_md?: string;
+          event_at?: string | null;
+          event_place?: string;
+          project_id?: string | null;
+          organization_id?: string | null;
+          cover_file_id?: string | null;
+          source_note?: string;
+          consent_confirmed?: boolean;
+          status?: Database["public"]["Enums"]["content_status"];
+          scheduled_for?: string | null;
+          preview_token?: string;
+          author_id?: string;
+          updated_by?: string;
+          created_at?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [];
+      };
+      content_revision: {
+        Row: {
+          id: string;
+          item_id: string;
+          revision_no: number;
+          snapshot: Json;
+          note: string;
+          author_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          item_id: string;
+          revision_no: number;
+          snapshot: Json;
+          note?: string;
+          author_id: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          item_id?: string;
+          revision_no?: number;
+          snapshot?: Json;
+          note?: string;
+          author_id?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       crm_event: {
         Row: {
           id: number;
@@ -155,6 +296,87 @@ export type Database = {
           occurred_at?: string;
           payload?: Json | null;
         };
+        Relationships: [];
+      };
+      file_asset: {
+        Row: {
+          id: string;
+          provider: Database["public"]["Enums"]["file_provider"];
+          external_id: string;
+          name: string;
+          mime_type: string;
+          size_bytes: number | null;
+          content_hash: string | null;
+          classification: Database["public"]["Enums"]["classification"];
+          status: Database["public"]["Enums"]["file_status"];
+          credit: string;
+          alt_text: string;
+          alt_text_en: string;
+          consent: Database["public"]["Enums"]["consent_status"];
+          consent_note: string;
+          owner_id: string;
+          created_by: string;
+          updated_by: string;
+          verified_at: string | null;
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          id?: string;
+          provider?: Database["public"]["Enums"]["file_provider"];
+          external_id: string;
+          name: string;
+          mime_type?: string;
+          size_bytes?: number | null;
+          content_hash?: string | null;
+          classification?: Database["public"]["Enums"]["classification"];
+          status?: Database["public"]["Enums"]["file_status"];
+          credit?: string;
+          alt_text?: string;
+          alt_text_en?: string;
+          consent?: Database["public"]["Enums"]["consent_status"];
+          consent_note?: string;
+          owner_id: string;
+          created_by: string;
+          updated_by: string;
+          verified_at?: string | null;
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Update: {
+          id?: string;
+          provider?: Database["public"]["Enums"]["file_provider"];
+          external_id?: string;
+          name?: string;
+          mime_type?: string;
+          size_bytes?: number | null;
+          content_hash?: string | null;
+          classification?: Database["public"]["Enums"]["classification"];
+          status?: Database["public"]["Enums"]["file_status"];
+          credit?: string;
+          alt_text?: string;
+          alt_text_en?: string;
+          consent?: Database["public"]["Enums"]["consent_status"];
+          consent_note?: string;
+          owner_id?: string;
+          created_by?: string;
+          updated_by?: string;
+          verified_at?: string | null;
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [];
+      };
+      file_type_allowlist: {
+        Row: { mime_type: string; max_bytes: number; gallery: boolean };
+        Insert: { mime_type: string; max_bytes: number; gallery?: boolean };
+        Update: { mime_type?: string; max_bytes?: number; gallery?: boolean };
         Relationships: [];
       };
       mission: {
@@ -279,6 +501,30 @@ export type Database = {
           body?: string;
           created_at?: string;
           edited_at?: string | null;
+        };
+        Relationships: [];
+      };
+      mission_file: {
+        Row: {
+          mission_id: string;
+          file_id: string;
+          kind: Database["public"]["Enums"]["file_link_kind"];
+          linked_by: string;
+          linked_at: string;
+        };
+        Insert: {
+          mission_id: string;
+          file_id: string;
+          kind?: Database["public"]["Enums"]["file_link_kind"];
+          linked_by: string;
+          linked_at?: string;
+        };
+        Update: {
+          mission_id?: string;
+          file_id?: string;
+          kind?: Database["public"]["Enums"]["file_link_kind"];
+          linked_by?: string;
+          linked_at?: string;
         };
         Relationships: [];
       };
@@ -447,6 +693,33 @@ export type Database = {
         };
         Relationships: [];
       };
+      project_file: {
+        Row: {
+          project_id: string;
+          file_id: string;
+          kind: Database["public"]["Enums"]["file_link_kind"];
+          position: number;
+          linked_by: string;
+          linked_at: string;
+        };
+        Insert: {
+          project_id: string;
+          file_id: string;
+          kind?: Database["public"]["Enums"]["file_link_kind"];
+          position?: number;
+          linked_by: string;
+          linked_at?: string;
+        };
+        Update: {
+          project_id?: string;
+          file_id?: string;
+          kind?: Database["public"]["Enums"]["file_link_kind"];
+          position?: number;
+          linked_by?: string;
+          linked_at?: string;
+        };
+        Relationships: [];
+      };
       project_membership: {
         Row: {
           project_id: string;
@@ -484,6 +757,66 @@ export type Database = {
         Row: { bucket: string; window_start: string; count: number };
         Insert: { bucket: string; window_start?: string; count?: number };
         Update: { bucket?: string; window_start?: string; count?: number };
+        Relationships: [];
+      };
+      publication: {
+        Row: {
+          id: string;
+          item_id: string;
+          revision_id: string;
+          type: Database["public"]["Enums"]["content_type"];
+          locale: string;
+          slug: string;
+          title: string;
+          summary: string;
+          body_md: string;
+          event_at: string | null;
+          event_place: string;
+          cover_alt: string;
+          cover_credit: string;
+          published_at: string;
+          published_by: string;
+          unpublished_at: string | null;
+          unpublished_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          item_id: string;
+          revision_id: string;
+          type: Database["public"]["Enums"]["content_type"];
+          locale: string;
+          slug: string;
+          title: string;
+          summary: string;
+          body_md: string;
+          event_at?: string | null;
+          event_place?: string;
+          cover_alt?: string;
+          cover_credit?: string;
+          published_at?: string;
+          published_by: string;
+          unpublished_at?: string | null;
+          unpublished_by?: string | null;
+        };
+        Update: {
+          id?: string;
+          item_id?: string;
+          revision_id?: string;
+          type?: Database["public"]["Enums"]["content_type"];
+          locale?: string;
+          slug?: string;
+          title?: string;
+          summary?: string;
+          body_md?: string;
+          event_at?: string | null;
+          event_place?: string;
+          cover_alt?: string;
+          cover_credit?: string;
+          published_at?: string;
+          published_by?: string;
+          unpublished_at?: string | null;
+          unpublished_by?: string | null;
+        };
         Relationships: [];
       };
       relationship_activity: {
@@ -619,10 +952,32 @@ export type Database = {
         Relationships: [];
       };
     };
-    Views: Record<string, never>;
+    Views: {
+      public_publication: {
+        Row: {
+          id: string | null;
+          type: Database["public"]["Enums"]["content_type"] | null;
+          locale: string | null;
+          slug: string | null;
+          title: string | null;
+          summary: string | null;
+          body_md: string | null;
+          event_at: string | null;
+          event_place: string | null;
+          cover_alt: string | null;
+          cover_credit: string | null;
+          published_at: string | null;
+        };
+        Relationships: [];
+      };
+    };
     Functions: {
       can_manage_mission: {
         Args: { p_mission: string };
+        Returns: boolean;
+      };
+      can_view_file: {
+        Args: { p_file: string };
         Returns: boolean;
       };
       consume_submission_budget: {
@@ -702,9 +1057,28 @@ export type Database = {
         Args: { p_mission: string };
         Returns: string;
       };
+      preview_content: {
+        Args: { p_token: string };
+        Returns: {
+          id: string;
+          type: Database["public"]["Enums"]["content_type"];
+          locale: string;
+          slug: string;
+          title: string;
+          summary: string;
+          body_md: string;
+          event_at: string;
+          event_place: string;
+          status: Database["public"]["Enums"]["content_status"];
+        }[];
+      };
       project_role_of: {
         Args: { p_project: string };
         Returns: Database["public"]["Enums"]["project_role"];
+      };
+      publish_content: {
+        Args: { p_item: string; p_revision?: string };
+        Returns: string;
       };
       shares_project_with: {
         Args: { p_other: string };
@@ -725,9 +1099,14 @@ export type Database = {
         };
         Returns: string;
       };
+      unpublish_content: {
+        Args: { p_item: string; p_reason?: string };
+        Returns: undefined;
+      };
     };
     Enums: {
       account_status: "pending" | "active" | "disabled";
+      approval_decision: "pending" | "approved" | "changes_requested";
       challenge_status:
         | "received"
         | "screening"
@@ -737,6 +1116,26 @@ export type Database = {
         | "declined"
         | "closed";
       classification: "public" | "internal" | "restricted" | "administrative";
+      consent_status: "not_required" | "pending" | "granted" | "refused";
+      content_status:
+        | "draft"
+        | "review"
+        | "changes_requested"
+        | "approved"
+        | "scheduled"
+        | "published"
+        | "unpublished"
+        | "archived";
+      content_type:
+        | "news"
+        | "event"
+        | "project_update"
+        | "experience"
+        | "partner_case"
+        | "lab_case";
+      file_link_kind: "attachment" | "cover" | "gallery" | "official_document";
+      file_provider: "google_drive" | "external_link";
+      file_status: "registered" | "verified" | "archived" | "revoked";
       global_role:
         "admin" | "coordination" | "advisor" | "member" | "external" | "viewer";
       membership_status: "active" | "removed";

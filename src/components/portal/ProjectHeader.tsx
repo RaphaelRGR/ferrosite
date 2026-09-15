@@ -15,7 +15,7 @@ export const PROJECT_STATUS_TONE: Record<ProjectStatus, BadgeTone> = {
   cancelled: "danger",
 };
 
-export type ProjectTab = "overview" | "team" | "missions";
+export type ProjectTab = "overview" | "team" | "missions" | "files";
 
 /** Cabeçalho comum das páginas de um projeto: nome, situação, papel do usuário e abas (links). */
 export function ProjectHeader({ project, actor, dict, tab }: { project: ProjectRow; actor: Actor; dict: Dictionary["portal"]; tab: ProjectTab }) {
@@ -24,6 +24,7 @@ export function ProjectHeader({ project, actor, dict, tab }: { project: ProjectR
     { id: "overview", href: base, label: dict.projects.overview },
     { id: "team", href: `${base}/equipe`, label: dict.projects.team },
     { id: "missions", href: `${base}/missoes`, label: dict.projects.missions },
+    { id: "files", href: `${base}/arquivos`, label: dict.projects.files },
   ];
   const roleLabel = actor.projectRole ? dict.projectRoles[actor.projectRole] : isOverseer(actor.globalRole) ? dict.projects.overseer : dict.common.none;
   return (

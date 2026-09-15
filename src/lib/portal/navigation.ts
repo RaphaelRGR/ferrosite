@@ -16,6 +16,8 @@ const ICONS = {
   people: "M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0Zm-12 9a8 8 0 0 1 16 0",
   organizations: "M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5",
   challenges: "M12 3v4m0 10v4M3 12h4m10 0h4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
+  content: "M6 3h9l5 5v13H6zM14 3v6h6M9 13h6M9 17h6",
+  files: "M4 5h6l2 2h8v12H4zM4 9h16",
   settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.1-1l2-1.5-2-3.4-2.3.9a7.5 7.5 0 0 0-1.7-1L15 3.5H9l-.3 2.5a7.5 7.5 0 0 0-1.7 1L4.7 6.1l-2 3.4 2 1.5a7.4 7.4 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9a7.5 7.5 0 0 0 1.7 1L9 20.5h6l.3-2.5a7.5 7.5 0 0 0 1.7-1l2.3.9 2-3.4-2-1.5c.1-.3.1-.7.1-1Z",
 } as const;
 
@@ -31,6 +33,8 @@ export function portalNavItems(dict: Dictionary["portal"]): NavItem[] {
     { href: "/portal/pessoas", label: dict.nav.people, icon: ICONS.people, requires: ["admin", "coordination"] },
     { href: "/portal/empresas", label: dict.nav.organizations, icon: ICONS.organizations, requires: ["admin", "coordination"] },
     { href: "/portal/desafios", label: dict.nav.challenges, icon: ICONS.challenges, requires: ["admin", "coordination", "advisor"] },
+    { href: "/portal/conteudos", label: dict.nav.content, icon: ICONS.content },
+    { href: "/portal/arquivos", label: dict.nav.files, icon: ICONS.files },
     { href: "/portal/configuracoes", label: dict.nav.settings, icon: ICONS.settings },
   ];
 }

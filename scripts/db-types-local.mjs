@@ -66,6 +66,17 @@ async function main() {
     tables.get(col.table_name).push(col);
   }
 
+  const viewCols = (await c.query(`
+    select c.table_name, c.column_name, c.udt_name, c.is_nullable = 'YES' as nullable
+    from information_schema.columns c
+    join information_schema.views v on v.table_name = c.table_name and v.table_schema = c.table_schema
+    where c.table_schema = 'public' order by c.table_name, c.ordinal_position`)).rows;
+  const views = new Map();
+  for (const col of viewCols) {
+    if (!views.has(col.table_name)) views.set(col.table_name, []);
+    views.get(col.table_name).push(col);
+  }
+
   const fns = (await c.query(`
     select p.proname, pg_get_function_arguments(p.oid) as args, pg_get_function_result(p.oid) as result, p.proretset
     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
@@ -109,7 +120,12 @@ async function main() {
     const update = list.filter((col) => !col.generated).map((col) => `${col.column_name}?: ${tsType(col.udt_name, enums)}${col.nullable ? " | null" : ""}`);
     out += `      ${name}: {\n        Row: { ${row.join("; ")} };\n        Insert: { ${insert.join("; ")} };\n        Update: { ${update.join("; ")} };\n        Relationships: [];\n      };\n`;
   }
-  out += "    };\n    Views: Record<string, never>;\n    Functions: {\n";
+  out += "    };\n    Views: {\n";
+  for (const [name, list] of views) {
+    const row = list.map((col) => `${col.column_name}: ${tsType(col.udt_name, enums)}${col.nullable ? " | null" : ""}`);
+    out += `      ${name}: {\n        Row: { ${row.join("; ")} };\n        Relationships: [];\n      };\n`;
+  }
+  out += "    };\n    Functions: {\n";
   for (const fn of fns) {
     const args = parseArgs(fn.args);
     out += `      ${fn.proname}: {\n        Args: { ${args.map((a) => `${a.name}${a.optional ? "?" : ""}: ${a.type}`).join("; ")} };\n        Returns: ${parseResult(fn.result, fn.proretset)};\n      };\n`;
@@ -120,7 +136,7 @@ async function main() {
   out += 'export type Tables<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T]["Row"];\n';
   out += 'export type Enums<T extends keyof Database["public"]["Enums"]> = Database["public"]["Enums"][T];\n';
   writeFileSync("src/types/database.ts", out);
-  console.log(`src/types/database.ts gerado: ${tables.size} tabelas, ${enums.size} enums, ${fns.length} funções`);
+  console.log(`src/types/database.ts gerado: ${tables.size} tabelas, ${views.size} views, ${enums.size} enums, ${fns.length} funções`);
 }
 
 try {
