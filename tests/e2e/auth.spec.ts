@@ -1,4 +1,7 @@
-import { expect, test } from "@playwright/test";
+import { expect as baseExpect, test } from "@playwright/test";
+
+// Login/Server Actions contra a nuvem com o runner cheio: asserções esperam mais que o padrão de 5 s.
+const expect = baseExpect.configure({ timeout: 30_000 });
 
 /**
  * AUTH-002: guard fail-closed, allowlist de redirect, callback inválido e

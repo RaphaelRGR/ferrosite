@@ -39,3 +39,15 @@ Todas as etapas do backlog (`PLANO_DESENVOLVIMENTO_CLAUDE/30_BACKLOG_CLAUDE_CODE
 ## Garantias mantidas do início ao fim
 
 Nada inventado (empresas, pessoas, números, datas) — lacunas como `[CONTEÚDO PENDENTE]`; contatos/PII nunca publicados; autorização sempre no servidor/RLS com auditoria append-only; conteúdo institucional sob selo até verificação; grades legadas e PDFs preservados; dados curriculares só dos PDFs oficiais (duas pendências de 2012 registradas).
+
+## Addendum — banco na nuvem aplicado (2026-09-15, tarde)
+
+Com a senha do banco fornecida pelo usuário:
+
+- `npm run db:push` aplicou as **6 migrations** no projeto `dsookutmubatecxzxtix` (25 tabelas, todas com RLS; `anon` só lê `public_publication`). Host correto é o direto `db.<ref>.supabase.co:5432` (o pooler regional anterior estava errado); `.env.local` atualizado.
+- Perfis retroativos criados para contas anteriores ao trigger; `e2e-admin@ferrosite.test` (admin) e `raphaelgarciar@gmail.com` (admin, e-mail confirmado, **senha a definir pelo próprio usuário** via link mágico em `/login` ou pelo Supabase Auth) ativos; `e2e-reviewer@ferrosite.test` (coordenação) criado com senha gerada para o fluxo de aprovação por terceiro.
+- `npm run test:integration` 8/8; e2e autenticado real: `auth.spec` 6/6 e novo `portal-journey.spec` 7/7 (projeto → missões/Kanban/calendário → equipe → arquivo → conteúdo: rascunho 404, autor não aprova, revisor aprova e publica, artigo no site sem selo e com XSS escapado, despublicação → 404 → CRM + desafio pelo site com protocolo real → relatórios/CSV).
+- Bugs encontrados só com o banco real e corrigidos: `formatDate` quebrava ao combinar `dateStyle` com componentes (`day/month/year`); mensagens dos guards (ex.: "autor não aprova o próprio conteúdo") apareciam como "sem permissão" genérico; logout passou a encerrar só a sessão atual (`scope: local`), revogação global fica com "desativar conta".
+- Suíte completa: **260/260** e2e, 135 unit, 49 RLS.
+
+Pendente ainda: `npm run db:types` contra a nuvem exige Docker (postgres-meta) — os tipos gerados localmente (`db:types:local`) são idênticos ao schema aplicado; rotação das chaves antes de ir ao ar.

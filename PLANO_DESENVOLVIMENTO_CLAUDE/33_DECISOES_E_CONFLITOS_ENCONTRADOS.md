@@ -50,6 +50,7 @@
 - **REPORT-001 (2026-09-15):** visitas/horas/captação sem entidade-fonte devolvem `null` ('sem dados'); 'aluno' = papel global member até existir vínculo institucional; exportação CSV (PDF depende de template aprovado); geração síncrona. Ver `docs/baseline/REPORT-001-relatorio.md`.
 - **OPS-001 (2026-09-15):** CSP com `script-src 'unsafe-inline'` (nonce exigiria site inteiro dinâmico) compensada por object-src/base-uri/form-action/frame-ancestors estritos; sem sink de APM até decisão; SLOs e ensaio de restore `[CONTEÚDO PENDENTE]`. Ver `docs/baseline/OPS-001-relatorio.md` e `docs/ops/runbook.md`.
 - **CLEAN-001 (2026-09-15):** removidos componentes/assets do protótipo sem consumidor (incl. `hero.mp4` de 35 MB e `hero-bg.png`, sem licença/crédito registrados — recuperáveis pelo Git se houver decisão de uso); mantidos grades legadas, `curriculums.legacy.ts`, logos sob quarentena e registros do inventário; `/portal/questoes` continua como placeholder honesto até a pergunta 6 ser respondida. Ver `docs/baseline/CLEAN-001-relatorio.md`.
+- **Banco na nuvem (2026-09-15):** migrations aplicadas; logout com `scope: local` (revogação global = desativar conta em Pessoas); primeiras contas admin provisionadas por script (senha do usuário definida por ele mesmo, nunca pelo assistente); `db:types` na nuvem exige Docker — usar `db:types:local`. Ver addendum em `docs/baseline/ENTREGA-FINAL.md`.
 
 ## Perguntas realmente bloqueadoras
 
