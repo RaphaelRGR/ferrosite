@@ -1,13 +1,12 @@
 import { createBrowserClient } from '@supabase/ssr'
+import { getSupabaseEnv } from './env'
 
 /**
  * createClient
- * Retorna o Supabase client para uso em Client Components.
- * Usa as variáveis públicas NEXT_PUBLIC_*.
+ * Supabase client para Client Components (somente chaves públicas).
  */
 export function createClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  const env = getSupabaseEnv()
+  if (!env) throw new Error('Supabase não configurado (NEXT_PUBLIC_SUPABASE_URL/ANON_KEY)')
+  return createBrowserClient(env.url, env.anonKey)
 }

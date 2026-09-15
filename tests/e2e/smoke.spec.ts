@@ -56,13 +56,12 @@ for (const route of PUBLIC_ROUTES) {
 }
 
 for (const route of PORTAL_ROUTES) {
-  test(`${route} usa o shell do Portal sem Navbar/footer públicos`, async ({ page }) => {
-    await page.goto(route, { waitUntil: "load" });
-    await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(1);
-    await expect(page.getByRole("navigation", { name: /Navegação principal|Main navigation/ })).toHaveCount(0);
-    await expect(page.locator("footer")).toHaveCount(0);
-    // Portal em escopo claro próprio, isolado do tema do <html>.
-    await expect(page.locator('[data-theme="light"] main#conteudo')).toHaveCount(1);
+  test(`${route} anônimo é redirecionado para /login com next allowlisted`, async ({ request }) => {
+    const res = await request.get(route, { maxRedirects: 0 });
+    expect(res.status()).toBe(307);
+    const location = new URL(res.headers()["location"], "http://x");
+    expect(location.pathname).toBe("/login");
+    expect(location.searchParams.get("next")).toBe(route);
   });
 }
 
@@ -92,14 +91,10 @@ test("rota inexistente responde 404 com a página not-found", async ({ page }) =
   await expect(page.getByRole("navigation", { name: /Navegação principal|Main navigation/ })).toHaveCount(1);
 });
 
-test("callback OAuth ainda é um stub: redireciona incondicionalmente para /portal", async ({ request }) => {
-  // Documenta o comportamento atual (P0 da auditoria); AUTH-002 substitui por exchangeCodeForSession.
+test("callback sem código não cria sessão: volta ao login com erro", async ({ request }) => {
   const response = await request.get("/api/auth/callback", { maxRedirects: 0 });
   expect(response.status()).toBe(307);
-  expect(new URL(response.headers()["location"], "http://localhost").pathname).toBe("/portal");
-});
-
-test("Portal está aberto para anônimo (estado conhecido, a ser fechado em AUTH-002)", async ({ request }) => {
-  const response = await request.get("/portal", { maxRedirects: 0 });
-  expect(response.status()).toBe(200);
+  const location = new URL(response.headers()["location"], "http://localhost");
+  expect(location.pathname).toBe("/login");
+  expect(location.searchParams.get("error")).toBe("callback");
 });

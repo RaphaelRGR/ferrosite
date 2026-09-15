@@ -1,30 +1,30 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { getSupabaseEnv } from './env'
 
 /**
  * createClient
- * Retorna o Supabase client para uso em Server Components e Server Actions.
- * Lê e escreve cookies para manter a sessão do usuário via SSR.
+ * Supabase client para Server Components, Server Actions e Route Handlers.
+ * Lança se a configuração estiver ausente: chamadores do Portal já foram
+ * barrados pelo proxy (fail-closed), então isto é defesa em profundidade.
  */
 export async function createClient() {
+  const env = getSupabaseEnv()
+  if (!env) throw new Error('Supabase não configurado (NEXT_PUBLIC_SUPABASE_URL/ANON_KEY)')
   const cookieStore = await cookies()
 
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
-          } catch {}
-        },
+  return createServerClient(env.url, env.anonKey, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll()
       },
-    }
-  )
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
+        } catch {
+          // Server Component: cookies são somente leitura; o proxy renova a sessão.
+        }
+      },
+    },
+  })
 }

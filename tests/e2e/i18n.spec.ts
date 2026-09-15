@@ -29,11 +29,13 @@ test.describe("redirects para o locale", () => {
     expect(location(res.headers())).toBe("/pt/curso");
   });
 
-  test("Portal, catálogo e grades não recebem prefixo", async ({ request }) => {
-    for (const path of ["/portal", "/design-system", "/grades/grade2025.pdf"]) {
+  test("Portal, login, catálogo e grades não recebem prefixo", async ({ request }) => {
+    for (const path of ["/login", "/design-system", "/grades/grade2025.pdf"]) {
       const res = await request.get(path, { maxRedirects: 0 });
       expect(res.status(), path).toBe(200);
     }
+    const portal = await request.get("/portal", { maxRedirects: 0 });
+    expect(new URL(portal.headers()["location"], "http://x").pathname).toBe("/login");
   });
 });
 

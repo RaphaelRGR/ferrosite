@@ -13,7 +13,9 @@
     "test:e2e": "playwright test --project=e2e",
     "baseline:screenshots": "playwright test --project=baseline",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
-    "content:report": "node scripts/content-inventory-report.mjs"
+    "content:report": "node scripts/content-inventory-report.mjs",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "db:push": "supabase db push --db-url \"$SUPABASE_DB_URL\""
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

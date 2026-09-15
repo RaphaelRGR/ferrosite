@@ -1,42 +1,34 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import type { User } from '@supabase/supabase-js'
+import { getSupabaseEnv } from './env'
 
 /**
  * updateSession
- * Chamado pelo middleware principal (src/middleware.ts).
- * Atualiza o cookie de sessão do Supabase a cada request,
- * garantindo que tokens expirados sejam renovados automaticamente.
+ * Chamado pelo proxy (src/proxy.ts). Renova o cookie de sessão a cada request
+ * e devolve o usuário autenticado (ou null) para o guard decidir.
  */
-export async function updateSession(request: NextRequest) {
-  const supabaseResponse = NextResponse.next({ request })
+export async function updateSession(request: NextRequest): Promise<{ response: NextResponse; user: User | null }> {
+  const response = NextResponse.next({ request })
+  const env = getSupabaseEnv()
+  if (!env) return { response, user: null }
 
-  const url  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? ''
-  const key  = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
-
-  // Guard: se as variáveis forem placeholders ou estiverem vazias,
-  // não tenta criar o cliente para evitar crash em desenvolvimento.
-  if (!url || !key || url.includes('placeholder')) {
-    return supabaseResponse
-  }
-
-  const supabase = createServerClient(url, key, {
+  const supabase = createServerClient(env.url, env.anonKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll()
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) =>
-          request.cookies.set(name, value)
-        )
-        cookiesToSet.forEach(({ name, value, options }) =>
-          supabaseResponse.cookies.set(name, value, options)
-        )
+        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options))
       },
     },
   })
 
-  // Atualiza a sessão — não remova essa linha
-  await supabase.auth.getUser()
+  // getUser valida o token no servidor de auth (não confiar em getSession no edge).
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  return supabaseResponse
+  return { response, user }
 }

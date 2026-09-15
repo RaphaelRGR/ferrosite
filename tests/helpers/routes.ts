@@ -12,7 +12,7 @@ export function localized(locale: (typeof LOCALES)[number], path: string): strin
 
 export const PUBLIC_ROUTES = LOCALES.flatMap((locale) => PUBLIC_PATHS.map((path) => localized(locale, path)));
 
-// Sem autenticação efetiva ainda: hoje respondem 200 para anônimo (AUTH-002 muda isso).
+// Exigem sessão + perfil ativo (AUTH-002): anônimo recebe 307 para /login.
 export const PORTAL_ROUTES = [
   "/portal",
   "/portal/projetos",
@@ -23,7 +23,10 @@ export const PORTAL_ROUTES = [
 // Catálogo de componentes (ferramenta de desenvolvimento, noindex, fora da navegação).
 export const CATALOG_ROUTE = "/design-system";
 
-export const HTML_ROUTES = [...PUBLIC_ROUTES, ...PORTAL_ROUTES, CATALOG_ROUTE] as const;
+export const LOGIN_ROUTE = "/login";
+
+// Rotas HTML acessíveis sem sessão.
+export const HTML_ROUTES = [...PUBLIC_ROUTES, CATALOG_ROUTE, LOGIN_ROUTE] as const;
 
 // Grades legadas: precisam continuar servidas como fallback documental.
 export const GRADE_ASSETS = [

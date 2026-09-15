@@ -135,3 +135,7 @@ Relatório: `docs/baseline/I18N-001-relatorio.md`. Site público sob `/pt` e `/e
 ## Estado após BASE-002 (2026-09-14)
 
 Relatório: `docs/baseline/BASE-002-relatorio.md`. Inventário editorial em `content/editorial-inventory.json` (90 entradas, 31 seções, todas UNVERIFIED; relatório em `docs/content/inventario-editorial.md`). 26 seções públicas envolvidas por `<UnverifiedContent>`: em modo review exibem selo "Conteúdo em verificação"; em `NEXT_PUBLIC_CONTENT_MODE=strict` não renderizam. Texto original preservado como evidência. Testes impedem seção inventariada sem selo e VERIFIED sem fonte/owner/data. Pendente: decisão confirmar/corrigir/descartar por linha pelo owner editorial.
+
+## Estado após AUTH-001/002 (2026-09-14)
+
+Relatório: `docs/baseline/AUTH-001-002-relatorio.md`. Migration `supabase/migrations/20260914000100_identity_and_core.sql` com profile/papéis/membership/project/mission/audit e RLS em todas as tabelas; guard fail-closed no proxy (503 sem config, 307 para /login sem sessão), login por senha/link mágico sem auto-cadastro, callback com `exchangeCodeForSession`, logout, gate por perfil ativo no layout do Portal. P0 1–4 e 6 da auditoria resolvidos no código. Pendente: aplicar migrations no projeto Supabase (senha do banco), gerar tipos, rodar testes de isolamento e o e2e autenticado.
