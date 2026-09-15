@@ -45,6 +45,8 @@ export interface Harness {
   admin: Client;
   /** Executa `fn` como usuário autenticado (RLS aplicada), em transação própria. */
   as<T>(userId: string | null, fn: (client: Client) => Promise<T>): Promise<T>;
+  /** Executa como service role (bypass de RLS, sem auth.uid()), como a Server Action do site. */
+  asService<T>(fn: (client: Client) => Promise<T>): Promise<T>;
   createUser(email: string, fullName?: string): Promise<string>;
   stop(): Promise<void>;
 }
@@ -95,6 +97,22 @@ export async function startHarness(): Promise<Harness> {
           await c.query("select set_config('request.jwt.claims', '{\"role\":\"anon\"}', true)");
           await c.query("set local role anon");
         }
+        const result = await fn(c);
+        await c.query("commit");
+        return result;
+      } catch (e) {
+        await c.query("rollback").catch(() => undefined);
+        throw e;
+      } finally {
+        await c.end();
+      }
+    },
+    async asService(fn) {
+      const c = await connect();
+      try {
+        await c.query("begin");
+        await c.query("select set_config('request.jwt.claims', '{\"role\":\"service_role\"}', true)");
+        await c.query("set local role service_role");
         const result = await fn(c);
         await c.query("commit");
         return result;

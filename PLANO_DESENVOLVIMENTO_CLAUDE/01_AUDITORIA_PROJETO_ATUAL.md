@@ -163,3 +163,7 @@ Relatório: `docs/baseline/LAB-001-relatorio.md`. Portfólio de laboratórios ex
 ## Estado após AUTH-003 / PORTAL-002 / PORTAL-003 (2026-09-15)
 
 Relatório: `docs/baseline/AUTH-003-PORTAL-002-003-relatorio.md`. Migration 2 com máquinas de estado de projeto/missão no servidor, histórico de negócio separado da auditoria, checklist/comentários, guardas (responsável ∈ equipe; remoção exige reatribuir), busca de perfil com escopo e tipos gerados localmente. Portal: CRUD de projetos com busca/filtro/paginação por URL, equipe (papel/prazo/externo), missões em lista/Kanban/calendário com transição por botões, detalhe com checklist/comentários/histórico, página Pessoas. Unit 122, RLS 28, e2e 228.
+
+## Estado após CRM-001 (2026-09-15)
+
+Relatório: `docs/baseline/CRM-001-relatorio.md`. Migration 3: organização/contato/interação, pipeline com motivo e histórico, desafio com protocolo e cadeia de triagem, envio público só por service role com limites e auditoria sem PII. Site: formulário 'Tenho um desafio' (PT/EN) com consentimento, honeypot, tempo mínimo e confirmação por protocolo. Portal: Empresas e Desafios (triagem com labs relacionados por capacidade). Unit 127, RLS 36, e2e 243.

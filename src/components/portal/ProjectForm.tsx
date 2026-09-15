@@ -28,12 +28,12 @@ export function ProjectForm({ dict, project, cancelHref }: { dict: Dictionary["p
       )}
       <ActionFeedback state={state} dict={dict} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <Input label={p.name} name="name" required minLength={2} maxLength={160} defaultValue={project?.name} error={err("name")} />
-        <Input label={`${p.nameEn} (${dict.common.optional})`} name="name_en" maxLength={160} defaultValue={project?.name_en} />
+        <Input label={p.name} name="name" required minLength={2} maxLength={160} defaultValue={state.values?.name ?? project?.name} error={err("name")} />
+        <Input label={`${p.nameEn} (${dict.common.optional})`} name="name_en" maxLength={160} defaultValue={state.values?.name_en ?? project?.name_en} />
       </div>
-      {!project && <Input label={`${p.slug} (${dict.common.optional})`} name="slug" help={p.slugHelp} pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={80} error={err("slug")} />}
-      <Textarea label={p.summary} name="summary" maxLength={2000} defaultValue={project?.summary} />
-      <Textarea label={`${p.summaryEn} (${dict.common.optional})`} name="summary_en" maxLength={2000} defaultValue={project?.summary_en} />
+      {!project && <Input label={`${p.slug} (${dict.common.optional})`} name="slug" defaultValue={state.values?.slug} help={p.slugHelp} pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={80} error={err("slug")} />}
+      <Textarea label={p.summary} name="summary" maxLength={2000} defaultValue={state.values?.summary ?? project?.summary} />
+      <Textarea label={`${p.summaryEn} (${dict.common.optional})`} name="summary_en" maxLength={2000} defaultValue={state.values?.summary_en ?? project?.summary_en} />
       <div className="grid gap-5 sm:grid-cols-2">
         <Select
           label={p.category}
@@ -50,8 +50,8 @@ export function ProjectForm({ dict, project, cancelHref }: { dict: Dictionary["p
           options={CLASSIFICATIONS.map((c) => ({ value: c, label: dict.classification[c] }))}
           error={err("classification")}
         />
-        <Input label={p.startsOn} name="starts_on" type="date" defaultValue={project?.starts_on ?? ""} />
-        <Input label={p.endsOn} name="ends_on" type="date" defaultValue={project?.ends_on ?? ""} error={err("ends_on")} />
+        <Input label={p.startsOn} name="starts_on" type="date" defaultValue={state.values?.starts_on ?? project?.starts_on ?? ""} />
+        <Input label={p.endsOn} name="ends_on" type="date" defaultValue={state.values?.ends_on ?? project?.ends_on ?? ""} error={err("ends_on")} />
       </div>
       <div className="flex flex-wrap gap-3">
         <Button type="submit" loading={pending}>

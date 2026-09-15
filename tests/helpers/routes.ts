@@ -3,7 +3,7 @@
  * Usado pelo smoke, pelo crawler de links e pela captura de screenshots.
  */
 // Caminhos públicos sem prefixo de locale (I18N-001 prefixa: /pt/..., /en/...).
-export const PUBLIC_PATHS = ["/", "/curso", "/projetos", "/projetos/comunica-ferro", "/sobre", "/experiencias", "/experiencias/visitas.gallery.rumo-2023", "/eventos", "/noticias", "/noticias/noticias.grid.08mai", "/laboratorios", "/laboratorios/lav", "/laboratorios/robotica", "/laboratorios/lasc", "/para-empresas", "/simuladores"] as const;
+export const PUBLIC_PATHS = ["/", "/curso", "/projetos", "/projetos/comunica-ferro", "/sobre", "/experiencias", "/experiencias/visitas.gallery.rumo-2023", "/eventos", "/noticias", "/noticias/noticias.grid.08mai", "/laboratorios", "/laboratorios/lav", "/laboratorios/robotica", "/laboratorios/lasc", "/para-empresas", "/para-empresas/desafio", "/simuladores"] as const;
 // Páginas já migradas para o shell claro (PUBLIC-001): axe estrito.
 export const LIGHT_PATHS = [...PUBLIC_PATHS] as const;
 export const LOCALES = ["pt", "en"] as const;
@@ -26,6 +26,9 @@ export const PORTAL_ROUTES = [
   "/portal/projetos/qualquer-slug/missoes",
   "/portal/projetos/qualquer-slug/missoes/nova",
   "/portal/pessoas",
+  "/portal/empresas",
+  "/portal/empresas/nova",
+  "/portal/desafios",
 ] as const;
 
 // Catálogo de componentes (ferramenta de desenvolvimento, noindex, fora da navegação).

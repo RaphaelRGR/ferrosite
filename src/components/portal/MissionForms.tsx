@@ -37,12 +37,12 @@ export function MissionForm({ dict, projectId, slug, mission, cancelHref }: { di
         </>
       )}
       <ActionFeedback state={state} dict={dict} />
-      <Input label={m.titleField} name="title" required minLength={2} maxLength={200} defaultValue={mission?.title} error={err("title")} />
-      <Textarea label={m.description} name="description" maxLength={4000} defaultValue={mission?.description} />
-      <Textarea label={`${m.deliverables} (${dict.common.optional})`} name="deliverables" maxLength={2000} defaultValue={mission?.deliverables} rows={3} />
+      <Input label={m.titleField} name="title" required minLength={2} maxLength={200} defaultValue={state.values?.title ?? mission?.title} error={err("title")} />
+      <Textarea label={m.description} name="description" maxLength={4000} defaultValue={state.values?.description ?? mission?.description} />
+      <Textarea label={`${m.deliverables} (${dict.common.optional})`} name="deliverables" maxLength={2000} defaultValue={state.values?.deliverables ?? mission?.deliverables} rows={3} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <Select label={m.priority} name="priority" defaultValue={mission?.priority ?? "medium"} options={PRIORITIES.map((p) => ({ value: p, label: m.priorities[p] }))} error={err("priority")} />
-        <Input label={`${m.dueAt} (${dict.common.optional})`} name="due_at" type="datetime-local" help={m.dueHelp} defaultValue={toLocalInput(mission?.due_at ?? null)} error={err("due_at")} />
+        <Select label={m.priority} name="priority" defaultValue={state.values?.priority ?? mission?.priority ?? "medium"} options={PRIORITIES.map((p) => ({ value: p, label: m.priorities[p] }))} error={err("priority")} />
+        <Input label={`${m.dueAt} (${dict.common.optional})`} name="due_at" type="datetime-local" help={m.dueHelp} defaultValue={state.values?.due_at ?? toLocalInput(mission?.due_at ?? null)} error={err("due_at")} />
       </div>
       <div className="flex flex-wrap gap-3">
         <Button type="submit" loading={pending}>
@@ -103,7 +103,7 @@ export function AssigneeForms({
           <input type="hidden" name="id" value={missionId} />
           <input type="hidden" name="slug" value={slug} />
           <input type="hidden" name="op" value="add" />
-          <Select label={m.assign} name="profile_id" help={m.assignHelp} options={available.map((c) => ({ value: c.id, label: c.name }))} className="min-w-48 flex-1" />
+          <Select label={m.assign} name="profile_id" defaultValue={state.values?.profile_id} help={m.assignHelp} options={available.map((c) => ({ value: c.id, label: c.name }))} className="min-w-48 flex-1" />
           <Button type="submit" variant="secondary" loading={pending}>
             {m.assign}
           </Button>
@@ -167,7 +167,7 @@ export function ChecklistForms({ dict, missionId, slug, items, canManage }: { di
           <input type="hidden" name="id" value={missionId} />
           <input type="hidden" name="slug" value={slug} />
           <input type="hidden" name="position" value={items.length} />
-          <Input label={m.itemLabel} name="label" required maxLength={300} error={fieldError(addState, "label", dict)} className="min-w-48 flex-1" />
+          <Input label={m.itemLabel} name="label" defaultValue={addState.values?.label} required maxLength={300} error={fieldError(addState, "label", dict)} className="min-w-48 flex-1" />
           <Button type="submit" variant="secondary" loading={addPending}>
             {m.addItem}
           </Button>
@@ -185,7 +185,7 @@ export function CommentForm({ dict, missionId, slug }: { dict: Dictionary["porta
     <form action={formAction} className="flex flex-col gap-3">
       <input type="hidden" name="id" value={missionId} />
       <input type="hidden" name="slug" value={slug} />
-      <Textarea label={m.addComment} name="body" required maxLength={4000} placeholder={m.commentPlaceholder} rows={3} error={fieldError(state, "body", dict)} />
+      <Textarea label={m.addComment} name="body" defaultValue={state.values?.body} required maxLength={4000} placeholder={m.commentPlaceholder} rows={3} error={fieldError(state, "body", dict)} />
       <div>
         <Button type="submit" variant="secondary" loading={pending}>
           {m.addComment}

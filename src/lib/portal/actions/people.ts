@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, type ActionState } from "../action-state";
+import { dbError, fail, type ActionState } from "../action-state";
 import { canChangePrivileges, type GlobalRole } from "../authz";
 
 const ROLES: GlobalRole[] = ["admin", "coordination", "advisor", "member", "external", "viewer"];
@@ -20,15 +20,15 @@ export async function setProfileAccess(_prev: ActionState, fd: FormData): Promis
   const version = Number(fd.get("version"));
   const role = String(fd.get("global_role") ?? "") as GlobalRole;
   const status = String(fd.get("status") ?? "") as (typeof STATUSES)[number];
-  if (!id || !Number.isInteger(version) || !ROLES.includes(role) || !STATUSES.includes(status)) return { error: "invalid" };
+  if (!id || !Number.isInteger(version) || !ROLES.includes(role) || !STATUSES.includes(status)) return fail(fd, { error: "invalid" });
   const session = await getCurrentSession();
-  if (!session?.profile || session.profile.status !== "active") return { error: "unauthenticated" };
-  if (!canChangePrivileges(session.profile.global_role)) return { error: "forbidden" };
+  if (!session?.profile || session.profile.status !== "active") return fail(fd, { error: "unauthenticated" });
+  if (!canChangePrivileges(session.profile.global_role)) return fail(fd, { error: "forbidden" });
 
   const supabase = await createClient();
   const { data, error } = await supabase.from("profile").update({ global_role: role, status }).eq("id", id).eq("version", version).select("id");
-  if (error) return { error: dbError(error) };
-  if (!data?.length) return { error: "conflict" };
+  if (error) return fail(fd, { error: dbError(error) });
+  if (!data?.length) return fail(fd, { error: "conflict" });
   revalidatePath("/portal/pessoas");
   return { ok: true };
 }

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, type ActionState } from "../action-state";
+import { dbError, fail, type ActionState } from "../action-state";
 import { canCreateMission, canManageMission, canTransitionMission, MISSION_STATUSES, type Actor, type MissionStatus } from "../authz";
 import { getMission } from "../missions";
 import { getMyProjectRole } from "../projects";
@@ -44,12 +44,12 @@ function readMissionFields(fd: FormData): { fields: Record<string, unknown> } | 
 export async function createMission(_prev: ActionState, fd: FormData): Promise<ActionState> {
   const projectId = str(fd, "project_id");
   const slug = str(fd, "slug");
-  if (!projectId || !slug) return { error: "invalid" };
+  if (!projectId || !slug) return fail(fd, { error: "invalid" });
   const a = await actor(projectId);
-  if (isState(a)) return a;
-  if (!canCreateMission(a.actor)) return { error: "forbidden" };
+  if (isState(a)) return fail(fd, a);
+  if (!canCreateMission(a.actor)) return fail(fd, { error: "forbidden" });
   const parsed = readMissionFields(fd);
-  if (isState(parsed)) return parsed;
+  if (isState(parsed)) return fail(fd, parsed);
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -57,7 +57,7 @@ export async function createMission(_prev: ActionState, fd: FormData): Promise<A
     .insert({ ...parsed.fields, project_id: projectId, created_by: a.userId, updated_by: a.userId } as never)
     .select("id")
     .single();
-  if (error) return { error: dbError(error) };
+  if (error) return fail(fd, { error: dbError(error) });
   missionPaths(slug);
   redirect(`/portal/projetos/${slug}/missoes/${data.id}`);
 }
@@ -66,14 +66,14 @@ export async function updateMission(_prev: ActionState, fd: FormData): Promise<A
   const id = str(fd, "id");
   const slug = str(fd, "slug");
   const version = Number(fd.get("version"));
-  if (!id || !Number.isInteger(version)) return { error: "invalid" };
+  if (!id || !Number.isInteger(version)) return fail(fd, { error: "invalid" });
   const mission = await getMission(id);
-  if (!mission) return { error: "not_found" };
+  if (!mission) return fail(fd, { error: "not_found" });
   const a = await actor(mission.project_id);
-  if (isState(a)) return a;
-  if (!canManageMission(a.actor, { createdBy: mission.created_by, assigneeIds: mission.assignees.map((x) => x.profile_id) })) return { error: "forbidden" };
+  if (isState(a)) return fail(fd, a);
+  if (!canManageMission(a.actor, { createdBy: mission.created_by, assigneeIds: mission.assignees.map((x) => x.profile_id) })) return fail(fd, { error: "forbidden" });
   const parsed = readMissionFields(fd);
-  if (isState(parsed)) return parsed;
+  if (isState(parsed)) return fail(fd, parsed);
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -82,8 +82,8 @@ export async function updateMission(_prev: ActionState, fd: FormData): Promise<A
     .eq("id", id)
     .eq("version", version)
     .select("id");
-  if (error) return { error: dbError(error) };
-  if (!data?.length) return { error: "conflict" };
+  if (error) return fail(fd, { error: dbError(error) });
+  if (!data?.length) return fail(fd, { error: "conflict" });
   missionPaths(slug, id);
   return { ok: true };
 }
@@ -94,13 +94,13 @@ export async function transitionMission(_prev: ActionState, fd: FormData): Promi
   const version = Number(fd.get("version"));
   const from = str(fd, "from") as MissionStatus;
   const to = str(fd, "to") as MissionStatus;
-  if (!id || !Number.isInteger(version) || !MISSION_STATUSES.includes(from) || !MISSION_STATUSES.includes(to)) return { error: "invalid" };
+  if (!id || !Number.isInteger(version) || !MISSION_STATUSES.includes(from) || !MISSION_STATUSES.includes(to)) return fail(fd, { error: "invalid" });
   const mission = await getMission(id);
-  if (!mission) return { error: "not_found" };
+  if (!mission) return fail(fd, { error: "not_found" });
   const a = await actor(mission.project_id);
-  if (isState(a)) return a;
+  if (isState(a)) return fail(fd, a);
   const m = { createdBy: mission.created_by, assigneeIds: mission.assignees.map((x) => x.profile_id) };
-  if (!canTransitionMission(a.actor, m, from, to)) return { error: "forbidden" };
+  if (!canTransitionMission(a.actor, m, from, to)) return fail(fd, { error: "forbidden" });
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -110,8 +110,8 @@ export async function transitionMission(_prev: ActionState, fd: FormData): Promi
     .eq("version", version)
     .eq("status", from)
     .select("id");
-  if (error) return { error: dbError(error) };
-  if (!data?.length) return { error: "conflict" };
+  if (error) return fail(fd, { error: dbError(error) });
+  if (!data?.length) return fail(fd, { error: "conflict" });
   missionPaths(slug, id);
   return { ok: true };
 }
@@ -121,19 +121,19 @@ export async function setAssignee(_prev: ActionState, fd: FormData): Promise<Act
   const slug = str(fd, "slug");
   const profileId = str(fd, "profile_id");
   const op = str(fd, "op");
-  if (!id || !profileId || !["add", "remove"].includes(op)) return { error: "invalid" };
+  if (!id || !profileId || !["add", "remove"].includes(op)) return fail(fd, { error: "invalid" });
   const mission = await getMission(id);
-  if (!mission) return { error: "not_found" };
+  if (!mission) return fail(fd, { error: "not_found" });
   const a = await actor(mission.project_id);
-  if (isState(a)) return a;
-  if (!canManageMission(a.actor, { createdBy: mission.created_by, assigneeIds: mission.assignees.map((x) => x.profile_id) })) return { error: "forbidden" };
+  if (isState(a)) return fail(fd, a);
+  if (!canManageMission(a.actor, { createdBy: mission.created_by, assigneeIds: mission.assignees.map((x) => x.profile_id) })) return fail(fd, { error: "forbidden" });
 
   const supabase = await createClient();
   const { error } =
     op === "add"
       ? await supabase.from("mission_assignee").insert({ mission_id: id, profile_id: profileId })
       : await supabase.from("mission_assignee").delete().eq("mission_id", id).eq("profile_id", profileId);
-  if (error) return { error: dbError(error) };
+  if (error) return fail(fd, { error: dbError(error) });
   missionPaths(slug, id);
   return { ok: true };
 }
@@ -142,14 +142,14 @@ export async function addChecklistItem(_prev: ActionState, fd: FormData): Promis
   const id = str(fd, "id");
   const slug = str(fd, "slug");
   const label = str(fd, "label", 300);
-  if (!id || !label) return { error: "invalid", field: "label" };
+  if (!id || !label) return fail(fd, { error: "invalid", field: "label" });
   const mission = await getMission(id);
-  if (!mission) return { error: "not_found" };
+  if (!mission) return fail(fd, { error: "not_found" });
   const a = await actor(mission.project_id);
-  if (isState(a)) return a;
+  if (isState(a)) return fail(fd, a);
   const supabase = await createClient();
   const { error } = await supabase.from("mission_checklist_item").insert({ mission_id: id, label, created_by: a.userId, position: Number(fd.get("position") ?? 0) || 0 });
-  if (error) return { error: dbError(error) };
+  if (error) return fail(fd, { error: dbError(error) });
   missionPaths(slug, id);
   return { ok: true };
 }
@@ -159,11 +159,11 @@ export async function toggleChecklistItem(_prev: ActionState, fd: FormData): Pro
   const slug = str(fd, "slug");
   const itemId = str(fd, "item_id");
   const done = str(fd, "done") === "true";
-  if (!id || !itemId) return { error: "invalid" };
+  if (!id || !itemId) return fail(fd, { error: "invalid" });
   const supabase = await createClient();
   const { error, data } = await supabase.from("mission_checklist_item").update({ done }).eq("id", itemId).eq("mission_id", id).select("id");
-  if (error) return { error: dbError(error) };
-  if (!data?.length) return { error: "forbidden" };
+  if (error) return fail(fd, { error: dbError(error) });
+  if (!data?.length) return fail(fd, { error: "forbidden" });
   missionPaths(slug, id);
   return { ok: true };
 }
@@ -172,10 +172,10 @@ export async function removeChecklistItem(_prev: ActionState, fd: FormData): Pro
   const id = str(fd, "id");
   const slug = str(fd, "slug");
   const itemId = str(fd, "item_id");
-  if (!id || !itemId) return { error: "invalid" };
+  if (!id || !itemId) return fail(fd, { error: "invalid" });
   const supabase = await createClient();
   const { error } = await supabase.from("mission_checklist_item").delete().eq("id", itemId).eq("mission_id", id);
-  if (error) return { error: dbError(error) };
+  if (error) return fail(fd, { error: dbError(error) });
   missionPaths(slug, id);
   return { ok: true };
 }
@@ -184,12 +184,12 @@ export async function addComment(_prev: ActionState, fd: FormData): Promise<Acti
   const id = str(fd, "id");
   const slug = str(fd, "slug");
   const body = str(fd, "body", 4000);
-  if (!id || !body) return { error: "invalid", field: "body" };
+  if (!id || !body) return fail(fd, { error: "invalid", field: "body" });
   const session = await getCurrentSession();
-  if (!session?.profile || session.profile.status !== "active") return { error: "unauthenticated" };
+  if (!session?.profile || session.profile.status !== "active") return fail(fd, { error: "unauthenticated" });
   const supabase = await createClient();
   const { error } = await supabase.from("mission_comment").insert({ mission_id: id, author_id: session.user.id, body });
-  if (error) return { error: dbError(error) };
+  if (error) return fail(fd, { error: dbError(error) });
   missionPaths(slug, id);
   return { ok: true };
 }

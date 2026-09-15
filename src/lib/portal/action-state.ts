@@ -10,6 +10,21 @@ export interface ActionState {
   ok?: boolean;
   /** Campo inválido (para foco/aria) quando `error === "invalid"`. */
   field?: string;
+  /** Valores digitados, devolvidos em erro: o React 19 limpa o form após a action e a pessoa não pode perder o texto. */
+  values?: Record<string, string>;
+}
+
+const CONTROL_FIELDS = new Set(["id", "version", "from", "to", "slug", "project_id", "profile_id", "item_id", "op", "done", "position", "organization_id", "contact_id"]);
+
+/** Ecoa os campos de texto do formulário (mesmo navegador; nada persistido) para repovoar em erro. */
+export function echoValues(fd: FormData): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [k, v] of fd.entries()) if (typeof v === "string" && !CONTROL_FIELDS.has(k)) out[k] = v;
+  return out;
+}
+
+export function fail(fd: FormData, state: ActionState): ActionState {
+  return { ...state, values: echoValues(fd) };
 }
 
 export const IDLE: ActionState = {};

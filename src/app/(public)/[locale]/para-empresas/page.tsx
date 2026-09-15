@@ -19,9 +19,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/para-emp
 
 /**
  * Para Empresas (04/13): começa pelo problema técnico e aponta capacidades/labs,
- * não logos. Sem formulário até CRM-001 (rate limit, validação, auditoria);
- * contato institucional é [CONTEÚDO PENDENTE] — nenhum e-mail inventado.
- * Explica confidencialidade sem prometer NDA.
+ * não logos. "Enviar desafio" leva ao formulário protegido (CRM-001);
+ * confidencialidade explicada sem prometer NDA; modalidades pendentes.
  */
 export default async function ParaEmpresasPage({ params }: PageProps<"/[locale]/para-empresas">) {
   const { locale } = await params;
@@ -88,10 +87,12 @@ export default async function ParaEmpresasPage({ params }: PageProps<"/[locale]/
         </section>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          <section className="rounded-2xl border border-dashed border-line-strong bg-surface p-6">
+          <section className="rounded-2xl border border-accent/30 bg-accent/5 p-6">
             <h2 className="font-bold">{c.submitTitle}</h2>
             <p className="mt-1 text-sm text-fg-muted">{c.submitDescription}</p>
-            <p className="mt-2 text-sm font-bold">{c.submitPending}</p>
+            <div className="mt-4">
+              <LinkButton href={localizePath(l, "/para-empresas/desafio")}>{c.submitButton}</LinkButton>
+            </div>
           </section>
           <section className="rounded-2xl border border-line bg-surface p-6">
             <h2 className="font-bold">{c.confidentialityTitle}</h2>

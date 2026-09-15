@@ -70,7 +70,7 @@ async function main() {
     select p.proname, pg_get_function_arguments(p.oid) as args, pg_get_function_result(p.oid) as result, p.proretset
     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
     where n.nspname = 'public' and p.prokind = 'f'
-      and has_function_privilege('authenticated', p.oid, 'execute')
+      and (has_function_privilege('authenticated', p.oid, 'execute') or has_function_privilege('service_role', p.oid, 'execute'))
       and p.prorettype <> 'trigger'::regtype
       -- só funções das migrations (não de extensões como pgcrypto)
       and not exists (select 1 from pg_depend d where d.objid = p.oid and d.deptype = 'e')
