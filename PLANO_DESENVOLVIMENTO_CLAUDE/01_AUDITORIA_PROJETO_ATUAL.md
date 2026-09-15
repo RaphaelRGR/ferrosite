@@ -175,3 +175,7 @@ Relatório: `docs/baseline/FILE-001-PUB-001-relatorio.md`. Migrations 4 e 5: fil
 ## Estado após REPORT-001 (2026-09-15)
 
 Relatório: `docs/baseline/REPORT-001-relatorio.md`. Migration 6: `compute_indicators` (fórmula única, timezone declarado, `null` sem fonte), `report_snapshot` imutável/auditado; `/portal/relatorios` com período por URL, snapshot e exportação CSV auditada; Início do Portal com widgets por perfil. Unit 132, RLS 49, e2e 251.
+
+## Estado após OPS-001 (2026-09-15)
+
+Relatório: `docs/baseline/OPS-001-relatorio.md`. CSP e cabeçalhos de segurança, logs JSON com redação, instrumentation (onRequestError), health endpoint, error boundaries estruturados e runbook (`docs/ops/runbook.md`). Unit 135, e2e 253.

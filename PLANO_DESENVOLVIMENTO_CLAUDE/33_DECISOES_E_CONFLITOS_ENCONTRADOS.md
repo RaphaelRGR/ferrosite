@@ -48,6 +48,7 @@
 - **CRM-001 (2026-09-15):** envio público de desafio via service role no servidor (função restrita) em vez de RPC anônimo, para que o hash de origem não seja forjável; sem anexos até FILE-001; retenção dos dados `[CONTEÚDO PENDENTE]`; sem notificação por e-mail (provedor não aprovado). Ver `docs/baseline/CRM-001-relatorio.md`.
 - **FILE-001/PUB-001 (2026-09-15):** Drive continua sendo o storage (só metadados no Portal; sem credencial não há link assinado/miniatura — pendência declarada na UI); Markdown restrito próprio (HTML sempre escapado, links http(s)/mailto) em vez de biblioteca; agendamento sem job (publicação manual); tipos sem página pública ficam só na projeção. Ver `docs/baseline/FILE-001-PUB-001-relatorio.md`.
 - **REPORT-001 (2026-09-15):** visitas/horas/captação sem entidade-fonte devolvem `null` ('sem dados'); 'aluno' = papel global member até existir vínculo institucional; exportação CSV (PDF depende de template aprovado); geração síncrona. Ver `docs/baseline/REPORT-001-relatorio.md`.
+- **OPS-001 (2026-09-15):** CSP com `script-src 'unsafe-inline'` (nonce exigiria site inteiro dinâmico) compensada por object-src/base-uri/form-action/frame-ancestors estritos; sem sink de APM até decisão; SLOs e ensaio de restore `[CONTEÚDO PENDENTE]`. Ver `docs/baseline/OPS-001-relatorio.md` e `docs/ops/runbook.md`.
 
 ## Perguntas realmente bloqueadoras
 

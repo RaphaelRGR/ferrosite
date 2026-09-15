@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
+import { reportClientError } from "@/lib/observability/client";
 
 /**
  * Erro do Portal: mantém o shell do Portal e oferece nova tentativa.
@@ -14,8 +15,7 @@ export default function PortalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // TODO(OPS-001): integrar com monitoramento de erros
-    console.error(error);
+    reportClientError("portal", error);
   }, [error]);
 
   return (

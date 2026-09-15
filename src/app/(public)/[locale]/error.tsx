@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
+import { reportClientError } from "@/lib/observability/client";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
@@ -21,8 +22,7 @@ export default function Error({
   const dict = getDictionary(hasLocale(params.locale) ? params.locale : DEFAULT_LOCALE);
 
   useEffect(() => {
-    // TODO: Integrar com serviço de monitoramento de erros (OPS-001)
-    console.error(error);
+    reportClientError("public", error);
   }, [error]);
 
   return (
