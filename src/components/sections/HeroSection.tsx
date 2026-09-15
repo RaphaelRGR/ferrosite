@@ -3,18 +3,16 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { localizePath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 
-// Conteúdo centralizado para facilitar manutenção
-const HERO_CONTENT = {
-  badge: "Portal não oficial",
-  title: "Engenharia Ferroviária",
-  subtitle: "e Metroviária · UFSC Joinville",
-  description: "O único curso de Santa Catarina. Formando os engenheiros que vão mover o Brasil com tecnologia e inovação.",
-  primaryButton: "Explorar Portal",
-  secondaryButton: "Conhecer o Curso",
-};
+interface HeroSectionProps {
+  locale: Locale;
+  /** Copy vindo do catálogo do locale (I18N-001). */
+  content: Dictionary["hero"];
+}
 
-export function HeroSection() {
+export function HeroSection({ locale, content: HERO_CONTENT }: HeroSectionProps) {
   // Ref para o indicador de scroll (fade-out ao rolar)
   const indicatorRef = useRef<HTMLDivElement>(null);
 
@@ -103,7 +101,7 @@ export function HeroSection() {
                 {HERO_CONTENT.primaryButton}
               </Link>
               <Link
-                href="/sobre"
+                href={localizePath(locale, "/sobre")}
                 className="flex min-h-[60px] items-center justify-center rounded-full border border-white/30 bg-black/20 px-14 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/60 hover:scale-105 hover:-translate-y-1 active:scale-95"
               >
                 {HERO_CONTENT.secondaryButton}

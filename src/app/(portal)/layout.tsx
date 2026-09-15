@@ -1,22 +1,32 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { HtmlShell } from "@/components/layout/HtmlShell";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 /**
  * Shell do Portal (área operacional). Independente do shell público:
  * landmarks próprios, um único <main> e tema isolado via `data-theme`
  * (tokens/persistência chegam em DS-001/PORTAL-001; hoje o valor é fixo).
+ * Root layout próprio (I18N-001): `lang` fixo em pt-BR até a decisão sobre o
+ * escopo PT/EN do Portal (33); strings ainda hard-coded pelo mesmo motivo.
  *
  * AUTH-002: o guard de sessão (server-side, fail-closed) entra aqui, antes
  * de renderizar qualquer filho. Até lá o Portal permanece aberto — estado
  * conhecido e coberto pelo smoke test.
  */
+export const metadata: Metadata = {
+  title: { default: "Portal", template: "%s | Portal" },
+  robots: { index: false, follow: false },
+};
+
 export default function PortalLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div data-theme="light" className="flex min-h-screen flex-col bg-canvas text-fg">
+    <HtmlShell lang="pt-BR" theme="light">
+    <div className="flex min-h-screen flex-col bg-canvas text-fg">
       <a
         href="#conteudo"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-action focus:px-5 focus:py-3 focus:text-sm focus:font-bold focus:text-fg-on-action focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-canvas"
@@ -55,5 +65,6 @@ export default function PortalLayout({
         {children}
       </main>
     </div>
+    </HtmlShell>
   );
 }

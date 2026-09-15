@@ -1,12 +1,17 @@
 {
-  "_comment": "Links internos quebrados conhecidos na baseline (auditoria 2026-09-14). O teste links.spec.ts falha se surgir um novo OU se um destes for corrigido sem atualizar esta lista. Os /projetos/* vêm do dropdown/menu da Navbar; #portal vem do CTA principal da Home (HeroSection).",
+  "_comment": "Links internos quebrados conhecidos na baseline (auditoria 2026-09-14; prefixos de locale desde I18N-001). O teste links.spec.ts falha se surgir um novo OU se um destes for corrigido sem atualizar esta lista. Os /projetos/* vem do dropdown/menu da Navbar; #portal vem do CTA principal da Home (HeroSection).",
   "brokenPaths": [
-    "/projetos/cavalos-de-ferro",
-    "/projetos/comunica-ferro",
-    "/projetos/extensao",
-    "/projetos/ferro-lab"
+    "/en/projetos/cavalos-de-ferro",
+    "/en/projetos/comunica-ferro",
+    "/en/projetos/extensao",
+    "/en/projetos/ferro-lab",
+    "/pt/projetos/cavalos-de-ferro",
+    "/pt/projetos/comunica-ferro",
+    "/pt/projetos/extensao",
+    "/pt/projetos/ferro-lab"
   ],
   "brokenFragments": [
-    "/#portal"
+    "/en#portal",
+    "/pt#portal"
   ]
 }

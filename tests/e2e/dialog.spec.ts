@@ -26,7 +26,7 @@ test("catálogo: diálogo abre, prende o foco, fecha com Escape e devolve o foco
 });
 
 test("fluxograma: clicar em uma disciplina abre um diálogo acessível com seu nome", async ({ page }) => {
-  await page.goto("/curso", { waitUntil: "load" });
+  await page.goto("/pt/curso", { waitUntil: "load" });
   const card = page.getByText("EMB5001", { exact: true }).first();
   await card.scrollIntoViewIfNeeded();
   await card.click();

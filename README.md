@@ -51,5 +51,5 @@ Node `>=20.9` (ver `.nvmrc`). Instale com `npm ci`.
 
 Primeira execução do Playwright: `npx playwright install chromium`.
 
-Relatório da baseline: `docs/baseline/BASE-001-relatorio.md`.
+Relatórios por tarefa em `docs/baseline/` (BASE-001, ARCH-001, DS-001, I18N-001). Site público é servido em `/pt` e `/en`; defina `NEXT_PUBLIC_SITE_URL` em produção para canonical/sitemap absolutos.
 

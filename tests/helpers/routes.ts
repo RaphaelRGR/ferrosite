@@ -2,15 +2,15 @@
  * Inventário das rotas existentes no protótipo (auditoria 2026-09-14).
  * Usado pelo smoke, pelo crawler de links e pela captura de screenshots.
  */
-export const PUBLIC_ROUTES = [
-  "/",
-  "/curso",
-  "/sobre",
-  "/visitas",
-  "/eventos",
-  "/noticias",
-  "/simuladores",
-] as const;
+// Caminhos públicos sem prefixo de locale (I18N-001 prefixa: /pt/..., /en/...).
+export const PUBLIC_PATHS = ["/", "/curso", "/sobre", "/visitas", "/eventos", "/noticias", "/simuladores"] as const;
+export const LOCALES = ["pt", "en"] as const;
+
+export function localized(locale: (typeof LOCALES)[number], path: string): string {
+  return path === "/" ? `/${locale}` : `/${locale}${path}`;
+}
+
+export const PUBLIC_ROUTES = LOCALES.flatMap((locale) => PUBLIC_PATHS.map((path) => localized(locale, path)));
 
 // Sem autenticação efetiva ainda: hoje respondem 200 para anônimo (AUTH-002 muda isso).
 export const PORTAL_ROUTES = [

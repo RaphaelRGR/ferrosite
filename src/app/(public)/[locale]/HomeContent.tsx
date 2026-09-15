@@ -5,6 +5,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { HeroSection } from "@/components/sections/HeroSection";
+import { PendingSection } from "@/components/layout/PendingContent";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { ManifestoSection } from "@/components/sections/ManifestoSection";
 import { NumbersSection } from "@/components/sections/NumbersSection";
 import { AboutSection } from "@/components/sections/AboutSection";
@@ -20,7 +23,14 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function HomePage() {
+export interface HomeContentProps {
+  locale: Locale;
+  dict: Pick<Dictionary, "hero" | "cta" | "pending">;
+  /** Seções editoriais só existem em PT até BASE-002/PUBLIC-001; em EN mostram indisponibilidade. */
+  showEditorial: boolean;
+}
+
+export function HomeContent({ locale, dict, showEditorial }: HomeContentProps) {
   useEffect(() => {
     const handleResize = () => {
       ScrollTrigger.refresh();
@@ -34,7 +44,7 @@ export default function HomePage() {
     <div className="relative bg-[#0A0A0A] text-white overflow-x-hidden">
       
       {/* HERO FIXED NO FUNDO */}
-      <HeroSection />
+      <HeroSection locale={locale} content={dict.hero} />
       
       {/* 
         EFEITO GAVETA (iOS SHEET):
@@ -47,16 +57,22 @@ export default function HomePage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[40px] bg-[#E84E1B] blur-[60px] opacity-20 pointer-events-none" />
 
-        <ManifestoSection />
-        <NumbersSection />
-        <AboutSection />
-        <HowItWorksSection />
-        <InnovationSection />
-        <VisitsSection />
-        <EventsSection />
-        <CompaniesSection />
-        <PartnersSection />
-        <CtaSection />
+        {showEditorial ? (
+          <>
+            <ManifestoSection />
+            <NumbersSection />
+            <AboutSection />
+            <HowItWorksSection />
+            <InnovationSection />
+            <VisitsSection />
+            <EventsSection />
+            <CompaniesSection />
+            <PartnersSection />
+          </>
+        ) : (
+          <PendingSection dict={dict} />
+        )}
+        <CtaSection locale={locale} content={dict.cta} />
         
       </div>
     </div>

@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BrandLogo } from '@/components/ui/BrandLogo';
+import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher';
+import { localizePath, type Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/dictionaries';
 
 /**
  * Navbar pill centralizada e flutuante.
@@ -13,24 +16,36 @@ import { BrandLogo } from '@/components/ui/BrandLogo';
  * - Responsiva com menu mobile
  */
 
-// Links principais de navegação
-const NAV_LINKS = [
-  { name: 'Sobre',     href: '/sobre'     },
-  { name: 'Curso',     href: '/curso'     },
-  { name: 'Visitas',   href: '/visitas'   },
-  { name: 'Eventos',   href: '/eventos'   },
-  { name: 'Notícias',  href: '/noticias'  },
-];
+export interface NavbarLabels {
+  site: Dictionary['site'];
+  a11y: Dictionary['a11y'];
+  nav: Dictionary['nav'];
+  locale: Dictionary['locale'];
+}
 
-// Sub-links do dropdown "Projetos"
-const PROJECT_LINKS = [
-  { name: 'Comunica Ferro',       href: '/projetos/comunica-ferro'    },
-  { name: 'Cavalos de Ferro',     href: '/projetos/cavalos-de-ferro'  },
-  { name: 'Ferro Lab',            href: '/projetos/ferro-lab'         },
-  { name: 'Projetos de Extensão', href: '/projetos/extensao'          },
-];
+interface NavbarProps {
+  locale: Locale;
+  labels: NavbarLabels;
+  homeHref: string;
+}
 
-export function Navbar() {
+export function Navbar({ locale, labels, homeHref }: NavbarProps) {
+  // Links principais e do dropdown "Projetos", rotulados pelo catálogo e prefixados pelo locale
+  const NAV_LINKS = [
+    { name: labels.nav.about,  href: localizePath(locale, '/sobre')    },
+    { name: labels.nav.course, href: localizePath(locale, '/curso')    },
+    { name: labels.nav.visits, href: localizePath(locale, '/visitas')  },
+    { name: labels.nav.events, href: localizePath(locale, '/eventos')  },
+    { name: labels.nav.news,   href: localizePath(locale, '/noticias') },
+  ];
+  const PROJECT_LINKS = [
+    { name: labels.nav.projectLinks.comunicaFerro,  href: localizePath(locale, '/projetos/comunica-ferro')   },
+    { name: labels.nav.projectLinks.cavalosDeFerro, href: localizePath(locale, '/projetos/cavalos-de-ferro') },
+    { name: labels.nav.projectLinks.ferroLab,       href: localizePath(locale, '/projetos/ferro-lab')        },
+    { name: labels.nav.projectLinks.extension,      href: localizePath(locale, '/projetos/extensao')         },
+  ];
+  const projectsBase = localizePath(locale, '/projetos');
+
   const [scrolled, setScrolled]             = useState(false);   // passou de 50px?
   const [visible, setVisible]               = useState(true);    // visibilidade da pill
   const [mobileOpen, setMobileOpen]         = useState(false);   // menu mobile aberto?
@@ -117,7 +132,7 @@ export function Navbar() {
     >
       {/* ── PILL PRINCIPAL ─────────────────────────────────────────────────── */}
       <nav
-        aria-label="Navegação principal"
+        aria-label={labels.a11y.mainNavigation}
         className="pointer-events-auto w-full max-w-4xl rounded-full border border-white/10 px-5 py-2.5 shadow-[0_8px_40px_rgba(0,0,0,0.5)] transition-all duration-500"
         style={{
           background: scrolled
@@ -131,13 +146,13 @@ export function Navbar() {
 
           {/* LOGO */}
           {/* Marca em texto: o lockup oficial não é legível a 44 px e não há símbolo isolado oficial (06). */}
-          <Link href="/" className="flex items-center gap-2.5 group shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+          <Link href={homeHref} className="flex items-center gap-2.5 group shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
             <div className="flex flex-col leading-none">
               <span className="text-white font-black text-[10px] tracking-[0.12em] uppercase">
-                Eng. Ferroviária
+                {labels.site.shortName}
               </span>
               <span className="text-white/30 font-bold text-[8px] tracking-[0.2em] uppercase mt-0.5">
-                UFSC Joinville
+                {labels.site.campus}
               </span>
             </div>
           </Link>
@@ -162,10 +177,10 @@ export function Navbar() {
               onMouseLeave={closeProjects}
             >
               <button
-                className={`flex items-center gap-1 ${linkCls('/projetos')} outline-none cursor-default`}
+                className={`flex items-center gap-1 ${linkCls(projectsBase)} outline-none cursor-default`}
                 aria-expanded={projectsOpen}
               >
-                Projetos
+                {labels.nav.projects}
                 {/* Seta giratória */}
                 <svg
                   width="8" height="8" viewBox="0 0 24 24"
@@ -219,13 +234,14 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* BOTÃO PORTAL (desktop) */}
-          <div className="hidden lg:block shrink-0">
+          {/* IDIOMA + BOTÃO PORTAL (desktop) */}
+          <div className="hidden lg:flex items-center gap-4 shrink-0">
+            <LocaleSwitcher current={locale} labels={labels.locale} ariaLabel={labels.a11y.languageSelector} />
             <Link
               href="/portal"
               className="relative overflow-hidden bg-[#E84E1B] text-white text-[10px] font-black uppercase tracking-[0.18em] px-5 py-2.5 rounded-full transition-all duration-300 hover:shadow-[0_0_25px_rgba(232,78,27,0.5)] hover:scale-105 active:scale-95"
             >
-              Portal
+              {labels.nav.portal}
             </Link>
           </div>
 
@@ -233,7 +249,8 @@ export function Navbar() {
           <button
             className="lg:hidden text-white p-1.5 rounded-full border border-white/10 hover:border-white/30 transition-all duration-200"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-label={mobileOpen ? labels.a11y.closeMenu : labels.a11y.openMenu}
+            aria-expanded={mobileOpen}
           >
             {/* Ícone animado com CSS */}
             <div className="w-4 h-3 flex flex-col justify-between">
@@ -274,7 +291,8 @@ export function Navbar() {
           <div className="h-full flex flex-col px-8 pt-32 pb-12 overflow-y-auto">
             <div className="flex flex-col gap-8">
               <BrandLogo width={120} />
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">Navegação</p>
+              <LocaleSwitcher current={locale} labels={labels.locale} ariaLabel={labels.a11y.languageSelector} />
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">{labels.nav.navigationLabel}</p>
               <div className="flex flex-col gap-6">
                 {NAV_LINKS.map((link, i) => (
                   <Link
@@ -294,7 +312,7 @@ export function Navbar() {
             </div>
 
             <div className="mt-16 flex flex-col gap-6">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">Projetos</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">{labels.nav.projects}</p>
               <div className="grid grid-cols-1 gap-4">
                 {PROJECT_LINKS.map((link, i) => (
                   <Link
@@ -323,11 +341,11 @@ export function Navbar() {
                   transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s`,
                 }}
               >
-                Portal do Aluno
+                {labels.nav.portalLong}
               </Link>
               
               <div className="flex justify-between items-center text-white/20">
-                <span className="text-[10px] font-bold uppercase tracking-widest">© 2026 UFSC Joinville</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest">© {new Date().getFullYear()} {labels.site.campus}</span>
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-xs">IG</div>
                   <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-xs">LK</div>

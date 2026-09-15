@@ -127,3 +127,7 @@ Relatório: `docs/baseline/ARCH-001-relatorio.md`. Root layout mínimo; `(public
 ## Estado após DS-001 (2026-09-14)
 
 Relatório: `docs/baseline/DS-001-relatorio.md`. Tokens semânticos com temas claro/escuro em `globals.css` (contraste AA verificado por teste; laranja `#E84E1B` reservado a acento — 3,78:1 com branco — e ações usam `#D3420F`); primitivos `Button`, `LinkButton`, `Badge`, `Input`, `Dialog`, `Skeleton`, `EmptyState`, `BrandLogo`; catálogo em `/design-system` (noindex); `SubjectModal` sobre `Dialog` acessível; emoji removido da Navbar e logo oficial no Portal/footer/menu mobile; axe sem violações sérias no catálogo e no Portal, baseline registrada nas rotas públicas legadas. Pendente da instituição: vetor, símbolo isolado e versão escura da marca.
+
+## Estado após I18N-001 (2026-09-14)
+
+Relatório: `docs/baseline/I18N-001-relatorio.md`. Site público sob `/pt` e `/en` (root layout por locale com `lang` real, `generateStaticParams`, canonical/hreflang/OG, sitemap e robots); URLs antigas redirecionam 307 por cookie → Accept-Language → pt; `middleware.ts` migrado para `proxy.ts`. Catálogos tipados em `src/i18n` (EN obrigado a cobrir todas as chaves), `Intl` para formatação, seletor PT/EN na Navbar. Em EN, conteúdo editorial não traduzido aparece como indisponibilidade explícita (não há PT como fallback). Portal segue sem prefixo até decisão de escopo. Unit 70, e2e 94.

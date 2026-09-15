@@ -28,7 +28,7 @@ for (const route of STRICT_ROUTES) {
 test("axe: baseline das rotas públicas legadas (registro, não bloqueia)", async ({ page }, testInfo) => {
   test.setTimeout(180_000);
   const summary: Record<string, string[]> = {};
-  for (const route of [...PUBLIC_ROUTES, "/rota-que-nao-existe"]) {
+  for (const route of [...PUBLIC_ROUTES, "/pt/rota-que-nao-existe"]) {
     await page.goto(route, { waitUntil: "load" });
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     summary[route] = results.violations.map((v) => `${v.id} (${v.impact}) ×${v.nodes.length}`);

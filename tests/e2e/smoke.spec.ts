@@ -46,7 +46,7 @@ for (const route of HTML_ROUTES) {
 for (const route of PUBLIC_ROUTES) {
   test(`${route} usa o shell público (Navbar + footer) sem shell do Portal`, async ({ page }) => {
     await page.goto(route, { waitUntil: "load" });
-    await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCount(1);
+    await expect(page.getByRole("navigation", { name: /Navegação principal|Main navigation/ })).toHaveCount(1);
     await expect(page.locator("footer")).toHaveCount(1);
     await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(0);
     // Tema do site vive no <html> (escuro até PUBLIC-001); nenhum escopo claro dentro.
@@ -59,7 +59,7 @@ for (const route of PORTAL_ROUTES) {
   test(`${route} usa o shell do Portal sem Navbar/footer públicos`, async ({ page }) => {
     await page.goto(route, { waitUntil: "load" });
     await expect(page.getByRole("navigation", { name: "Portal" })).toHaveCount(1);
-    await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: /Navegação principal|Main navigation/ })).toHaveCount(0);
     await expect(page.locator("footer")).toHaveCount(0);
     // Portal em escopo claro próprio, isolado do tema do <html>.
     await expect(page.locator('[data-theme="light"] main#conteudo')).toHaveCount(1);
@@ -69,7 +69,7 @@ for (const route of PORTAL_ROUTES) {
 test("catálogo de componentes não é indexável e fica fora da navegação pública", async ({ page }) => {
   await page.goto(CATALOG_ROUTE, { waitUntil: "load" });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-  await page.goto("/", { waitUntil: "load" });
+  await page.goto("/pt", { waitUntil: "load" });
   await expect(page.locator(`a[href="${CATALOG_ROUTE}"]`)).toHaveCount(0);
 });
 
@@ -83,13 +83,13 @@ for (const asset of GRADE_ASSETS) {
 }
 
 test("rota inexistente responde 404 com a página not-found", async ({ page }) => {
-  const response = await page.goto("/rota-que-nao-existe");
+  const response = await page.goto("/pt/rota-que-nao-existe");
   expect(response?.status()).toBe(404);
   await expect(page.locator("h1")).toHaveText(/não encontrada/i);
   await expect(page.getByRole("link", { name: /página inicial/i })).toBeAttached();
   // A 404 continua dentro do shell público, com um único <main>.
   await expect(page.locator("main#conteudo")).toHaveCount(1);
-  await expect(page.getByRole("navigation", { name: "Navegação principal" })).toHaveCount(1);
+  await expect(page.getByRole("navigation", { name: /Navegação principal|Main navigation/ })).toHaveCount(1);
 });
 
 test("callback OAuth ainda é um stub: redireciona incondicionalmente para /portal", async ({ request }) => {
