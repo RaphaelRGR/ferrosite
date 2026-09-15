@@ -858,6 +858,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      report_snapshot: {
+        Row: {
+          id: string;
+          kind: string;
+          period_start: string;
+          period_end: string;
+          formulas_version: number;
+          data: Json;
+          generated_by: string;
+          generated_at: string;
+        };
+        Insert: {
+          id?: string;
+          kind?: string;
+          period_start: string;
+          period_end: string;
+          formulas_version: number;
+          data: Json;
+          generated_by: string;
+          generated_at?: string;
+        };
+        Update: {
+          id?: string;
+          kind?: string;
+          period_start?: string;
+          period_end?: string;
+          formulas_version?: number;
+          data?: Json;
+          generated_by?: string;
+          generated_at?: string;
+        };
+        Relationships: [];
+      };
       research_challenge: {
         Row: {
           id: string;
@@ -980,6 +1013,10 @@ export type Database = {
         Args: { p_file: string };
         Returns: boolean;
       };
+      compute_indicators: {
+        Args: { p_start: string; p_end: string };
+        Returns: Json;
+      };
       consume_submission_budget: {
         Args: { p_bucket: string; p_window: unknown; p_limit: number };
         Returns: boolean;
@@ -1000,6 +1037,10 @@ export type Database = {
       has_global_role: {
         Args: { roles: Database["public"]["Enums"]["global_role"][] };
         Returns: boolean;
+      };
+      indicator_formulas_version: {
+        Args: Record<string, never>;
+        Returns: number;
       };
       is_active_user: {
         Args: Record<string, never>;
@@ -1083,6 +1124,10 @@ export type Database = {
       shares_project_with: {
         Args: { p_other: string };
         Returns: boolean;
+      };
+      snapshot_indicators: {
+        Args: { p_start: string; p_end: string };
+        Returns: string;
       };
       submit_research_challenge: {
         Args: {

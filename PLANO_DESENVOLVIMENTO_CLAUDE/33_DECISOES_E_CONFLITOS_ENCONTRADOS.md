@@ -47,6 +47,7 @@
 - **PORTAL-002/003 (2026-09-15):** cadeia de estados fixada no servidor (10 'sugestão inicial'), com `draft` inicial e `cancelled` terminal; concorrência por `version` (conflito devolve mensagem, nunca sobrescreve); `supabase gen types` exige Docker → gerador próprio a partir do Postgres embutido (`scripts/db-types-local.mjs`). Convite/aceite ficam no Supabase Auth; Pessoas cobre ativação/papel/desativação. Ver `docs/baseline/AUTH-003-PORTAL-002-003-relatorio.md`.
 - **CRM-001 (2026-09-15):** envio público de desafio via service role no servidor (função restrita) em vez de RPC anônimo, para que o hash de origem não seja forjável; sem anexos até FILE-001; retenção dos dados `[CONTEÚDO PENDENTE]`; sem notificação por e-mail (provedor não aprovado). Ver `docs/baseline/CRM-001-relatorio.md`.
 - **FILE-001/PUB-001 (2026-09-15):** Drive continua sendo o storage (só metadados no Portal; sem credencial não há link assinado/miniatura — pendência declarada na UI); Markdown restrito próprio (HTML sempre escapado, links http(s)/mailto) em vez de biblioteca; agendamento sem job (publicação manual); tipos sem página pública ficam só na projeção. Ver `docs/baseline/FILE-001-PUB-001-relatorio.md`.
+- **REPORT-001 (2026-09-15):** visitas/horas/captação sem entidade-fonte devolvem `null` ('sem dados'); 'aluno' = papel global member até existir vínculo institucional; exportação CSV (PDF depende de template aprovado); geração síncrona. Ver `docs/baseline/REPORT-001-relatorio.md`.
 
 ## Perguntas realmente bloqueadoras
 

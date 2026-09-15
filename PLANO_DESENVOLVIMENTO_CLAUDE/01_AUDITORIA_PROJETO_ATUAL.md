@@ -171,3 +171,7 @@ Relatório: `docs/baseline/CRM-001-relatorio.md`. Migration 3: organização/con
 ## Estado após FILE-001 / PUB-001 (2026-09-15)
 
 Relatório: `docs/baseline/FILE-001-PUB-001-relatorio.md`. Migrations 4 e 5: file_asset com allowlist/consentimento/vínculos explícitos; conteúdo com revisões imutáveis, aprovação por terceiro, publicação como snapshot em projeção pública (view para anon), rollback, despublicação, preview por token e Markdown restrito. Site lê só a projeção (notícias/eventos). Portal: Conteúdos e Arquivos. Unit 132, RLS 45, e2e 250.
+
+## Estado após REPORT-001 (2026-09-15)
+
+Relatório: `docs/baseline/REPORT-001-relatorio.md`. Migration 6: `compute_indicators` (fórmula única, timezone declarado, `null` sem fonte), `report_snapshot` imutável/auditado; `/portal/relatorios` com período por URL, snapshot e exportação CSV auditada; Início do Portal com widgets por perfil. Unit 132, RLS 49, e2e 251.
