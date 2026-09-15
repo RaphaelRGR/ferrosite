@@ -128,7 +128,9 @@ async function main() {
   out += "    };\n    Functions: {\n";
   for (const fn of fns) {
     const args = parseArgs(fn.args);
-    out += `      ${fn.proname}: {\n        Args: { ${args.map((a) => `${a.name}${a.optional ? "?" : ""}: ${a.type}`).join("; ")} };\n        Returns: ${parseResult(fn.result, fn.proretset)};\n      };\n`;
+    // sem argumentos: Record<string, never> (o `{}` vazio é rejeitado pelo lint e aceita qualquer valor)
+    const argsType = args.length ? `{ ${args.map((a) => `${a.name}${a.optional ? "?" : ""}: ${a.type}`).join("; ")} }` : "Record<string, never>";
+    out += `      ${fn.proname}: {\n        Args: ${argsType};\n        Returns: ${parseResult(fn.result, fn.proretset)};\n      };\n`;
   }
   out += "    };\n    Enums: {\n";
   for (const [name, labels] of enums) out += `      ${name}: ${labels.map((l) => JSON.stringify(l)).join(" | ")};\n`;

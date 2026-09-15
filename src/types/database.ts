@@ -985,7 +985,7 @@ export type Database = {
         Returns: boolean;
       };
       current_profile_status: {
-        Args: {};
+        Args: Record<string, never>;
         Returns: Database["public"]["Enums"]["account_status"];
       };
       find_profile_by_email: {
@@ -1002,7 +1002,7 @@ export type Database = {
         Returns: boolean;
       };
       is_active_user: {
-        Args: {};
+        Args: Record<string, never>;
         Returns: boolean;
       };
       is_member_of: {
@@ -1018,7 +1018,7 @@ export type Database = {
         Returns: boolean;
       };
       is_project_overseer: {
-        Args: {};
+        Args: Record<string, never>;
         Returns: boolean;
       };
       log_activity: {
