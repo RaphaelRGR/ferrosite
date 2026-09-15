@@ -123,3 +123,7 @@ Relatório completo: `docs/baseline/BASE-001-relatorio.md`.
 ## Estado após ARCH-001 (2026-09-14)
 
 Relatório: `docs/baseline/ARCH-001-relatorio.md`. Root layout mínimo; `(public)` com `PublicShell` (skip link, Navbar, `main#conteudo`, footer); `(portal)` com shell próprio, `data-theme` fixo e ponto marcado para o guard de AUTH-002. `<main>` aninhados eliminados em todas as rotas; P1-1 resolvido. URLs e visual público inalterados; Portal passa a base neutra clara. Smoke: 46 testes.
+
+## Estado após DS-001 (2026-09-14)
+
+Relatório: `docs/baseline/DS-001-relatorio.md`. Tokens semânticos com temas claro/escuro em `globals.css` (contraste AA verificado por teste; laranja `#E84E1B` reservado a acento — 3,78:1 com branco — e ações usam `#D3420F`); primitivos `Button`, `LinkButton`, `Badge`, `Input`, `Dialog`, `Skeleton`, `EmptyState`, `BrandLogo`; catálogo em `/design-system` (noindex); `SubjectModal` sobre `Dialog` acessível; emoji removido da Navbar e logo oficial no Portal/footer/menu mobile; axe sem violações sérias no catálogo e no Portal, baseline registrada nas rotas públicas legadas. Pendente da instituição: vetor, símbolo isolado e versão escura da marca.

@@ -5,6 +5,7 @@
  * Exibido quando ocorre algum erro não tratado na renderização.
  */
 import { useEffect } from "react";
+import { Button } from "@/components/ui/Button";
 
 export default function Error({
   error,
@@ -21,9 +22,9 @@ export default function Error({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4 text-center">
       <h1>Algo deu errado!</h1>
-      <button onClick={() => reset()} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded">
+      <Button className="mt-4" onClick={() => reset()}>
         Tentar novamente
-      </button>
+      </Button>
       {/* TODO: Melhorar a UI da página de erro */}
     </div>
   );

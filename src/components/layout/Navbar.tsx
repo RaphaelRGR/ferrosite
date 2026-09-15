@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 /**
  * Navbar pill centralizada e flutuante.
@@ -94,7 +95,7 @@ export function Navbar() {
 
   // ─── Estilo base dos links ───────────────────────────────────────────────────
   const linkCls = (href: string) =>
-    `relative text-[11px] font-black uppercase tracking-[0.15em] transition-colors duration-200 ${
+    `relative rounded text-[11px] font-black uppercase tracking-[0.15em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${
       pathname === href ? 'text-[#E84E1B]' : 'text-white/60 hover:text-white'
     }`;
 
@@ -129,14 +130,9 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-4">
 
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-black transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110"
-              style={{ background: 'linear-gradient(135deg, #E84E1B, #ff7a4d)' }}
-            >
-              🚂
-            </div>
-            <div className="hidden sm:flex flex-col leading-none">
+          {/* Marca em texto: o lockup oficial não é legível a 44 px e não há símbolo isolado oficial (06). */}
+          <Link href="/" className="flex items-center gap-2.5 group shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+            <div className="flex flex-col leading-none">
               <span className="text-white font-black text-[10px] tracking-[0.12em] uppercase">
                 Eng. Ferroviária
               </span>
@@ -277,6 +273,7 @@ export function Navbar() {
 
           <div className="h-full flex flex-col px-8 pt-32 pb-12 overflow-y-auto">
             <div className="flex flex-col gap-8">
+              <BrandLogo width={120} />
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#E84E1B]">Navegação</p>
               <div className="flex flex-col gap-6">
                 {NAV_LINKS.map((link, i) => (

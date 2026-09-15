@@ -1,15 +1,79 @@
 @import "tailwindcss";
 
+/* ─── Tokens ──────────────────────────────────────────────────────────────
+   Primitivos → semânticos → tema. Componentes usam somente os semânticos
+   (via utilitários do Tailwind abaixo). Novo hex fora daqui exige justificativa.
+   Contraste dos pares texto/fundo é verificado em tests/unit/tokens-contrast.test.ts. */
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+  /* primitivos */
+  --brand-orange: #e84e1b;        /* laranja institucional (logo) */
+  --brand-orange-deep: #d3420f;   /* 4,57:1 com branco: usado em ações com texto branco */
+  --brand-orange-deeper: #b8380c;
+  --brand-orange-soft: #ff8a5b;
 }
 
+/* Semânticos — tema claro. É o default e também um escopo explícito, para que
+   um [data-theme="light"] aninhado em html[data-theme="dark"] não herde o escuro. */
+:root,
+[data-theme="light"] {
+  --bg-canvas: #f6f7f9;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #eceef2;
+  --text-primary: #141619;
+  --text-muted: #565e69;
+  --text-on-action: #ffffff;
+  --border-subtle: #dfe3e8;
+  --border-strong: #6f7783;   /* ≥3:1 sobre surface (bordas de controles) */
+  --action-primary: var(--brand-orange-deep);
+  --action-primary-hover: var(--brand-orange-deeper);
+  --accent: var(--brand-orange);
+  --focus-ring: var(--brand-orange-deep);
+  --status-success: #1b6f45;
+  --status-warning: #7a5200;
+  --status-danger: #b3261e;
+  --status-info: #1d5bb8;
+}
+
+[data-theme="dark"] {
+  --bg-canvas: #0a0a0a;      /* mantém o fundo atual do site público */
+  --bg-surface: #1a1a1a;
+  --bg-surface-2: #242424;
+  --text-primary: #f2f2f2;   /* evita branco puro em corpo */
+  --text-muted: #a5abb4;
+  --text-on-action: #ffffff;
+  --border-subtle: #2a2d31;
+  --border-strong: #6e747c;
+  --action-primary: var(--brand-orange-deep);
+  --action-primary-hover: var(--brand-orange-deeper);
+  --accent: var(--brand-orange);
+  --focus-ring: var(--brand-orange-soft);
+  --status-success: #5ccf95;
+  --status-warning: #e9bd4a;
+  --status-danger: #ff8078;
+  --status-info: #7fb3ff;
+}
+
+/* Utilitários Tailwind derivados dos tokens: bg-canvas, bg-surface, text-fg,
+   text-fg-muted, border-line, bg-action, text-accent, ring-focus, text-success… */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-2: var(--bg-surface-2);
+  --color-fg: var(--text-primary);
+  --color-fg-muted: var(--text-muted);
+  --color-fg-on-action: var(--text-on-action);
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+  --color-action: var(--action-primary);
+  --color-action-hover: var(--action-primary-hover);
+  --color-accent: var(--accent);
+  --color-focus: var(--focus-ring);
+  --color-success: var(--status-success);
+  --color-warning: var(--status-warning);
+  --color-danger: var(--status-danger);
+  --color-info: var(--status-info);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Reset de box-sizing e scroll suave */
@@ -19,14 +83,25 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
   /* Evita overflow horizontal em mobile */
   overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* ─── Animação do carrossel de logos ─────────────────────────── */
@@ -45,5 +120,12 @@ body {
 @media (min-width: 640px) {
   .marquee-track {
     gap: 24px;
+  }
+}
+
+/* Movimento reduzido: o carrossel fica estático (conteúdo permanece visível). */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
   }
 }

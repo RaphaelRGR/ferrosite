@@ -20,7 +20,10 @@ export const PORTAL_ROUTES = [
   "/portal/acervo",
 ] as const;
 
-export const HTML_ROUTES = [...PUBLIC_ROUTES, ...PORTAL_ROUTES] as const;
+// Catálogo de componentes (ferramenta de desenvolvimento, noindex, fora da navegação).
+export const CATALOG_ROUTE = "/design-system";
+
+export const HTML_ROUTES = [...PUBLIC_ROUTES, ...PORTAL_ROUTES, CATALOG_ROUTE] as const;
 
 // Grades legadas: precisam continuar servidas como fallback documental.
 export const GRADE_ASSETS = [
