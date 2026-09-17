@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { dbError, fail, type ActionState } from "../action-state";
@@ -139,6 +141,7 @@ export async function addMember(_prev: ActionState, fd: FormData): Promise<Actio
   );
   if (error) return fail(fd, { error: dbError(error) });
   revalidatePath(`/portal/projetos/${slug}/equipe`);
+  after(dispatchQuietly); // aviso de ingresso enfileirado pelo banco (MAIL-001)
   return { ok: true };
 }
 

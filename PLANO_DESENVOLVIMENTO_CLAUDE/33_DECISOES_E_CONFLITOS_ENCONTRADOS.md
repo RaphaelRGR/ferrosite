@@ -64,3 +64,9 @@
 8. Quem pode aprovar publicação, P&D, financeiro e dados pessoais?
 
 Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isoladas. Bloqueiam publicação de fatos, políticas finais e ingestão de dados reais.
+
+## Addendum MAIL-001 (2026-09-17)
+
+- Provedor de e-mail escolhido pelo usuário: **Resend** (API HTTP, sem SDK). Fica pendente do usuário: conta, domínio verificado do remetente institucional e as variáveis `RESEND_API_KEY`/`MAIL_FROM`/`MAIL_REPLY_TO`/`MAIL_DISPATCH_SECRET`. Até lá a fila acumula sem perda.
+- O e-mail à empresa leva só protocolo e título (a descrição pode ser confidencial; e-mail não é canal seguro). Retenção de `mail_outbox` (destinatário + payload mínimo) entra na mesma decisão de retenção dos desafios (pergunta 4).
+- Conexão de migração: o host direto `db.<ref>.supabase.co` resolve só em IPv6; em redes IPv4 usar o session pooler (`postgres.<ref>@aws-<n>-<região>.pooler.supabase.com:5432`).

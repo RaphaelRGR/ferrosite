@@ -107,7 +107,10 @@ async function main() {
       const fields = result.slice(6, -1).split(",").map((f) => f.trim().split(/\s+/));
       return `{ ${fields.map(([n, ...t]) => `${n}: ${sqlType(t.join(" "))}`).join("; ")} }[]`;
     }
-    const t = sqlType(result.replace(/^SETOF\s+/, ""));
+    // SETOF <tabela>: a linha da própria tabela (Supabase gera o mesmo)
+    const bare = result.replace(/^SETOF\s+/, "");
+    if (tables.has(bare)) return `Database["public"]["Tables"]["${bare}"]["Row"]${proretset ? "[]" : ""}`;
+    const t = sqlType(bare);
     return proretset ? `${t}[]` : t;
   };
 

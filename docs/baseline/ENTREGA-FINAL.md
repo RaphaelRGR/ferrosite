@@ -51,3 +51,7 @@ Com a senha do banco fornecida pelo usuário:
 - Suíte completa: **260/260** e2e, 135 unit, 49 RLS.
 
 Pendente ainda: `npm run db:types` contra a nuvem exige Docker (postgres-meta) — os tipos gerados localmente (`db:types:local`) são idênticos ao schema aplicado; rotação das chaves antes de ir ao ar.
+
+## Addendum — MAIL-001 e-mail transacional (2026-09-17)
+
+Gancho do grupo "integrações pendentes" implementado a pedido do usuário (provedor Resend): fila `mail_outbox` por trigger, entrega pós-resposta/cron, templates PT/EN, painel em Configurações. Relatório `docs/baseline/MAIL-001-relatorio.md`. Migration aplicada na nuvem. Números: unit 144, RLS 54, e2e 261 (ver relatório). Depende do usuário: conta Resend com domínio verificado e variáveis de ambiente.

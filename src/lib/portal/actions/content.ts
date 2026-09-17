@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { LOCALES, localizePath } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
@@ -141,6 +143,7 @@ export async function transitionContent(_prev: ActionState, fd: FormData): Promi
   }
   revalidatePath(`/portal/conteudos/${id}`);
   revalidatePath("/portal/conteudos");
+  after(dispatchQuietly); // avisos de revisão/decisão/publicação enfileirados pelo banco (MAIL-001)
   return { ok: true };
 }
 

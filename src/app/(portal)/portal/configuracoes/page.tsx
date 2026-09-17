@@ -1,18 +1,27 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { DispatchMailForm } from "@/components/portal/MailForms";
 import { ThemeToggle } from "@/components/portal/ThemeToggle";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentSession } from "@/lib/auth/session";
+import { formatDate } from "@/i18n/format";
+import { isMailConfigured } from "@/lib/mail/provider";
+import { getMailSummary, type MailStatus } from "@/lib/portal/mail";
 import { parseTheme, THEME_COOKIE } from "@/lib/portal/theme";
 
 export const metadata: Metadata = { title: "Configurações" };
 
-/** Preferências do usuário: tema (persistido) e dados da conta (somente leitura). */
+const MAIL_STATUSES: MailStatus[] = ["queued", "sent", "failed"];
+
+/** Preferências do usuário: tema (persistido), dados da conta (somente leitura) e, para admin, a fila de e-mails (MAIL-001). */
 export default async function PortalSettingsPage() {
   const dict = getDictionary("pt");
   const session = await getCurrentSession();
   const theme = parseTheme((await cookies()).get(THEME_COOKIE)?.value);
   const profile = session?.profile;
+  const isAdmin = profile?.global_role === "admin" && profile.status === "active";
+  const mailSummary = isAdmin ? await getMailSummary() : [];
+  const mailConfigured = isMailConfigured();
 
   return (
     <div className="flex flex-col gap-8">
@@ -39,6 +48,35 @@ export default async function PortalSettingsPage() {
           </div>
         </dl>
       </section>
+
+      {isAdmin ? (
+        <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="mail-title">
+          <h2 id="mail-title" className="text-lg font-bold">{dict.portal.settings.mail.title}</h2>
+          <p className="mt-1 text-sm text-fg-muted">{dict.portal.settings.mail.help}</p>
+          <p className={`mt-3 text-sm font-bold ${mailConfigured ? "text-success" : "text-warning"}`}>
+            {mailConfigured ? dict.portal.settings.mail.configured : dict.portal.settings.mail.notConfigured}
+          </p>
+          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+            {MAIL_STATUSES.map((status) => {
+              const row = mailSummary.find((s) => s.status === status);
+              return (
+                <div key={status} className="rounded-lg border border-line p-3">
+                  <dt className="text-xs font-bold uppercase tracking-widest text-fg-muted">{dict.portal.settings.mail[status]}</dt>
+                  <dd className="mt-1 text-2xl font-black">{row?.total ?? 0}</dd>
+                  {row?.lastAt ? (
+                    <dd className="text-xs text-fg-muted">
+                      {dict.portal.settings.mail.lastAt} {formatDate("pt", new Date(row.lastAt), { dateStyle: "short", timeStyle: "short" })}
+                    </dd>
+                  ) : null}
+                </div>
+              );
+            })}
+          </dl>
+          <div className="mt-4">
+            <DispatchMailForm dict={dict.portal} />
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

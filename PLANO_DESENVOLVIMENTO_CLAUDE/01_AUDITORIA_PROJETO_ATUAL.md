@@ -183,3 +183,7 @@ Relatório: `docs/baseline/OPS-001-relatorio.md`. CSP e cabeçalhos de seguranç
 ## Estado após CLEAN-001 (2026-09-15)
 
 Relatório: `docs/baseline/CLEAN-001-relatorio.md`. Legado sem consumidor removido (33 seções, Navbar, CurriculumFlowchart, SubjectModal, tipos órfãos, gsap, mídia do protótipo sem licença, assets do template, .gitkeep); grades legadas, `curriculums.legacy.ts`, logos sob quarentena e registros do inventário preservados; `/portal/acervo` → `/portal/arquivos`; `/portal/questoes` honesto (decisão pendente). README reescrito. Todas as etapas do backlog (30) estão concluídas em commits locais; pendências institucionais listadas em 33.
+
+## Estado após MAIL-001 (2026-09-17)
+
+Relatório: `docs/baseline/MAIL-001-relatorio.md`. Migration 7: `mail_outbox` enfileirada por triggers (desafio recebido, revisão pedida, decisão, publicação, ingresso em equipe), reserva/baixa só pelo service role; entrega pós-resposta e por cron; provedor Resend via `fetch`; templates PT/EN; painel em Configurações (admin) com envio manual auditado; `/api/health` expõe `mailConfigured`. Unit 144, RLS 54, e2e 261. Aplicada na nuvem (pooler IPv4).

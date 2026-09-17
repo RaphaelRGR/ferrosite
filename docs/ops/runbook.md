@@ -9,11 +9,13 @@ Escopo: site público (Next.js) + Portal (Supabase Auth/Postgres). Hospedagem e 
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | build + runtime | Auth e leitura da projeção pública. Ausentes ⇒ Portal responde 503 (fail-closed) e o site segue sem publicações. |
 | `SUPABASE_SERVICE_ROLE_KEY` | runtime (servidor) | Só para `submit_research_challenge` e `preview_content`. Nunca no cliente; **rotacionar** ao ir ao ar (as chaves de 2026-09-15 foram usadas para configurar). |
 | `CHALLENGE_HASH_SECRET` | runtime (servidor) | HMAC da origem do formulário de desafio (fallback: service role). |
-| `SUPABASE_DB_PASSWORD` | só CI/máquina de migração | `npm run db:push` / `db:types`. Nunca em runtime. |
+| `SUPABASE_DB_PASSWORD`, `SUPABASE_DB_URL` | só CI/máquina de migração | `npm run db:push` / `db:types`. Nunca em runtime. Host: session pooler IPv4 (`aws-<n>-<região>.pooler.supabase.com:5432`, usuário `postgres.<ref>`); o host direto `db.<ref>.supabase.co` só resolve em IPv6. |
+| `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_REPLY_TO` | runtime (servidor) | E-mail transacional (MAIL-001). Ausentes ⇒ a fila `mail_outbox` acumula em `queued` (nada se perde) e `/api/health` mostra `mailConfigured: false`. |
+| `MAIL_DISPATCH_SECRET` | runtime (servidor) | Bearer do `POST /api/mail/dispatch` (cron de reprocessamento). Sem ele a rota responde 404. |
 | `NEXT_PUBLIC_SITE_URL` | build | canonical/hreflang/sitemap. |
 | `NEXT_PUBLIC_CONTENT_MODE` | build | `review` (selo em conteúdo não verificado) ou `strict` (oculta). Produção: definir explicitamente. |
 
-Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: true }` (sem segredos, sem cache).
+Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: true, mailConfigured: true }` (sem segredos, sem cache).
 
 ## 2. Deploy
 
@@ -46,6 +48,7 @@ Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: tru
 | Arquivo com problema de consentimento | Portal → Arquivos → arquivo → consentimento **Recusado** / situação **Revogado** (auditado); despublicar conteúdo que o usa como capa. | Remover no provedor conforme política (17: remoção pública não apaga o original sem política). |
 | Spam no formulário de desafio | Verificar `public_submission_rate`; ajustar limites na função `submit_research_challenge` por migration. | Avaliar captcha só se necessário (21: anti-spam sem depender de terceiros por padrão). |
 | Portal fora (503) | Conferir variáveis `NEXT_PUBLIC_SUPABASE_*` e status do Supabase. | `/api/health` no monitor. |
+| E-mails não chegam | Portal → Configurações → E-mails: contadores e **Enviar pendentes agora** (auditado). `failed` com `last_error` `http 4xx` = chave/remetente/destinatário inválidos no Resend; `queued` com tentativas = provedor fora (até 5 tentativas, reserva expira em 10 min). | Corrigir variáveis e redeploy; cron `POST /api/mail/dispatch` (Bearer `MAIL_DISPATCH_SECRET`) a cada 5–15 min reprocessa o que ficou. |
 
 ## 6. Monitoramento e SLO
 
@@ -56,6 +59,6 @@ Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: tru
 
 ## 7. Rotinas
 
-- Semanal: revisar fila `/portal/desafios?situacao=received` e `/portal/conteudos?situacao=review`.
+- Semanal: revisar fila `/portal/desafios?situacao=received` e `/portal/conteudos?situacao=review`; conferir `failed` em Configurações → E-mails.
 - Mensal: `npm audit`, atualização de dependências, revisão de acessos (Pessoas: pendentes/desativados, grants externos vencidos).
 - Trimestral: ensaio de restore; revisão de retenção de dados de desafios (decisão institucional pendente).

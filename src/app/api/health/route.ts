@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isMailConfigured } from "@/lib/mail/provider";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
  */
 export function GET() {
   return NextResponse.json(
-    { status: "ok", time: new Date().toISOString(), version: process.env.NEXT_PUBLIC_APP_VERSION ?? process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? "dev", supabaseConfigured: isSupabaseConfigured() },
+    { status: "ok", time: new Date().toISOString(), version: process.env.NEXT_PUBLIC_APP_VERSION ?? process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? "dev", supabaseConfigured: isSupabaseConfigured(), mailConfigured: isMailConfigured() },
     { headers: { "Cache-Control": "no-store" } },
   );
 }

@@ -239,4 +239,19 @@ test.describe("jornada autenticada no Portal", () => {
     await page.goto("/portal", { waitUntil: "load" });
     await expect(page.getByText("Desafios aguardando triagem")).toBeAttached();
   });
+
+  test("e-mails (MAIL-001): fila alimentada pelo banco aparece em Configurações; envio manual auditado; sem provedor nada se perde", async ({ page }) => {
+    await login(page);
+    await page.goto("/portal/configuracoes", { waitUntil: "load" });
+    const section = page.getByRole("region", { name: "E-mails" });
+    await expect(section).toBeVisible();
+    // desafio, revisão, aprovação, publicação e ingresso nas etapas anteriores enfileiraram linhas
+    const queued = Number(await section.locator("dl > div").filter({ hasText: "Na fila" }).locator("dd").first().innerText());
+    expect(queued).toBeGreaterThan(0);
+    await section.getByRole("button", { name: "Enviar pendentes agora" }).click();
+    await expect(section.getByRole("status")).toContainText(/Reservados \d+; enviados \d+/);
+    // endpoint de cron não existe sem segredo configurado (fail-closed)
+    const res = await page.request.post("/api/mail/dispatch", { headers: { Authorization: "Bearer x" } });
+    expect(res.status()).toBe(404);
+  });
 });

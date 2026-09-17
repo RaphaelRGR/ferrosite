@@ -2,6 +2,8 @@
 
 import { createHmac } from "node:crypto";
 import { headers } from "next/headers";
+import { after } from "next/server";
+import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { allowInMemory, looksAutomated, readChallengeForm, type ChallengeField, type ChallengeInput } from "./challenge-form";
 
@@ -52,5 +54,6 @@ export async function submitChallenge(_prev: ChallengeSubmitState, fd: FormData)
     p_submitter_hash: hash,
   });
   if (error) return { error: /limite de envios/.test(error.message) ? "rate" : "server", values };
+  after(dispatchQuietly); // confirmação com protocolo (MAIL-001), sem atrasar a resposta
   return { protocol: data ?? undefined };
 }
