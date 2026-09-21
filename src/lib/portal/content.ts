@@ -75,6 +75,27 @@ export async function listProjectFiles(projectId: string): Promise<ProjectFileRo
   return (data ?? []) as unknown as ProjectFileRow[];
 }
 
+/** Destinos de upload (DRIVE-003): projetos em que a pessoa tem papel de escrita (RLS mostra só o que ela vê); overseer vê todos os ativos. */
+export async function listUploadTargets(userId: string, overseer: boolean): Promise<Array<{ slug: string; name: string }>> {
+  const supabase = await createClient();
+  if (overseer) {
+    const { data } = await supabase.from("project").select("slug, name").not("status", "in", "(archived,cancelled)").order("name");
+    return data ?? [];
+  }
+  const { data } = await supabase.from("project_membership").select("role, status, project:project_id (slug, name, status)").eq("profile_id", userId).eq("status", "active");
+  return ((data ?? []) as unknown as Array<{ role: string; project: { slug: string; name: string; status: string } | null }>)
+    .filter((m) => m.role !== "viewer" && m.project && !["archived", "cancelled"].includes(m.project.status))
+    .map((m) => ({ slug: m.project!.slug, name: m.project!.name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** Extensões aceitas para upload (allowlist `uploadable`). */
+export async function listUploadableTypes(): Promise<string[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("file_type_allowlist").select("extension").eq("uploadable", true).order("extension");
+  return (data ?? []).map((r) => r.extension).filter(Boolean);
+}
+
 /** Projetos que o usuário vê (para vincular conteúdo/arquivo). */
 export async function listProjectOptions(): Promise<Array<{ id: string; name: string }>> {
   const supabase = await createClient();

@@ -1,5 +1,5 @@
 import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
-import { SCOPE_READONLY } from "./drive";
+import { SCOPES } from "./drive";
 
 /**
  * OAuth 2.0 do Google para o Drive institucional (DRIVE-002, 21). Só para
@@ -88,7 +88,7 @@ export function verifyStateCookie(value: string | undefined, env?: NodeJS.Proces
   }
 }
 
-export function buildAuthUrl(cfg: GoogleOAuthEnv, payload: OAuthStatePayload, scope = SCOPE_READONLY): string {
+export function buildAuthUrl(cfg: GoogleOAuthEnv, payload: OAuthStatePayload, scope = SCOPES): string {
   const p = new URLSearchParams({
     client_id: cfg.clientId,
     redirect_uri: cfg.redirectUri,

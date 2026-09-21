@@ -34,6 +34,7 @@ export function DriveIntegrationCard({ dict, status, oauthConfigured, missingVar
   const d = dict.integrations.drive;
   const connected = status?.status === "connected";
   const revoked = status?.status === "revoked";
+  const canWrite = Boolean(status?.scope && status.scope.split(/\s+/).includes("https://www.googleapis.com/auth/drive.file"));
   return (
     <section className={PANEL} aria-labelledby="drive-title">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -68,6 +69,7 @@ export function DriveIntegrationCard({ dict, status, oauthConfigured, missingVar
             <div>
               <dt className={H2}>{d.scope}</dt>
               <dd className="mt-1 break-all font-mono text-xs">{status.scope || "—"}</dd>
+              <dd className={`mt-1 text-xs ${canWrite ? "text-success" : "text-warning"}`}>{canWrite ? d.writeOk : d.writeMissing}</dd>
             </div>
             <div>
               <dt className={H2}>{d.lastCheck}</dt>
@@ -81,7 +83,12 @@ export function DriveIntegrationCard({ dict, status, oauthConfigured, missingVar
             <TestForm dict={dict} />
             <FolderForm dict={dict} current={status.rootFolderId} />
           </div>
-          <div className="mt-6 border-t border-line pt-4">
+          <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-line pt-4">
+            {!canWrite && (
+              <LinkButton href="/api/auth/google/start" prefetch={false} variant="secondary">
+                {d.reconnectForWrite}
+              </LinkButton>
+            )}
             <DisconnectForm dict={dict} />
           </div>
         </>

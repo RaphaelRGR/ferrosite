@@ -33,14 +33,14 @@ describe("google oauth (DRIVE-002)", () => {
     expect(codeChallenge("abc")).toBe("ungWv48Bz-pBQUDeXa4iI7ADYaOWF3qctBD_YfIAFa0");
   });
 
-  it("URL de autorização: escopo somente leitura, offline+consent (refresh), state e S256, sem secret", () => {
+  it("URL de autorização: leitura + drive.file (escrita só no que o app cria), offline+consent (refresh), state e S256, sem secret", () => {
     const payload = createOAuthState("u");
     const url = new URL(buildAuthUrl(cfg, payload));
     expect(url.origin + url.pathname).toBe("https://accounts.google.com/o/oauth2/v2/auth");
     const p = url.searchParams;
     expect(p.get("client_id")).toBe(cfg.clientId);
     expect(p.get("redirect_uri")).toBe(cfg.redirectUri);
-    expect(p.get("scope")).toBe("https://www.googleapis.com/auth/drive.readonly");
+    expect(p.get("scope")).toBe("https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.file");
     expect(p.get("access_type")).toBe("offline");
     expect(p.get("prompt")).toBe("consent");
     expect(p.get("state")).toBe(payload.state);

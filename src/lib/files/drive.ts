@@ -37,9 +37,16 @@ export interface DriveListItem {
 export type DriveError = "not_found" | "forbidden" | "trashed" | "outside_root" | "provider" | "unconfigured" | "api_disabled" | "revoked" | "network";
 
 export const SCOPE_READONLY = "https://www.googleapis.com/auth/drive.readonly";
+/** Escrita só no que o próprio app cria (DRIVE-003: subpastas e uploads dentro da raiz). */
+export const SCOPE_FILE = "https://www.googleapis.com/auth/drive.file";
+export const SCOPES = `${SCOPE_READONLY} ${SCOPE_FILE}`;
+export function scopeAllowsWrite(scope: string): boolean {
+  return scope.split(/\s+/).includes(SCOPE_FILE);
+}
 export const FOLDER_MIME = "application/vnd.google-apps.folder";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const API = "https://www.googleapis.com/drive/v3";
+const UPLOAD_API = "https://www.googleapis.com/upload/drive/v3/files";
 const META_FIELDS = "id,name,mimeType,size,md5Checksum,trashed,parents,hasThumbnail";
 /** Limite prático para o proxy (allowlist do banco já limita por tipo; aqui é a rede). */
 export const MAX_PROXY_BYTES = 500 * 1024 * 1024;
@@ -131,6 +138,12 @@ export interface DriveClient {
   about(): Promise<{ ok: true; email: string; name: string } | { ok: false; error: DriveError; detail?: string }>;
   /** Itens diretos de uma pasta (não apagados), até `pageSize`. */
   listFolder(folderId: string, pageSize?: number): Promise<{ ok: true; items: DriveListItem[] } | { ok: false; error: DriveError; detail?: string }>;
+  /** Subpasta com este nome exato dentro de `parentId` (não apagada), ou null. */
+  findChildFolder(parentId: string, name: string): Promise<{ ok: true; id: string | null } | { ok: false; error: DriveError; detail?: string }>;
+  /** Cria subpasta (exige escopo drive.file). */
+  createFolder(parentId: string, name: string): Promise<{ ok: true; id: string } | { ok: false; error: DriveError; detail?: string }>;
+  /** Upload resumível em uma sessão (metadados → Location → PUT do corpo). Devolve o que o Drive registrou. */
+  upload(input: { parentId: string; name: string; mimeType: string; bytes: Uint8Array }): Promise<{ ok: true; file: DriveFileMeta } | { ok: false; error: DriveError; detail?: string }>;
 }
 
 /** Classifica uma resposta de erro da API em `DriveError` (lendo o `reason` do Google quando houver). */
@@ -215,6 +228,60 @@ export function createDriveClient(cfg: { rootFolderId: string; token: TokenSourc
       if (!res.ok) return { ok: false, ...(await classifyApiError(res)) };
       const d = (await res.json()) as { user?: { emailAddress?: string; displayName?: string } };
       return { ok: true, email: d.user?.emailAddress ?? "", name: d.user?.displayName ?? "" };
+    },
+    async findChildFolder(parentId, name) {
+      const safe = name.replace(/['\\]/g, "");
+      const q = `'${parentId.replace(/['\\]/g, "")}' in parents and name = '${safe}' and mimeType = '${FOLDER_MIME}' and trashed = false`;
+      const params = new URLSearchParams({ q, pageSize: "1", fields: "files(id)", supportsAllDrives: "true", includeItemsFromAllDrives: "true" });
+      let res: Response;
+      try {
+        res = await authed(`${API}/files?${params}`);
+      } catch (e) {
+        return failure(e);
+      }
+      if (!res.ok) return { ok: false, ...(await classifyApiError(res)) };
+      const d = (await res.json()) as { files?: Array<{ id: string }> };
+      return { ok: true, id: d.files?.[0]?.id ?? null };
+    },
+    async createFolder(parentId, name) {
+      let res: Response;
+      try {
+        res = await authed(`${API}/files?supportsAllDrives=true&fields=id`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, mimeType: FOLDER_MIME, parents: [parentId] }),
+        });
+      } catch (e) {
+        return failure(e);
+      }
+      if (!res.ok) return { ok: false, ...(await classifyApiError(res)) };
+      const d = (await res.json()) as { id: string };
+      return { ok: true, id: d.id };
+    },
+    async upload({ parentId, name, mimeType, bytes }) {
+      let session: Response;
+      try {
+        session = await authed(`${UPLOAD_API}?uploadType=resumable&supportsAllDrives=true&fields=${encodeURIComponent(META_FIELDS)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json; charset=UTF-8", "X-Upload-Content-Type": mimeType, "X-Upload-Content-Length": String(bytes.byteLength) },
+          body: JSON.stringify({ name, mimeType, parents: [parentId] }),
+        });
+      } catch (e) {
+        return failure(e);
+      }
+      if (!session.ok) return { ok: false, ...(await classifyApiError(session)) };
+      const location = session.headers.get("Location");
+      if (!location) return { ok: false, error: "provider", detail: "sessão de upload sem Location" };
+      let res: Response;
+      try {
+        // Um único PUT: no servidor não há rede instável de navegador; a sessão permite retomar se precisar no futuro.
+        res = await fetchImpl(location, { method: "PUT", headers: { "Content-Type": mimeType, "Content-Length": String(bytes.byteLength) }, body: new Blob([bytes as BlobPart]), signal: AbortSignal.timeout(600_000) });
+      } catch (e) {
+        return failure(e);
+      }
+      if (!res.ok) return { ok: false, ...(await classifyApiError(res)) };
+      const d = (await res.json()) as { id: string; name: string; mimeType: string; size?: string; md5Checksum?: string; parents?: string[]; hasThumbnail?: boolean };
+      return { ok: true, file: { id: d.id, name: d.name, mimeType: d.mimeType, size: d.size ? Number(d.size) : bytes.byteLength, md5: d.md5Checksum ?? null, trashed: false, parents: d.parents ?? [parentId], hasThumbnail: Boolean(d.hasThumbnail) } };
     },
     async listFolder(folderId, pageSize = 20) {
       const q = `'${folderId.replace(/['\\]/g, "")}' in parents and trashed = false`;

@@ -46,6 +46,12 @@ export type Database = {
         Update: { organization_id?: string | null; challenge_id?: string | null; actor_id?: string | null; kind?: string; from_value?: string | null; to_value?: string | null; occurred_at?: string; payload?: Json | null };
         Relationships: [];
       };
+      drive_folder: {
+        Row: { path: string; drive_id: string; created_by: string | null; created_at: string };
+        Insert: { path: string; drive_id: string; created_by?: string | null; created_at?: string };
+        Update: { path?: string; drive_id?: string; created_by?: string | null; created_at?: string };
+        Relationships: [];
+      };
       drive_integration: {
         Row: { singleton: boolean; status: Database["public"]["Enums"]["drive_connection_status"]; provider_account_email: string; provider_account_name: string; scope: string; access_token_enc: string; refresh_token_enc: string; access_token_expires_at: string | null; root_folder_id: string; root_folder_name: string; connected_by: string | null; connected_at: string | null; last_checked_at: string | null; last_check_result: Json; last_error: string; updated_at: string };
         Insert: { singleton?: boolean; status?: Database["public"]["Enums"]["drive_connection_status"]; provider_account_email?: string; provider_account_name?: string; scope?: string; access_token_enc?: string; refresh_token_enc?: string; access_token_expires_at?: string | null; root_folder_id?: string; root_folder_name?: string; connected_by?: string | null; connected_at?: string | null; last_checked_at?: string | null; last_check_result?: Json; last_error?: string; updated_at?: string };
@@ -53,15 +59,15 @@ export type Database = {
         Relationships: [];
       };
       file_asset: {
-        Row: { id: string; provider: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type: string; size_bytes: number | null; content_hash: string | null; classification: Database["public"]["Enums"]["classification"]; status: Database["public"]["Enums"]["file_status"]; credit: string; alt_text: string; alt_text_en: string; consent: Database["public"]["Enums"]["consent_status"]; consent_note: string; owner_id: string; created_by: string; updated_by: string; verified_at: string | null; archived_at: string | null; created_at: string; updated_at: string; version: number; verified_by: string | null };
-        Insert: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id: string; created_by: string; updated_by: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; verified_by?: string | null };
-        Update: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id?: string; name?: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id?: string; created_by?: string; updated_by?: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; verified_by?: string | null };
+        Row: { id: string; provider: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type: string; size_bytes: number | null; content_hash: string | null; classification: Database["public"]["Enums"]["classification"]; status: Database["public"]["Enums"]["file_status"]; credit: string; alt_text: string; alt_text_en: string; consent: Database["public"]["Enums"]["consent_status"]; consent_note: string; owner_id: string; created_by: string; updated_by: string; verified_at: string | null; archived_at: string | null; created_at: string; updated_at: string; version: number; verified_by: string | null; storage_path: string; drive_folder_id: string };
+        Insert: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id: string; created_by: string; updated_by: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; verified_by?: string | null; storage_path?: string; drive_folder_id?: string };
+        Update: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id?: string; name?: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id?: string; created_by?: string; updated_by?: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; verified_by?: string | null; storage_path?: string; drive_folder_id?: string };
         Relationships: [];
       };
       file_type_allowlist: {
-        Row: { mime_type: string; max_bytes: number; gallery: boolean };
-        Insert: { mime_type: string; max_bytes: number; gallery?: boolean };
-        Update: { mime_type?: string; max_bytes?: number; gallery?: boolean };
+        Row: { mime_type: string; max_bytes: number; gallery: boolean; uploadable: boolean; extension: string };
+        Insert: { mime_type: string; max_bytes: number; gallery?: boolean; uploadable?: boolean; extension?: string };
+        Update: { mime_type?: string; max_bytes?: number; gallery?: boolean; uploadable?: boolean; extension?: string };
         Relationships: [];
       };
       mail_outbox: {

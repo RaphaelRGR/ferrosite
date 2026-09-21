@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LinkFileForm, UnlinkFileForm } from "@/components/portal/ContentForms";
 import { ProjectHeader } from "@/components/portal/ProjectHeader";
 import { Badge } from "@/components/ui/Badge";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { canManageProject } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
@@ -48,7 +49,12 @@ export default async function ProjectFilesPage({ params }: PageProps<"/portal/pr
           </ul>
         )}
         {canLink && (
-          <div className="mt-5 border-t border-line pt-5">
+          <div className="mt-5 flex flex-col gap-5 border-t border-line pt-5">
+            {actor.projectRole !== "viewer" && (
+              <div>
+                <LinkButton href={`/portal/arquivos/enviar?projeto=${encodeURIComponent(project.slug)}`}>{f.upload.title}</LinkButton>
+              </div>
+            )}
             <LinkFileForm dict={dict} projectId={project.id} slug={project.slug} candidates={candidates} />
           </div>
         )}

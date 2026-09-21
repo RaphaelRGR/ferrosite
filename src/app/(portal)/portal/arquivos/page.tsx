@@ -23,7 +23,10 @@ export default async function FilesPage() {
           <h1 className="text-3xl font-black">{f.title}</h1>
           <p className="mt-1 max-w-3xl text-sm text-fg-muted">{f.description}</p>
         </div>
-        <LinkButton href="/portal/arquivos/novo">{f.new}</LinkButton>
+        <div className="flex flex-wrap gap-2">
+          <LinkButton href="/portal/arquivos/enviar">{f.upload.title}</LinkButton>
+          <LinkButton href="/portal/arquivos/novo" variant="secondary">{f.new}</LinkButton>
+        </div>
       </header>
       {files.length === 0 ? (
         <EmptyState title={f.empty} description="" />

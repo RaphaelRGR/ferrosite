@@ -91,3 +91,10 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Tokens cifrados (AES-256-GCM) com `DRIVE_TOKEN_KEY` (fallback derivado da service role) em tabela sem policy para `authenticated`. Mudar a chave exige reconectar.
 - O client secret não pôde ser gravado em `.env.local` pelo assistente (política de credenciais); `npm run google:env` faz isso a partir de `secrets/client_secret*.json`, que está ignorado pelo git.
 - Pendências: domínio de produção (`GOOGLE_REDIRECT_URI` https), verificação do app no Google ou permanência em Teste, e a estrutura de pastas institucional (só a raiz é configurada agora).
+
+## Addendum DRIVE-003 (2026-09-21)
+
+- Usuário decidiu: estrutura do acervo por entidade dentro da pasta raiz (aprovada) e tipos de upload **sem antivírus** = imagens, PDF, CAD (STL/DXF/DWG/SLDPRT) e Office; **ZIP e vídeo ficam de fora** até haver varredura (só registro de link). Reavaliar quando houver provedor de antimalware.
+- Escopo ampliado de `drive.readonly` para `+ drive.file`, justificado: criar subpastas e arquivos dentro da raiz; nada além do que o app cria.
+- A pasta `02/Comunica Ferro/SENHAS` e `04/…/LIXEIRA` do Drive humano **não** devem ser copiadas para a raiz do Portal (credenciais não são acervo; o Portal serve bytes a quem tem acesso).
+- Levantamento do Drive (só leitura): 87 pastas / 513 arquivos até 3 níveis (292 JPEG, 147 STL, 22 ZIP, 10 PDF, 9 MP4…). Migração para o acervo é por cópia item a item pelo Portal, com metadados (crédito, consentimento, classificação).

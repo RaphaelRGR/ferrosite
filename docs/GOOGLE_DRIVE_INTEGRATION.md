@@ -57,11 +57,22 @@ O script copia `client_id`, `client_secret` e o redirect para `.env.local` sem i
 
 ## Escopo
 
-`https://www.googleapis.com/auth/drive.readonly`.
+`https://www.googleapis.com/auth/drive.readonly` **+ `https://www.googleapis.com/auth/drive.file`** (desde DRIVE-003: o Portal cria subpastas e envia arquivos dentro da pasta raiz; `drive.file` só alcança o que o próprio app criou).
 
 `drive.file` foi avaliado primeiro e **não atende esta fase**: ele só enxerga arquivos criados pelo próprio app ou escolhidos pelo usuário num Google Picker. A pasta institucional já existe e o requisito é apontar para ela por id e listar/ler o conteúdo — com `drive.file` o `files.get` da pasta devolve 404. `drive.metadata.readonly` listaria, mas não permite baixar bytes (proxy do Portal e capa pública).
 
 Implicações do `drive.readonly`: é um escopo *restrito* no Google — em modo **Teste** só usuários de teste autorizam; para publicar o app o Google exige verificação (política de privacidade, justificativa). Mitigações: conectar uma **conta institucional** cujo Drive contém só o material do curso, confinar pelo `root folder` (o Portal recusa itens fora dela) e nunca pedir escrita. Upload (fase futura) pedirá `drive.file` adicional, não `drive`.
+
+## Upload pelo Portal (DRIVE-003)
+
+Arquivos → **Enviar arquivo** (ou o botão na aba Arquivos do projeto). O navegador manda o arquivo ao servidor do Portal, que prova o tipo pelos bytes, confere permissão/allowlist, cria a subpasta lógica se preciso e sobe ao Drive; o registro já nasce verificado e vinculado. Estrutura criada sob demanda dentro da raiz:
+
+```
+projetos/<slug>/{galeria,documentos,tecnico,missoes/<id>}   conteudos/   visitas/<periodo>
+relatorios/<ano>   comunicacao/   acervo-historico/
+```
+
+Tipos aceitos: jpg/png/webp, pdf, stl/dxf/dwg/sldprt, docx/xlsx/pptx (limites por tipo na `file_type_allowlist`). ZIP e vídeo só podem ser *registrados* (não sobem) até haver antivírus. Quem envia: membros com papel de escrita no projeto (viewer não); áreas institucionais só admin/coordenação. O Portal nunca move, renomeia ou apaga nada no Drive.
 
 ## Página de configuração
 

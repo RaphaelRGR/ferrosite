@@ -118,7 +118,8 @@ test.describe("jornada autenticada no Portal", () => {
     await page.getByRole("button", { name: "Registrar arquivo" }).click();
     await page.waitForURL(/\/portal\/arquivos\/[0-9a-f-]{36}$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(`foto-e2e-${run}.jpg`);
-    await expect(page.getByText("[CONTEÚDO PENDENTE]").first()).toBeAttached(); // acesso ao original sem credencial do Drive
+    // sem credencial do Drive: pendência declarada; com Drive conectado (DRIVE-002): bloco de acesso com verificação
+    await expect(page.getByText("[CONTEÚDO PENDENTE]").or(page.getByRole("button", { name: "Verificar no Drive" })).first()).toBeAttached();
   });
 
   test("conteúdo: rascunho invisível no site; autor não aprova; revisor aprova e publica → site; despublicar → some", async ({ page }) => {

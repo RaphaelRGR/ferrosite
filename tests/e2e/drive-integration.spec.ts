@@ -48,22 +48,24 @@ test.describe("autenticado", () => {
     await expect(page.getByRole("link", { name: /Integrações/ })).toHaveCount(0);
   });
 
-  test("TESTE 3/4/5/9/10/11 — admin: não conectado → início do OAuth → callback inválido → desconectar → temas e mobile", async ({ page, request }) => {
+  test("TESTE 3/4/5/9/10/11 — admin: estado atual (conectado ou não) → início do OAuth → callback inválido → temas e mobile", async ({ page, request }) => {
     await login(page, admin.email!, admin.password!);
-    // garante estado inicial conhecido (desconectado) sem depender de rodadas anteriores
+    // NUNCA desconecta: a conexão institucional é real e compartilhada. O teste se adapta ao estado.
     await page.goto(PAGE, { waitUntil: "load" });
     const card = page.getByRole("region", { name: "Google Drive" });
     await expect(card).toBeVisible();
-    if (await card.getByRole("button", { name: "Desconectar" }).count()) {
-      await card.getByRole("button", { name: "Desconectar" }).first().click();
-      await expect(card.getByRole("status").filter({ hasText: "Desconectado" })).toBeVisible();
-      await page.goto(PAGE, { waitUntil: "load" });
+    const connected = (await card.getByText("Conectado", { exact: true }).count()) > 0;
+    await expect(card.getByText(/refresh|access_token|token_enc/i)).toHaveCount(0); // nunca expõe tokens
+    if (connected) {
+      // TESTE 6/7 no estado real: conta, escopo com escrita e teste de conexão listando a pasta raiz
+      await expect(card.getByText(/@/)).toBeVisible();
+      await card.getByRole("button", { name: /Testar conexão|Confere token/ }).first().click();
+      await expect(card.getByRole("status").filter({ hasText: "Google Drive conectado com sucesso" })).toBeVisible();
+    } else {
+      // TESTE 3
+      await expect(card.getByText("Não conectado", { exact: true })).toBeVisible();
+      await expect(card.getByRole("link", { name: "Conectar Google Drive" })).toBeVisible();
     }
-    // TESTE 3
-    await expect(card.getByText("Não conectado", { exact: true })).toBeVisible();
-    const connect = card.getByRole("link", { name: "Conectar Google Drive" });
-    await expect(connect).toBeVisible();
-    await expect(card.getByText(/token/i)).toHaveCount(0); // nunca expõe tokens
 
     // TESTE 4: início redireciona ao Google com PKCE e state; cookie httpOnly; sem secret na URL
     const configured = !(await card.getByText("Variáveis do OAuth ausentes").count());
@@ -72,7 +74,7 @@ test.describe("autenticado", () => {
       expect(start.status()).toBe(307);
       const location = new URL(start.headers()["location"]);
       expect(location.origin + location.pathname).toBe("https://accounts.google.com/o/oauth2/v2/auth");
-      expect(location.searchParams.get("scope")).toBe("https://www.googleapis.com/auth/drive.readonly");
+      expect(location.searchParams.get("scope")).toBe("https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.file");
       expect(location.searchParams.get("code_challenge_method")).toBe("S256");
       expect(location.searchParams.get("access_type")).toBe("offline");
       expect(location.searchParams.get("redirect_uri")).toMatch(/\/api\/auth\/google\/callback$/);
@@ -82,7 +84,7 @@ test.describe("autenticado", () => {
       // TESTE 5 (negativo): callback com state que não bate é recusado sem trocar nada
       await page.goto("/api/auth/google/callback?state=forjado&code=abc", { waitUntil: "load" });
       await expect(page).toHaveURL(/integracoes\?drive=state/);
-      await expect(page.getByRole("alert")).toContainText("anti-CSRF");
+      await expect(page.getByRole("alert").filter({ hasText: /\S/ })).toContainText("anti-CSRF");
       // negado pelo usuário/Google chega como access_denied e vira orientação sobre usuários de teste
       await page.goto("/api/auth/google/callback?state=forjado&error=access_denied", { waitUntil: "load" });
       await expect(page).toHaveURL(/integracoes\?drive=state/); // state inválido vence: nada é processado
@@ -92,9 +94,9 @@ test.describe("autenticado", () => {
       const start = await request.get("/api/auth/google/start", { maxRedirects: 0 });
       expect(start.status()).toBe(307);
     }
-    // continua desconectado (TESTE 9 no estado inicial)
+    // estado não mudou com os callbacks inválidos
     await page.goto(PAGE, { waitUntil: "load" });
-    await expect(card.getByText("Não conectado", { exact: true })).toBeVisible();
+    await expect(card.getByText(connected ? "Conectado" : "Não conectado", { exact: true })).toBeVisible();
 
     // TESTE 10/11: tema escuro e mobile continuam legíveis (capturas em test-results/)
     await page.emulateMedia({ colorScheme: "dark" });
@@ -106,7 +108,6 @@ test.describe("autenticado", () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(PAGE, { waitUntil: "load" });
     await expect(card).toBeVisible();
-    await expect(connect).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     expect(overflow).toBe(false);
     await page.screenshot({ path: "test-results/drive-integration-mobile.png", fullPage: true });

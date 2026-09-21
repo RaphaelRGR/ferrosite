@@ -199,3 +199,7 @@ Relatório: `docs/baseline/OPS-002-relatorio.md`. Sink de erros por webhook gen�
 ## Estado após DRIVE-002 (2026-09-21)
 
 Relatório: `docs/baseline/DRIVE-002-relatorio.md` e guia `docs/GOOGLE_DRIVE_INTEGRATION.md`. Migration 9: `drive_integration` (linha única, só service role, tokens cifrados) + `drive_integration_status()` sem tokens. OAuth 2.0 (state + PKCE, troca e refresh no servidor, revogação) com escopo `drive.readonly`; Configurações → Integrações (admin/coordenação; 403 nas rotas para os demais) com conectar/testar/pasta/desconectar auditados; cliente Drive passa a aceitar origem de token injetável (OAuth → conta de serviço). Unit 170, RLS 61. Aplicada na nuvem.
+
+## Estado após DRIVE-003 (2026-09-21)
+
+Relatório: `docs/baseline/DRIVE-003-relatorio.md`. Migration 10: allowlist com `uploadable`/`extension` (CAD e Office entram; ZIP/vídeo não), `file_asset.storage_path/drive_folder_id`, `drive_folder` (cache + trava), auditoria `file.uploaded`. Escopo `drive.file` adicionado; upload servidor→Drive com magic bytes, estrutura por entidade sob demanda, `/portal/arquivos/enviar` e `POST /portal/arquivos/upload`. Unit 177, RLS 64; e2e com upload real. Aplicada na nuvem; Drive institucional conectado com escrita, raiz `FERROSITE - (NÃO MEXER!)`.

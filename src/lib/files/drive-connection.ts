@@ -2,7 +2,7 @@ import { logEvent } from "@/lib/observability/log";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
-import { createDriveClient, createServiceAccountTokenSource, DriveTokenError, readDriveEnv, type DriveClient } from "./drive";
+import { createDriveClient, createServiceAccountTokenSource, DriveTokenError, readDriveEnv, scopeAllowsWrite, type DriveClient } from "./drive";
 import { decryptSecret, encryptSecret, readGoogleOAuthEnv, refreshAccessToken, revokeToken, type TokenSet } from "./google-oauth";
 
 /**
@@ -138,13 +138,21 @@ function oauthTokenSource(row: Row) {
 /** Como o Portal está falando com o Drive (para UI/health), sem segredos. */
 export type DriveMode = "oauth" | "service_account" | "none";
 
-export async function getDriveClient(): Promise<{ client: DriveClient; mode: Exclude<DriveMode, "none">; rootFolderId: string } | null> {
+export interface DriveConnection {
+  client: DriveClient;
+  mode: Exclude<DriveMode, "none">;
+  rootFolderId: string;
+  /** Escopos concedidos (OAuth) — decide se upload/criação de pasta são possíveis. Conta de serviço: só leitura. */
+  canWrite: boolean;
+}
+
+export async function getDriveClient(): Promise<DriveConnection | null> {
   const row = await loadRow();
   const rootFolderId = effectiveRootFolder(row);
   if (row?.status === "connected" && row.refresh_token_enc) {
-    return { client: createDriveClient({ rootFolderId, token: oauthTokenSource(row) }), mode: "oauth", rootFolderId };
+    return { client: createDriveClient({ rootFolderId, token: oauthTokenSource(row) }), mode: "oauth", rootFolderId, canWrite: scopeAllowsWrite(row.scope) };
   }
   const sa = readDriveEnv();
-  if (sa) return { client: createDriveClient({ rootFolderId: rootFolderId || sa.rootFolderId, token: createServiceAccountTokenSource(sa) }), mode: "service_account", rootFolderId: rootFolderId || sa.rootFolderId };
+  if (sa) return { client: createDriveClient({ rootFolderId: rootFolderId || sa.rootFolderId, token: createServiceAccountTokenSource(sa) }), mode: "service_account", rootFolderId: rootFolderId || sa.rootFolderId, canWrite: false };
   return null;
 }

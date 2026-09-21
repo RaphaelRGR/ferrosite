@@ -85,6 +85,31 @@ describe("cliente Drive", () => {
     expect(await down.getMeta("x")).toMatchObject({ ok: false, error: "network" });
   });
 
+  it("findChildFolder/createFolder/upload: query escapada, POST de pasta e sessao resumivel com PUT unico", async () => {
+    const calls: Array<{ url: string; init?: RequestInit }> = [];
+    const fn = (async (url: string | URL | Request, init?: RequestInit) => {
+      const u = String(url);
+      calls.push({ url: u, init });
+      if (u.startsWith("https://www.googleapis.com/drive/v3/files?q=")) return new Response(JSON.stringify({ files: [] }), { status: 200 });
+      if (u.startsWith("https://www.googleapis.com/drive/v3/files?supportsAllDrives")) return new Response(JSON.stringify({ id: "pasta-nova" }), { status: 200 });
+      if (u.startsWith("https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable")) return new Response(null, { status: 200, headers: { Location: "https://upload.invalid/sessao-1" } });
+      if (u === "https://upload.invalid/sessao-1") return new Response(JSON.stringify({ id: "arq-1", name: "2026-01-01 foto.jpg", mimeType: "image/jpeg", size: "3", md5Checksum: "abc" }), { status: 200 });
+      return new Response("nope", { status: 404 });
+    }) as unknown as typeof fetch;
+    const drive = createDriveClient({ rootFolderId: "", token: async () => "tok" }, fn);
+    expect(await drive.findChildFolder("root'1", "galeria")).toEqual({ ok: true, id: null });
+    expect(decodeURIComponent(calls[0].url.replace(/[+]/g, " "))).toContain("'root1' in parents and name = 'galeria' and mimeType = 'application/vnd.google-apps.folder'");
+    expect(await drive.createFolder("root1", "galeria")).toEqual({ ok: true, id: "pasta-nova" });
+    expect(JSON.parse(String(calls[1].init?.body))).toEqual({ name: "galeria", mimeType: "application/vnd.google-apps.folder", parents: ["root1"] });
+    const up = await drive.upload({ parentId: "pasta-nova", name: "2026-01-01 foto.jpg", mimeType: "image/jpeg", bytes: new Uint8Array([1, 2, 3]) });
+    expect(up).toMatchObject({ ok: true, file: { id: "arq-1", md5: "abc", size: 3, mimeType: "image/jpeg" } });
+    const session = calls[2];
+    expect((session.init?.headers as Record<string, string>)["X-Upload-Content-Length"]).toBe("3");
+    expect(JSON.parse(String(session.init?.body))).toEqual({ name: "2026-01-01 foto.jpg", mimeType: "image/jpeg", parents: ["pasta-nova"] });
+    expect(calls[3].init?.method).toBe("PUT");
+    expect((calls[3].init?.headers as Record<string, string>)["Content-Length"]).toBe("3");
+  });
+
   it("about e listFolder: conta e itens diretos da pasta (sem lixeira), pastas marcadas", async () => {
     const { fn, calls } = fakeFetch({
       "https://www.googleapis.com/drive/v3/about": () => new Response(JSON.stringify({ user: { emailAddress: "conta@exemplo.invalid", displayName: "Conta" } }), { status: 200 }),
@@ -136,6 +161,9 @@ describe("proxy", () => {
       thumbnail: vi.fn(async () => new Response(body, { status, headers: { "Content-Type": headers["Content-Type"] ?? "image/jpeg" } })),
       about: vi.fn(),
       listFolder: vi.fn(),
+      findChildFolder: vi.fn(),
+      createFolder: vi.fn(),
+      upload: vi.fn(),
     });
   const file = { external_id: "f1", mime_type: "image/jpeg", name: 'foto "1"/x.jpg', size_bytes: 10 };
 

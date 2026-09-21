@@ -67,3 +67,7 @@ Terceiro gancho de integração: webhook genérico para erros/avisos do servidor
 ## Addendum — DRIVE-002 Google Drive por OAuth (2026-09-21)
 
 Conexão institucional do Drive por OAuth 2.0 (`docs/GOOGLE_DRIVE_INTEGRATION.md`, `docs/baseline/DRIVE-002-relatorio.md`): Configurações → Integrações com conectar/testar/pasta/desconectar, tokens cifrados no banco, refresh automático e revogação tratada; DRIVE-001 continua como alternativa por conta de serviço. Migration 9 aplicada na nuvem. Números: unit 170, RLS 61, e2e 266/266. Depende do usuário: `npm run google:env`, conta de teste no Google Auth Platform, consentimento real.
+
+## Addendum — DRIVE-003 upload pelo Portal (2026-09-21)
+
+Upload Portal → Drive com escopo `drive.file`, estrutura por entidade, magic bytes e trava de concorrência (`docs/baseline/DRIVE-003-relatorio.md`). Migration 10 aplicada; Drive institucional conectado com escrita e uploads reais verificados no e2e. Números: unit 177, RLS 64, e2e 271.
