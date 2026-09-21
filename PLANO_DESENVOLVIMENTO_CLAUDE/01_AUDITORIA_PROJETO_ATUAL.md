@@ -191,3 +191,7 @@ Relatório: `docs/baseline/MAIL-001-relatorio.md`. Migration 7: `mail_outbox` en
 ## Estado após DRIVE-001 (2026-09-21)
 
 Relatório: `docs/baseline/DRIVE-001-relatorio.md`. Migration 8: verificação auditada (`verified_by`, reversão ao trocar o id), `publication.cover_file_id` na projeção, `public_file_info` (service role). Cliente Drive por conta de serviço via REST (sem SDK), verificação no Portal, original/miniatura por proxy autenticado e auditado, capa pública por `/api/midia/[id]` só para publicação viva com consentimento. Unit 153, RLS 58. Aplicada na nuvem.
+
+## Estado após OPS-002 (2026-09-21)
+
+Relatório: `docs/baseline/OPS-002-relatorio.md`. Sink de erros por webhook genérico (`ERROR_SINK_URL/TOKEN/LEVEL`), encaminhamento automático de `error`/`warn` do log estruturado com limite e contadores; `POST /api/telemetry` para erros do navegador (contrato validado, limite por origem hasheada); Configurações → Observabilidade (admin) com evento de teste auditado; `/api/health` expõe `errorSinkConfigured`. Unit 160. Sem migration.

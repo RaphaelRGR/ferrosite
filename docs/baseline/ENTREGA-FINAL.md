@@ -59,3 +59,7 @@ Gancho do grupo "integrações pendentes" implementado a pedido do usuário (pro
 ## Addendum — DRIVE-001 Google Drive (2026-09-21)
 
 Segundo gancho de integração: conta de serviço via REST, verificação auditada, proxy autenticado no Portal e capa pública condicionada (`docs/baseline/DRIVE-001-relatorio.md`). Migration 8 aplicada na nuvem. Números: unit 153, RLS 58, e2e 262. Depende do usuário: credencial da conta de serviço e pasta institucional.
+
+## Addendum — OPS-002 sink de erros (2026-09-21)
+
+Terceiro gancho de integração: webhook genérico para erros/avisos do servidor e do navegador, com teste pelo Portal (`docs/baseline/OPS-002-relatorio.md`). Sem migration. Números: unit 160, RLS 58, e2e 263. Depende do usuário: escolher o coletor e definir `ERROR_SINK_URL`/`ERROR_SINK_TOKEN`.

@@ -47,6 +47,7 @@ Primeira execução do Playwright: `npx playwright install chromium`.
 ## Regras que o código respeita
 
 - Nenhuma afirmação institucional sem fonte: conteúdo herdado do protótipo aparece com o selo "Conteúdo em verificação" (`NEXT_PUBLIC_CONTENT_MODE=strict` o oculta); dados pessoais/contatos não são publicados; lacunas ficam como `[CONTEÚDO PENDENTE]`.
+- Erros do servidor e do navegador saem como JSON estruturado (sem dados sensíveis) e, com `ERROR_SINK_URL`, seguem para um webhook genérico — sem SDK de terceiros.
 - Arquivos vivem no Google Drive institucional; o Portal guarda metadados, verifica pelo provedor (auditado) e serve original/miniatura por proxy autenticado. O site só recebe a capa de uma publicação viva, verificada, pública e com consentimento — nunca um link do Drive.
 - E-mails (confirmação de desafio, revisão/decisão/publicação, ingresso em equipe) nascem por trigger na tabela `mail_outbox` e são entregues depois da resposta; sem provedor configurado ficam na fila.
 - O site lê só a projeção pública aprovada (`public_publication`); o Portal produz, revisa, aprova e publica (snapshot, rollback, despublicação auditada).

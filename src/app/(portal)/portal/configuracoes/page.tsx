@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { DispatchMailForm } from "@/components/portal/MailForms";
+import { SinkTestForm } from "@/components/portal/ObservabilityForms";
 import { ThemeToggle } from "@/components/portal/ThemeToggle";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatDate } from "@/i18n/format";
 import { isMailConfigured } from "@/lib/mail/provider";
+import { isErrorSinkConfigured } from "@/lib/observability/sink";
 import { getMailSummary, type MailStatus } from "@/lib/portal/mail";
 import { parseTheme, THEME_COOKIE } from "@/lib/portal/theme";
 
@@ -22,6 +24,7 @@ export default async function PortalSettingsPage() {
   const isAdmin = profile?.global_role === "admin" && profile.status === "active";
   const mailSummary = isAdmin ? await getMailSummary() : [];
   const mailConfigured = isMailConfigured();
+  const sinkConfigured = isErrorSinkConfigured();
 
   return (
     <div className="flex flex-col gap-8">
@@ -74,6 +77,19 @@ export default async function PortalSettingsPage() {
           </dl>
           <div className="mt-4">
             <DispatchMailForm dict={dict.portal} />
+          </div>
+        </section>
+      ) : null}
+
+      {isAdmin ? (
+        <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="obs-title">
+          <h2 id="obs-title" className="text-lg font-bold">{dict.portal.settings.observability.title}</h2>
+          <p className="mt-1 text-sm text-fg-muted">{dict.portal.settings.observability.help}</p>
+          <p className={`mt-3 text-sm font-bold ${sinkConfigured ? "text-success" : "text-warning"}`}>
+            {sinkConfigured ? dict.portal.settings.observability.configured : dict.portal.settings.observability.notConfigured}
+          </p>
+          <div className="mt-4">
+            <SinkTestForm dict={dict.portal} />
           </div>
         </section>
       ) : null}

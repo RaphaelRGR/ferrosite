@@ -12,11 +12,12 @@ Escopo: site público (Next.js) + Portal (Supabase Auth/Postgres). Hospedagem e 
 | `SUPABASE_DB_PASSWORD`, `SUPABASE_DB_URL` | só CI/máquina de migração | `npm run db:push` / `db:types`. Nunca em runtime. Host: session pooler IPv4 (`aws-<n>-<região>.pooler.supabase.com:5432`, usuário `postgres.<ref>`); o host direto `db.<ref>.supabase.co` só resolve em IPv6. |
 | `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_REPLY_TO` | runtime (servidor) | E-mail transacional (MAIL-001). Ausentes ⇒ a fila `mail_outbox` acumula em `queued` (nada se perde) e `/api/health` mostra `mailConfigured: false`. |
 | `MAIL_DISPATCH_SECRET` | runtime (servidor) | Bearer do `POST /api/mail/dispatch` (cron de reprocessamento). Sem ele a rota responde 404. |
+| `ERROR_SINK_URL`, `ERROR_SINK_TOKEN`, `ERROR_SINK_LEVEL` | runtime (servidor) | Sink de erros (OPS-002): cada `error` (e `warn` se `ERROR_SINK_LEVEL=warn`) do log estruturado vira `POST` JSON no webhook (`Authorization: Bearer`), já redigido; 60/min por processo, excedente contado em `dropped`. Ausente ⇒ só o log da plataforma. |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_KEY`, `GOOGLE_DRIVE_ROOT_FOLDER_ID` | runtime (servidor) | Drive somente leitura (DRIVE-001): verificação, original/miniatura no Portal e capa pública por proxy. Ausentes ⇒ só metadados; `/api/health` mostra `driveConfigured: false`. A pasta institucional deve estar compartilhada com a conta de serviço como Leitor. |
 | `NEXT_PUBLIC_SITE_URL` | build | canonical/hreflang/sitemap. |
 | `NEXT_PUBLIC_CONTENT_MODE` | build | `review` (selo em conteúdo não verificado) ou `strict` (oculta). Produção: definir explicitamente. |
 
-Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: true, mailConfigured: true, driveConfigured: true }` (sem segredos, sem cache).
+Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: true, mailConfigured: true, driveConfigured: true, errorSinkConfigured: true }` (sem segredos, sem cache).
 
 ## 2. Deploy
 
@@ -30,7 +31,7 @@ Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: tru
 - Cabeçalhos: CSP (`default-src 'self'`; scripts `'self' 'unsafe-inline'` — Next injeta scripts inline em páginas estáticas; nonce exigiria renderização dinâmica de todo o site), `frame-ancestors 'none'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, HSTS (prod), `nosniff`, `Referrer-Policy`, `Permissions-Policy`, sem `X-Powered-By`. Portal/login/API: `no-store`.
 - Limites: formulário de desafio — 5/h por origem (memória do processo + banco) e 3/dia por e-mail (banco); honeypot + tempo mínimo de 3 s. Login: limites do Supabase Auth.
 - Autorização: RLS em toda tabela privada; `anon` só lê `public_publication`. Testes em `tests/rls/*` (Postgres embutido) rodam no CI.
-- Logs: JSON por linha (`src/lib/observability/log.ts`), chaves sensíveis redigidas, sem corpo de requisição. Erros de servidor via `instrumentation.ts#onRequestError` (rota, método, digest).
+- Logs: JSON por linha (`src/lib/observability/log.ts`), chaves sensíveis redigidas, sem corpo de requisição. Erros de servidor via `instrumentation.ts#onRequestError` (rota, método, digest). Erros do navegador chegam por `POST /api/telemetry` (contrato fixo de 4 KB, 30/min por origem hasheada, sem eco) como `client.error`.
 
 ## 4. Backup e restauração
 
@@ -57,7 +58,7 @@ Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: tru
 - Monitor externo em `/api/health` a cada 1–5 min; alerta em 2 falhas consecutivas.
 - Métricas mínimas: taxa de erro 5xx, p95 de resposta, falhas de login, envios de desafio/h, publicações/despublicações (auditoria).
 - SLOs aprovados: `[CONTEÚDO PENDENTE]` (proposta inicial: disponibilidade mensal 99,5 % site / 99 % Portal; p95 < 1,5 s no site).
-- Sink de erros/APM: `[CONTEÚDO PENDENTE]` — decisão de provedor; o formato de log já é estruturado.
+- Sink de erros: contrato pronto (OPS-002) — qualquer webhook HTTPS que aceite `POST` JSON `{ service, env, version, dropped, events: [{ ts, level, event, requestId?, route?, … }] }` com `Authorization: Bearer <token>`: Better Stack/Logtail, Axiom, um endpoint próprio ou o coletor da UFSC. Provedor: `[CONTEÚDO PENDENTE]` (decisão institucional); validar com Portal → Configurações → Observabilidade → **Enviar evento de teste** (auditado `observability.test`).
 
 ## 7. Rotinas
 

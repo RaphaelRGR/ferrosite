@@ -45,3 +45,14 @@ test("mídia e arquivos (DRIVE-001): tudo fecha sem sessão ou sem credencial; n
   const health = await (await request.get("/api/health")).json();
   expect(typeof health.driveConfigured).toBe("boolean");
 });
+
+test("telemetria do navegador (OPS-002): aceita só o contrato, sem eco, com limite", async ({ request }) => {
+  const ok = await request.post("/api/telemetry", { data: { scope: "public", name: "TypeError", message: "e2e", digest: "d", path: "/pt" } });
+  expect(ok.status()).toBe(204);
+  expect(await ok.text()).toBe("");
+  expect((await request.post("/api/telemetry", { data: { scope: "admin", name: "x", message: "y" } })).status()).toBe(400);
+  expect((await request.post("/api/telemetry", { data: "nao-json", headers: { "Content-Type": "text/plain" } })).status()).toBe(400);
+  expect((await request.post("/api/telemetry", { data: { scope: "public", name: "x", message: "y".repeat(5000) } })).status()).toBe(400);
+  const health = await (await request.get("/api/health")).json();
+  expect(typeof health.errorSinkConfigured).toBe("boolean");
+});

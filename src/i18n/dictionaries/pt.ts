@@ -640,6 +640,16 @@ export const pt = {
         dispatchHelp: "Processa até 50 itens da fila e registra em auditoria.",
         result: "Reservados {claimed}; enviados {sent}; reenfileirados {requeued}; falhas {failed}.",
       },
+      observability: {
+        title: "Observabilidade",
+        help: "Erros do servidor (e do navegador, via /api/telemetry) saem como JSON estruturado no log da plataforma e, se houver ERROR_SINK_URL, seguem também para esse webhook — já sem dados sensíveis.",
+        configured: "Sink configurado: erros são encaminhados ao webhook.",
+        notConfigured: "Sink não configurado (ERROR_SINK_URL): erros ficam só no log da plataforma.",
+        test: "Enviar evento de teste",
+        testHelp: "Gera um erro sintético (sink.test), registra em auditoria e mostra os contadores deste processo.",
+        result: "Contadores do processo: enviados {sent}; falhas {failed}; descartados por limite {dropped}.",
+        resultNotConfigured: "Evento registrado no log; nenhum webhook configurado para receber.",
+      },
     },
     notFound: {
       title: "Página não encontrada no Portal",

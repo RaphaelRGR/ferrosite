@@ -210,6 +210,11 @@ test.describe("jornada autenticada no Portal", () => {
     await page.getByLabel(/Autorizo o uso destes dados/).check();
     await page.locator('input[name="startedAt"]').evaluate((el) => ((el as HTMLInputElement).value = String(Date.now() - 10_000)));
     await page.getByRole("button", { name: "Enviar desafio" }).click();
+    // O limite anti-spam do banco (5/h por origem) é real e vale para esta máquina: falhar rápido e explicar,
+    // em vez de esperar o protocolo até o timeout.
+    await expect(page.getByTestId("protocol").or(page.getByRole("alert")).first()).toBeVisible();
+    const alert = page.getByRole("alert");
+    if (await alert.count()) throw new Error(`envio recusado (provavelmente limite de 5/h por origem no banco; aguarde 1 h): ${await alert.first().innerText()}`);
     const protocol = await page.getByTestId("protocol").innerText();
     expect(protocol).toMatch(/^DES-\d{4}-\d{6}$/);
 
@@ -253,5 +258,10 @@ test.describe("jornada autenticada no Portal", () => {
     // endpoint de cron não existe sem segredo configurado (fail-closed)
     const res = await page.request.post("/api/mail/dispatch", { headers: { Authorization: "Bearer x" } });
     expect(res.status()).toBe(404);
+    // OPS-002: sink de erros — evento de teste auditado, mesmo sem webhook configurado
+    const obs = page.getByRole("region", { name: "Observabilidade" });
+    await expect(obs).toBeVisible();
+    await obs.getByRole("button", { name: "Enviar evento de teste" }).click();
+    await expect(obs.getByRole("status")).toContainText(/Contadores do processo|nenhum webhook configurado/);
   });
 });

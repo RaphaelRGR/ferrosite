@@ -77,3 +77,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Bytes sempre por proxy do próprio site (Portal autenticado; público só capa de publicação viva, verificada, pública e com consentimento). Nunca link do Drive, nunca URL permanente.
 - Capa pública exige `classification = public` além do consentimento — duas decisões distintas da coordenação.
 - Otimização/redimensionamento de imagens para o site fica para a decisão de hospedagem/CDN.
+
+## Addendum OPS-002 (2026-09-21)
+
+- Sink de erros implementado como **contrato de webhook genérico** (JSON + Bearer), sem SDK de provedor: a escolha do provedor (Better Stack, Axiom, coletor da UFSC…) continua institucional e não exige código novo — só `ERROR_SINK_URL`/`ERROR_SINK_TOKEN`.
+- Eventos encaminhados já saem redigidos (mesma redação do log); limite de 60/min por processo evita inundação por laço de erro. Relatos do navegador são aceitos sem sessão (páginas públicas quebram sem login), por isso o contrato é rígido, sem eco, e limitado por origem hasheada.
+- SLOs continuam `[CONTEÚDO PENDENTE]` (pergunta institucional).

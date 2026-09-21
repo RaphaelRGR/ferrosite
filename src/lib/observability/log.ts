@@ -1,3 +1,5 @@
+import { getErrorSink } from "./sink";
+
 /**
  * Log estruturado (OPS-001, 21): uma linha JSON por evento, com nível, evento,
  * instante, request/correlation id quando houver e campos — SEM segredos:
@@ -28,10 +30,13 @@ export interface LogFields {
 }
 
 export function logEvent(level: LogLevel, event: string, fields: LogFields = {}): void {
-  const line = JSON.stringify({ ts: new Date().toISOString(), level, event, ...(redact(fields) as object) });
+  const record = { ts: new Date().toISOString(), level, event, ...(redact(fields) as object) };
+  const line = JSON.stringify(record);
   if (level === "error") console.error(line);
   else if (level === "warn") console.warn(line);
   else console.log(line);
+  // OPS-002: erro/aviso também vai ao sink externo (quando configurado), já redigido; nunca bloqueia.
+  if (level === "error" || level === "warn") void getErrorSink().send(record);
 }
 
 /** Id de correlação: usa o cabeçalho do provedor quando existir, senão gera um. */

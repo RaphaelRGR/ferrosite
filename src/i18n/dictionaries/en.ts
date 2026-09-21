@@ -641,6 +641,16 @@ export const en: Dictionary = {
         dispatchHelp: "Processes up to 50 queued items and records it in the audit log.",
         result: "Claimed {claimed}; sent {sent}; requeued {requeued}; failed {failed}.",
       },
+      observability: {
+        title: "Observability",
+        help: "Server errors (and browser errors, through /api/telemetry) are written as structured JSON to the platform log and, when ERROR_SINK_URL is set, also forwarded to that webhook — with sensitive data already redacted.",
+        configured: "Sink configured: errors are forwarded to the webhook.",
+        notConfigured: "Sink not configured (ERROR_SINK_URL): errors stay in the platform log only.",
+        test: "Send test event",
+        testHelp: "Emits a synthetic error (sink.test), records it in the audit log and shows this process's counters.",
+        result: "Process counters: sent {sent}; failed {failed}; dropped by limit {dropped}.",
+        resultNotConfigured: "Event written to the log; no webhook configured to receive it.",
+      },
     },
     notFound: {
       title: "Page not found in the Portal",
