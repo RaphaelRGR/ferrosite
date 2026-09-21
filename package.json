@@ -18,6 +18,7 @@
     "db:push": "node scripts/db-push.mjs push",
     "db:types": "node scripts/db-push.mjs types",
     "db:types:local": "node scripts/db-types-local.mjs",
+    "google:env": "node scripts/google-env.mjs",
     "test:rls": "vitest run --config vitest.rls.config.ts"
   },
   "dependencies": {

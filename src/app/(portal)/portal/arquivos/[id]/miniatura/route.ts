@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/auth/session";
-import { getDriveClient } from "@/lib/files/drive";
+import { getDriveClient } from "@/lib/files/drive-connection";
 import { proxyDriveThumbnail } from "@/lib/files/proxy";
 import { getFile } from "@/lib/portal/content";
 
@@ -14,7 +14,7 @@ export async function GET(_req: Request, ctx: RouteContext<"/portal/arquivos/[id
   if (!/^[0-9a-f-]{36}$/.test(id)) return new NextResponse(null, { status: 404 });
   const file = await getFile(id);
   if (!file || file.provider !== "google_drive" || file.status === "revoked" || file.status === "archived") return new NextResponse(null, { status: 404 });
-  const drive = getDriveClient();
+  const drive = (await getDriveClient())?.client ?? null;
   if (!drive) return new NextResponse(null, { status: 503 });
   return proxyDriveThumbnail(drive, file.external_id, 640, "private, max-age=300");
 }

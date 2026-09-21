@@ -42,7 +42,7 @@ export function ThemeToggle({
       {THEMES.map((value) => (
         <label
           key={value}
-          className={`cursor-pointer rounded-full px-3 py-1.5 text-xs font-bold transition-colors focus-within:ring-2 focus-within:ring-focus ${
+          className={`cursor-pointer rounded-full px-2 py-1.5 text-xs font-bold transition-colors focus-within:ring-2 focus-within:ring-focus sm:px-3 ${
             theme === value ? "bg-action text-fg-on-action" : "text-fg-muted hover:text-fg"
           }`}
         >

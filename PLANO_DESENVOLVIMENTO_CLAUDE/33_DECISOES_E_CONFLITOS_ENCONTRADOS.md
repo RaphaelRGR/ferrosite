@@ -83,3 +83,11 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Sink de erros implementado como **contrato de webhook genérico** (JSON + Bearer), sem SDK de provedor: a escolha do provedor (Better Stack, Axiom, coletor da UFSC…) continua institucional e não exige código novo — só `ERROR_SINK_URL`/`ERROR_SINK_TOKEN`.
 - Eventos encaminhados já saem redigidos (mesma redação do log); limite de 60/min por processo evita inundação por laço de erro. Relatos do navegador são aceitos sem sessão (páginas públicas quebram sem login), por isso o contrato é rígido, sem eco, e limitado por origem hasheada.
 - SLOs continuam `[CONTEÚDO PENDENTE]` (pergunta institucional).
+
+## Addendum DRIVE-002 (2026-09-21)
+
+- Google OAuth **só autoriza o Drive**; identidade e acesso ao Portal seguem no Supabase Auth (decisão firme, pedida pelo usuário). Quem configura: admin/coordenação, validado no servidor e no banco.
+- Escopo `drive.readonly` (restrito): `drive.file` não enxerga a pasta institucional pré-existente sem Google Picker; leitura de bytes exige `readonly`. Implica app em modo Teste (usuários de teste) até verificação do Google. Sem escrita nesta fase.
+- Tokens cifrados (AES-256-GCM) com `DRIVE_TOKEN_KEY` (fallback derivado da service role) em tabela sem policy para `authenticated`. Mudar a chave exige reconectar.
+- O client secret não pôde ser gravado em `.env.local` pelo assistente (política de credenciais); `npm run google:env` faz isso a partir de `secrets/client_secret*.json`, que está ignorado pelo git.
+- Pendências: domínio de produção (`GOOGLE_REDIRECT_URI` https), verificação do app no Google ou permanência em Teste, e a estrutura de pastas institucional (só a raiz é configurada agora).

@@ -63,3 +63,7 @@ Segundo gancho de integração: conta de serviço via REST, verificação audita
 ## Addendum — OPS-002 sink de erros (2026-09-21)
 
 Terceiro gancho de integração: webhook genérico para erros/avisos do servidor e do navegador, com teste pelo Portal (`docs/baseline/OPS-002-relatorio.md`). Sem migration. Números: unit 160, RLS 58, e2e 263. Depende do usuário: escolher o coletor e definir `ERROR_SINK_URL`/`ERROR_SINK_TOKEN`.
+
+## Addendum — DRIVE-002 Google Drive por OAuth (2026-09-21)
+
+Conexão institucional do Drive por OAuth 2.0 (`docs/GOOGLE_DRIVE_INTEGRATION.md`, `docs/baseline/DRIVE-002-relatorio.md`): Configurações → Integrações com conectar/testar/pasta/desconectar, tokens cifrados no banco, refresh automático e revogação tratada; DRIVE-001 continua como alternativa por conta de serviço. Migration 9 aplicada na nuvem. Números: unit 170, RLS 61, e2e 266/266. Depende do usuário: `npm run google:env`, conta de teste no Google Auth Platform, consentimento real.

@@ -73,7 +73,8 @@ export default async function PortalLayout({ children }: { children: React.React
                 {status === "active" && <MobileNav items={items} labels={navLabels} />}
                 <Link href="/portal" className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:hidden">
                   <BrandLogo width={44} className="p-0.5" />
-                  <span className="text-sm font-black uppercase tracking-[0.12em]">{dict.portal.name}</span>
+                  {/* em telas estreitas o nome não cabe ao lado do seletor de tema e de Sair; o logo e o menu identificam o Portal */}
+                  <span className="hidden text-sm font-black uppercase tracking-[0.12em] sm:inline">{dict.portal.name}</span>
                 </Link>
                 <span className="hidden text-sm font-black uppercase tracking-[0.12em] lg:inline">{dict.portal.name}</span>
               </div>

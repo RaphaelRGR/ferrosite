@@ -33,7 +33,7 @@ describe("catálogos PT/EN", () => {
       "nav.projectLinks.comunicaFerro", "nav.projectLinks.cavalosDeFerro", "nav.projectLinks.ferroLab", "auth.email", "portal.name", "home.hero.subtitle", "newsPage.newsletterTitle", "events.title",
       // Portal: termos idênticos nas duas línguas (Kanban, Checklist, Item, E-mail) e o traço de "vazio".
       "portal.missions.kanban", "portal.missions.checklist", "portal.missions.itemLabel", "portal.people.email", "portal.common.none",
-      "portal.crm.email", "portal.crm.contactEmail", "portal.crm.activityKinds.email", "portal.files.providers.google_drive", "portal.reports.snapshots",
+      "portal.crm.email", "portal.crm.contactEmail", "portal.crm.activityKinds.email", "portal.files.providers.google_drive", "portal.integrations.drive.title", "portal.reports.snapshots",
     ]);
     const same = Object.keys(flatPt).filter((k) => flatPt[k] === flatEn[k] && !allowedSame.has(k));
     expect(same).toEqual([]);

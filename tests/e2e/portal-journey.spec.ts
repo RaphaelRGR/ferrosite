@@ -212,8 +212,9 @@ test.describe("jornada autenticada no Portal", () => {
     await page.getByRole("button", { name: "Enviar desafio" }).click();
     // O limite anti-spam do banco (5/h por origem) é real e vale para esta máquina: falhar rápido e explicar,
     // em vez de esperar o protocolo até o timeout.
-    await expect(page.getByTestId("protocol").or(page.getByRole("alert")).first()).toBeVisible();
-    const alert = page.getByRole("alert");
+    // (o Next mantém um role="alert" vazio para anunciar rotas: só alertas com texto contam)
+    const alert = page.getByRole("alert").filter({ hasText: /\S/ });
+    await expect(page.getByTestId("protocol").or(alert).first()).toBeVisible();
     if (await alert.count()) throw new Error(`envio recusado (provavelmente limite de 5/h por origem no banco; aguarde 1 h): ${await alert.first().innerText()}`);
     const protocol = await page.getByTestId("protocol").innerText();
     expect(protocol).toMatch(/^DES-\d{4}-\d{6}$/);

@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
-import { getDriveClient, parseDriveId } from "@/lib/files/drive";
+import { parseDriveId } from "@/lib/files/drive";
+import { driveErrorMessage } from "@/lib/files/drive-errors";
+import { getDriveClient } from "@/lib/files/drive-connection";
 import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { LOCALES, localizePath } from "@/i18n/config";
@@ -225,14 +227,11 @@ export async function verifyFile(_prev: ActionState, fd: FormData): Promise<Acti
   const file = await getFile(id);
   if (!file) return fail(fd, { error: "not_found" });
   if (file.provider !== "google_drive") return fail(fd, { error: "db:só arquivos do Google Drive são verificados automaticamente" });
-  const drive = getDriveClient();
-  if (!drive) return fail(fd, { error: "db:credencial do Google Drive não configurada" });
-  const meta = await drive.getMeta(file.external_id);
-  if (!meta.ok) {
-    const reason = { not_found: "arquivo não encontrado no Drive", forbidden: "a conta de serviço não tem acesso ao arquivo (compartilhe a pasta com ela)", trashed: "arquivo está na lixeira do Drive", outside_root: "", provider: "o Drive não respondeu", unconfigured: "" }[meta.error];
-    return fail(fd, { error: `db:${reason || "falha ao consultar o Drive"}` });
-  }
-  if (!(await drive.withinRoot(meta.meta))) return fail(fd, { error: "db:arquivo fora da pasta institucional configurada" });
+  const conn = await getDriveClient();
+  if (!conn) return fail(fd, { error: "db:Google Drive não conectado (Configurações → Integrações)" });
+  const meta = await conn.client.getMeta(file.external_id);
+  if (!meta.ok) return fail(fd, { error: `db:${driveErrorMessage(meta.error)}` });
+  if (!(await conn.client.withinRoot(meta.meta))) return fail(fd, { error: "db:arquivo fora da pasta institucional configurada" });
   if (!(FILE_MIME_TYPES as readonly string[]).includes(meta.meta.mimeType)) return fail(fd, { error: `db:tipo no Drive não permitido: ${meta.meta.mimeType}` });
   const supabase = await createClient();
   const { data, error } = await supabase

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDriveClient } from "@/lib/files/drive";
+import { getDriveClient } from "@/lib/files/drive-connection";
 import { proxyDriveFile } from "@/lib/files/proxy";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export async function GET(req: Request, ctx: RouteContext<"/api/midia/[id]">) {
   const { id } = await ctx.params;
   if (!/^[0-9a-f-]{36}$/.test(id)) return new NextResponse(null, { status: 404 });
-  const drive = getDriveClient();
+  const drive = (await getDriveClient())?.client ?? null;
   const admin = createAdminClient();
   if (!drive || !admin) return new NextResponse(null, { status: 404 });
   const { data } = await admin.rpc("public_file_info", { p_file: id });

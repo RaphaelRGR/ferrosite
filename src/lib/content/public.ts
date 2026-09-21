@@ -1,4 +1,4 @@
-import { isDriveConfigured } from "@/lib/files/drive";
+import { isDriveAvailable } from "@/lib/files/drive-availability";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
@@ -35,7 +35,7 @@ const FIELDS = "id, type, locale, slug, title, summary, body_md, event_at, event
  * imagem quebrada nem uma URL do Drive.
  */
 export async function publicCoverUrl(item: Pick<PublishedItem, "cover_file_id">): Promise<string | null> {
-  if (!item.cover_file_id || !isDriveConfigured()) return null;
+  if (!item.cover_file_id || !(await isDriveAvailable())) return null;
   const admin = createAdminClient();
   if (!admin) return null;
   const { data } = await admin.rpc("public_file_info", { p_file: item.cover_file_id });

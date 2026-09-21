@@ -41,6 +41,7 @@ Primeira execução do Playwright: `npx playwright install chromium`.
 | `npm run check` | lint → typecheck → test → test:rls → build → test:e2e |
 | `npm run db:push` / `npm run db:types` | aplica migrations / gera tipos contra a nuvem (`SUPABASE_DB_PASSWORD` e `SUPABASE_DB_URL` em `.env.local`) |
 | `npm run db:types:local` | gera `src/types/database.ts` das migrations em Postgres embutido (sem Docker) |
+| `npm run google:env` | copia Client ID/secret de `secrets/client_secret*.json` para `.env.local` (nunca commitado) |
 | `npm run content:report` | regenera `docs/content/inventario-editorial.md` |
 | `npm run baseline:screenshots` | screenshots de referência em `docs/baseline/screenshots/` |
 
@@ -48,7 +49,7 @@ Primeira execução do Playwright: `npx playwright install chromium`.
 
 - Nenhuma afirmação institucional sem fonte: conteúdo herdado do protótipo aparece com o selo "Conteúdo em verificação" (`NEXT_PUBLIC_CONTENT_MODE=strict` o oculta); dados pessoais/contatos não são publicados; lacunas ficam como `[CONTEÚDO PENDENTE]`.
 - Erros do servidor e do navegador saem como JSON estruturado (sem dados sensíveis) e, com `ERROR_SINK_URL`, seguem para um webhook genérico — sem SDK de terceiros.
-- Arquivos vivem no Google Drive institucional; o Portal guarda metadados, verifica pelo provedor (auditado) e serve original/miniatura por proxy autenticado. O site só recebe a capa de uma publicação viva, verificada, pública e com consentimento — nunca um link do Drive.
+- Arquivos vivem no Google Drive institucional, conectado por OAuth em Configurações → Integrações (`docs/GOOGLE_DRIVE_INTEGRATION.md`; identidade continua no Supabase); o Portal guarda metadados, verifica pelo provedor (auditado) e serve original/miniatura por proxy autenticado. O site só recebe a capa de uma publicação viva, verificada, pública e com consentimento — nunca um link do Drive.
 - E-mails (confirmação de desafio, revisão/decisão/publicação, ingresso em equipe) nascem por trigger na tabela `mail_outbox` e são entregues depois da resposta; sem provedor configurado ficam na fila.
 - O site lê só a projeção pública aprovada (`public_publication`); o Portal produz, revisa, aprova e publica (snapshot, rollback, despublicação auditada).
 - Autorização decidida no servidor/RLS; máquinas de estado e guardas vivem em triggers; tudo crítico é auditado (append-only).

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FileForm, VerifyFileForm } from "@/components/portal/ContentForms";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { isDriveConfigured } from "@/lib/files/drive";
+import { getDriveClient } from "@/lib/files/drive-connection";
 import { Badge } from "@/components/ui/Badge";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
@@ -24,7 +24,7 @@ export default async function FilePage({ params }: PageProps<"/portal/arquivos/[
   if (!file) notFound();
   const f = dict.files;
   const canEdit = isOverseer(profile.global_role) || file.owner_id === profile.id;
-  const driveReady = isDriveConfigured() && file.provider === "google_drive";
+  const driveReady = file.provider === "google_drive" && (await getDriveClient()) !== null;
   const accessible = driveReady && file.status !== "revoked" && file.status !== "archived";
   const isImage = file.mime_type.startsWith("image/");
   return (

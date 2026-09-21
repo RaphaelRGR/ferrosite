@@ -48,3 +48,9 @@ next-env.d.ts
 
 # baseline visual (regenerar com `npm run baseline:screenshots`)
 /docs/baseline/screenshots/
+
+# credenciais Google (OAuth/conta de serviço) — nunca no repositório
+/secrets/
+client_secret*.json
+google-oauth*.json
+*-service-account*.json

@@ -3,11 +3,13 @@ import { cookies } from "next/headers";
 import { DispatchMailForm } from "@/components/portal/MailForms";
 import { SinkTestForm } from "@/components/portal/ObservabilityForms";
 import { ThemeToggle } from "@/components/portal/ThemeToggle";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentSession } from "@/lib/auth/session";
 import { formatDate } from "@/i18n/format";
 import { isMailConfigured } from "@/lib/mail/provider";
 import { isErrorSinkConfigured } from "@/lib/observability/sink";
+import { isOverseer } from "@/lib/portal/authz";
 import { getMailSummary, type MailStatus } from "@/lib/portal/mail";
 import { parseTheme, THEME_COOKIE } from "@/lib/portal/theme";
 
@@ -51,6 +53,18 @@ export default async function PortalSettingsPage() {
           </div>
         </dl>
       </section>
+
+      {isOverseer(profile?.global_role) && profile?.status === "active" ? (
+        <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="integrations-title">
+          <h2 id="integrations-title" className="text-lg font-bold">{dict.portal.integrations.title}</h2>
+          <p className="mt-1 text-sm text-fg-muted">{dict.portal.integrations.openHelp}</p>
+          <div className="mt-4">
+            <LinkButton href="/portal/configuracoes/integracoes" variant="secondary">
+              {dict.portal.integrations.open} →
+            </LinkButton>
+          </div>
+        </section>
+      ) : null}
 
       {isAdmin ? (
         <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="mail-title">
