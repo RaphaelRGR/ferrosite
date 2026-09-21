@@ -19,6 +19,7 @@ export function PublishedArticle({
   backLabel,
   labels,
   preview,
+  coverUrl = null,
 }: {
   item: PublishedItem;
   locale: Locale;
@@ -27,6 +28,8 @@ export function PublishedArticle({
   backLabel: string;
   labels: Dictionary["published"];
   preview?: boolean;
+  /** Capa servida pelo proxy público (DRIVE-001); `null` mantém só o crédito. */
+  coverUrl?: string | null;
 }) {
   const date = item.type === "event" && item.event_at ? item.event_at : item.published_at;
   return (
@@ -46,11 +49,19 @@ export function PublishedArticle({
             <SectionHeading as="h1" eyebrow={eyebrow} title={item.title} description={item.summary} />
           </div>
           {item.body_md && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body_md) }} />}
-          {(item.cover_credit || item.cover_alt) && (
-            <p className="mt-8 text-xs text-fg-muted">
-              {labels.coverPending}
-              {item.cover_credit && ` · ${labels.credit}: ${item.cover_credit}`}
-            </p>
+          {coverUrl ? (
+            <figure className="mt-8">
+              {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa */}
+              <img src={coverUrl} alt={item.cover_alt} className="w-full rounded-2xl border border-line" loading="lazy" />
+              {item.cover_credit && <figcaption className="mt-2 text-xs text-fg-muted">{`${labels.credit}: ${item.cover_credit}`}</figcaption>}
+            </figure>
+          ) : (
+            (item.cover_credit || item.cover_alt) && (
+              <p className="mt-8 text-xs text-fg-muted">
+                {labels.coverPending}
+                {item.cover_credit && ` · ${labels.credit}: ${item.cover_credit}`}
+              </p>
+            )
           )}
           <p className="mt-8 text-xs text-fg-muted">{labels.approvedNote}</p>
           <div className="mt-8">

@@ -70,3 +70,10 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Provedor de e-mail escolhido pelo usuário: **Resend** (API HTTP, sem SDK). Fica pendente do usuário: conta, domínio verificado do remetente institucional e as variáveis `RESEND_API_KEY`/`MAIL_FROM`/`MAIL_REPLY_TO`/`MAIL_DISPATCH_SECRET`. Até lá a fila acumula sem perda.
 - O e-mail à empresa leva só protocolo e título (a descrição pode ser confidencial; e-mail não é canal seguro). Retenção de `mail_outbox` (destinatário + payload mínimo) entra na mesma decisão de retenção dos desafios (pergunta 4).
 - Conexão de migração: o host direto `db.<ref>.supabase.co` resolve só em IPv6; em redes IPv4 usar o session pooler (`postgres.<ref>@aws-<n>-<região>.pooler.supabase.com:5432`).
+
+## Addendum DRIVE-001 (2026-09-21)
+
+- Modelo de acesso ao Drive: **conta de serviço somente leitura** sobre uma pasta institucional compartilhada; sem OAuth de usuários. Pendente do usuário (pergunta 4): projeto Google Cloud, conta de serviço, pasta e variáveis `GOOGLE_*`.
+- Bytes sempre por proxy do próprio site (Portal autenticado; público só capa de publicação viva, verificada, pública e com consentimento). Nunca link do Drive, nunca URL permanente.
+- Capa pública exige `classification = public` além do consentimento — duas decisões distintas da coordenação.
+- Otimização/redimensionamento de imagens para o site fica para a decisão de hospedagem/CDN.

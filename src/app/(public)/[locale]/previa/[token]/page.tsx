@@ -36,6 +36,7 @@ export default async function PreviaPage({ params }: PageProps<"/[locale]/previa
     cover_alt: "",
     cover_credit: "",
     published_at: new Date().toISOString(),
+    cover_file_id: null,
   };
   const dict = getDictionary(item.locale);
   const isEvent = item.type === "event";

@@ -49,6 +49,8 @@ const nextConfig: NextConfig = {
       { source: "/portal/:path*", headers: [{ key: "Cache-Control", value: "private, no-store" }] },
       { source: "/login", headers: [{ key: "Cache-Control", value: "private, no-store" }] },
       { source: "/api/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] },
+      // mídia pública (DRIVE-001): capa de publicação viva; cache curto para despublicação/revogação valer em minutos
+      { source: "/api/midia/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=300, stale-while-revalidate=600" }] },
     ];
   },
 };

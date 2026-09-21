@@ -1,3 +1,5 @@
+import { isDriveConfigured } from "@/lib/files/drive";
+import { createAdminClient } from "@/lib/supabase/admin";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
 import type { Database } from "@/types/database";
@@ -21,9 +23,24 @@ export interface PublishedItem {
   cover_alt: string;
   cover_credit: string;
   published_at: string;
+  cover_file_id: string | null;
 }
 
-const FIELDS = "id, type, locale, slug, title, summary, body_md, event_at, event_place, cover_alt, cover_credit, published_at";
+const FIELDS = "id, type, locale, slug, title, summary, body_md, event_at, event_place, cover_alt, cover_credit, published_at, cover_file_id";
+
+/**
+ * URL pública da capa (DRIVE-001) ou `null`: só quando o provedor está
+ * configurado e o banco confirma (arquivo verificado, público, com
+ * consentimento, capa de publicação viva). Assim a página nunca renderiza uma
+ * imagem quebrada nem uma URL do Drive.
+ */
+export async function publicCoverUrl(item: Pick<PublishedItem, "cover_file_id">): Promise<string | null> {
+  if (!item.cover_file_id || !isDriveConfigured()) return null;
+  const admin = createAdminClient();
+  if (!admin) return null;
+  const { data } = await admin.rpc("public_file_info", { p_file: item.cover_file_id });
+  return data?.[0] ? `/api/midia/${item.cover_file_id}` : null;
+}
 
 export async function listPublished(type: ContentType, locale: Locale, limit = 50): Promise<PublishedItem[]> {
   const client = createPublicClient();

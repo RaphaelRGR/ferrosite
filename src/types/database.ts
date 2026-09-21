@@ -47,9 +47,9 @@ export type Database = {
         Relationships: [];
       };
       file_asset: {
-        Row: { id: string; provider: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type: string; size_bytes: number | null; content_hash: string | null; classification: Database["public"]["Enums"]["classification"]; status: Database["public"]["Enums"]["file_status"]; credit: string; alt_text: string; alt_text_en: string; consent: Database["public"]["Enums"]["consent_status"]; consent_note: string; owner_id: string; created_by: string; updated_by: string; verified_at: string | null; archived_at: string | null; created_at: string; updated_at: string; version: number };
-        Insert: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id: string; created_by: string; updated_by: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number };
-        Update: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id?: string; name?: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id?: string; created_by?: string; updated_by?: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number };
+        Row: { id: string; provider: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type: string; size_bytes: number | null; content_hash: string | null; classification: Database["public"]["Enums"]["classification"]; status: Database["public"]["Enums"]["file_status"]; credit: string; alt_text: string; alt_text_en: string; consent: Database["public"]["Enums"]["consent_status"]; consent_note: string; owner_id: string; created_by: string; updated_by: string; verified_at: string | null; archived_at: string | null; created_at: string; updated_at: string; version: number; verified_by: string | null };
+        Insert: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id: string; name: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id: string; created_by: string; updated_by: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; verified_by?: string | null };
+        Update: { id?: string; provider?: Database["public"]["Enums"]["file_provider"]; external_id?: string; name?: string; mime_type?: string; size_bytes?: number | null; content_hash?: string | null; classification?: Database["public"]["Enums"]["classification"]; status?: Database["public"]["Enums"]["file_status"]; credit?: string; alt_text?: string; alt_text_en?: string; consent?: Database["public"]["Enums"]["consent_status"]; consent_note?: string; owner_id?: string; created_by?: string; updated_by?: string; verified_at?: string | null; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; verified_by?: string | null };
         Relationships: [];
       };
       file_type_allowlist: {
@@ -131,9 +131,9 @@ export type Database = {
         Relationships: [];
       };
       publication: {
-        Row: { id: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; cover_alt: string; cover_credit: string; published_at: string; published_by: string; unpublished_at: string | null; unpublished_by: string | null };
-        Insert: { id?: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by: string; unpublished_at?: string | null; unpublished_by?: string | null };
-        Update: { id?: string; item_id?: string; revision_id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by?: string; unpublished_at?: string | null; unpublished_by?: string | null };
+        Row: { id: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; cover_alt: string; cover_credit: string; published_at: string; published_by: string; unpublished_at: string | null; unpublished_by: string | null; cover_file_id: string | null };
+        Insert: { id?: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null };
+        Update: { id?: string; item_id?: string; revision_id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by?: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null };
         Relationships: [];
       };
       relationship_activity: {
@@ -163,7 +163,7 @@ export type Database = {
     };
     Views: {
       public_publication: {
-        Row: { id: string | null; type: Database["public"]["Enums"]["content_type"] | null; locale: string | null; slug: string | null; title: string | null; summary: string | null; body_md: string | null; event_at: string | null; event_place: string | null; cover_alt: string | null; cover_credit: string | null; published_at: string | null };
+        Row: { id: string | null; type: Database["public"]["Enums"]["content_type"] | null; locale: string | null; slug: string | null; title: string | null; summary: string | null; body_md: string | null; event_at: string | null; event_place: string | null; cover_alt: string | null; cover_credit: string | null; published_at: string | null; cover_file_id: string | null };
         Relationships: [];
       };
     };
@@ -259,6 +259,10 @@ export type Database = {
       project_role_of: {
         Args: { p_project: string };
         Returns: Database["public"]["Enums"]["project_role"];
+      };
+      public_file_info: {
+        Args: { p_file: string };
+        Returns: { external_id: string; mime_type: string; name: string; size_bytes: number; content_hash: string }[];
       };
       publish_content: {
         Args: { p_item: string; p_revision?: string };

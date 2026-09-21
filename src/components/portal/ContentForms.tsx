@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { LinkButton } from "@/components/ui/LinkButton";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { IDLE, type ActionState } from "@/lib/portal/action-state";
-import { createContent, linkProjectFile, registerFile, rollbackContent, transitionContent, updateContent, updateFile } from "@/lib/portal/actions/content";
+import { createContent, linkProjectFile, registerFile, rollbackContent, transitionContent, updateContent, updateFile, verifyFile } from "@/lib/portal/actions/content";
 import { CONSENT_STATUSES, CONTENT_TRANSITIONS, CONTENT_TYPES, FILE_LINK_KINDS, FILE_MIME_TYPES, FILE_PROVIDERS, FILE_STATUSES, type ContentStatus } from "@/lib/portal/content-constants";
 import type { ContentRow, FileRow, RevisionRow } from "@/lib/portal/content";
 import { ActionFeedback, fieldError } from "./ActionFeedback";
@@ -162,6 +162,25 @@ export function FileForm({ dict, file, cancelHref }: { dict: Dict; file?: FileRo
           {dict.common.cancel}
         </LinkButton>
       </div>
+    </form>
+  );
+}
+
+/** Verificação no Drive (DRIVE-001): botão único; o servidor consulta o provedor e o trigger audita. */
+export function VerifyFileForm({ dict, file }: { dict: Dict; file: FileRow }) {
+  const [state, formAction, pending] = useActionState(verifyFile, IDLE as ActionState);
+  const f = dict.files;
+  return (
+    <form action={formAction} className="flex flex-col gap-2">
+      <input type="hidden" name="id" value={file.id} />
+      <input type="hidden" name="version" value={file.version} />
+      <div className="flex flex-wrap items-center gap-3">
+        <Button type="submit" variant="secondary" loading={pending} title={f.verifyHelp}>
+          {f.verify}
+        </Button>
+        <span className="text-xs text-fg-muted">{f.verifyHelp}</span>
+      </div>
+      <ActionFeedback state={state} dict={dict} />
     </form>
   );
 }

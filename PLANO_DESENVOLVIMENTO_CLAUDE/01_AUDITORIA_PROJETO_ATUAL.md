@@ -187,3 +187,7 @@ Relatório: `docs/baseline/CLEAN-001-relatorio.md`. Legado sem consumidor removi
 ## Estado após MAIL-001 (2026-09-17)
 
 Relatório: `docs/baseline/MAIL-001-relatorio.md`. Migration 7: `mail_outbox` enfileirada por triggers (desafio recebido, revisão pedida, decisão, publicação, ingresso em equipe), reserva/baixa só pelo service role; entrega pós-resposta e por cron; provedor Resend via `fetch`; templates PT/EN; painel em Configurações (admin) com envio manual auditado; `/api/health` expõe `mailConfigured`. Unit 144, RLS 54, e2e 261. Aplicada na nuvem (pooler IPv4).
+
+## Estado após DRIVE-001 (2026-09-21)
+
+Relatório: `docs/baseline/DRIVE-001-relatorio.md`. Migration 8: verificação auditada (`verified_by`, reversão ao trocar o id), `publication.cover_file_id` na projeção, `public_file_info` (service role). Cliente Drive por conta de serviço via REST (sem SDK), verificação no Portal, original/miniatura por proxy autenticado e auditado, capa pública por `/api/midia/[id]` só para publicação viva com consentimento. Unit 153, RLS 58. Aplicada na nuvem.

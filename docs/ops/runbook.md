@@ -12,10 +12,11 @@ Escopo: site público (Next.js) + Portal (Supabase Auth/Postgres). Hospedagem e 
 | `SUPABASE_DB_PASSWORD`, `SUPABASE_DB_URL` | só CI/máquina de migração | `npm run db:push` / `db:types`. Nunca em runtime. Host: session pooler IPv4 (`aws-<n>-<região>.pooler.supabase.com:5432`, usuário `postgres.<ref>`); o host direto `db.<ref>.supabase.co` só resolve em IPv6. |
 | `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_REPLY_TO` | runtime (servidor) | E-mail transacional (MAIL-001). Ausentes ⇒ a fila `mail_outbox` acumula em `queued` (nada se perde) e `/api/health` mostra `mailConfigured: false`. |
 | `MAIL_DISPATCH_SECRET` | runtime (servidor) | Bearer do `POST /api/mail/dispatch` (cron de reprocessamento). Sem ele a rota responde 404. |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_KEY`, `GOOGLE_DRIVE_ROOT_FOLDER_ID` | runtime (servidor) | Drive somente leitura (DRIVE-001): verificação, original/miniatura no Portal e capa pública por proxy. Ausentes ⇒ só metadados; `/api/health` mostra `driveConfigured: false`. A pasta institucional deve estar compartilhada com a conta de serviço como Leitor. |
 | `NEXT_PUBLIC_SITE_URL` | build | canonical/hreflang/sitemap. |
 | `NEXT_PUBLIC_CONTENT_MODE` | build | `review` (selo em conteúdo não verificado) ou `strict` (oculta). Produção: definir explicitamente. |
 
-Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: true, mailConfigured: true }` (sem segredos, sem cache).
+Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: true, mailConfigured: true, driveConfigured: true }` (sem segredos, sem cache).
 
 ## 2. Deploy
 
@@ -45,7 +46,8 @@ Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: tru
 | Conteúdo indevido no site | Portal → Conteúdos → item → **Despublicar** (motivo obrigatório; auditado; cache invalidado). | Corrigir → nova aprovação → publicar; ou **Restaurar** revisão anterior. |
 | Conta comprometida | Portal → Pessoas → situação **Desativada** (admin; auditado). Sessão existente perde acesso na próxima requisição (RLS lê o status). | Rotacionar senha via Supabase Auth; revisar `audit_event` do ator. |
 | Chave vazada | Supabase → Settings → API → rotacionar `service_role`/`anon`; atualizar variáveis; redeploy. | Revisar logs do período; `CHALLENGE_HASH_SECRET` novo. |
-| Arquivo com problema de consentimento | Portal → Arquivos → arquivo → consentimento **Recusado** / situação **Revogado** (auditado); despublicar conteúdo que o usa como capa. | Remover no provedor conforme política (17: remoção pública não apaga o original sem política). |
+| Arquivo com problema de consentimento | Portal → Arquivos → arquivo → consentimento **Recusado** / situação **Revogado** (auditado); despublicar conteúdo que o usa como capa. `/api/midia/<id>` e o original no Portal param de responder (cache público de no máximo 5 min). | Remover no provedor conforme política (17: remoção pública não apaga o original sem política). |
+| Drive não responde / "sem acesso" na verificação | Conferir que a pasta está compartilhada com `GOOGLE_SERVICE_ACCOUNT_EMAIL` e que o arquivo está dentro de `GOOGLE_DRIVE_ROOT_FOLDER_ID` (quando definida). Chave rotacionada no Google ⇒ atualizar `GOOGLE_SERVICE_ACCOUNT_KEY` e redeploy. | Revisar `audit_event` `file.access`/`file.verified` do período. |
 | Spam no formulário de desafio | Verificar `public_submission_rate`; ajustar limites na função `submit_research_challenge` por migration. | Avaliar captcha só se necessário (21: anti-spam sem depender de terceiros por padrão). |
 | Portal fora (503) | Conferir variáveis `NEXT_PUBLIC_SUPABASE_*` e status do Supabase. | `/api/health` no monitor. |
 | E-mails não chegam | Portal → Configurações → E-mails: contadores e **Enviar pendentes agora** (auditado). `failed` com `last_error` `http 4xx` = chave/remetente/destinatário inválidos no Resend; `queued` com tentativas = provedor fora (até 5 tentativas, reserva expira em 10 min). | Corrigir variáveis e redeploy; cron `POST /api/mail/dispatch` (Bearer `MAIL_DISPATCH_SECRET`) a cada 5–15 min reprocessa o que ficou. |

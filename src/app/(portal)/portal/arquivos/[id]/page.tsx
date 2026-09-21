@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FileForm } from "@/components/portal/ContentForms";
+import { FileForm, VerifyFileForm } from "@/components/portal/ContentForms";
+import { LinkButton } from "@/components/ui/LinkButton";
+import { isDriveConfigured } from "@/lib/files/drive";
 import { Badge } from "@/components/ui/Badge";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
@@ -22,6 +24,9 @@ export default async function FilePage({ params }: PageProps<"/portal/arquivos/[
   if (!file) notFound();
   const f = dict.files;
   const canEdit = isOverseer(profile.global_role) || file.owner_id === profile.id;
+  const driveReady = isDriveConfigured() && file.provider === "google_drive";
+  const accessible = driveReady && file.status !== "revoked" && file.status !== "archived";
+  const isImage = file.mime_type.startsWith("image/");
   return (
     <div className="flex flex-col gap-8">
       <header className="border-b border-line pb-4">
@@ -61,7 +66,41 @@ export default async function FilePage({ params }: PageProps<"/portal/arquivos/[
           </dl>
           <div className="mt-6 rounded-lg border border-dashed border-line-strong bg-canvas px-4 py-3 text-sm text-fg-muted">
             <p className="font-bold text-fg">{f.providerAccess}</p>
-            <p className="mt-1">{f.providerAccessPending}</p>
+            {file.provider !== "google_drive" ? (
+              <p className="mt-1 break-all">{file.external_id}</p>
+            ) : !driveReady ? (
+              <p className="mt-1">{f.providerAccessPending}</p>
+            ) : (
+              <>
+                <p className="mt-1">{f.providerAccessReady}</p>
+                {accessible && isImage && (
+                  // eslint-disable-next-line @next/next/no-img-element -- proxy autenticado, sem otimização externa
+                  <img src={`/portal/arquivos/${file.id}/miniatura`} alt={f.thumbnailAlt.replace("{name}", file.name)} className="mt-3 max-h-64 rounded-lg border border-line" />
+                )}
+                {accessible && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <LinkButton href={`/portal/arquivos/${file.id}/original`} variant="secondary">
+                      {f.openOriginal}
+                    </LinkButton>
+                    <LinkButton href={`/portal/arquivos/${file.id}/original?baixar=1`} variant="secondary">
+                      {f.download}
+                    </LinkButton>
+                  </div>
+                )}
+                {file.verified_at && (
+                  <p className="mt-3 text-xs">
+                    {f.verifiedBy}: {formatDate("pt", new Date(file.verified_at), { dateStyle: "short", timeStyle: "short" })}
+                    {file.content_hash && ` · md5 ${file.content_hash}`}
+                  </p>
+                )}
+                {canEdit && (
+                  <div className="mt-3">
+                    <VerifyFileForm dict={dict} file={file} />
+                  </div>
+                )}
+                {file.classification === "public" && <p className="mt-3 text-xs">{f.publicCover}</p>}
+              </>
+            )}
           </div>
           {canEdit && (
             <div className="mt-6 border-t border-line pt-6">

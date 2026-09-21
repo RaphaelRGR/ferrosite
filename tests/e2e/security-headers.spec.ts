@@ -28,3 +28,20 @@ test("health: vivo, sem segredos, sem cache", async ({ request }) => {
   expect(typeof body.supabaseConfigured).toBe("boolean");
   expect(JSON.stringify(body)).not.toMatch(/eyJ|sb_|service_role/);
 });
+
+test("mídia e arquivos (DRIVE-001): tudo fecha sem sessão ou sem credencial; nunca redireciona ao provedor", async ({ request }) => {
+  const id = "00000000-0000-4000-8000-000000000000";
+  // público: id desconhecido ou provedor não configurado ⇒ 404 idêntico (sem distinguir motivo)
+  const media = await request.get(`/api/midia/${id}`, { maxRedirects: 0 });
+  expect(media.status()).toBe(404);
+  expect(media.headers()["location"]).toBeUndefined();
+  expect((await request.get("/api/midia/nao-e-uuid")).status()).toBe(404);
+  // Portal: sem sessão o proxy de autenticação manda para /login antes de qualquer byte
+  for (const path of [`/portal/arquivos/${id}/original`, `/portal/arquivos/${id}/miniatura`]) {
+    const res = await request.get(path, { maxRedirects: 0 });
+    expect(res.status()).toBe(307);
+    expect(res.headers()["location"]).toMatch(/\/login\?next=/);
+  }
+  const health = await (await request.get("/api/health")).json();
+  expect(typeof health.driveConfigured).toBe("boolean");
+});

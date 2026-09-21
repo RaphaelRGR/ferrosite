@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
+import { getDriveClient, parseDriveId } from "@/lib/files/drive";
 import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { LOCALES, localizePath } from "@/i18n/config";
@@ -13,7 +14,7 @@ import {
   APPROVER_TARGETS, CONSENT_STATUSES, CONTENT_STATUSES, CONTENT_TRANSITIONS, CONTENT_TYPE_PUBLIC_PATH, CONTENT_TYPES, FILE_LINK_KINDS, FILE_MIME_TYPES, FILE_PROVIDERS, FILE_STATUSES,
   type ConsentStatus, type ContentStatus, type ContentType, type FileLinkKind, type FileProvider, type FileStatus,
 } from "../content-constants";
-import { getContent } from "../content";
+import { getContent, getFile } from "../content";
 
 /**
  * Server Actions de conteúdo (PUB-001) e arquivos (FILE-001). O fluxo de
@@ -176,6 +177,9 @@ export async function registerFile(_prev: ActionState, fd: FormData): Promise<Ac
   if (!FILE_PROVIDERS.includes(provider)) return fail(fd, { error: "invalid", field: "provider" });
   if (!externalId) return fail(fd, { error: "invalid", field: "external_id" });
   if (provider === "external_link" && !/^https:\/\//.test(externalId)) return fail(fd, { error: "invalid", field: "external_id" });
+  // Drive: aceita o link de compartilhamento e guarda só o fileId (DRIVE-001).
+  const driveId = provider === "google_drive" ? parseDriveId(externalId) : null;
+  if (provider === "google_drive" && !driveId) return fail(fd, { error: "invalid", field: "external_id" });
   if (!name) return fail(fd, { error: "invalid", field: "name" });
   if (!(FILE_MIME_TYPES as readonly string[]).includes(mime)) return fail(fd, { error: "invalid", field: "mime_type" });
   if (size && !/^\d{1,12}$/.test(size)) return fail(fd, { error: "invalid", field: "size_bytes" });
@@ -186,7 +190,7 @@ export async function registerFile(_prev: ActionState, fd: FormData): Promise<Ac
     .from("file_asset")
     .insert({
       provider,
-      external_id: externalId,
+      external_id: driveId ?? externalId,
       name,
       mime_type: mime,
       size_bytes: size ? Number(size) : null,
@@ -204,6 +208,44 @@ export async function registerFile(_prev: ActionState, fd: FormData): Promise<Ac
   if (error) return fail(fd, { error: dbError(error) });
   revalidatePath("/portal/arquivos");
   redirect(`/portal/arquivos/${data.id}`);
+}
+
+/**
+ * Verificação no Drive (DRIVE-001): confere existência, lixeira, pasta
+ * institucional (quando definida) e allowlist; grava nome/MIME/tamanho/hash do
+ * provedor e marca `verified` (trigger audita quem/quando/hash). O RLS decide
+ * quem pode editar; a credencial nunca sai do servidor.
+ */
+export async function verifyFile(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const id = str(fd, "id");
+  const version = Number(fd.get("version"));
+  if (!id || !Number.isInteger(version)) return fail(fd, { error: "invalid" });
+  const s = await session();
+  if (isState(s)) return fail(fd, s);
+  const file = await getFile(id);
+  if (!file) return fail(fd, { error: "not_found" });
+  if (file.provider !== "google_drive") return fail(fd, { error: "db:só arquivos do Google Drive são verificados automaticamente" });
+  const drive = getDriveClient();
+  if (!drive) return fail(fd, { error: "db:credencial do Google Drive não configurada" });
+  const meta = await drive.getMeta(file.external_id);
+  if (!meta.ok) {
+    const reason = { not_found: "arquivo não encontrado no Drive", forbidden: "a conta de serviço não tem acesso ao arquivo (compartilhe a pasta com ela)", trashed: "arquivo está na lixeira do Drive", outside_root: "", provider: "o Drive não respondeu", unconfigured: "" }[meta.error];
+    return fail(fd, { error: `db:${reason || "falha ao consultar o Drive"}` });
+  }
+  if (!(await drive.withinRoot(meta.meta))) return fail(fd, { error: "db:arquivo fora da pasta institucional configurada" });
+  if (!(FILE_MIME_TYPES as readonly string[]).includes(meta.meta.mimeType)) return fail(fd, { error: `db:tipo no Drive não permitido: ${meta.meta.mimeType}` });
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("file_asset")
+    .update({ name: meta.meta.name.slice(0, 255), mime_type: meta.meta.mimeType, size_bytes: meta.meta.size, content_hash: meta.meta.md5, status: "verified", updated_by: s.userId })
+    .eq("id", id)
+    .eq("version", version)
+    .select("id");
+  if (error) return fail(fd, { error: dbError(error) });
+  if (!data?.length) return fail(fd, { error: "conflict" });
+  revalidatePath(`/portal/arquivos/${id}`);
+  revalidatePath("/portal/arquivos");
+  return { ok: true };
 }
 
 export async function updateFile(_prev: ActionState, fd: FormData): Promise<ActionState> {
