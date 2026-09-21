@@ -84,6 +84,8 @@ Só admin/coordenação veem o card; membros recebem aviso, e as rotas/ações r
 
 Automatizados: `tests/unit/google-oauth.test.ts` (state/PKCE/URL/troca/refresh/cifra/revogação), `tests/rls/drive-integration.test.ts` (tabela só service role, função sem tokens), `tests/e2e/drive-integration.spec.ts` (anônimo, membro, admin, início do OAuth, callback inválido, tema escuro, mobile).
 
+> Estado em 2026-09-21: conectado com a conta institucional e pasta raiz **FERROVIÁRIA** (7 subpastas); o roteiro acima foi executado de ponta a ponta, incluindo refresh forçado e desconexão/reconexão (`docs/baseline/DRIVE-002-relatorio.md`). Importante: o consentimento deve ser feito **no mesmo navegador** que clicou em *Conectar* (o `state` fica em cookie desse navegador).
+
 ## Localhost
 
 Google Cloud → APIs e serviços → Credenciais → cliente OAuth `ferrosite`:

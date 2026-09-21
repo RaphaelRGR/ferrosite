@@ -23,7 +23,19 @@ Data: 2026-09-21 · Pedido direto do usuário (fundação da integração); comp
 
 `npm run lint` 0/0 · `npm run typecheck` ok · `npm test` **170/170** (novo `google-oauth.test.ts`: variáveis e nomes do que falta; state assinado/expirado/adulterado/outra chave; URL com escopo, offline+consent, S256, sem secret; troca com verifier e exigência de refresh token; mapeamento de erros; refresh e `invalid_grant`; cifra ida-e-volta/adulteração; origem de token: usa válido sem tocar no Google, renova expirado e persiste cifrado, revogação marca `revoked`, desconectar revoga e zera) · `npm run test:rls` **61/61** (novo `drive-integration.test.ts`: linha única, ninguém autenticado lê/escreve, função sem tokens só para admin/coordenação) · build 84 páginas + 3 rotas · e2e `drive-integration.spec.ts` **3/3** contra a nuvem (TESTE 1 anônimo → login; TESTE 2 membro → aviso + 403 nas rotas; TESTE 3 não conectado; TESTE 4 redirect ao Google com PKCE/state/cookie httpOnly quando configurado; TESTE 5 callback com state forjado recusado; TESTE 9 estado inicial; TESTE 10 escuro; TESTE 11 mobile sem overflow). Suíte completa `npm run test:e2e` **266/266** (o fail-fast do passo do desafio na jornada passou a ignorar o `role="alert"` vazio do anunciador de rotas do Next).
 
-**Não executado automaticamente** (exige consentimento humano com a conta de teste no Google): TESTE 5 com `code` real, TESTE 6/7 (testar conexão e listar pasta reais) e TESTE 8 com token real expirado — cobertos por testes unitários com o Google simulado; o roteiro manual está no guia.
+**Roteiro real executado em 2026-09-21** (consentimento dado pelo usuário no navegador; `npm run google:env` e `rtk init -g` rodados nesta sessão), com a conta institucional `engenhariaferroviariaufsc@gmail.com` e o dev server em `localhost:3000` — trilha completa em `audit_event`:
+
+| Passo | Resultado |
+|---|---|
+| TESTE 5 — callback real | `drive.connected` (escopo `drive.readonly`), sessão do Portal inalterada |
+| TESTE 6 — Testar conexão | Drive API respondeu; conta identificada |
+| TESTE 10 — pasta | link `/folders/<id>` validado como pasta → `FERROVIÁRIA` (`drive.folder_set`) |
+| TESTE 7 — listar | 7 itens (00 - Administração e Gestão … 99 - Arquivo Histórico) |
+| TESTE 8 — refresh | access token forçado a expirar no banco → o teste seguinte renovou pelo refresh token de forma transparente (novo ciphertext, +1 h) e listou os 7 itens |
+| TESTE 9 — desconectar | tokens zerados, `revokedAtGoogle: true`, pasta preservada |
+| reconexão | novo consentimento → `drive.connected` → teste 7 itens; `/api/health` `driveConfigured: true` |
+
+Dois achados na execução real: (1) o dev server precisa ser reiniciado após `google:env` (variáveis lidas no arranque) e o cache do Turbopack em `.next` estava corrompido de sessões anteriores (panic "Failed to write app endpoint") — resolvido apagando `.next`; (2) o fluxo precisa acontecer **no mesmo navegador** que iniciou (cookie de `state`): autorizar em outro navegador não conecta, por desenho.
 
 ## Decisões
 
