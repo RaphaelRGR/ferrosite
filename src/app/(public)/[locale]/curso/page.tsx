@@ -44,7 +44,7 @@ export default async function CursoPage({ params }: PageProps<"/[locale]/curso">
       <CourseHero dict={dict.hero} />
       <AboutCourse dict={dict.about} />
       <CoursePillarsSection dict={dict.pillars} />
-      <ShortsStrip videos={shorts} count={4} labels={full.videos} tone="canvas" />
+      <ShortsStrip videos={shorts} labels={full.videos} tone="canvas" />
       <CourseJourney locale={l} dict={dict.journey} />
       <UnverifiedContent section="curso.flowchart">
         <div id="fluxograma" className="bg-canvas">

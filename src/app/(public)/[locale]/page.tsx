@@ -42,7 +42,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     <>
       <HomeHero locale={l} dict={dict.home.hero} hero={hero} />
       <PublishedExperiences locale={l} dict={dict.home.experiences} items={[...experiences].sort((a, b) => (b.event_at ?? b.published_at).localeCompare(a.event_at ?? a.published_at))} covers={covers} />
-      <ShortsStrip videos={shorts} count={3} labels={dict.videos} tone="canvas" />
+      <ShortsStrip videos={shorts} labels={dict.videos} tone="canvas" />
       {editorial ? <IndicatorsStrip dict={dict.home.indicators} /> : null}
       <CourseFronts locale={l} dict={dict.home.fronts} />
       {editorial ? (

@@ -1026,7 +1026,7 @@ export const pt = {
     description: "Shorts do canal do curso no YouTube: visitas, projetos e o dia a dia. A seleção muda a cada visita.",
     play: "Assistir",
     watch: "Ver no YouTube",
-    shuffle: "Outros vídeos",
+    shuffle: "Outro vídeo",
     privacy: "O player do YouTube só carrega quando você clica em um vídeo.",
     untitled: "Vídeo do curso",
   },

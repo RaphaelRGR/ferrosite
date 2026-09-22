@@ -1027,7 +1027,7 @@ export const en: Dictionary = {
     description: "Shorts from the programme's YouTube channel: visits, projects and everyday life. The selection changes on every visit.",
     play: "Play",
     watch: "Watch on YouTube",
-    shuffle: "Other videos",
+    shuffle: "Another video",
     privacy: "The YouTube player only loads when you click a video.",
     untitled: "Programme video",
   },

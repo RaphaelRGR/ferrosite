@@ -11,6 +11,8 @@ const STRICT_ROUTES = [CATALOG_ROUTE, LOGIN_ROUTE, ...LIGHT_PATHS.flatMap((p) =>
 
 for (const route of STRICT_ROUTES) {
   test(`axe: ${route} sem violações sérias ou críticas`, async ({ page }, testInfo) => {
+    // Auditoria sem a camada de movimento: elementos ainda não revelados (opacity 0 fora da tela) geravam falso "color-contrast".
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(route, { waitUntil: "load" });
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
     await testInfo.attach(`axe-${route.replace(/\W+/g, "_")}.json`, {
@@ -29,6 +31,8 @@ test("axe: baseline das rotas públicas legadas (registro, não bloqueia)", asyn
   test.setTimeout(180_000);
   const summary: Record<string, string[]> = {};
   for (const route of [...PUBLIC_ROUTES, "/pt/rota-que-nao-existe"]) {
+    // Auditoria sem a camada de movimento: elementos ainda não revelados (opacity 0 fora da tela) geravam falso "color-contrast".
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(route, { waitUntil: "load" });
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     summary[route] = results.violations.map((v) => `${v.id} (${v.impact}) ×${v.nodes.length}`);

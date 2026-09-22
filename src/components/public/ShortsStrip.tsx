@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState, useSyncExternalStore } from "react";
-import { SectionHeading } from "@/components/public/SectionHeading";
 import type { ShortVideo } from "@/lib/content/videos";
 
 export interface ShortsLabels {
@@ -38,88 +37,96 @@ const noop = () => () => {};
 const useHydrated = () => useSyncExternalStore(noop, () => true, () => false);
 
 /**
- * Faixa de Shorts do curso: sorteia `count` vídeos a cada visita (no cliente,
- * porque as páginas são estáticas/ISR) e só carrega o player do YouTube quando
- * o visitante clica (fachada com miniatura: sem cookies nem scripts de terceiros
- * antes do consentimento implícito do clique). Sem JS, mostra o esqueleto.
+ * Um Short do curso por vez: sorteado a cada visita (no cliente, porque as
+ * páginas são estáticas/ISR), com "Outro vídeo" para avançar na ordem sorteada.
+ * O player do YouTube só carrega quando o visitante clica (fachada com
+ * miniatura: sem cookies nem scripts de terceiros antes disso). Sem JS, esqueleto.
  */
-export function ShortsStrip({ videos, count = 3, labels, tone = "surface" }: { videos: ShortVideo[]; count?: number; labels: ShortsLabels; tone?: "surface" | "canvas" }) {
+export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: ShortVideo[]; labels: ShortsLabels; tone?: "surface" | "canvas" }) {
   const hydrated = useHydrated();
   // Semente sorteada no cliente; só é usada depois da hidratação (sem mismatch).
-  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 0xffffffff));
-  const [playing, setPlaying] = useState<string | null>(null);
-  const picked = useMemo(() => (hydrated ? shuffle(videos, seed).slice(0, count) : null), [hydrated, videos, seed, count]);
-  const draw = () => {
-    setPlaying(null);
-    setSeed(Math.floor(Math.random() * 0xffffffff));
+  const [seed] = useState(() => Math.floor(Math.random() * 0xffffffff));
+  const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const order = useMemo(() => (hydrated ? shuffle(videos, seed) : []), [hydrated, videos, seed]);
+  const video = order[index % Math.max(order.length, 1)] ?? null;
+  const next = () => {
+    setPlaying(false);
+    setIndex((i) => i + 1);
   };
 
   if (videos.length === 0) return null;
-  const cols = count >= 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3";
   return (
     <section className={tone === "canvas" ? "bg-canvas" : "bg-surface"} data-shorts>
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <SectionHeading eyebrow={labels.eyebrow} title={labels.title} description={labels.description} />
-        <ul className={`mt-10 grid gap-5 ${cols}`} aria-busy={picked === null} data-reveal-group>
-          {(picked ?? Array.from({ length: count }, () => null)).map((v, i) => (
-            <li key={v?.id ?? `skeleton-${i}`} className="card-lift relative overflow-hidden rounded-2xl border border-line bg-canvas">
-              <div className="relative aspect-[9/16] w-full bg-surface-2">
-                {v && playing === v.id ? (
-                  <iframe
-                    src={v.embed}
-                    title={v.title || labels.untitled}
-                    allow="autoplay; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    className="absolute inset-0 h-full w-full"
-                  />
-                ) : v ? (
-                  <button
-                    type="button"
-                    onClick={() => setPlaying(v.id)}
-                    aria-label={`${labels.play}: ${v.title || labels.untitled}`}
-                    className="zoom-media group absolute inset-0 block h-full w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element -- miniatura pública do YouTube, sem otimização externa */}
-                    <img
-                      src={v.thumb}
-                      alt=""
-                      loading="lazy"
-                      onError={(e) => {
-                        if (e.currentTarget.src !== v.thumbFallback) e.currentTarget.src = v.thumbFallback;
-                      }}
-                      className="h-full w-full object-cover"
-                    />
-                    <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                    <span aria-hidden="true" className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-action text-fg-on-action shadow-lg transition-transform group-hover:scale-110">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="ml-1 size-7">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </span>
-                    <span className="absolute inset-x-0 bottom-0 p-4 text-sm font-bold leading-snug text-white">{v.title || labels.untitled}</span>
-                  </button>
-                ) : (
-                  <span className="absolute inset-0 animate-pulse bg-surface-2" />
-                )}
-              </div>
-              {v && (
-                <div className="flex items-center justify-between gap-3 px-4 py-3 text-xs text-fg-muted">
-                  <span className="truncate">{v.author}</span>
-                  <a href={v.url} target="_blank" rel="noopener" className="shrink-0 rounded font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-                    {labels.watch} ↗
-                  </a>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs text-fg-muted">{labels.privacy}</p>
-          {videos.length > count && (
-            <button type="button" onClick={draw} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong bg-surface px-5 text-sm font-bold text-fg hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-              <span aria-hidden="true">⟳</span> {labels.shuffle}
-            </button>
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_minmax(260px,320px)] lg:gap-16">
+        <div data-reveal>
+          <p className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-link">
+            <span aria-hidden="true" className="rail-mark h-0.5 w-6 rounded-full bg-action" />
+            {labels.eyebrow}
+          </p>
+          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{labels.title}</h2>
+          <p className="mt-3 max-w-xl text-fg-muted">{labels.description}</p>
+          {video && (
+            <p className="mt-6 text-lg font-bold leading-snug" aria-live="polite">
+              {video.title || labels.untitled}
+              {video.author && <span className="mt-1 block text-sm font-normal text-fg-muted">{video.author}</span>}
+            </p>
           )}
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            {videos.length > 1 && (
+              <button type="button" onClick={next} disabled={!video} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong bg-surface px-5 text-sm font-bold text-fg hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-50">
+                <span aria-hidden="true">⟳</span> {labels.shuffle}
+              </button>
+            )}
+            {video && (
+              <a href={video.url} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                {labels.watch} ↗
+              </a>
+            )}
+          </div>
+          <p className="mt-4 text-xs text-fg-muted">{labels.privacy}</p>
+        </div>
+
+        <div className="mx-auto w-full max-w-[320px] lg:mx-0" data-reveal>
+          <div className="card-lift relative aspect-[9/16] w-full overflow-hidden rounded-[28px] border border-line bg-surface-2 shadow-sm" aria-busy={!video}>
+            {video && playing ? (
+              <iframe
+                src={video.embed}
+                title={video.title || labels.untitled}
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+                className="absolute inset-0 h-full w-full"
+              />
+            ) : video ? (
+              <button
+                type="button"
+                onClick={() => setPlaying(true)}
+                aria-label={`${labels.play}: ${video.title || labels.untitled}`}
+                className="zoom-media group absolute inset-0 block h-full w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element -- miniatura pública do YouTube, sem otimização externa */}
+                <img
+                  key={video.id}
+                  src={video.thumb}
+                  alt=""
+                  loading="lazy"
+                  onError={(e) => {
+                    if (e.currentTarget.src !== video.thumbFallback) e.currentTarget.src = video.thumbFallback;
+                  }}
+                  className="h-full w-full object-cover"
+                />
+                <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <span aria-hidden="true" className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-action text-fg-on-action shadow-lg transition-transform group-hover:scale-110">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="ml-1 size-7">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              </button>
+            ) : (
+              <span className="absolute inset-0 animate-pulse bg-surface-2" />
+            )}
+          </div>
         </div>
       </div>
     </section>

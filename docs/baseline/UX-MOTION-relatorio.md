@@ -34,7 +34,7 @@ A coordenação enviou 10 links de Shorts do canal do curso no YouTube e pediu q
 | Componente | `ShortsStrip` (client): sorteio por semente no cliente depois da hidratação (`useSyncExternalStore`, sem mismatch; páginas continuam estáticas/ISR), esqueleto no HTML do servidor, cartões 9:16 com miniatura (`i.ytimg.com`, fallback `hqdefault`), botão "Assistir" com rótulo acessível, "Ver no YouTube" (`rel=noopener`), botão "Outros vídeos" refaz o sorteio. |
 | Privacidade | Fachada: nada do YouTube carrega antes do clique; o player usa `youtube-nocookie.com`. Aviso visível: "O player do YouTube só carrega quando você clica em um vídeo." |
 | CSP | `img-src` + `https://i.ytimg.com`; novo `frame-src https://www.youtube-nocookie.com` (antes `default-src 'self'` bloqueava qualquer iframe). |
-| Onde | Home (3 vídeos, após "Visitas técnicas e palestras realizadas") e Curso (4 vídeos, após os pilares). Textos PT/EN em `dict.videos`. |
-| Testes | `tests/e2e/shorts.spec.ts`: 4/3 cartões, zero requisições ao YouTube antes do clique, iframe só do nocookie após o clique, CSP publicada, "Outros vídeos" fecha o player e refaz o sorteio. Suíte pública (axe, smoke, i18n, links, quarentena, headers, reduced-motion) verde. |
+| Onde | **Um vídeo por vez** (pedido da coordenação: vários ao mesmo tempo poluía): Home (após "Visitas técnicas e palestras realizadas") e Curso (após os pilares), texto à esquerda e cartão 9:16 à direita; "Outro vídeo" avança na ordem sorteada. Textos PT/EN em `dict.videos`. |
+| Testes | `tests/e2e/shorts.spec.ts`: um cartão por página, zero requisições ao YouTube antes do clique, iframe só do nocookie após o clique, CSP publicada, "Outro vídeo" fecha o player e troca o vídeo. Suíte pública (axe, smoke, i18n, links, quarentena, headers, reduced-motion) verde. |
 
 Limpeza pendente da seção anterior executada em modo Manual: os 2 PNGs de teste foram para a lixeira do Drive e 5 registros de teste saíram do banco.
