@@ -17,7 +17,7 @@ test.describe("explorador do fluxograma", () => {
     const card = region.getByRole("button", { name: /^EMB5535 / });
     await card.click();
     await expect(card).toHaveAttribute("aria-pressed", "true");
-    await expect(page.locator('[aria-live="polite"]')).toContainText(/EMB5535 .*: \d+ pré-requisitos e \d+ dependentes/);
+    await expect(page.locator('#fluxograma [aria-live="polite"]')).toContainText(/EMB5535 .*: \d+ pré-requisitos e \d+ dependentes/);
     await expect(region.getByRole("button", { name: /^EMB5011 .*Pré-requisito/ })).toBeAttached();
     await expect(region.getByRole("button", { name: /^EMB5544 .*Dependente/ })).toBeAttached();
     expect((await region.locator("svg path").count())).toBeGreaterThan(3);
@@ -46,13 +46,13 @@ test.describe("explorador do fluxograma", () => {
     await expect(focused).toHaveAttribute("aria-label", /^EMB\d{4} /);
     await page.keyboard.press("Enter");
     await expect(focused).toHaveAttribute("aria-pressed", "true");
-    await expect(page.locator('[aria-live="polite"]')).not.toHaveText("Nenhuma disciplina selecionada.");
+    await expect(page.locator('#fluxograma [aria-live="polite"]')).not.toHaveText("Nenhuma disciplina selecionada.");
     await page.keyboard.press("Shift+Enter");
     await expect(page.getByRole("dialog")).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toBeHidden();
     await page.keyboard.press("Escape");
-    await expect(page.locator('[aria-live="polite"]')).toHaveText("Nenhuma disciplina selecionada.");
+    await expect(page.locator('#fluxograma [aria-live="polite"]')).toHaveText("Nenhuma disciplina selecionada.");
   });
 
   test("URL abre matriz 2012 com disciplina selecionada, mostra aviso de pré-requisitos legados e coluna de optativas", async ({ page }) => {
@@ -78,7 +78,7 @@ test.describe("explorador do fluxograma", () => {
     await page.goto("/pt/curso#fluxograma", { waitUntil: "load" });
     await page.getByRole("searchbox", { name: "Buscar disciplina" }).fill("locomotivas");
     await page.getByRole("button", { name: /EMB5542/ }).first().click();
-    await expect(page.locator('[aria-live="polite"]')).toContainText("EMB5542");
+    await expect(page.locator('#fluxograma [aria-live="polite"]')).toContainText("EMB5542");
     await page.getByRole("button", { name: "Ajustar à largura" }).click();
     const zoom = await page.getByRole("region", { name: REGION }).locator("> div").evaluate((el) => getComputedStyle(el).zoom);
     expect(Number(zoom)).toBeLessThan(1);
