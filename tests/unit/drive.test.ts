@@ -54,6 +54,20 @@ const tokenOk = () => new Response(JSON.stringify({ access_token: "tok", expires
 const FILES = "https://www.googleapis.com/drive/v3/files/";
 
 describe("cliente Drive", () => {
+  it("miniatura: troca o sufixo do thumbnailLink por =w<largura> (o descritor do srcset é largura real)", async () => {
+    const seen: string[] = [];
+    const { fn } = fakeFetch({
+      "https://oauth2.googleapis.com/token": tokenOk,
+      [`${FILES}f1`]: () => new Response(JSON.stringify({ thumbnailLink: "https://lh3.googleusercontent.com/abc=s220" }), { status: 200 }),
+      "https://lh3.googleusercontent.com/": () => new Response("bytes", { status: 200, headers: { "Content-Type": "image/jpeg" } }),
+    });
+    const spy = ((url: string | URL | Request, init?: RequestInit) => { seen.push(String(url)); return (fn as unknown as (u: unknown, i?: RequestInit) => Promise<Response>)(url, init); }) as unknown as typeof fetch;
+    const drive = createDriveClient({ rootFolderId: "", token: async () => "tok" }, spy);
+    const res = await drive.thumbnail("f1", 480);
+    expect(res?.status).toBe(200);
+    expect(seen.at(-1)).toBe("https://lh3.googleusercontent.com/abc=w480");
+  });
+
   it("troca o JWT por token uma vez (cache) e lê metadados com Bearer", async () => {
     const { fn, calls } = fakeFetch({
       "https://oauth2.googleapis.com/token": tokenOk,

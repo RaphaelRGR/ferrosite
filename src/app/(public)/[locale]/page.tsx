@@ -11,7 +11,7 @@ import {
   PartnersStrip, PublishedExperiences } from "@/components/public/home/HomeSections";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { listPublicProjects, listPublished, publicCoverUrls, publicSiteImage } from "@/lib/content/public";
+import { listPublicProjects, listPublished, publicCoverIds, publicSiteImage } from "@/lib/content/public";
 import { listShorts } from "@/lib/content/videos";
 import { ShortsStrip } from "@/components/public/ShortsStrip";
 import { publicPageMetadata } from "@/i18n/metadata";
@@ -36,7 +36,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const editorial = l === "pt";
   const [hero, experiences, projects, shorts] = await Promise.all([publicSiteImage("home_hero", l), listPublished("experience", l, 6), listPublicProjects(), listShorts()]);
   const visibleProjects = l === "en" ? projects.filter((p) => p.name_en) : projects;
-  const [covers, projectCovers] = await Promise.all([publicCoverUrls(experiences), publicCoverUrls(visibleProjects.map((p) => ({ id: p.id, cover_file_id: p.cover_file_id })))]);
+  const [covers, projectCovers] = await Promise.all([publicCoverIds(experiences), publicCoverIds(visibleProjects.map((p) => ({ id: p.id, cover_file_id: p.cover_file_id })))]);
 
   return (
     <>

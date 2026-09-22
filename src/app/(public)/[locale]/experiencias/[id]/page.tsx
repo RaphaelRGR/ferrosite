@@ -10,7 +10,7 @@ import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedArticle } from "@/components/public/PublishedArticle";
-import { getPublished, publicCoverUrl, publicGallery } from "@/lib/content/public";
+import { getPublished, publicCoverId, publicGallery } from "@/lib/content/public";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -35,8 +35,8 @@ export default async function ExperienciaPage({ params }: PageProps<"/[locale]/e
   const dict = getDictionary(l);
   const published = await getPublished("experience", l, id);
   if (published) {
-    const [coverUrl, gallery] = await Promise.all([publicCoverUrl(published), publicGallery(published)]);
-    return <PublishedArticle item={published} locale={l} eyebrow={dict.experiences.eyebrow} backHref={localizePath(l, "/experiencias")} backLabel={dict.published.backToExperiences} labels={dict.published} coverUrl={coverUrl} gallery={gallery} />;
+    const [coverFileId, gallery] = await Promise.all([publicCoverId(published), publicGallery(published)]);
+    return <PublishedArticle item={published} locale={l} eyebrow={dict.experiences.eyebrow} backHref={localizePath(l, "/experiencias")} backLabel={dict.published.backToExperiences} labels={dict.published} coverFileId={coverFileId} gallery={gallery} />;
   }
   const item = EXPERIENCES.find((e) => e.id === id);
   if (!item) notFound();

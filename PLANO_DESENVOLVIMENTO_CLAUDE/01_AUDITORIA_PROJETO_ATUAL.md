@@ -215,3 +215,7 @@ Relatório: `docs/baseline/DRIVE-004-relatorio.md`. Migration 11: `content_file`
 ## Estado após UX-MOTION (2026-09-22)
 
 Relatório: `docs/baseline/UX-MOTION-relatorio.md`. Site em produção na Vercel (`engferroviaria.vercel.app`, deploy automático do `main`). Movimento leve sem dependências (revelação ao rolar, hover, parallax, vapor/locomotiva, easter eggs), cartões inteiramente clicáveis, lightbox nativo na galeria, travessões removidos de todo texto visível (código e banco). `SITE_URL` usa o domínio da Vercel como fallback.
+
+## Estado após PERF-001 (2026-09-22)
+
+Relatório: `docs/baseline/PERF-001-relatorio.md`. O proxy público passou a servir miniaturas por largura (`/api/midia/[id]?w=`), com `srcset`/`sizes` em hero, cartões, capas e galeria: a Home caiu de 9,4 MB para ~0,4 MB de imagens e a página da visita à RUMO de 96 MB para ~1,1 MB no celular. Orçamento protegido por teste e2e (`media.spec.ts`).

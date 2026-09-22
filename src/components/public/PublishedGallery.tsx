@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { mediaImage, mediaUrl } from "@/lib/content/media";
 import type { PublicGalleryItem } from "@/lib/content/public";
 
 /**
@@ -48,7 +49,7 @@ export function PublishedGallery({ items, title, creditLabel, labels }: { items:
         {items.map((g, i) => (
           <li key={g.fileId} className="card-lift overflow-hidden rounded-xl border border-line bg-surface">
             <a
-              href={g.url}
+              href={mediaUrl(g.fileId, 1600)}
               className="zoom-media block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
               onClick={(e) => {
                 if (e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -57,7 +58,7 @@ export function PublishedGallery({ items, title, creditLabel, labels }: { items:
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa */}
-              <img src={g.url} alt={g.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+              <img {...mediaImage(g.fileId, "thumb")} alt={g.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
             </a>
             {(g.caption || g.credit) && (
               <p className="px-3 py-2 text-xs text-fg-muted">
@@ -81,7 +82,7 @@ export function PublishedGallery({ items, title, creditLabel, labels }: { items:
         {current && (
           <figure className="flex max-h-[100dvh] flex-col items-center gap-3 p-4 text-white">
             {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
-            <img src={current.url} alt={current.alt} className="max-h-[80dvh] max-w-[92vw] rounded-lg object-contain" />
+            <img {...mediaImage(current.fileId, "full")} alt={current.alt} className="max-h-[80dvh] max-w-[92vw] rounded-lg object-contain" />
             <figcaption className="max-w-[92vw] text-center text-sm text-white/85">
               {current.caption || current.alt}
               {current.credit && ` · ${creditLabel}: ${current.credit}`}

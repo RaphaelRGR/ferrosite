@@ -9,7 +9,7 @@ import { NEWS } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { getPublished, publicCoverUrl } from "@/lib/content/public";
+import { getPublished, publicCoverId } from "@/lib/content/public";
 
 // Slugs publicados pelo Portal renderizam sob demanda (ISR); os do staging são pré-renderizados.
 export const revalidate = 300;
@@ -35,8 +35,8 @@ export default async function NoticiaPage({ params }: PageProps<"/[locale]/notic
   const dict = getDictionary(l);
   const published = await getPublished("news", l, id);
   if (published) {
-    const coverUrl = await publicCoverUrl(published);
-    return <PublishedArticle item={published} locale={l} eyebrow={dict.newsPage.eyebrow} backHref={localizePath(l, "/noticias")} backLabel={dict.newsPage.back} labels={dict.published} coverUrl={coverUrl} />;
+    const coverFileId = await publicCoverId(published);
+    return <PublishedArticle item={published} locale={l} eyebrow={dict.newsPage.eyebrow} backHref={localizePath(l, "/noticias")} backLabel={dict.newsPage.back} labels={dict.published} coverFileId={coverFileId} />;
   }
   const item = NEWS.find((n) => n.id === id);
   if (!item) notFound();

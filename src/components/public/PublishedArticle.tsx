@@ -3,6 +3,7 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
+import { mediaImage } from "@/lib/content/media";
 import { renderMarkdown } from "@/lib/content/markdown";
 import type { PublicGalleryItem, PublishedItem } from "@/lib/content/public";
 import { PublishedGallery } from "./PublishedGallery";
@@ -20,7 +21,7 @@ export function PublishedArticle({
   backLabel,
   labels,
   preview,
-  coverUrl = null,
+  coverFileId = null,
   gallery = [],
 }: {
   item: PublishedItem;
@@ -31,7 +32,7 @@ export function PublishedArticle({
   labels: Dictionary["published"];
   preview?: boolean;
   /** Capa servida pelo proxy público (DRIVE-001); `null` mantém só o crédito. */
-  coverUrl?: string | null;
+  coverFileId?: string | null;
   /** Galeria já filtrada pelo banco (DRIVE-004). */
   gallery?: PublicGalleryItem[];
 }) {
@@ -55,15 +56,15 @@ export function PublishedArticle({
             <SectionHeading as="h1" eyebrow={eyebrow} title={item.title} description={item.summary} />
           </div>
           {/* Capa logo abaixo do título (no celular a foto era a última coisa a aparecer). */}
-          {coverUrl && (
+          {coverFileId && (
             <figure className="mt-8">
               {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa */}
-              <img src={coverUrl} alt={item.cover_alt} className="w-full rounded-2xl border border-line" fetchPriority="high" />
+              <img {...mediaImage(coverFileId, "article")} alt={item.cover_alt} className="w-full rounded-2xl border border-line" fetchPriority="high" />
               {item.cover_credit && <figcaption className="mt-2 text-xs text-fg-muted">{`${labels.credit}: ${item.cover_credit}`}</figcaption>}
             </figure>
           )}
           {item.body_md && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body_md) }} />}
-          {!coverUrl && (item.cover_credit || item.cover_alt) && (
+          {!coverFileId && (item.cover_credit || item.cover_alt) && (
             <p className="mt-8 text-xs text-fg-muted">
               {labels.coverPending}
               {item.cover_credit && ` · ${labels.credit}: ${item.cover_credit}`}

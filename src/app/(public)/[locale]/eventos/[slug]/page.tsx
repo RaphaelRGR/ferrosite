@@ -4,7 +4,7 @@ import { PublishedArticle } from "@/components/public/PublishedArticle";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { getPublished, publicCoverUrl } from "@/lib/content/public";
+import { getPublished, publicCoverId } from "@/lib/content/public";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -27,6 +27,6 @@ export default async function EventoPage({ params }: PageProps<"/[locale]/evento
   const item = await getPublished("event", l, slug);
   if (!item) notFound();
   const dict = getDictionary(l);
-  const coverUrl = await publicCoverUrl(item);
-  return <PublishedArticle item={item} locale={l} eyebrow={dict.events.eyebrow} backHref={localizePath(l, "/eventos")} backLabel={dict.published.backToEvents} labels={dict.published} coverUrl={coverUrl} />;
+  const coverFileId = await publicCoverId(item);
+  return <PublishedArticle item={item} locale={l} eyebrow={dict.events.eyebrow} backHref={localizePath(l, "/eventos")} backLabel={dict.published.backToEvents} labels={dict.published} coverFileId={coverFileId} />;
 }

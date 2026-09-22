@@ -34,7 +34,8 @@ test("site: hub de experiências lista publicações reais (se houver) sem selo 
     await expect(page.locator('[data-published="live"]')).toBeAttached();
     // galeria: cada imagem vem do proxy público e tem alt
     for (const img of await page.locator("[data-gallery-count] img").all()) {
-      expect(await img.getAttribute("src")).toMatch(/^\/api\/midia\/[0-9a-f-]{36}$/);
+      // miniatura do proxy público (22): largura explícita, nunca o original
+      expect(await img.getAttribute("src")).toMatch(/^\/api\/midia\/[0-9a-f-]{36}\?w=\d+$/);
       expect((await img.getAttribute("alt")) ?? "").not.toBe("");
     }
   }

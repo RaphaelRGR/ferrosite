@@ -215,7 +215,9 @@ export function createDriveClient(cfg: { rootFolderId: string; token: TokenSourc
       if (!res.ok) return null;
       const d = (await res.json()) as { thumbnailLink?: string };
       if (!d.thumbnailLink) return null;
-      const url = d.thumbnailLink.replace(/=s\d+$/, `=s${size}`);
+      // O sufixo do thumbnailLink define o recorte: `=w<n>` limita a LARGURA (o
+      // descritor `w` do srcset depende disso). Troca qualquer sufixo existente.
+      const url = d.thumbnailLink.replace(/=[swh]\d+(-[a-z]+)*$/, "") + `=w${size}`;
       return authed(url);
     },
     async about() {

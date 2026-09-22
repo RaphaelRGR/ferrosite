@@ -29,7 +29,6 @@ export interface PublishedItem {
 
 export interface PublicGalleryItem {
   fileId: string;
-  url: string;
   alt: string;
   credit: string;
   caption: string;
@@ -81,11 +80,11 @@ export async function publicProjectGallery(slug: string, locale: Locale): Promis
   const client = createPublicClient();
   if (!client) return [];
   const { data } = await client.rpc("public_project_gallery", { p_slug: slug });
-  return (data ?? []).map((g) => ({ fileId: g.file_id, url: `/api/midia/${g.file_id}`, alt: (locale === "en" && g.alt_text_en) || g.alt_text, credit: g.credit, caption: "" }));
+  return (data ?? []).map((g) => ({ fileId: g.file_id, alt: (locale === "en" && g.alt_text_en) || g.alt_text, credit: g.credit, caption: "" }));
 }
 
 export interface PublicSiteImage {
-  url: string;
+  fileId: string;
   alt: string;
   credit: string;
 }
@@ -98,18 +97,18 @@ export async function publicSiteImage(key: string, locale: Locale): Promise<Publ
   const { data } = await client.rpc("public_site_image", { p_key: key });
   const r = data?.[0];
   if (!r) return null;
-  return { url: `/api/midia/${r.file_id}`, alt: (locale === "en" && r.alt_text_en) || r.alt_text, credit: r.credit };
+  return { fileId: r.file_id, alt: (locale === "en" && r.alt_text_en) || r.alt_text, credit: r.credit };
 }
 
-/** Capa pública de várias publicações de uma vez (listas). */
-export async function publicCoverUrls(items: Array<Pick<PublishedItem, "id" | "cover_file_id">>): Promise<Map<string, string>> {
+/** Capa pública de várias publicações de uma vez (listas): id do item → id do arquivo. */
+export async function publicCoverIds(items: Array<Pick<PublishedItem, "id" | "cover_file_id">>): Promise<Map<string, string>> {
   const out = new Map<string, string>();
   if (!items.some((i) => i.cover_file_id) || !(await isDriveAvailable())) return out;
   const admin = createAdminClient();
   if (!admin) return out;
   await Promise.all(items.filter((i) => i.cover_file_id).map(async (i) => {
     const { data } = await admin.rpc("public_file_info", { p_file: i.cover_file_id! });
-    if (data?.[0]) out.set(i.id, `/api/midia/${i.cover_file_id}`);
+    if (data?.[0]) out.set(i.id, i.cover_file_id!);
   }));
   return out;
 }
@@ -124,7 +123,7 @@ export async function publicGallery(item: Pick<PublishedItem, "id" | "gallery_fi
   const client = createPublicClient();
   if (!client) return [];
   const { data } = await client.rpc("public_gallery", { p_publication: item.id });
-  return (data ?? []).map((g) => ({ fileId: g.file_id, url: `/api/midia/${g.file_id}`, alt: (item.locale === "en" && g.alt_text_en) || g.alt_text, credit: g.credit, caption: g.caption }));
+  return (data ?? []).map((g) => ({ fileId: g.file_id, alt: (item.locale === "en" && g.alt_text_en) || g.alt_text, credit: g.credit, caption: g.caption }));
 }
 
 /**
@@ -133,12 +132,12 @@ export async function publicGallery(item: Pick<PublishedItem, "id" | "gallery_fi
  * consentimento, capa de publicação viva). Assim a página nunca renderiza uma
  * imagem quebrada nem uma URL do Drive.
  */
-export async function publicCoverUrl(item: Pick<PublishedItem, "cover_file_id">): Promise<string | null> {
+export async function publicCoverId(item: Pick<PublishedItem, "cover_file_id">): Promise<string | null> {
   if (!item.cover_file_id || !(await isDriveAvailable())) return null;
   const admin = createAdminClient();
   if (!admin) return null;
   const { data } = await admin.rpc("public_file_info", { p_file: item.cover_file_id });
-  return data?.[0] ? `/api/midia/${item.cover_file_id}` : null;
+  return data?.[0] ? item.cover_file_id : null;
 }
 
 export async function listPublished(type: ContentType, locale: Locale, limit = 50): Promise<PublishedItem[]> {

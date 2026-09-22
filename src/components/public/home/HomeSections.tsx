@@ -9,6 +9,7 @@ import { EXPERIENCES, FEATURED_PROJECTS, INDICATORS, NEWS, PARTNER_LOGOS } from 
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
+import { mediaImage } from "@/lib/content/media";
 import type { PublicProject, PublishedItem } from "@/lib/content/public";
 import { ProjectCards } from "@/components/public/ProjectCards";
 
@@ -21,7 +22,7 @@ const ICON = {
   operations: "M3 12h18M3 6h18M3 18h18M7 3v3M17 15v3",
 } as const;
 
-export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: HomeDict["hero"]; hero?: { url: string; alt: string; credit: string } | null }) {
+export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: HomeDict["hero"]; hero?: { fileId: string; alt: string; credit: string } | null }) {
   return (
     <section className="bg-surface">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:py-20">
@@ -48,7 +49,7 @@ export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: 
           <div className="hero-media overflow-hidden rounded-[32px] border border-line shadow-sm">
             {hero ? (
               // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa
-              <img src={hero.url} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
+              <img {...mediaImage(hero.fileId, "hero")} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
             ) : (
               <HeroArt title={dict.artAlt} />
             )}
@@ -170,7 +171,7 @@ export function PublishedExperiences({ locale, dict, items, covers }: { locale: 
               {covers.get(e.id) && (
                 <div className="zoom-media">
                   {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
-                  <img src={covers.get(e.id)} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                  <img {...mediaImage(covers.get(e.id)!, "card")} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
                 </div>
               )}
               <div className="flex flex-1 flex-col gap-2 p-5">

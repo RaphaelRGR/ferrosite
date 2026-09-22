@@ -12,6 +12,7 @@ import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedGallery } from "@/components/public/PublishedGallery";
 import { projectText } from "@/components/public/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
+import { mediaImage } from "@/lib/content/media";
 import { getPublicProject, publicProjectGallery } from "@/lib/content/public";
 
 export const revalidate = 300;
@@ -56,7 +57,7 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
             {gallery[0] && (
               <figure className="mt-8">
                 {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
-                <img src={gallery[0].url} alt={gallery[0].alt} className="w-full rounded-2xl border border-line" />
+                <img {...mediaImage(gallery[0].fileId, "article")} alt={gallery[0].alt} className="w-full rounded-2xl border border-line" />
                 {gallery[0].credit && <figcaption className="mt-2 text-xs text-fg-muted">{`${dict.published.credit}: ${gallery[0].credit}`}</figcaption>}
               </figure>
             )}

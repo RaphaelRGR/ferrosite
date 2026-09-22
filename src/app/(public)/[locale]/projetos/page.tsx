@@ -9,7 +9,7 @@ import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { ProjectCards } from "@/components/public/ProjectCards";
-import { listPublicProjects, publicCoverUrls } from "@/lib/content/public";
+import { listPublicProjects, publicCoverIds } from "@/lib/content/public";
 
 const PATH = "/projetos";
 
@@ -30,7 +30,7 @@ export default async function ProjetosPage({ params }: PageProps<"/[locale]/proj
   const visible = l === "en" ? projects.filter((p) => p.name_en) : projects;
   if (l !== "pt" && visible.length === 0) return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const dict = getDictionary(l);
-  const covers = await publicCoverUrls(visible.map((p) => ({ id: p.id, cover_file_id: p.cover_file_id })));
+  const covers = await publicCoverIds(visible.map((p) => ({ id: p.id, cover_file_id: p.cover_file_id })));
   const realSlugs = new Set(projects.map((p) => p.slug));
 
   return (

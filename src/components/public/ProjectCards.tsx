@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { localizePath, type Locale } from "@/i18n/config";
+import { mediaImage } from "@/lib/content/media";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { PublicProject } from "@/lib/content/public";
 
@@ -31,7 +32,7 @@ export function ProjectCards({ projects, covers, locale, dict, detailLabel, colu
           {covers.get(p.id) && (
             <div className="zoom-media">
               {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
-              <img src={covers.get(p.id)} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover" />
+              <img {...mediaImage(covers.get(p.id)!, "card")} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover" />
             </div>
           )}
           <div className="flex flex-1 flex-col gap-2 p-5">
