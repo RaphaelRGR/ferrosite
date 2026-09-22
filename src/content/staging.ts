@@ -40,11 +40,11 @@ export const FEATURED_PROJECTS: StagingItem[] = [
 
 /** Experiências (visitas/missões) — origem: VisitsSection, VisitsGallery, VisitsSchedule. */
 export const EXPERIENCES: Array<StagingItem & { scope: "brasil" | "internacional"; when: string }> = [
-  { id: "visitas.gallery.vale-2022", title: "Vale — EFVM", description: "Estrada de Ferro Vitória a Minas: operação de minério e trem de passageiros.", meta: "Vitória (ES)", when: "2022", scope: "brasil", source: "VisitsGallery" },
+  { id: "visitas.gallery.vale-2022", title: "Vale (EFVM)", description: "Estrada de Ferro Vitória a Minas: operação de minério e trem de passageiros.", meta: "Vitória (ES)", when: "2022", scope: "brasil", source: "VisitsGallery" },
   { id: "visitas.gallery.rumo-2023", title: "CCO Rumo Logística", description: "Centro de Controle Operacional da malha sul e central.", meta: "Curitiba (PR)", when: "2023", scope: "brasil", source: "VisitsGallery" },
   { id: "visitas.gallery.mrs-2024", title: "Oficinas da MRS", description: "Manutenção pesada de locomotivas e vagões.", meta: "Jundiaí (SP)", when: "2024", scope: "brasil", source: "VisitsGallery" },
   { id: "visitas.schedule.rumo", title: "RUMO Logística", description: "Visita ao CCO e oficinas em Curitiba.", meta: "Curitiba (PR)", when: "18 jun 2026", scope: "brasil", source: "VisitsSchedule" },
-  { id: "visitas.schedule.utn", title: "UTN — Buenos Aires", description: "Missão internacional: rede metroviária argentina e intercâmbio acadêmico.", meta: "Buenos Aires (ARG)", when: "jul 2026", scope: "internacional", source: "VisitsSchedule" },
+  { id: "visitas.schedule.utn", title: "UTN, Buenos Aires", description: "Missão internacional: rede metroviária argentina e intercâmbio acadêmico.", meta: "Buenos Aires (ARG)", when: "jul 2026", scope: "internacional", source: "VisitsSchedule" },
   { id: "visitas.schedule.vli", title: "VLI Logística", description: "Terminal Integrador Portuário em Santos.", meta: "Santos (SP)", when: "set 2026", scope: "brasil", source: "VisitsSchedule" },
 ];
 

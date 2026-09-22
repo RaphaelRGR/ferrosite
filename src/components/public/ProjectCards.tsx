@@ -24,22 +24,29 @@ export function ProjectCards({ projects, covers, locale, dict, detailLabel, colu
   const items = projects.map((p) => ({ p, t: projectText(p, locale) })).filter((x): x is { p: PublicProject; t: { name: string; summary: string } } => x.t !== null);
   if (items.length === 0) return null;
   return (
-    <ul className={`grid gap-5 sm:grid-cols-2 ${columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`} data-published="live">
+    <ul className={`grid gap-5 sm:grid-cols-2 ${columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`} data-published="live" data-reveal-group>
       {items.map(({ p, t }) => (
-        <li key={p.id} className="flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
-          {covers.get(p.id) ? (
-            // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
-            <img src={covers.get(p.id)} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover" />
-          ) : (
-            <div aria-hidden="true" className="aspect-[16/9] w-full bg-gradient-to-br from-surface-2 to-canvas" />
-          )}
+        <li key={p.id} className="card-lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+          <div className="zoom-media">
+            {covers.get(p.id) ? (
+              // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
+              <img src={covers.get(p.id)} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover" />
+            ) : (
+              <div aria-hidden="true" className="aspect-[16/9] w-full bg-gradient-to-br from-surface-2 to-canvas" />
+            )}
+          </div>
           <div className="flex flex-1 flex-col gap-2 p-5">
             <Badge tone="neutral">{dict.portal.projectCategory[p.category as keyof Dictionary["portal"]["projectCategory"]]}</Badge>
-            <p className="text-lg font-bold">{t.name}</p>
+            <h3 className="text-lg font-bold">
+              {/* Link esticado: título, imagem e cartão inteiro levam ao projeto. */}
+              <Link href={localizePath(locale, `/projetos/${p.slug}`)} className="rounded after:absolute after:inset-0 after:content-[''] hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                {t.name}
+              </Link>
+            </h3>
             <p className="text-sm text-fg-muted">{t.summary}</p>
-            <Link href={localizePath(locale, `/projetos/${p.slug}`)} className="mt-auto inline-flex items-center gap-1 rounded pt-2 text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-              {detailLabel} <span aria-hidden="true">→</span>
-            </Link>
+            <span aria-hidden="true" className="mt-auto inline-flex items-center gap-1 pt-2 text-sm font-bold text-link">
+              {detailLabel} <span>→</span>
+            </span>
           </div>
         </li>
       ))}

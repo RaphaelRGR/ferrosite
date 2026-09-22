@@ -61,7 +61,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
             <h2 id="experiencias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
               {dict.published.experiencesPublished}
             </h2>
-            <ol className="mt-4 border-l-2 border-line pl-5" data-published="live">
+            <ol className="mt-4 border-l-2 border-line pl-5" data-published="live" data-reveal-group>
               {[...published].sort((a, b) => (b.event_at ?? b.published_at).localeCompare(a.event_at ?? a.published_at)).map((e) => (
                 <li key={e.id} className="relative pb-6 last:pb-0">
                   <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
@@ -69,13 +69,19 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
                     {e.event_at && <time dateTime={e.event_at}>{formatDate(l, new Date(e.event_at), { dateStyle: "long" })}</time>}
                     {e.event_place && ` · ${e.event_place}`}
                   </p>
-                  <p className="mt-1 font-bold">{e.title}</p>
+                  <h3 className="mt-1 font-bold">
+                    <Link href={localizePath(l, `/experiencias/${e.slug}`)} className="rounded underline-offset-4 hover:text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                      {e.title}
+                    </Link>
+                  </h3>
                   <p className="mt-1 text-sm text-fg-muted">{e.summary}</p>
                   <Link
                     href={localizePath(l, `/experiencias/${e.slug}`)}
-                    className="mt-2 inline-flex items-center gap-1 rounded text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="mt-2 inline-flex items-center gap-1 rounded text-sm font-bold text-link underline-offset-4 hover:underline"
                   >
-                    {dict.published.readExperience} <span aria-hidden="true">→</span>
+                    {dict.published.readExperience} <span>→</span>
                   </Link>
                 </li>
               ))}

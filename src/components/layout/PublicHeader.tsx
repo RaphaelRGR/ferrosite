@@ -45,6 +45,7 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link
           href={localizePath(locale, "/")}
+          data-brand-logo
           className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         >
           <BrandLogo width={52} className="p-0.5" />
@@ -56,7 +57,7 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
 
         <nav aria-label={labels.a11y.mainNavigation} className="hidden items-center gap-6 lg:flex">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={linkClass(l.href)}>
+            <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={`link-rail ${linkClass(l.href)}`}>
               {l.name}
               {isActive(l.href) && <span aria-hidden="true" className="absolute inset-x-1 -bottom-0.5 h-0.5 rounded-full bg-action" />}
             </Link>

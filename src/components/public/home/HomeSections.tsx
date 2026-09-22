@@ -25,7 +25,7 @@ export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: 
   return (
     <section className="bg-surface">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:py-20">
-        <div>
+        <div className="hero-in">
           <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
             <span aria-hidden="true" className="h-0.5 w-6 rounded-full bg-action" />
             {dict.eyebrow}
@@ -45,7 +45,7 @@ export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: 
           </div>
         </div>
         <figure className="relative">
-          <div className="overflow-hidden rounded-[32px] border border-line shadow-sm">
+          <div className="hero-media overflow-hidden rounded-[32px] border border-line shadow-sm">
             {hero ? (
               // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa
               <img src={hero.url} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
@@ -92,7 +92,7 @@ export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict[
     <section className="bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <SectionHeading eyebrow={dict.eyebrow} title={dict.title} description={dict.description} link={{ href: target, label: dict.link }} />
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
           {items.map((item) => (
             <li key={item.key}>
               <Link
@@ -164,25 +164,32 @@ export function PublishedExperiences({ locale, dict, items, covers }: { locale: 
     <section className="bg-surface" data-published="live">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <SectionHeading eyebrow={dict.eyebrow} title={dict.publishedTitle} link={{ href: localizePath(locale, "/experiencias"), label: dict.link }} />
-        <ul className="mt-10 grid gap-5 md:grid-cols-3">
+        <ul className="mt-10 grid gap-5 md:grid-cols-3" data-reveal-group>
           {items.slice(0, 6).map((e) => (
-            <li key={e.id} className="flex flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
-              {covers.get(e.id) ? (
-                // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
-                <img src={covers.get(e.id)} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-              ) : (
-                <div aria-hidden="true" className="aspect-[4/3] w-full bg-gradient-to-br from-surface-2 to-canvas" />
-              )}
+            <li key={e.id} className="card-lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
+              <div className="zoom-media">
+                {covers.get(e.id) ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
+                  <img src={covers.get(e.id)} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                ) : (
+                  <div aria-hidden="true" className="aspect-[4/3] w-full bg-gradient-to-br from-surface-2 to-canvas" />
+                )}
+              </div>
               <div className="flex flex-1 flex-col gap-2 p-5">
                 <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
                   {e.event_at && <time dateTime={e.event_at}>{formatDate(locale, new Date(e.event_at), { dateStyle: "medium" })}</time>}
                   {e.event_place && ` · ${e.event_place}`}
                 </p>
-                <p className="font-bold leading-snug">{e.title}</p>
+                <h3 className="font-bold leading-snug">
+                  {/* Link esticado: título, imagem e cartão inteiro levam à experiência (um único destino por cartão). */}
+                  <Link href={localizePath(locale, `/experiencias/${e.slug}`)} className="rounded after:absolute after:inset-0 after:content-[''] hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                    {e.title}
+                  </Link>
+                </h3>
                 <p className="text-sm text-fg-muted">{e.summary}</p>
-                <Link href={localizePath(locale, `/experiencias/${e.slug}`)} className="mt-auto inline-flex items-center gap-1 rounded pt-2 text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-                  {dict.detail} <span aria-hidden="true">→</span>
-                </Link>
+                <span aria-hidden="true" className="mt-auto inline-flex items-center gap-1 pt-2 text-sm font-bold text-link">
+                  {dict.detail} <span>→</span>
+                </span>
               </div>
             </li>
           ))}

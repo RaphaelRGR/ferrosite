@@ -23,11 +23,11 @@ export function SectionHeading({
   children?: ReactNode;
 }) {
   return (
-    <div className={`flex flex-col gap-3 ${align === "center" ? "items-center text-center" : "sm:flex-row sm:items-end sm:justify-between"}`}>
+    <div data-reveal className={`flex flex-col gap-3 ${align === "center" ? "items-center text-center" : "sm:flex-row sm:items-end sm:justify-between"}`}>
       <div className={`max-w-2xl ${align === "center" ? "text-center" : ""}`}>
         {eyebrow && (
           <p className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-link">
-            <span aria-hidden="true" className="h-0.5 w-6 rounded-full bg-action" />
+            <span aria-hidden="true" className="rail-mark h-0.5 w-6 rounded-full bg-action" />
             {eyebrow}
           </p>
         )}

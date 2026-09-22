@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { SITE_URL } from "@/i18n/metadata";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
@@ -31,7 +32,7 @@ export async function signInWithMagicLink(_prev: AuthActionState, formData: Form
   const next = safeNextPath(String(formData.get("next") ?? ""));
   if (!EMAIL.test(email)) return { error: "invalid" };
 
-  const origin = (await headers()).get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const origin = (await headers()).get("origin") ?? SITE_URL.origin;
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithOtp({
     email,

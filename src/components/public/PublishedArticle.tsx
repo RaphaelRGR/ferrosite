@@ -67,7 +67,7 @@ export function PublishedArticle({
               </p>
             )
           )}
-          <PublishedGallery items={gallery} title={labels.gallery} creditLabel={labels.credit} />
+          <PublishedGallery items={gallery} title={labels.gallery} creditLabel={labels.credit} labels={labels.lightbox} />
           <p className="mt-8 text-xs text-fg-muted">{labels.approvedNote}</p>
           <div className="mt-8">
             <LinkButton href={backHref} variant="secondary">

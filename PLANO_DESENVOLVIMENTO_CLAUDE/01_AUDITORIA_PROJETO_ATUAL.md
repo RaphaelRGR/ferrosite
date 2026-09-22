@@ -211,3 +211,7 @@ Relatório: `docs/baseline/DRIVE-004-relatorio.md`. Migration 11: `content_file`
 ## Estado após publicação DRIVE-004 + PROJ-001 (2026-09-21)
 
 8 experiências **publicadas** com capa e galeria (72 fotos públicas, consentimento registrado por autorização da coordenação); Home com foto institucional (`site_image.home_hero`, migration 12) e seção "Visitas técnicas e palestras realizadas"; 9 projetos reais cadastrados e públicos (`public_project`, migrations 13–14) em `/projetos`, `/projetos/<slug>` e na Home. Fixtures E2E purgadas do banco e do Drive. Nuvem com 14 migrations. Unit 177 · RLS 70 · e2e 274.
+
+## Estado após UX-MOTION (2026-09-22)
+
+Relatório: `docs/baseline/UX-MOTION-relatorio.md`. Site em produção na Vercel (`engferroviaria.vercel.app`, deploy automático do `main`). Movimento leve sem dependências (revelação ao rolar, hover, parallax, vapor/locomotiva, easter eggs), cartões inteiramente clicáveis, lightbox nativo na galeria, travessões removidos de todo texto visível (código e banco). `SITE_URL` usa o domínio da Vercel como fallback.

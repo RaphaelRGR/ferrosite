@@ -17,7 +17,7 @@ export function CapabilityBadge({ capability, level, dict, capabilityNames }: { 
     <Badge tone={LEVEL_TONE[level]}>
       {capabilityNames[capability]}
       {level === "prospective" && <span aria-hidden="true">*</span>}
-      {level !== "offered" && <span className="sr-only"> — {levelLabel(level, dict)}</span>}
+      {level !== "offered" && <span className="sr-only">, {levelLabel(level, dict)}</span>}
     </Badge>
   );
 }

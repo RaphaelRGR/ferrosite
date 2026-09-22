@@ -53,7 +53,7 @@ export default async function PortalSettingsPage() {
           </div>
           <div>
             <dt className="text-xs font-bold uppercase tracking-widest text-fg-muted">{dict.portal.settings.role}</dt>
-            <dd className="mt-1">{profile ? dict.portal.roles[profile.global_role] : "—"}</dd>
+            <dd className="mt-1">{profile ? dict.portal.roles[profile.global_role] : dict.portal.common.none}</dd>
           </div>
         </dl>
       </section>

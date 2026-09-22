@@ -1,4 +1,5 @@
 import { logEvent } from "@/lib/observability/log";
+import { SITE_URL } from "@/i18n/metadata";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getMailProvider, type MailProvider } from "./provider";
 import { renderMail } from "./templates";
@@ -30,7 +31,7 @@ export async function dispatchMailOutbox(limit = 20, provider: MailProvider | nu
     logEvent("error", "mail.claim_failed", { message: error.message });
     return result;
   }
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const siteUrl = SITE_URL.origin;
   for (const row of batch ?? []) {
     result.claimed += 1;
     const mail = renderMail({ template: row.template, locale: row.locale, payload: row.payload, siteUrl });

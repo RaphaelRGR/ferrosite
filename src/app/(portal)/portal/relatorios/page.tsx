@@ -90,7 +90,7 @@ export default async function ReportsPage({ searchParams }: PageProps<"/portal/r
             </table>
           </div>
           <p className="text-xs text-fg-muted">
-            {fmtDate(report.period.start)} — {fmtDate(report.period.end)} · {r.formulasVersion} {report.formulas_version}
+            {fmtDate(report.period.start)} → {fmtDate(report.period.end)} · {r.formulasVersion} {report.formulas_version}
           </p>
           <SnapshotForm dict={dict} start={period.start} end={period.end} />
         </>
@@ -107,7 +107,7 @@ export default async function ReportsPage({ searchParams }: PageProps<"/portal/r
               <li key={s.id} className="flex flex-wrap items-center justify-between gap-2 py-3">
                 <span>
                   <span className="font-bold">
-                    {fmtDate(s.period_start)} — {fmtDate(s.period_end)}
+                    {fmtDate(s.period_start)} → {fmtDate(s.period_end)}
                   </span>
                   <span className="text-fg-muted">
                     {" "}

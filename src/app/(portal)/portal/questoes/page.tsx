@@ -17,7 +17,7 @@ export default function PortalQuestoesPage() {
       <h1 className="text-3xl font-black">Questões</h1>
       <EmptyState
         title={dict.pending.title}
-        description="[CONTEÚDO PENDENTE] — a coordenação ainda não decidiu se o módulo de questões continua (decisões e conflitos, pergunta 6)."
+        description="[CONTEÚDO PENDENTE]: a coordenação ainda não decidiu se o módulo de questões continua (decisões e conflitos, pergunta 6)."
         action={
           <LinkButton href="/portal" variant="secondary">
             {dict.portal.notFound.back}

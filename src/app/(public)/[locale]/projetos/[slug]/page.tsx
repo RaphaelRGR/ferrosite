@@ -61,7 +61,7 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
               </figure>
             )}
             {description && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(description) }} />}
-            <PublishedGallery items={gallery.slice(1)} title={dict.published.gallery} creditLabel={dict.published.credit} />
+            <PublishedGallery items={gallery.slice(1)} title={dict.published.gallery} creditLabel={dict.published.credit} labels={dict.published.lightbox} />
             <div className="mt-8">
               <LinkButton href={localizePath(l, "/projetos")} variant="secondary">
                 ← {dict.pages.projects.title}

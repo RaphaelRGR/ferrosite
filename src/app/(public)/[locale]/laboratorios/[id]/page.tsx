@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/laborato
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const lab = getLab(id);
   if (!lab) return {};
-  return publicPageMetadata(l, `/laboratorios/${id}`, { title: `${lab.acronym} — ${lab.name}`, description: lab.about[0] ?? getDictionary(l).pages.labs.description });
+  return publicPageMetadata(l, `/laboratorios/${id}`, { title: `${lab.acronym}: ${lab.name}`, description: lab.about[0] ?? getDictionary(l).pages.labs.description });
 }
 
 const H2 = "text-xs font-bold uppercase tracking-[0.2em] text-action";

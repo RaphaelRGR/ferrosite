@@ -59,7 +59,7 @@ export default async function ProjectOverviewPage({ params }: PageProps<"/portal
               <div>
                 <dt className={H2}>{dict.projects.period}</dt>
                 <dd className="mt-1">
-                  {fmt(project.starts_on)} — {fmt(project.ends_on)}
+                  {fmt(project.starts_on)} → {fmt(project.ends_on)}
                 </dd>
               </div>
               <div>

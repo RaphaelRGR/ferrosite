@@ -425,7 +425,7 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
           </p>
         )}
         <a href={`/${curriculum.source.file.replace(/^public\//, "")}`} className="w-fit rounded text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-          {labels.pdf} — {curriculum.year}
+          {labels.pdf} · {curriculum.year}
         </a>
       </div>
 

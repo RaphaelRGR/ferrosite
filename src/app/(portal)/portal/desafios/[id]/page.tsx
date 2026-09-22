@@ -110,7 +110,7 @@ export default async function ChallengePage({ params }: PageProps<"/portal/desaf
                 {[...suggested.entries()].map(([labId, lab]) => (
                   <li key={labId} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-canvas px-3 py-2">
                     <span>
-                      <span className="font-bold">{lab.acronym}</span> — {lab.name}
+                      <span className="font-bold">{lab.acronym}</span>: {lab.name}
                     </span>
                     <span className="flex items-center gap-2">
                       <Badge tone={lab.level === "offered" ? "info" : "neutral"}>{lab.level === "offered" ? full.labs.levelOffered : lab.level === "prospective" ? full.labs.levelProspective : full.labs.levelPending}</Badge>
@@ -142,7 +142,7 @@ export default async function ChallengePage({ params }: PageProps<"/portal/desaf
                   {events.map((e) => (
                     <li key={e.id} className="border-l-2 border-line pl-3">
                       <p>
-                        <span className="font-bold">{e.actor?.full_name || e.actor?.email || "—"}</span> {c.events[e.kind as keyof typeof c.events] ?? e.kind}
+                        <span className="font-bold">{e.actor?.full_name || e.actor?.email || dict.common.none}</span> {c.events[e.kind as keyof typeof c.events] ?? e.kind}
                         {e.kind === "challenge.status" && e.to_value && (
                           <>
                             {" "}

@@ -114,3 +114,11 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - **Ordem do hub de projetos**: ordem de cadastro (= ordem da relação enviada). Sem campo de prioridade — se a coordenação quiser outra ordem, criar `sort_order` no projeto.
 - **Fixtures E2E no banco real**: cada rodada E2E cria projetos/empresas/desafios/conteúdos de teste no projeto Supabase de produção (limpos hoje por script auditado). Decisão pendente: criar um projeto Supabase separado para testes (recomendado) ou aceitar a limpeza periódica.
 - **Senha do coordenador**: redefinida por pedido explícito no chat via API admin; recomendação: trocar pela tela de recuperação e não enviar senhas pelo chat.
+
+## Addendum UX-MOTION / produção (2026-09-22)
+
+- **Hospedagem**: a coordenação publicou o site na Vercel (`engferroviaria.vercel.app`). Variáveis de produção pedidas: `GOOGLE_CLIENT_ID/SECRET`, `GOOGLE_REDIRECT_URI` (callback no domínio da Vercel), `GOOGLE_DRIVE_ROOT_FOLDER_ID`, `NEXT_PUBLIC_SITE_URL`; o redirect precisa constar no cliente OAuth do Google. Sem elas o proxy de mídia respondia 502 (corrigido para aceitar token válido) e canonical/robots apontavam para localhost (fallback para o domínio da Vercel).
+- **Indexação**: `robots.txt` permite indexar tudo enquanto ainda há seções em quarentena. Decisão da coordenação: manter ou bloquear até validar (`Disallow: /` condicionado a variável).
+- **Travessões**: pedido explícito da coordenação de não usar "—" em texto visível. Convenção adotada: dois-pontos para aposto, vírgula para conjunção, parênteses para siglas/incisos, "·" para separadores de meta, "→" para intervalos de datas.
+- **Easter eggs e movimento**: decorativos, sem som, desligados com `prefers-reduced-motion`; nada é escondido sem JS.
+- **Incidente e2e**: com a fixture de upload purgada, o teste enviou 2 PNGs de teste para `projetos/cavalos-de-ferro/documentos` no Drive real. O teste agora cria o próprio projeto `projeto-e2e-…`; limpeza dos 2 arquivos pendente (script de sessão em modo Manual). Reforça a necessidade de um projeto Supabase/Drive separado para testes.

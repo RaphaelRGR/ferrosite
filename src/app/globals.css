@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../components/public/motion/motion.css";
 
 /* ─── Tokens ──────────────────────────────────────────────────────────────
    Primitivos → semânticos → tema. Componentes usam somente os semânticos

@@ -27,7 +27,7 @@ export interface RenderInput {
   siteUrl: string;
 }
 
-const SENDER_NAME = { pt: "Curso de Engenharia Ferroviária e Metroviária — UFSC Joinville", en: "Railway and Metro Engineering Program — UFSC Joinville" } as const;
+const SENDER_NAME = { pt: "Curso de Engenharia Ferroviária e Metroviária · UFSC Joinville", en: "Railway and Metro Engineering Program · UFSC Joinville" } as const;
 const NO_REPLY = { pt: "Mensagem automática; não responda a este e-mail.", en: "Automatic message; please do not reply to this e-mail." } as const;
 const ROLE_LABEL: Record<Locale, Record<string, string>> = {
   pt: { leader: "líder", member: "membro", viewer: "leitura", external: "colaboração externa" },
@@ -84,13 +84,13 @@ export function renderMail({ template, locale: rawLocale, payload, siteUrl }: Re
       const title = field(payload, "title");
       if (!protocol) return null;
       return locale === "pt"
-        ? compose("pt", `Desafio recebido — protocolo ${protocol}`, [
+        ? compose("pt", `Desafio recebido: protocolo ${protocol}`, [
             name ? `Olá, ${name}.` : "Olá.",
             `Recebemos o seu desafio "${title}" e registramos o protocolo ${protocol}.`,
             "A coordenação do curso fará a triagem e entrará em contato pelo e-mail informado. Guarde o protocolo para acompanhar a conversa.",
             "Os dados enviados ficam restritos à coordenação e às pessoas designadas para a triagem; não aparecem no site.",
           ], siteUrl ? { label: "Página Para Empresas", href: absolute(siteUrl, "/pt/para-empresas") } : undefined)
-        : compose("en", `Challenge received — protocol ${protocol}`, [
+        : compose("en", `Challenge received: protocol ${protocol}`, [
             name ? `Hello, ${name}.` : "Hello.",
             `We received your challenge "${title}" and registered it under protocol ${protocol}.`,
             "The program coordination will screen it and get back to you at the e-mail you provided. Keep the protocol number for follow-up.",

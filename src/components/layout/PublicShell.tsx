@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { PublicHeader } from "@/components/layout/PublicHeader";
+import { EasterEggs } from "@/components/public/motion/EasterEggs";
+import { Locomotive } from "@/components/public/motion/Locomotive";
+import { MotionProvider } from "@/components/public/motion/MotionProvider";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -37,6 +40,8 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
         {dict.a11y.skipToContent}
       </a>
 
+      <MotionProvider />
+      <EasterEggs />
       <PublicHeader locale={locale} labels={{ site: dict.site, a11y: dict.a11y, nav: dict.nav, locale: dict.locale }} />
 
       <main id="conteudo" className="flex-1">
@@ -71,8 +76,11 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
           </nav>
         </div>
         <div className="border-t border-line">
+          <div className="mx-auto flex max-w-7xl justify-end px-4 pt-3 sm:px-6">
+            <Locomotive className="w-16 text-fg-muted sm:w-20" />
+          </div>
           <p className="mx-auto max-w-7xl px-4 py-4 text-xs text-fg-muted sm:px-6">
-            © {new Date().getFullYear()} {dict.site.brandLine1} — {dict.site.campus}. {dict.footer.rights}
+            © {new Date().getFullYear()} {dict.site.brandLine1}, {dict.site.campus}. {dict.footer.rights}
           </p>
         </div>
       </footer>

@@ -14,7 +14,7 @@ test("experiências: filtro por escopo via URL altera a lista e é compartilháv
   await page.waitForURL("**/pt/experiencias?escopo=internacional");
   await expect(page.getByText(/^\d+ experiências$/)).toHaveText("1 experiências");
   await expect(page.getByRole("link", { name: "Internacional", exact: true })).toHaveAttribute("aria-current", "page");
-  await expect(page.getByText("UTN — Buenos Aires")).toBeAttached();
+  await expect(page.getByText("UTN, Buenos Aires")).toBeAttached();
   await expect(page.getByText("Oficinas da MRS")).toHaveCount(0);
 
   // sem período de inscrição: texto honesto, nenhum botão/form de inscrição

@@ -68,7 +68,7 @@ export function DriveIntegrationCard({ dict, status, oauthConfigured, missingVar
             </div>
             <div>
               <dt className={H2}>{d.scope}</dt>
-              <dd className="mt-1 break-all font-mono text-xs">{status.scope || "—"}</dd>
+              <dd className="mt-1 break-all font-mono text-xs">{status.scope || dict.common.none}</dd>
               <dd className={`mt-1 text-xs ${canWrite ? "text-success" : "text-warning"}`}>{canWrite ? d.writeOk : d.writeMissing}</dd>
             </div>
             <div>
@@ -129,9 +129,9 @@ function TestForm({ dict }: { dict: Dict }) {
             <dt className="text-fg-muted">{d.rootFolder}</dt>
             <dd>{state.folder || d.noFolder}</dd>
             <dt className="text-fg-muted">{d.itemsFound}</dt>
-            <dd>{state.folder ? state.items?.length ?? 0 : "—"}</dd>
+            <dd>{state.folder ? state.items?.length ?? 0 : dict.common.none}</dd>
             <dt className="text-fg-muted">{d.lastCheck}</dt>
-            <dd>{state.checkedAt ? formatDate("pt", new Date(state.checkedAt), { dateStyle: "short", timeStyle: "short" }) : "—"}</dd>
+            <dd>{state.checkedAt ? formatDate("pt", new Date(state.checkedAt), { dateStyle: "short", timeStyle: "short" }) : dict.common.none}</dd>
           </dl>
           {state.items && state.items.length > 0 && (
             <ul className="mt-3 divide-y divide-line rounded-lg border border-line" aria-label={d.itemsFound}>
