@@ -38,3 +38,14 @@ A coordenação enviou 10 links de Shorts do canal do curso no YouTube e pediu q
 | Testes | `tests/e2e/shorts.spec.ts`: um cartão por página, zero requisições ao YouTube antes do clique, iframe só do nocookie após o clique, CSP publicada, "Outro vídeo" fecha o player e troca o vídeo. Suíte pública (axe, smoke, i18n, links, quarentena, headers, reduced-motion) verde. |
 
 Limpeza pendente da seção anterior executada em modo Manual: os 2 PNGs de teste foram para a lixeira do Drive e 5 registros de teste saíram do banco.
+
+## Complemento: um vídeo por vez e responsividade no celular (2026-09-22)
+
+- **Shorts**: um vídeo por vez (Home e Curso), texto à esquerda e cartão 9:16 à direita; no celular, empilhado. Botões "Outro vídeo" e "Ver no YouTube" ficam **embaixo do vídeo** (pedido da coordenação), com o aviso de privacidade.
+- **Rodapé**: no celular, marca em cima e as duas listas de navegação lado a lado (antes: uma coluna longa com metade da tela vazia); linha final com copyright à esquerda e a locomotiva à direita.
+- **Selo "Conteúdo em verificação"**: no celular fica pendurado na borda superior do bloco (`-top-3`), sem cobrir o título; de `sm` em diante volta ao canto interno.
+- **Cartões**: badge de categoria não estica mais (`self-start`); projetos/experiências sem capa não mostram retângulo vazio.
+- **Botões empilhados** (hero da Home e do Curso, CTAs finais): largura total no celular, automática de `sm` em diante; CTA com padding menor no celular.
+- **Artigos** (experiência, notícia, projeto): padding `p-5` no celular (`p-8`/`p-12` acima); experiências datadas pelo **evento** (não pela publicação), com o local; capa logo abaixo do título.
+- **Curso**: rótulo "Grades oficiais (PDF)" em linha própria no celular.
+- Auditoria feita com capturas segmentadas a 375 px de Home, Curso, Projetos, Experiências, Para Empresas, Notícias, Sobre, Laboratórios, Eventos e páginas de detalhe; sem overflow horizontal em nenhuma. Testes: axe 37/37, quarentena, shorts, experiências, smoke, hubs, i18n, reduced-motion verdes.

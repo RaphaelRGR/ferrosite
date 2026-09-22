@@ -35,7 +35,9 @@ export function PublishedArticle({
   /** Galeria já filtrada pelo banco (DRIVE-004). */
   gallery?: PublicGalleryItem[];
 }) {
-  const date = item.type === "event" && item.event_at ? item.event_at : item.published_at;
+  // Eventos e experiências são datados pelo acontecimento (a data de publicação fica no rodapé do artigo).
+  const dated = (item.type === "event" || item.type === "experience") && item.event_at;
+  const date = dated ? item.event_at! : item.published_at;
   return (
     <article className="bg-canvas" data-published={preview ? "preview" : "live"}>
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
@@ -44,28 +46,28 @@ export function PublishedArticle({
             {labels.previewNotice}
           </p>
         )}
-        <div className="rounded-[32px] border border-line bg-surface p-8 sm:p-12">
+        <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
           <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
             <time dateTime={date}>{formatDate(locale, new Date(date), { dateStyle: "long", ...(item.type === "event" ? { timeStyle: "short" } : {}) })}</time>
-            {item.type === "event" && item.event_place && ` · ${item.event_place}`}
+            {dated && item.event_place && ` · ${item.event_place}`}
           </p>
           <div className="mt-3">
             <SectionHeading as="h1" eyebrow={eyebrow} title={item.title} description={item.summary} />
           </div>
-          {item.body_md && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body_md) }} />}
-          {coverUrl ? (
+          {/* Capa logo abaixo do título (no celular a foto era a última coisa a aparecer). */}
+          {coverUrl && (
             <figure className="mt-8">
               {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa */}
-              <img src={coverUrl} alt={item.cover_alt} className="w-full rounded-2xl border border-line" loading="lazy" />
+              <img src={coverUrl} alt={item.cover_alt} className="w-full rounded-2xl border border-line" fetchPriority="high" />
               {item.cover_credit && <figcaption className="mt-2 text-xs text-fg-muted">{`${labels.credit}: ${item.cover_credit}`}</figcaption>}
             </figure>
-          ) : (
-            (item.cover_credit || item.cover_alt) && (
-              <p className="mt-8 text-xs text-fg-muted">
-                {labels.coverPending}
-                {item.cover_credit && ` · ${labels.credit}: ${item.cover_credit}`}
-              </p>
-            )
+          )}
+          {item.body_md && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body_md) }} />}
+          {!coverUrl && (item.cover_credit || item.cover_alt) && (
+            <p className="mt-8 text-xs text-fg-muted">
+              {labels.coverPending}
+              {item.cover_credit && ` · ${labels.credit}: ${item.cover_credit}`}
+            </p>
           )}
           <PublishedGallery items={gallery} title={labels.gallery} creditLabel={labels.credit} labels={labels.lightbox} />
           <p className="mt-8 text-xs text-fg-muted">{labels.approvedNote}</p>

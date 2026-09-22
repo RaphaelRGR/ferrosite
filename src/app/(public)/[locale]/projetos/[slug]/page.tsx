@@ -48,8 +48,8 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
     return (
       <section className="bg-canvas">
         <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-          <div className="rounded-[32px] border border-line bg-surface p-8 sm:p-12" data-published="live">
-            <Badge tone="neutral">{dict.portal.projectCategory[real.category as keyof typeof dict.portal.projectCategory]}</Badge>
+          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12" data-published="live">
+            <Badge tone="neutral" className="self-start">{dict.portal.projectCategory[real.category as keyof typeof dict.portal.projectCategory]}</Badge>
             <div className="mt-4">
               <SectionHeading as="h1" eyebrow={dict.pages.projects.title} title={realText.name} description={realText.summary} />
             </div>
@@ -80,7 +80,7 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
     <section className="bg-canvas">
       <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
         <UnverifiedContent section="projetos.detalhe">
-          <div className="rounded-[32px] border border-line bg-surface p-8 sm:p-12">
+          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
             <Badge tone="neutral">{project.meta}</Badge>
             <div className="mt-4">
               <SectionHeading as="h1" eyebrow={dict.pages.projects.title} title={project.title} description={project.description} />

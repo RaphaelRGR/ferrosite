@@ -35,7 +35,7 @@ export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: 
             <span className="mt-2 block text-2xl font-bold text-fg-muted sm:text-3xl">{dict.subtitle}</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-fg-muted">{dict.description}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row [&>a]:w-full sm:[&>a]:w-auto">
             <LinkButton href={localizePath(locale, "/curso")} size="lg">
               {dict.primary} <span aria-hidden="true">→</span>
             </LinkButton>
@@ -167,14 +167,12 @@ export function PublishedExperiences({ locale, dict, items, covers }: { locale: 
         <ul className="mt-10 grid gap-5 md:grid-cols-3" data-reveal-group>
           {items.slice(0, 6).map((e) => (
             <li key={e.id} className="card-lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
-              <div className="zoom-media">
-                {covers.get(e.id) ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
+              {covers.get(e.id) && (
+                <div className="zoom-media">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
                   <img src={covers.get(e.id)} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-                ) : (
-                  <div aria-hidden="true" className="aspect-[4/3] w-full bg-gradient-to-br from-surface-2 to-canvas" />
-                )}
-              </div>
+                </div>
+              )}
               <div className="flex flex-1 flex-col gap-2 p-5">
                 <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
                   {e.event_at && <time dateTime={e.event_at}>{formatDate(locale, new Date(e.event_at), { dateStyle: "medium" })}</time>}
@@ -281,12 +279,12 @@ export function FinalCta({ locale, dict }: { locale: Locale; dict: HomeDict["cta
   return (
     <section className="bg-canvas">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{dict.title}</h2>
             <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">
             <LinkButton href={localizePath(locale, "/curso")}>{dict.student}</LinkButton>
             <LinkButton href={localizePath(locale, "/noticias")} variant="secondary">
               {dict.community}

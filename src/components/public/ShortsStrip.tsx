@@ -72,19 +72,6 @@ export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: Shor
               {video.author && <span className="mt-1 block text-sm font-normal text-fg-muted">{video.author}</span>}
             </p>
           )}
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            {videos.length > 1 && (
-              <button type="button" onClick={next} disabled={!video} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong bg-surface px-5 text-sm font-bold text-fg hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-50">
-                <span aria-hidden="true">⟳</span> {labels.shuffle}
-              </button>
-            )}
-            {video && (
-              <a href={video.url} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-                {labels.watch} ↗
-              </a>
-            )}
-          </div>
-          <p className="mt-4 text-xs text-fg-muted">{labels.privacy}</p>
         </div>
 
         <div className="mx-auto w-full max-w-[320px] lg:mx-0" data-reveal>
@@ -127,6 +114,20 @@ export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: Shor
               <span className="absolute inset-0 animate-pulse bg-surface-2" />
             )}
           </div>
+          {/* Controles embaixo do vídeo (pedido da coordenação). */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            {videos.length > 1 && (
+              <button type="button" onClick={next} disabled={!video} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong bg-surface px-5 text-sm font-bold text-fg hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:opacity-50">
+                <span aria-hidden="true">⟳</span> {labels.shuffle}
+              </button>
+            )}
+            {video && (
+              <a href={video.url} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                {labels.watch} ↗
+              </a>
+            )}
+          </div>
+          <p className="mt-3 text-center text-xs text-fg-muted">{labels.privacy}</p>
         </div>
       </div>
     </section>

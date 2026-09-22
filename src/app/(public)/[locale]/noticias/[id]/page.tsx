@@ -46,7 +46,7 @@ export default async function NoticiaPage({ params }: PageProps<"/[locale]/notic
     <article className="bg-canvas">
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
         <UnverifiedContent section="noticias.detalhe">
-          <div className="rounded-[32px] border border-line bg-surface p-8 sm:p-12">
+          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
             <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{item.meta}</p>
             <div className="mt-3">
               <SectionHeading as="h1" eyebrow={dict.newsPage.eyebrow} title={item.title} description={item.description} />

@@ -31,7 +31,8 @@ export function UnverifiedContent({
   if (status === "VERIFIED") return <>{children}</>;
 
   const dict = getDictionary(locale).quarantine;
-  const position = badgePosition === "top-right" ? "top-3 right-3 sm:top-4 sm:right-4" : "bottom-3 left-3 sm:bottom-4 sm:left-4";
+  // No celular o selo fica "pendurado" na borda superior (não cobre o título, que ocupa a largura toda); de sm em diante, dentro do canto.
+  const position = badgePosition === "top-right" ? "-top-3 right-3 sm:top-4 sm:right-4" : "-bottom-3 left-3 sm:bottom-4 sm:left-4";
 
   return (
     <div className="relative" data-content-status="unverified" data-content-section={section}>

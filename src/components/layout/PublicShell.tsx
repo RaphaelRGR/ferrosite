@@ -49,9 +49,10 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
       </main>
 
       <footer className="border-t border-line bg-surface">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[auto_1fr_1fr] md:gap-16">
-          <div className="flex items-start gap-4">
-            <BrandLogo width={96} />
+        {/* Celular: marca em cima e as duas listas lado a lado (evita uma coluna longa com metade da tela vazia). */}
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 sm:px-6 md:grid-cols-[auto_1fr_1fr] md:gap-16">
+          <div className="col-span-2 flex items-start gap-4 md:col-span-1">
+            <BrandLogo width={72} className="shrink-0" />
             <div>
               <p className="font-black leading-tight">{dict.site.brandLine1}</p>
               <p className="text-sm text-fg-muted">{dict.footer.campus}</p>
@@ -76,12 +77,12 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
           </nav>
         </div>
         <div className="border-t border-line">
-          <div className="mx-auto flex max-w-7xl justify-end px-4 pt-3 sm:px-6">
-            <Locomotive className="w-16 text-fg-muted sm:w-20" />
+          <div className="mx-auto flex max-w-7xl items-end justify-between gap-4 px-4 py-4 sm:px-6">
+            <p className="text-xs text-fg-muted">
+              © {new Date().getFullYear()} {dict.site.brandLine1}, {dict.site.campus}. {dict.footer.rights}
+            </p>
+            <Locomotive className="w-16 shrink-0 text-fg-muted sm:w-20" />
           </div>
-          <p className="mx-auto max-w-7xl px-4 py-4 text-xs text-fg-muted sm:px-6">
-            © {new Date().getFullYear()} {dict.site.brandLine1}, {dict.site.campus}. {dict.footer.rights}
-          </p>
         </div>
       </footer>
     </div>

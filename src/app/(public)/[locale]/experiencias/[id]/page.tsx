@@ -46,7 +46,7 @@ export default async function ExperienciaPage({ params }: PageProps<"/[locale]/e
     <section className="bg-canvas">
       <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
         <UnverifiedContent section="experiencias.detalhe">
-          <div className="rounded-[32px] border border-line bg-surface p-8 sm:p-12">
+          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={item.scope === "internacional" ? "info" : "neutral"}>{item.scope === "internacional" ? dict.experiences.international : dict.experiences.brazil}</Badge>
               <span className="text-xs font-bold uppercase tracking-widest text-fg-muted">{item.when} · {item.meta}</span>

@@ -19,7 +19,7 @@ export function CourseHero({ dict }: { dict: CourseDict["hero"] }) {
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_1fr] lg:py-20">
         <div>
           <SectionHeading as="h1" eyebrow={dict.eyebrow} title={dict.title} description={dict.description} />
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row [&>a]:w-full sm:[&>a]:w-auto">
             <LinkButton href="#trajetoria" size="lg">
               {dict.primary}
             </LinkButton>
@@ -130,7 +130,7 @@ export function CourseJourney({ locale, dict }: { locale: Locale; dict: CourseDi
             ))}
           </ol>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <span className="text-sm font-bold text-fg-muted">{dict.downloads}:</span>
+            <span className="w-full text-sm font-bold text-fg-muted sm:w-auto">{dict.downloads}:</span>
             {CURRICULUMS.map((c) => (
               <LinkButton key={c.id} href={`/grades/grade${c.year}.pdf`} variant="secondary" size="sm">
                 {dict.grade} {c.year}
@@ -180,12 +180,12 @@ export function CourseCta({ dict }: { dict: CourseDict["cta"] }) {
   return (
     <section className="bg-canvas">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{dict.title}</h2>
             <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">
             <LinkButton href="#trajetoria">{dict.primary}</LinkButton>
             <LinkButton href="/portal" variant="secondary">
               {dict.secondary}

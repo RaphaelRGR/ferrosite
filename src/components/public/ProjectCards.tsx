@@ -27,16 +27,15 @@ export function ProjectCards({ projects, covers, locale, dict, detailLabel, colu
     <ul className={`grid gap-5 sm:grid-cols-2 ${columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`} data-published="live" data-reveal-group>
       {items.map(({ p, t }) => (
         <li key={p.id} className="card-lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
-          <div className="zoom-media">
-            {covers.get(p.id) ? (
-              // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
+          {/* Sem capa não há bloco vazio: o cartão fica só com o texto (no celular o placeholder era um retângulo em branco). */}
+          {covers.get(p.id) && (
+            <div className="zoom-media">
+              {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
               <img src={covers.get(p.id)} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover" />
-            ) : (
-              <div aria-hidden="true" className="aspect-[16/9] w-full bg-gradient-to-br from-surface-2 to-canvas" />
-            )}
-          </div>
+            </div>
+          )}
           <div className="flex flex-1 flex-col gap-2 p-5">
-            <Badge tone="neutral">{dict.portal.projectCategory[p.category as keyof Dictionary["portal"]["projectCategory"]]}</Badge>
+            <Badge tone="neutral" className="self-start">{dict.portal.projectCategory[p.category as keyof Dictionary["portal"]["projectCategory"]]}</Badge>
             <h3 className="text-lg font-bold">
               {/* Link esticado: título, imagem e cartão inteiro levam ao projeto. */}
               <Link href={localizePath(locale, `/projetos/${p.slug}`)} className="rounded after:absolute after:inset-0 after:content-[''] hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
