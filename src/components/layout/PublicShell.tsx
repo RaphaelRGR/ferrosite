@@ -27,6 +27,7 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
     { name: dict.nav.events, href: localizePath(locale, "/eventos") },
     { name: dict.nav.simulators, href: localizePath(locale, "/simuladores") },
     { name: dict.nav.portal, href: "/portal" },
+    { name: dict.footer.privacy, href: localizePath(locale, "/privacidade") },
   ];
   const linkClass =
     "rounded text-sm text-fg-muted underline-offset-4 hover:text-fg hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus";

@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { localizePath, type Locale } from "@/i18n/config";
 import { Textarea } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -98,7 +100,12 @@ export function ChallengeForm({ dict, capabilityNames, locale, backHref }: { dic
           )}
         </span>
       </label>
-      <p className="text-xs text-fg-muted">{dict.privacy}</p>
+      <p className="text-xs text-fg-muted">
+        {dict.privacy}{" "}
+        <Link href={localizePath(locale as Locale, "/privacidade")} className="rounded font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+          {dict.privacyLink}
+        </Link>
+      </p>
       <div className="flex flex-wrap gap-3">
         <Button type="submit" loading={pending}>
           {dict.submit}

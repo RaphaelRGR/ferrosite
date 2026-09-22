@@ -123,3 +123,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - **Easter eggs e movimento**: decorativos, sem som, desligados com `prefers-reduced-motion`; nada é escondido sem JS.
 - **Incidente e2e**: com a fixture de upload purgada, o teste enviou 2 PNGs de teste para `projetos/cavalos-de-ferro/documentos` no Drive real. O teste agora cria o próprio projeto `projeto-e2e-…`; limpeza dos 2 arquivos pendente (script de sessão em modo Manual). Reforça a necessidade de um projeto Supabase/Drive separado para testes.
 - **Vídeos do YouTube (Shorts)**: embutidos por fachada (miniatura; player `youtube-nocookie` só após clique) para não carregar terceiros sem ação do visitante; títulos vêm do oEmbed, não são escritos à mão. Se a coordenação quiser autoplay ou player direto, é decisão de privacidade (LGPD) a registrar aqui.
+
+## Addendum PRIV-001 (2026-09-22)
+
+- Publicada a página `/pt/privacidade` descrevendo o tratamento real (relatório `docs/baseline/PRIV-001-relatorio.md`). Três decisões seguem pendentes e estão marcadas na própria página: **encarregado de dados e canal de atendimento ao titular**, **prazos de retenção** (desafios, mensagens, auditoria, acervo) e a **lista oficial de operadores/subcontratados**.
+- Enquanto não houver canal publicado, o pedido de remoção de foto não tem endereço no site: hoje depende de contato direto com a coordenação.
+- A página assume que o controlador é a UFSC, pelo curso no Campus Joinville. Se a universidade indicar outra forma de identificar o controlador, o texto muda.

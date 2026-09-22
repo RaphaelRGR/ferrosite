@@ -53,6 +53,7 @@ export const pt = {
     campus: "UFSC, Campus Joinville",
     center: "Centro Tecnológico de Joinville (CTJ)",
     portal: "Portal Acadêmico",
+    privacy: "Privacidade",
     rights: "Todos os direitos reservados.",
   },
   hero: {
@@ -106,6 +107,57 @@ export const pt = {
     labs: { title: "Laboratórios", description: "Capacidades de P&D dos laboratórios do CTJ para o setor ferroviário e metroviário, por capacidade e aplicação." },
     companies: { title: "Para Empresas", description: "Comece pelo problema técnico: capacidades e laboratórios da UFSC Joinville que podem se relacionar com o desafio da sua empresa." },
     challenge: { title: "Tenho um desafio", description: "Envie o desafio técnico da sua empresa para triagem da coordenação do curso de Engenharia Ferroviária e Metroviária da UFSC Joinville." },
+    privacy: { title: "Privacidade", description: "Como o site do curso trata dados pessoais: cookies, fotos, desafios de empresas e contas do Portal." },
+  },
+  privacy: {
+    title: "Privacidade e dados",
+    description: "O que este site coleta, por que coleta, onde os dados ficam e como pedir correção ou remoção.",
+    updatedLabel: "Atualizada em",
+    pendingNote:
+      "Os pontos marcados como [CONTEÚDO PENDENTE] dependem de definição institucional da UFSC (responsável, canal de atendimento e prazos de retenção) e serão publicados depois de validados. Até lá valem a LGPD (Lei 13.709/2018) e os canais oficiais da universidade.",
+    sections: {
+      visitor: {
+        title: "Quem só navega no site",
+        body: "Não usamos ferramentas de medição de audiência, rastreadores de terceiros nem publicidade, e não montamos perfil de visitante. O servidor registra apenas o necessário para operar e investigar falhas: rota acessada, método, código de resposta, horário e um identificador da requisição. Esse registro não guarda o que você digita. Erros de página no navegador podem ser enviados ao próprio site com a mensagem do erro, a rota e um identificador técnico.",
+      },
+      cookies: {
+        title: "Cookies",
+        body: "Só existem cookies necessários para o funcionamento: a preferência de tema claro ou escuro do Portal, a sessão de quem entra no Portal e um cookie temporário de segurança usado quando a coordenação conecta o Google Drive. Não há cookie de publicidade nem de medição de audiência; por isso o site não exibe banner de cookies.",
+      },
+      videos: {
+        title: "Vídeos do YouTube",
+        body: "As seções de vídeo mostram apenas a imagem de capa até você clicar. O player só é carregado depois do clique, na versão sem cookies do YouTube (youtube-nocookie.com). A partir daí vale a política de privacidade do Google.",
+        linkLabel: "Política de privacidade do Google",
+      },
+      photos: {
+        title: "Fotos de pessoas",
+        body: "As fotos publicadas vêm das atividades do curso. Cada arquivo tem, no acervo interno, a classificação e o registro de consentimento: só vai ao ar o que está marcado como público e com consentimento registrado, com crédito e descrição. Se você aparece em alguma foto e quer que ela saia do site, peça a remoção pelo canal abaixo e ela é retirada.",
+      },
+      challenges: {
+        title: "Desafios enviados por empresas",
+        body: "No formulário de desafios coletamos o nome da organização, o nome e o e-mail de contato e a descrição do problema técnico. Isso é usado só para a triagem pela coordenação do curso e para responder ao contato informado; a descrição do desafio não é publicada no site. Cada envio recebe um número de protocolo. A proteção contra envios automáticos funciona sem cookies, por limite de envios e campo-armadilha no formulário.",
+      },
+      portal: {
+        title: "Contas do Portal",
+        body: "O Portal é restrito e o cadastro é feito por convite da coordenação. Guardamos e-mail, nome e o papel de cada pessoa. Ações relevantes (publicação, aprovação, mudança de papel, envio e verificação de arquivos) ficam registradas em auditoria, com autor e data, para que seja possível saber quem fez o quê.",
+      },
+      where: {
+        title: "Onde os dados ficam",
+        body: "O banco de dados fica no Supabase, na região de São Paulo (Brasil). Os arquivos e fotos ficam no Google Drive da conta institucional do curso, e o site só os entrega depois de conferir no banco se aquele arquivo pode ser público. A hospedagem do site é na Vercel. A relação oficial de operadores e subcontratados é [CONTEÚDO PENDENTE].",
+      },
+      rights: {
+        title: "Seus direitos",
+        body: "A LGPD garante a você confirmação de que tratamos seus dados, acesso, correção, anonimização, bloqueio ou eliminação, portabilidade, informação sobre com quem compartilhamos e a revogação do consentimento a qualquer momento. Para exercer qualquer um desses direitos, use o canal indicado abaixo.",
+      },
+      retention: {
+        title: "Por quanto tempo guardamos",
+        body: "Os prazos de retenção de desafios recebidos, mensagens, registros de auditoria e arquivos do acervo são [CONTEÚDO PENDENTE]: dependem da política de guarda da universidade. Fotos publicadas saem do site assim que o consentimento é revogado.",
+      },
+      controller: {
+        title: "Responsável e contato",
+        body: "O tratamento é de responsabilidade da Universidade Federal de Santa Catarina, por meio do curso de Engenharia Ferroviária e Metroviária do Campus Joinville. O canal de atendimento ao titular e o encarregado de dados são [CONTEÚDO PENDENTE].",
+      },
+    },
   },
   quarantine: {
     badge: "Conteúdo em verificação",
@@ -992,6 +1044,7 @@ export const pt = {
       confidentialityHelp: "O pedido é registrado e considerado na triagem; acordos formais (NDA) dependem de análise caso a caso.",
       consent: "Autorizo o uso destes dados pela coordenação do curso exclusivamente para triagem e retorno deste desafio.",
       privacy: "Os dados ficam restritos à coordenação e às pessoas designadas para a triagem. Não aparecem no site, em buscas ou em analytics. Prazo de retenção: [CONTEÚDO PENDENTE] (decisão institucional).",
+      privacyLink: "Como tratamos esses dados",
       submit: "Enviar desafio",
       successTitle: "Desafio recebido",
       successDescription: "Guarde o protocolo abaixo. A coordenação entrará em contato pelo e-mail informado. Por privacidade, os dados enviados não são exibidos nesta página.",

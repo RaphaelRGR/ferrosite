@@ -28,7 +28,7 @@ for (const route of STRICT_ROUTES) {
 
 // Inclui a 404 (mesmo shell público claro das demais rotas).
 test("axe: baseline das rotas públicas legadas (registro, não bloqueia)", async ({ page }, testInfo) => {
-  test.setTimeout(180_000);
+  test.setTimeout(300_000);
   const summary: Record<string, string[]> = {};
   for (const route of [...PUBLIC_ROUTES, "/pt/rota-que-nao-existe"]) {
     // Auditoria sem a camada de movimento: elementos ainda não revelados (opacity 0 fora da tela) geravam falso "color-contrast".

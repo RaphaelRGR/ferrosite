@@ -56,6 +56,7 @@ export const en: Dictionary = {
     campus: "UFSC, Joinville Campus",
     center: "Joinville Technological Center (CTJ)",
     portal: "Academic Portal",
+    privacy: "Privacy",
     rights: "All rights reserved.",
   },
   hero: {
@@ -107,6 +108,57 @@ export const en: Dictionary = {
     labs: { title: "Laboratories", description: "R&D capabilities of CTJ laboratories for the railway and metro sector, by capability and application." },
     companies: { title: "For Companies", description: "Start from the technical problem: UFSC Joinville capabilities and laboratories that may relate to your company's challenge." },
     challenge: { title: "I have a challenge", description: "Send your company's technical challenge for screening by the coordination of the Railway and Metro Engineering program at UFSC Joinville." },
+    privacy: { title: "Privacy", description: "How the programme site handles personal data: cookies, photos, company challenges and Portal accounts." },
+  },
+  privacy: {
+    title: "Privacy and data",
+    description: "What this site collects, why, where the data lives and how to ask for correction or removal.",
+    updatedLabel: "Last updated on",
+    pendingNote:
+      "Items marked [PENDING CONTENT] depend on an institutional decision by UFSC (who is responsible, the contact channel and retention periods) and will be published once validated. Until then, Brazil's data protection law (LGPD, Law 13.709/2018) and the university's official channels apply.",
+    sections: {
+      visitor: {
+        title: "If you are just browsing",
+        body: "We use no audience measurement tools, no third-party trackers and no advertising, and we do not build visitor profiles. The server records only what is needed to operate and investigate failures: the route, method, response code, time and a request identifier. These records do not store what you type. Page errors in the browser may be reported back to this site with the error message, the route and a technical identifier.",
+      },
+      cookies: {
+        title: "Cookies",
+        body: "Only cookies that are strictly necessary: the light or dark theme preference in the Portal, the session of people who sign in to the Portal, and a temporary security cookie used when the coordination connects Google Drive. There are no advertising or analytics cookies, which is why the site shows no cookie banner.",
+      },
+      videos: {
+        title: "YouTube videos",
+        body: "Video sections show only a cover image until you click. The player is loaded after the click, using YouTube's no-cookie domain (youtube-nocookie.com). From that point Google's privacy policy applies.",
+        linkLabel: "Google privacy policy",
+      },
+      photos: {
+        title: "Photos of people",
+        body: "Published photos come from the programme's activities. In the internal archive every file carries its classification and consent record: only files marked public and with recorded consent reach the site, always with credit and description. If you appear in a photo and want it removed, ask through the channel below and it is taken down.",
+      },
+      challenges: {
+        title: "Challenges submitted by companies",
+        body: "The challenge form collects the organisation name, the contact name and e-mail and the description of the technical problem. This is used only for triage by the programme coordination and to reply to the contact provided; the challenge description is not published on the site. Each submission receives a protocol number. Spam protection works without cookies, through submission limits and a honeypot field.",
+      },
+      portal: {
+        title: "Portal accounts",
+        body: "The Portal is restricted and accounts are created by invitation from the coordination. We store e-mail, name and each person's role. Relevant actions (publishing, approval, role changes, file upload and verification) are recorded in an audit trail with author and date, so it is always possible to know who did what.",
+      },
+      where: {
+        title: "Where the data lives",
+        body: "The database runs on Supabase in the São Paulo region (Brazil). Files and photos live in the programme's institutional Google Drive account, and the site only serves them after checking in the database whether that file may be public. The site is hosted on Vercel. The official list of processors and subprocessors is [PENDING CONTENT].",
+      },
+      rights: {
+        title: "Your rights",
+        body: "The LGPD grants you confirmation that we process your data, access, correction, anonymisation, blocking or deletion, portability, information about who we share it with, and withdrawal of consent at any time. To exercise any of these rights, use the channel indicated below.",
+      },
+      retention: {
+        title: "How long we keep it",
+        body: "Retention periods for submitted challenges, messages, audit records and archive files are [PENDING CONTENT]: they depend on the university's records policy. Published photos leave the site as soon as consent is withdrawn.",
+      },
+      controller: {
+        title: "Who is responsible and how to reach us",
+        body: "Processing is the responsibility of the Federal University of Santa Catarina, through the Railway and Metro Engineering programme at the Joinville Campus. The data subject contact channel and the data protection officer are [PENDING CONTENT].",
+      },
+    },
   },
   quarantine: {
     badge: "Content under review",
@@ -993,6 +1045,7 @@ export const en: Dictionary = {
       confidentialityHelp: "The request is recorded and considered during screening; formal agreements (NDA) depend on case-by-case review.",
       consent: "I authorize the program coordination to use this data solely to screen and reply to this challenge.",
       privacy: "Data stays restricted to the coordination and the people assigned to screening. It never appears on the site, in search or in analytics. Retention period: [PENDING CONTENT] (institutional decision).",
+      privacyLink: "How we handle this data",
       submit: "Submit challenge",
       successTitle: "Challenge received",
       successDescription: "Keep the protocol number below. The coordination will contact you at the e-mail provided. For privacy, the submitted data is not displayed on this page.",
