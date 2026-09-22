@@ -17,7 +17,10 @@ for (const path of PAGES) {
     expect(meta(html, "og:title"), "og:title ausente").not.toBe("");
     expect(html).toContain('name="twitter:card" content="summary_large_image"');
 
-    const res = await request.get(url);
+    // A URL é absoluta contra o metadataBase (domínio público), mas quem responde aqui
+    // é o servidor de teste: busca pelo caminho, no baseURL da suíte.
+    const { pathname, search } = new URL(url);
+    const res = await request.get(pathname + search);
     expect(res.status(), url).toBe(200);
     expect(res.headers()["content-type"], url).toMatch(/^image\//);
   });
