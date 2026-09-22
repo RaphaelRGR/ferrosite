@@ -110,11 +110,12 @@ export function effectiveRootFolder(row: Pick<Row, "root_folder_id"> | null): st
 
 function oauthTokenSource(row: Row) {
   return async (): Promise<string> => {
-    const cfg = readGoogleOAuthEnv();
-    if (!cfg) throw new DriveTokenError("unconfigured", "GOOGLE_CLIENT_ID/SECRET/REDIRECT_URI ausentes");
     const expiresAt = row.access_token_expires_at ? Date.parse(row.access_token_expires_at) : 0;
     const access = decryptSecret(row.access_token_enc);
     if (access && expiresAt > Date.now() + 60_000) return access;
+    // As credenciais OAuth só são necessárias para renovar: um token válido serve mesmo sem elas (ex.: ambiente só de leitura).
+    const cfg = readGoogleOAuthEnv();
+    if (!cfg) throw new DriveTokenError("unconfigured", "GOOGLE_CLIENT_ID/SECRET/REDIRECT_URI ausentes");
     const refresh = decryptSecret(row.refresh_token_enc);
     if (!refresh) {
       await markRevoked("sem refresh token (chave de cifra mudou ou conexão incompleta)");
