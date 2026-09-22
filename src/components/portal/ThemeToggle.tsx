@@ -37,12 +37,12 @@ export function ThemeToggle({
   };
 
   return (
-    <fieldset className="flex items-center gap-1 rounded-full border border-line bg-surface p-1" aria-busy={pending || undefined}>
+    <fieldset className="flex items-center gap-0.5 rounded-full border border-line bg-surface p-0.5 sm:gap-1 sm:p-1" aria-busy={pending || undefined}>
       <legend className="sr-only">{labels.label}</legend>
       {THEMES.map((value) => (
         <label
           key={value}
-          className={`cursor-pointer rounded-full px-2 py-1.5 text-xs font-bold transition-colors focus-within:ring-2 focus-within:ring-focus sm:px-3 ${
+          className={`cursor-pointer rounded-full px-1.5 py-1.5 text-xs font-bold transition-colors focus-within:ring-2 focus-within:ring-focus sm:px-3 ${
             theme === value ? "bg-action text-fg-on-action" : "text-fg-muted hover:text-fg"
           }`}
         >

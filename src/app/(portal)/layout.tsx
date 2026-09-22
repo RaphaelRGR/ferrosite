@@ -68,17 +68,17 @@ export default async function PortalLayout({ children }: { children: React.React
 
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="border-b border-line bg-surface">
-            <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-6">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-6">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                 {status === "active" && <MobileNav items={items} labels={navLabels} />}
-                <Link href="/portal" className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:hidden">
-                  <BrandLogo width={44} className="p-0.5" />
+                <Link href="/portal" className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus max-[359px]:hidden lg:hidden">
+                  <BrandLogo width={40} className="shrink-0 p-0.5" />
                   {/* em telas estreitas o nome não cabe ao lado do seletor de tema e de Sair; o logo e o menu identificam o Portal */}
                   <span className="hidden text-sm font-black uppercase tracking-[0.12em] sm:inline">{dict.portal.name}</span>
                 </Link>
                 <span className="hidden text-sm font-black uppercase tracking-[0.12em] lg:inline">{dict.portal.name}</span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex min-w-0 items-center gap-1.5 sm:gap-4">
                 <ThemeToggle initial={theme} labels={dict.portal.theme} />
                 <span className="hidden max-w-[16rem] truncate text-xs text-fg-muted md:inline" title={user.email ?? undefined}>
                   {profile?.full_name || user.email}

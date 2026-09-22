@@ -38,7 +38,8 @@ export default async function FilesPage() {
             <li key={x.id}>
               <Link href={`/portal/arquivos/${x.id}`} className="flex flex-col gap-1 p-4 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:flex-row sm:items-center sm:justify-between">
                 <span className="min-w-0">
-                  <span className="block font-bold">{x.name}</span>
+                  {/* nomes de arquivo são longos e sem espaços: precisam quebrar */}
+                  <span className="block font-bold break-words">{x.name}</span>
                   <span className="block text-sm text-fg-muted">
                     {f.providers[x.provider]} · {x.mime_type}
                     {x.size_bytes !== null && ` · ${formatNumber("pt", Math.round(x.size_bytes / 1024))} KB`} · {x.owner?.full_name || x.owner?.email} · {formatDate("pt", new Date(x.created_at), { dateStyle: "short" })}

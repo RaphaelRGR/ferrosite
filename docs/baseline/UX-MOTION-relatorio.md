@@ -49,3 +49,12 @@ Limpeza pendente da seção anterior executada em modo Manual: os 2 PNGs de test
 - **Artigos** (experiência, notícia, projeto): padding `p-5` no celular (`p-8`/`p-12` acima); experiências datadas pelo **evento** (não pela publicação), com o local; capa logo abaixo do título.
 - **Curso**: rótulo "Grades oficiais (PDF)" em linha própria no celular.
 - Auditoria feita com capturas segmentadas a 375 px de Home, Curso, Projetos, Experiências, Para Empresas, Notícias, Sobre, Laboratórios, Eventos e páginas de detalhe; sem overflow horizontal em nenhuma. Testes: axe 37/37, quarentena, shorts, experiências, smoke, hubs, i18n, reduced-motion verdes.
+
+### Varredura de responsividade (375 px e 320 px)
+
+Script de sessão percorreu 15 páginas públicas e 8 do Portal em 375 px e 320 px medindo overflow horizontal, elementos mais largos que a tela e alvos de toque. Correções desta rodada:
+
+- **Portal, telas muito estreitas (≤ 359 px)**: cabeçalho passava 31 px da tela (seletor de tema + Sair). Espaçamentos do cabeçalho e do seletor reduzidos abaixo de `sm` e o logotipo (duplicado pelo menu) fica oculto abaixo de 360 px.
+- **Portal → Arquivos**: nomes de arquivo longos sem espaços (`Relatorio_Palestra_...`) empurravam a lista; `break-words` na lista e no título da página do arquivo.
+- Tabela de relatórios continua em contêiner com rolagem horizontal própria (`overflow-x-auto`), sem estourar a página.
+- Nenhuma página pública tem overflow horizontal em 375 px nem em 320 px. Imagens verificadas em produção: 17/17 carregam (as áreas vazias nas capturas eram apenas `loading="lazy"` não disparado pelo método de captura).

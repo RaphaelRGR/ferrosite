@@ -34,7 +34,7 @@ export default async function FilePage({ params }: PageProps<"/portal/arquivos/[
           {f.title}
         </Link>
         <div className="mt-1 flex flex-wrap items-center gap-3">
-          <h1 className="text-3xl font-black">{file.name}</h1>
+          <h1 className="text-3xl font-black break-words">{file.name}</h1>
           <Badge tone={file.status === "revoked" ? "danger" : "neutral"}>{f.statuses[file.status]}</Badge>
           <Badge tone={file.consent === "granted" || file.consent === "not_required" ? "success" : "warning"}>{f.consents[file.consent]}</Badge>
         </div>
