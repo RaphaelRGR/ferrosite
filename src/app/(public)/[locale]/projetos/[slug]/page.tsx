@@ -12,7 +12,7 @@ import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedGallery } from "@/components/public/PublishedGallery";
 import { projectText } from "@/components/public/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
-import { mediaImage } from "@/lib/content/media";
+import { mediaImage, mediaUrl } from "@/lib/content/media";
 import { getPublicProject, publicProjectGallery } from "@/lib/content/public";
 
 export const revalidate = 300;
@@ -27,7 +27,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/projetos
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const real = await getPublicProject(slug);
   const realText = real ? projectText(real, l) : null;
-  if (realText) return publicPageMetadata(l, `/projetos/${slug}`, { title: realText.name, description: realText.summary });
+  const image = real?.cover_file_id ? { url: mediaUrl(real.cover_file_id, 1280), alt: realText?.name ?? "" } : null;
+  if (realText) return publicPageMetadata(l, `/projetos/${slug}`, { title: realText.name, description: realText.summary, image });
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
   return project ? publicPageMetadata(l, `/projetos/${slug}`, { title: project.title, description: project.description }) : {};
 }

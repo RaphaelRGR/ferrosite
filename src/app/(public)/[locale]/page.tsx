@@ -11,6 +11,7 @@ import {
   PartnersStrip, PublishedExperiences } from "@/components/public/home/HomeSections";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { mediaUrl } from "@/lib/content/media";
 import { listPublicProjects, listPublished, publicCoverIds, publicSiteImage } from "@/lib/content/public";
 import { listShorts } from "@/lib/content/videos";
 import { ShortsStrip } from "@/components/public/ShortsStrip";
@@ -20,7 +21,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const dict = getDictionary(l);
-  return { ...publicPageMetadata(l, "/", { title: dict.site.name }), title: { absolute: dict.site.name } };
+  const hero = await publicSiteImage("home_hero", l);
+  const image = hero ? { url: mediaUrl(hero.fileId, 1280), alt: hero.alt } : null;
+  return { ...publicPageMetadata(l, "/", { title: dict.site.name, image }), title: { absolute: dict.site.name } };
 }
 
 /**

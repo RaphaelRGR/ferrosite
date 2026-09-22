@@ -10,6 +10,7 @@ import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedArticle } from "@/components/public/PublishedArticle";
+import { mediaUrl } from "@/lib/content/media";
 import { getPublished, publicCoverId, publicGallery } from "@/lib/content/public";
 
 export const revalidate = 300;
@@ -23,7 +24,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/experien
   const { locale, id } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const published = await getPublished("experience", l, id);
-  if (published) return publicPageMetadata(l, `/experiencias/${id}`, { title: published.title, description: published.summary });
+  const coverId = published?.cover_file_id ? await publicCoverId(published) : null;
+  const image = coverId && published ? { url: mediaUrl(coverId, 1280), alt: published.cover_alt } : null;
+  if (published) return publicPageMetadata(l, `/experiencias/${id}`, { title: published.title, description: published.summary, image });
   const item = EXPERIENCES.find((e) => e.id === id);
   return item ? publicPageMetadata(l, `/experiencias/${id}`, { title: item.title, description: item.description }) : {};
 }

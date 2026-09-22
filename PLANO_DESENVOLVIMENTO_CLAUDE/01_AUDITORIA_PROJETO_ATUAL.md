@@ -219,3 +219,7 @@ Relatório: `docs/baseline/UX-MOTION-relatorio.md`. Site em produção na Vercel
 ## Estado após PERF-001 (2026-09-22)
 
 Relatório: `docs/baseline/PERF-001-relatorio.md`. O proxy público passou a servir miniaturas por largura (`/api/midia/[id]?w=`), com `srcset`/`sizes` em hero, cartões, capas e galeria: a Home caiu de 9,4 MB para ~0,4 MB de imagens e a página da visita à RUMO de 96 MB para ~1,1 MB no celular. Orçamento protegido por teste e2e (`media.spec.ts`).
+
+## Estado após SEO-001 (2026-09-22)
+
+Relatório: `docs/baseline/SEO-001-relatorio.md`. Todas as páginas públicas passaram a ter imagem de compartilhamento: cartão institucional gerado em `/og/<locale>` (1200x630, PT/EN) e, onde há capa publicada, a própria foto em `?w=1280`. `twitter:card` e `og:image:alt` incluídos; robots libera `/api/midia/`.

@@ -15,7 +15,7 @@ import { DEFAULT_LOCALE, hasLocale, LOCALE_COOKIE, negotiateLocale, splitLocale 
  *    - com sessão ⇒ segue; o layout do Portal ainda exige perfil ATIVO.
  * 3. /login com sessão ⇒ /portal.
  */
-const UNPREFIXED_PREFIXES = ['/portal', '/api', '/design-system', '/login']
+const UNPREFIXED_PREFIXES = ['/portal', '/api', '/design-system', '/login', '/og']
 const PORTAL_PREFIX = '/portal'
 
 function needsLocale(pathname: string): boolean {
