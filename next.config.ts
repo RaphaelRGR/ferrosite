@@ -14,7 +14,7 @@ const CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://i.ytimg.com",
   "font-src 'self' data:",
   "media-src 'self'",
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
@@ -22,6 +22,7 @@ const CSP = [
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  "frame-src https://www.youtube-nocookie.com",
   "frame-ancestors 'none'",
   ...(isProd ? ["upgrade-insecure-requests"] : []),
 ].join("; ");

@@ -1021,6 +1021,16 @@ export const en: Dictionary = {
     newsletterTitle: "Newsletter",
     newsletterPending: "The newsletter launches once a provider, consent and a privacy policy are in place. Until then, follow the news here.",
   },
+  videos: {
+    eyebrow: "The programme on video",
+    title: "Behind the scenes of Railway Engineering",
+    description: "Shorts from the programme's YouTube channel: visits, projects and everyday life. The selection changes on every visit.",
+    play: "Play",
+    watch: "Watch on YouTube",
+    shuffle: "Other videos",
+    privacy: "The YouTube player only loads when you click a video.",
+    untitled: "Programme video",
+  },
   published: {
     previewNotice: "Preview: this version is not published yet and is not indexable.",
     approvedNote: "Published by the Portal after editorial approval by the coordination.",

@@ -12,6 +12,8 @@ import {
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { listPublicProjects, listPublished, publicCoverUrls, publicSiteImage } from "@/lib/content/public";
+import { listShorts } from "@/lib/content/videos";
+import { ShortsStrip } from "@/components/public/ShortsStrip";
 import { publicPageMetadata } from "@/i18n/metadata";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
@@ -32,7 +34,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const dict = getDictionary(l);
   const editorial = l === "pt";
-  const [hero, experiences, projects] = await Promise.all([publicSiteImage("home_hero", l), listPublished("experience", l, 6), listPublicProjects()]);
+  const [hero, experiences, projects, shorts] = await Promise.all([publicSiteImage("home_hero", l), listPublished("experience", l, 6), listPublicProjects(), listShorts()]);
   const visibleProjects = l === "en" ? projects.filter((p) => p.name_en) : projects;
   const [covers, projectCovers] = await Promise.all([publicCoverUrls(experiences), publicCoverUrls(visibleProjects.map((p) => ({ id: p.id, cover_file_id: p.cover_file_id })))]);
 
@@ -40,6 +42,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     <>
       <HomeHero locale={l} dict={dict.home.hero} hero={hero} />
       <PublishedExperiences locale={l} dict={dict.home.experiences} items={[...experiences].sort((a, b) => (b.event_at ?? b.published_at).localeCompare(a.event_at ?? a.published_at))} covers={covers} />
+      <ShortsStrip videos={shorts} count={3} labels={dict.videos} tone="canvas" />
       {editorial ? <IndicatorsStrip dict={dict.home.indicators} /> : null}
       <CourseFronts locale={l} dict={dict.home.fronts} />
       {editorial ? (

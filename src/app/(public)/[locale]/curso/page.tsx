@@ -14,6 +14,8 @@ import { CurriculumExplorer } from "@/components/curriculum/CurriculumExplorer";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { listShorts } from "@/lib/content/videos";
+import { ShortsStrip } from "@/components/public/ShortsStrip";
 
 const PATH = "/curso";
 
@@ -35,12 +37,14 @@ export default async function CursoPage({ params }: PageProps<"/[locale]/curso">
   if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const full = getDictionary(l);
   const dict = full.course;
+  const shorts = await listShorts();
 
   return (
     <>
       <CourseHero dict={dict.hero} />
       <AboutCourse dict={dict.about} />
       <CoursePillarsSection dict={dict.pillars} />
+      <ShortsStrip videos={shorts} count={4} labels={full.videos} tone="canvas" />
       <CourseJourney locale={l} dict={dict.journey} />
       <UnverifiedContent section="curso.flowchart">
         <div id="fluxograma" className="bg-canvas">

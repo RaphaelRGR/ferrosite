@@ -1020,6 +1020,16 @@ export const pt = {
     newsletterTitle: "Newsletter",
     newsletterPending: "A newsletter entra no ar quando houver provedor, consentimento e política de privacidade definidos. Por enquanto, acompanhe as notícias por aqui.",
   },
+  videos: {
+    eyebrow: "O curso em vídeo",
+    title: "Nos bastidores da Engenharia Ferroviária",
+    description: "Shorts do canal do curso no YouTube: visitas, projetos e o dia a dia. A seleção muda a cada visita.",
+    play: "Assistir",
+    watch: "Ver no YouTube",
+    shuffle: "Outros vídeos",
+    privacy: "O player do YouTube só carrega quando você clica em um vídeo.",
+    untitled: "Vídeo do curso",
+  },
   published: {
     previewNotice: "Pré-visualização: esta versão ainda não foi publicada e não é indexável.",
     approvedNote: "Publicado pelo Portal após aprovação editorial da coordenação.",

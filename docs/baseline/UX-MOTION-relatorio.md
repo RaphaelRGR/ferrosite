@@ -23,3 +23,18 @@ Pedido da coordenação: site mais dinâmico e leve (animações ao rolar e ao p
 
 - `drive-upload.spec` passa a **criar o próprio projeto de teste** (`projeto-e2e-…`, interno) quando o slug configurado não existe; antes, com a fixture purgada, o formulário caía no primeiro projeto real e o teste enviou dois PNGs para `projetos/cavalos-de-ferro/documentos` no Drive institucional. Esses dois arquivos (e as linhas `file_asset` correspondentes) ainda precisam ser removidos por script (bloqueado em modo automático).
 - Cada rodada e2e volta a criar fixtures no banco e uma pasta `projetos/projeto-e2e-…` no Drive: decisão pendente de um projeto Supabase separado para testes.
+
+## Complemento: Shorts do curso (2026-09-22)
+
+A coordenação enviou 10 links de Shorts do canal do curso no YouTube e pediu que apareçam no site (Curso e onde fizer sentido), sempre sorteados para "parecer algo novo".
+
+| Área | Implementação |
+|---|---|
+| Dados | `src/content/videos.ts`: só os 10 ids (fonte: mensagem da coordenação). Título e canal vêm do **oEmbed do YouTube** no servidor (`src/lib/content/videos.ts`, cache 1 dia, tolerante a falha): nenhum título inventado. |
+| Componente | `ShortsStrip` (client): sorteio por semente no cliente depois da hidratação (`useSyncExternalStore`, sem mismatch; páginas continuam estáticas/ISR), esqueleto no HTML do servidor, cartões 9:16 com miniatura (`i.ytimg.com`, fallback `hqdefault`), botão "Assistir" com rótulo acessível, "Ver no YouTube" (`rel=noopener`), botão "Outros vídeos" refaz o sorteio. |
+| Privacidade | Fachada: nada do YouTube carrega antes do clique; o player usa `youtube-nocookie.com`. Aviso visível: "O player do YouTube só carrega quando você clica em um vídeo." |
+| CSP | `img-src` + `https://i.ytimg.com`; novo `frame-src https://www.youtube-nocookie.com` (antes `default-src 'self'` bloqueava qualquer iframe). |
+| Onde | Home (3 vídeos, após "Visitas técnicas e palestras realizadas") e Curso (4 vídeos, após os pilares). Textos PT/EN em `dict.videos`. |
+| Testes | `tests/e2e/shorts.spec.ts`: 4/3 cartões, zero requisições ao YouTube antes do clique, iframe só do nocookie após o clique, CSP publicada, "Outros vídeos" fecha o player e refaz o sorteio. Suíte pública (axe, smoke, i18n, links, quarentena, headers, reduced-motion) verde. |
+
+Limpeza pendente da seção anterior executada em modo Manual: os 2 PNGs de teste foram para a lixeira do Drive e 5 registros de teste saíram do banco.
