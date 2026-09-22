@@ -42,6 +42,8 @@ function readProjectFields(fd: FormData): { fields: Record<string, unknown> } | 
       name_en: str(fd, "name_en", 160),
       summary: str(fd, "summary", 2000),
       summary_en: str(fd, "summary_en", 2000),
+      description_md: str(fd, "description_md", 20000),
+      description_md_en: str(fd, "description_md_en", 20000),
       category,
       classification,
       starts_on,

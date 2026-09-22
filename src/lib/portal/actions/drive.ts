@@ -7,6 +7,10 @@ import { driveErrorMessage } from "@/lib/files/drive-errors";
 import { requireDriveManager } from "@/lib/files/drive-guard";
 import { createClient } from "@/lib/supabase/server";
 import { fail, type ActionState } from "../action-state";
+import { importBatch, type ImportBatchResult } from "@/lib/files/import";
+import { parseTarget } from "@/lib/files/upload";
+import { CLASSIFICATIONS } from "../authz";
+import { CONSENT_STATUSES } from "../content-constants";
 
 const PAGE = "/portal/configuracoes/integracoes";
 
@@ -79,6 +83,36 @@ export async function setDriveFolder(_prev: ActionState, fd: FormData): Promise<
   await audit("drive.folder_set", { folder: id, name: meta.meta.name });
   revalidatePath(PAGE);
   return { ok: true };
+}
+
+export interface ImportState extends ActionState {
+  result?: ImportBatchResult;
+}
+
+/** Um lote da importação de pasta do Drive (DRIVE-004); o cliente chama de novo com `cursor = result.next`. */
+export async function importDriveFolderBatch(_prev: ImportState, fd: FormData): Promise<ImportState> {
+  const source = parseDriveId(String(fd.get("source") ?? ""));
+  const target = parseTarget(fd);
+  const cursor = Number(fd.get("cursor") ?? 0);
+  const classification = String(fd.get("classification") ?? "internal");
+  const consent = String(fd.get("consent") ?? "pending");
+  if (!source || !target || !Number.isInteger(cursor) || cursor < 0) return fail(fd, { error: "invalid", field: "source" });
+  if (!(CLASSIFICATIONS as readonly string[]).includes(classification) || !(CONSENT_STATUSES as readonly string[]).includes(consent)) return fail(fd, { error: "invalid" });
+  const r = await importBatch({
+    sourceFolderId: source,
+    target,
+    cursor,
+    limit: 5,
+    classification: classification as never,
+    consent: consent as never,
+    credit: String(fd.get("credit") ?? "").trim().slice(0, 200),
+  });
+  if (!r.ok) return fail(fd, { error: r.error === "unauthenticated" || r.error === "forbidden" ? r.error : `db:${driveErrorMessage(r.error === "invalid_source" ? "not_found" : r.error)}` });
+  if (r.result.next === null) {
+    await audit("drive.import", { source, total: r.result.total });
+    revalidatePath("/portal/arquivos");
+  }
+  return { ok: true, result: r.result, values: Object.fromEntries([...fd.entries()].filter(([k, v]) => typeof v === "string" && k !== "cursor") as [string, string][]) };
 }
 
 /** Desconectar: revoga no Google (melhor esforço), zera tokens; nada no Drive é apagado. */

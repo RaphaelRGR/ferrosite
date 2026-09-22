@@ -8,6 +8,9 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import { EXPERIENCES, FEATURED_PROJECTS, INDICATORS, NEWS, PARTNER_LOGOS } from "@/content/staging";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { formatDate } from "@/i18n/format";
+import type { PublicProject, PublishedItem } from "@/lib/content/public";
+import { ProjectCards } from "@/components/public/ProjectCards";
 
 type HomeDict = Dictionary["home"];
 
@@ -18,7 +21,7 @@ const ICON = {
   operations: "M3 12h18M3 6h18M3 18h18M7 3v3M17 15v3",
 } as const;
 
-export function HomeHero({ locale, dict }: { locale: Locale; dict: HomeDict["hero"] }) {
+export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: HomeDict["hero"]; hero?: { url: string; alt: string; credit: string } | null }) {
   return (
     <section className="bg-surface">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:py-20">
@@ -43,9 +46,14 @@ export function HomeHero({ locale, dict }: { locale: Locale; dict: HomeDict["her
         </div>
         <figure className="relative">
           <div className="overflow-hidden rounded-[32px] border border-line shadow-sm">
-            <HeroArt title={dict.artAlt} />
+            {hero ? (
+              // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa
+              <img src={hero.url} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
+            ) : (
+              <HeroArt title={dict.artAlt} />
+            )}
           </div>
-          <figcaption className="mt-2 text-right text-xs text-fg-muted">{dict.artNote}</figcaption>
+          <figcaption className="mt-2 text-right text-xs text-fg-muted">{hero ? (hero.credit ? `${dict.photoCredit}: ${hero.credit}` : hero.alt) : dict.artNote}</figcaption>
         </figure>
       </div>
     </section>
@@ -108,7 +116,19 @@ export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict[
   );
 }
 
-export function FeaturedProjects({ locale, dict }: { locale: Locale; dict: HomeDict["projects"] }) {
+export function FeaturedProjects({ locale, dict, projects = [], covers = new Map(), fullDict }: { locale: Locale; dict: HomeDict["projects"]; projects?: PublicProject[]; covers?: Map<string, string>; fullDict?: Dictionary }) {
+  if (projects.length > 0 && fullDict) {
+    return (
+      <section className="bg-canvas">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+          <SectionHeading eyebrow={dict.eyebrow} title={dict.title} link={{ href: localizePath(locale, "/projetos"), label: dict.link }} />
+          <div className="mt-10">
+            <ProjectCards projects={projects.slice(0, 8)} covers={covers} locale={locale} dict={fullDict} detailLabel={dict.detail} columns={4} />
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <UnverifiedContent section="home.projects">
       <section className="bg-canvas">
@@ -135,6 +155,40 @@ export function FeaturedProjects({ locale, dict }: { locale: Locale; dict: HomeD
         </div>
       </section>
     </UnverifiedContent>
+  );
+}
+
+export function PublishedExperiences({ locale, dict, items, covers }: { locale: Locale; dict: HomeDict["experiences"]; items: PublishedItem[]; covers: Map<string, string> }) {
+  if (items.length === 0) return null;
+  return (
+    <section className="bg-surface" data-published="live">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <SectionHeading eyebrow={dict.eyebrow} title={dict.publishedTitle} link={{ href: localizePath(locale, "/experiencias"), label: dict.link }} />
+        <ul className="mt-10 grid gap-5 md:grid-cols-3">
+          {items.slice(0, 6).map((e) => (
+            <li key={e.id} className="flex flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
+              {covers.get(e.id) ? (
+                // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
+                <img src={covers.get(e.id)} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+              ) : (
+                <div aria-hidden="true" className="aspect-[4/3] w-full bg-gradient-to-br from-surface-2 to-canvas" />
+              )}
+              <div className="flex flex-1 flex-col gap-2 p-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
+                  {e.event_at && <time dateTime={e.event_at}>{formatDate(locale, new Date(e.event_at), { dateStyle: "medium" })}</time>}
+                  {e.event_place && ` · ${e.event_place}`}
+                </p>
+                <p className="font-bold leading-snug">{e.title}</p>
+                <p className="text-sm text-fg-muted">{e.summary}</p>
+                <Link href={localizePath(locale, `/experiencias/${e.slug}`)} className="mt-auto inline-flex items-center gap-1 rounded pt-2 text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                  {dict.detail} <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 

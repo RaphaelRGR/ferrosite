@@ -5,6 +5,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate, formatNumber } from "@/i18n/format";
+import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
 import { listFiles } from "@/lib/portal/content";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = { title: "Arquivos" };
 /** Acervo (17): metadados dos arquivos que o usuário pode ver (dono, vínculo ou overseer). */
 export default async function FilesPage() {
   const dict = getDictionary("pt").portal;
-  await requireActiveProfile();
+  const { profile } = await requireActiveProfile();
   const files = await listFiles();
   const f = dict.files;
   return (
@@ -25,6 +26,7 @@ export default async function FilesPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <LinkButton href="/portal/arquivos/enviar">{f.upload.title}</LinkButton>
+          {isOverseer(profile.global_role) && <LinkButton href="/portal/arquivos/importar" variant="secondary">{f.importer.title}</LinkButton>}
           <LinkButton href="/portal/arquivos/novo" variant="secondary">{f.new}</LinkButton>
         </div>
       </header>

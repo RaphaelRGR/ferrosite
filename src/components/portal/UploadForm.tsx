@@ -23,6 +23,7 @@ export function UploadForm({
   overseer,
   initialProject,
   missionId,
+  contentId,
   canWrite,
   accept,
 }: {
@@ -31,6 +32,8 @@ export function UploadForm({
   overseer: boolean;
   initialProject?: string;
   missionId?: string;
+  /** Conteúdo de destino (galeria): conteudos/<tipo>/<slug>. */
+  contentId?: string;
   canWrite: boolean;
   /** Extensões aceitas (da allowlist `uploadable`). */
   accept: string[];
@@ -39,6 +42,7 @@ export function UploadForm({
   const router = useRouter();
   const fileId = useId();
   const [target, setTarget] = useState<"project" | "area">(initialProject || !overseer ? "project" : "area");
+  const contentMode = Boolean(contentId);
   const [pending, setPending] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -106,7 +110,14 @@ export function UploadForm({
         <p className="text-xs text-fg-muted">{u.fileHelp.replace("{types}", accept.join(", "))}</p>
       </div>
 
-      {overseer && (
+      {contentMode && (
+        <>
+          <input type="hidden" name="target" value="content" />
+          <input type="hidden" name="item_id" value={contentId} />
+          <p className="text-sm text-fg-muted">{u.contentTarget}</p>
+        </>
+      )}
+      {!contentMode && overseer && (
         <fieldset className="flex flex-wrap gap-4">
           <legend className="mb-2 text-sm font-bold text-fg">{u.destination}</legend>
           {(["project", "area"] as const).map((k) => (
@@ -117,9 +128,9 @@ export function UploadForm({
           ))}
         </fieldset>
       )}
-      {!overseer && <input type="hidden" name="target" value="project" />}
+      {!contentMode && !overseer && <input type="hidden" name="target" value="project" />}
 
-      {target === "project" ? (
+      {contentMode ? null : target === "project" ? (
         <div className="grid gap-4 sm:grid-cols-2">
           {missionId ? (
             <>

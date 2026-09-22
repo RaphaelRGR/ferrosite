@@ -50,7 +50,7 @@ describe("templates (MAIL-001)", () => {
     expect(withUrl.text).toContain("https://exemplo.invalid/en/noticias/nota");
     const noUrl = renderMail({ template: "content_published", locale: "en", payload: { title: "N", type: "news", slug: "nota", contentLocale: "en" }, siteUrl: "" })!;
     expect(noUrl.text).not.toMatch(/https?:\/\//);
-    const noPublicPath = renderMail({ template: "content_published", locale: "pt", payload: { title: "N", type: "experience", slug: "x", contentLocale: "pt" }, siteUrl: "https://exemplo.invalid" })!;
+    const noPublicPath = renderMail({ template: "content_published", locale: "pt", payload: { title: "N", type: "partner_case", slug: "x", contentLocale: "pt" }, siteUrl: "https://exemplo.invalid" })!;
     expect(noPublicPath.text).not.toMatch(/https?:\/\//);
   });
 

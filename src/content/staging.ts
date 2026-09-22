@@ -35,8 +35,7 @@ export const COURSE_FACTS: Array<{ id: string; value: string; label: string; sou
 export const FEATURED_PROJECTS: StagingItem[] = [
   { id: "comunica-ferro", title: "Comunica Ferro", description: "Projeto de comunicação que dá voz às ferrovias e conecta alunos ao setor.", meta: "Comunicação", source: "Navbar/StoryJourney/HowItWorksSection" },
   { id: "cavalos-de-ferro", title: "Cavalos de Ferro", description: "Competição estudantil de engenharia ferroviária.", meta: "Competição", source: "Navbar/EventsSection" },
-  { id: "ferro-lab", title: "Ferro Lab", description: "Laboratório operando de dentro de um container real, para atividades práticas.", meta: "Extensão", source: "Navbar/StoryJourney" },
-  { id: "extensao", title: "Projetos de Extensão", description: "[CONTEÚDO PENDENTE]", meta: "Extensão", source: "Navbar" },
+  // "ferro-lab" e "extensao" (Navbar do legado) foram substituídos pelos projetos reais `ferrolab` e os de extensão cadastrados no Portal (PROJ-001, 2026-09-21).
 ];
 
 /** Experiências (visitas/missões) — origem: VisitsSection, VisitsGallery, VisitsSchedule. */

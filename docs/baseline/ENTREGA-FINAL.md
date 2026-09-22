@@ -71,3 +71,7 @@ Conexão institucional do Drive por OAuth 2.0 (`docs/GOOGLE_DRIVE_INTEGRATION.md
 ## Addendum — DRIVE-003 upload pelo Portal (2026-09-21)
 
 Upload Portal → Drive com escopo `drive.file`, estrutura por entidade, magic bytes e trava de concorrência (`docs/baseline/DRIVE-003-relatorio.md`). Migration 10 aplicada; Drive institucional conectado com escrita e uploads reais verificados no e2e. Números: unit 177, RLS 64, e2e 271.
+
+## Addendum — DRIVE-004 Experiências reais com galeria (2026-09-21)
+
+Galeria de conteúdo, `experience` público, Importar do Drive e 8 experiências reais criadas a partir do acervo (`docs/baseline/DRIVE-004-relatorio.md`). Migration 11 aplicada. Fotos ficam internas até consentimento; capas sem pessoas.

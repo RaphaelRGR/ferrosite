@@ -4,7 +4,8 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { renderMarkdown } from "@/lib/content/markdown";
-import type { PublishedItem } from "@/lib/content/public";
+import type { PublicGalleryItem, PublishedItem } from "@/lib/content/public";
+import { PublishedGallery } from "./PublishedGallery";
 
 /**
  * Artigo publicado pela projeção (PUB-001): título, data, resumo, corpo em
@@ -20,6 +21,7 @@ export function PublishedArticle({
   labels,
   preview,
   coverUrl = null,
+  gallery = [],
 }: {
   item: PublishedItem;
   locale: Locale;
@@ -30,6 +32,8 @@ export function PublishedArticle({
   preview?: boolean;
   /** Capa servida pelo proxy público (DRIVE-001); `null` mantém só o crédito. */
   coverUrl?: string | null;
+  /** Galeria já filtrada pelo banco (DRIVE-004). */
+  gallery?: PublicGalleryItem[];
 }) {
   const date = item.type === "event" && item.event_at ? item.event_at : item.published_at;
   return (
@@ -63,6 +67,7 @@ export function PublishedArticle({
               </p>
             )
           )}
+          <PublishedGallery items={gallery} title={labels.gallery} creditLabel={labels.credit} />
           <p className="mt-8 text-xs text-fg-muted">{labels.approvedNote}</p>
           <div className="mt-8">
             <LinkButton href={backHref} variant="secondary">

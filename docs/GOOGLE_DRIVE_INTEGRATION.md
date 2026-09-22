@@ -74,6 +74,10 @@ relatorios/<ano>   comunicacao/   acervo-historico/
 
 Tipos aceitos: jpg/png/webp, pdf, stl/dxf/dwg/sldprt, docx/xlsx/pptx (limites por tipo na `file_type_allowlist`). ZIP e vídeo só podem ser *registrados* (não sobem) até haver antivírus. Quem envia: membros com papel de escrita no projeto (viewer não); áreas institucionais só admin/coordenação. O Portal nunca move, renomeia ou apaga nada no Drive.
 
+## Importar do Drive (DRIVE-004)
+
+Arquivos → **Importar do Drive** (admin/coordenação): cole o link de uma pasta do Drive humano e escolha o destino (galeria de um conteúdo, projeto ou área). O Portal copia os arquivos diretos da pasta pelo mesmo pipeline do upload; o que já existe (mesmo md5) é pulado (e religado, no caso de galeria); vídeos/ZIP são ignorados; nada é movido ou apagado na origem. Por lotes de 5 com progresso e "parar após este lote".
+
 ## Página de configuração
 
 `/portal/configuracoes/integracoes` (atalho em Configurações). Estados:

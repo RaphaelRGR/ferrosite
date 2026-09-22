@@ -54,3 +54,7 @@ next-env.d.ts
 client_secret*.json
 google-oauth*.json
 *-service-account*.json
+
+# scripts de sessão do operador (nunca commitar)
+/_*.mjs
+/_*.mts

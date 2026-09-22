@@ -9,6 +9,13 @@ import { FEATURED_PROJECTS } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { PublishedGallery } from "@/components/public/PublishedGallery";
+import { projectText } from "@/components/public/ProjectCards";
+import { renderMarkdown } from "@/lib/content/markdown";
+import { getPublicProject, publicProjectGallery } from "@/lib/content/public";
+
+export const revalidate = 300;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) => FEATURED_PROJECTS.map((p) => ({ locale, slug: p.id })));
@@ -17,6 +24,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/[locale]/projetos/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
+  const real = await getPublicProject(slug);
+  const realText = real ? projectText(real, l) : null;
+  if (realText) return publicPageMetadata(l, `/projetos/${slug}`, { title: realText.name, description: realText.summary });
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
   return project ? publicPageMetadata(l, `/projetos/${slug}`, { title: project.title, description: project.description }) : {};
 }
@@ -29,9 +39,41 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/projetos
 export default async function ProjetoPage({ params }: PageProps<"/[locale]/projetos/[slug]">) {
   const { locale, slug } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
+  const dict = getDictionary(l);
+  const real = await getPublicProject(slug);
+  const realText = real ? projectText(real, l) : null;
+  if (real && realText) {
+    const gallery = await publicProjectGallery(slug, l);
+    const description = l === "en" ? real.description_md_en : real.description_md;
+    return (
+      <section className="bg-canvas">
+        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
+          <div className="rounded-[32px] border border-line bg-surface p-8 sm:p-12" data-published="live">
+            <Badge tone="neutral">{dict.portal.projectCategory[real.category as keyof typeof dict.portal.projectCategory]}</Badge>
+            <div className="mt-4">
+              <SectionHeading as="h1" eyebrow={dict.pages.projects.title} title={realText.name} description={realText.summary} />
+            </div>
+            {gallery[0] && (
+              <figure className="mt-8">
+                {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
+                <img src={gallery[0].url} alt={gallery[0].alt} className="w-full rounded-2xl border border-line" />
+                {gallery[0].credit && <figcaption className="mt-2 text-xs text-fg-muted">{`${dict.published.credit}: ${gallery[0].credit}`}</figcaption>}
+              </figure>
+            )}
+            {description && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(description) }} />}
+            <PublishedGallery items={gallery.slice(1)} title={dict.published.gallery} creditLabel={dict.published.credit} />
+            <div className="mt-8">
+              <LinkButton href={localizePath(l, "/projetos")} variant="secondary">
+                ← {dict.pages.projects.title}
+              </LinkButton>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
   if (!project) notFound();
-  const dict = getDictionary(l);
   if (l !== "pt") return <PendingPage dict={dict} path={`/projetos/${slug}`} />;
 
   return (

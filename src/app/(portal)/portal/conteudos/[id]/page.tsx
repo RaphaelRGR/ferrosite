@@ -11,7 +11,9 @@ import { localizePath, type Locale } from "@/i18n/config";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { CONTENT_TYPE_PUBLIC_PATH, getContent, listApprovals, listFiles, listProjectOptions, listPublications, listRevisions } from "@/lib/portal/content";
+import { CONTENT_TYPE_PUBLIC_PATH, getContent, listApprovals, listContentFiles, listFiles, listProjectOptions, listPublications, listRevisions } from "@/lib/portal/content";
+import { ContentGallery } from "@/components/portal/GalleryForms";
+import { getDriveClient } from "@/lib/files/drive-connection";
 
 export const metadata: Metadata = { title: "Conteúdo" };
 
@@ -29,7 +31,7 @@ export default async function ContentPage({ params, searchParams }: PageProps<"/
   const { profile } = await requireActiveProfile();
   const item = await getContent(id);
   if (!item) notFound();
-  const [revisions, approvals, publications, projects, files] = await Promise.all([listRevisions(id), listApprovals(id), listPublications(id), listProjectOptions(), listFiles()]);
+  const [revisions, approvals, publications, projects, files, galleryFiles, drive] = await Promise.all([listRevisions(id), listApprovals(id), listPublications(id), listProjectOptions(), listFiles(), listContentFiles(id), getDriveClient()]);
   const c = dict.content;
   const overseer = isOverseer(profile.global_role);
   const canEdit = overseer || (item.author_id === profile.id && ["draft", "changes_requested", "review"].includes(item.status));
@@ -108,6 +110,15 @@ export default async function ContentPage({ params, searchParams }: PageProps<"/
               </dl>
               {!publicPath && <p className="mt-4 text-xs text-fg-muted">{c.notPublicType}</p>}
             </section>
+
+            <ContentGallery
+              dict={dict}
+              itemId={item.id}
+              files={galleryFiles}
+              candidates={files.filter((x) => x.status !== "revoked" && !galleryFiles.some((g) => g.file_id === x.id)).map((x) => ({ id: x.id, label: `${x.name} (${dict.files.consents[x.consent]})` }))}
+              canEdit={canEdit}
+              driveWrite={Boolean(drive?.canWrite)}
+            />
 
             <section className="rounded-xl border border-line bg-surface p-6">
               <h2 className="text-lg font-bold">{c.revisions}</h2>

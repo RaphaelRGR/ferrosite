@@ -75,6 +75,29 @@ export async function listProjectFiles(projectId: string): Promise<ProjectFileRo
   return (data ?? []) as unknown as ProjectFileRow[];
 }
 
+export type ContentFileRow = Tables<"content_file"> & { file: FileRow | null };
+
+/** Galeria/anexos de um conteúdo (RLS: quem vê o conteúdo). */
+export async function listContentFiles(itemId: string): Promise<ContentFileRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("content_file").select("*, file:file_id (*, owner:owner_id (full_name, email))").eq("item_id", itemId).order("position").order("linked_at");
+  return (data ?? []) as unknown as ContentFileRow[];
+}
+
+/** Imagens do site definidas (chave → arquivo); RLS: coordenação. */
+export async function getSiteImages(): Promise<Map<string, string>> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("site_image").select("key, file_id");
+  return new Map((data ?? []).map((r) => [r.key, r.file_id]));
+}
+
+/** Candidatas a imagem do site: imagens verificadas, públicas, com consentimento (ou sem pessoas). */
+export async function listSiteImageCandidates(): Promise<Array<{ id: string; label: string }>> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("file_asset").select("id, name, alt_text").eq("status", "verified").eq("classification", "public").in("consent", ["granted", "not_required"]).like("mime_type", "image/%").order("name");
+  return (data ?? []).map((f) => ({ id: f.id, label: f.alt_text ? `${f.alt_text} — ${f.name}` : f.name }));
+}
+
 /** Destinos de upload (DRIVE-003): projetos em que a pessoa tem papel de escrita (RLS mostra só o que ela vê); overseer vê todos os ativos. */
 export async function listUploadTargets(userId: string, overseer: boolean): Promise<Array<{ slug: string; name: string }>> {
   const supabase = await createClient();

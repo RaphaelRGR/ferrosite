@@ -28,6 +28,12 @@ export type Database = {
         Update: { id?: string; organization_id?: string; full_name?: string; role_title?: string; email?: string; phone?: string; consent_note?: string; created_by?: string; created_at?: string; updated_at?: string; version?: number };
         Relationships: [];
       };
+      content_file: {
+        Row: { item_id: string; file_id: string; kind: Database["public"]["Enums"]["file_link_kind"]; position: number; caption: string; linked_by: string; linked_at: string };
+        Insert: { item_id: string; file_id: string; kind?: Database["public"]["Enums"]["file_link_kind"]; position?: number; caption?: string; linked_by: string; linked_at?: string };
+        Update: { item_id?: string; file_id?: string; kind?: Database["public"]["Enums"]["file_link_kind"]; position?: number; caption?: string; linked_by?: string; linked_at?: string };
+        Relationships: [];
+      };
       content_item: {
         Row: { id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; project_id: string | null; organization_id: string | null; cover_file_id: string | null; source_note: string; consent_confirmed: boolean; status: Database["public"]["Enums"]["content_status"]; scheduled_for: string | null; preview_token: string; author_id: string; updated_by: string; created_at: string; updated_at: string; version: number };
         Insert: { id?: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; project_id?: string | null; organization_id?: string | null; cover_file_id?: string | null; source_note?: string; consent_confirmed?: boolean; status?: Database["public"]["Enums"]["content_status"]; scheduled_for?: string | null; preview_token?: string; author_id: string; updated_by: string; created_at?: string; updated_at?: string; version?: number };
@@ -119,9 +125,9 @@ export type Database = {
         Relationships: [];
       };
       project: {
-        Row: { id: string; slug: string; name: string; summary: string; status: Database["public"]["Enums"]["project_status"]; classification: Database["public"]["Enums"]["classification"]; created_by: string; updated_by: string; archived_at: string | null; created_at: string; updated_at: string; version: number; name_en: string; summary_en: string; category: string; starts_on: string | null; ends_on: string | null; modules: string[] };
-        Insert: { id?: string; slug: string; name: string; summary?: string; status?: Database["public"]["Enums"]["project_status"]; classification?: Database["public"]["Enums"]["classification"]; created_by: string; updated_by: string; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; name_en?: string; summary_en?: string; category?: string; starts_on?: string | null; ends_on?: string | null; modules?: string[] };
-        Update: { id?: string; slug?: string; name?: string; summary?: string; status?: Database["public"]["Enums"]["project_status"]; classification?: Database["public"]["Enums"]["classification"]; created_by?: string; updated_by?: string; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; name_en?: string; summary_en?: string; category?: string; starts_on?: string | null; ends_on?: string | null; modules?: string[] };
+        Row: { id: string; slug: string; name: string; summary: string; status: Database["public"]["Enums"]["project_status"]; classification: Database["public"]["Enums"]["classification"]; created_by: string; updated_by: string; archived_at: string | null; created_at: string; updated_at: string; version: number; name_en: string; summary_en: string; category: string; starts_on: string | null; ends_on: string | null; modules: string[]; description_md: string; description_md_en: string };
+        Insert: { id?: string; slug: string; name: string; summary?: string; status?: Database["public"]["Enums"]["project_status"]; classification?: Database["public"]["Enums"]["classification"]; created_by: string; updated_by: string; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; name_en?: string; summary_en?: string; category?: string; starts_on?: string | null; ends_on?: string | null; modules?: string[]; description_md?: string; description_md_en?: string };
+        Update: { id?: string; slug?: string; name?: string; summary?: string; status?: Database["public"]["Enums"]["project_status"]; classification?: Database["public"]["Enums"]["classification"]; created_by?: string; updated_by?: string; archived_at?: string | null; created_at?: string; updated_at?: string; version?: number; name_en?: string; summary_en?: string; category?: string; starts_on?: string | null; ends_on?: string | null; modules?: string[]; description_md?: string; description_md_en?: string };
         Relationships: [];
       };
       project_file: {
@@ -143,9 +149,9 @@ export type Database = {
         Relationships: [];
       };
       publication: {
-        Row: { id: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; cover_alt: string; cover_credit: string; published_at: string; published_by: string; unpublished_at: string | null; unpublished_by: string | null; cover_file_id: string | null };
-        Insert: { id?: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null };
-        Update: { id?: string; item_id?: string; revision_id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by?: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null };
+        Row: { id: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; cover_alt: string; cover_credit: string; published_at: string; published_by: string; unpublished_at: string | null; unpublished_by: string | null; cover_file_id: string | null; gallery_file_ids: string[] };
+        Insert: { id?: string; item_id: string; revision_id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null; gallery_file_ids?: string[] };
+        Update: { id?: string; item_id?: string; revision_id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by?: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null; gallery_file_ids?: string[] };
         Relationships: [];
       };
       relationship_activity: {
@@ -166,6 +172,12 @@ export type Database = {
         Update: { id?: string; protocol?: string; organization_name?: string; organization_id?: string | null; contact_name?: string; contact_email?: string; contact_phone?: string; title?: string; description?: string; capability_ids?: string[]; confidentiality_requested?: boolean; consent_at?: string; locale?: string; status?: Database["public"]["Enums"]["challenge_status"]; assigned_to?: string | null; triage_notes?: string; submitter_hash?: string; created_at?: string; updated_at?: string; updated_by?: string | null; version?: number };
         Relationships: [];
       };
+      site_image: {
+        Row: { key: string; file_id: string; updated_by: string | null; updated_at: string };
+        Insert: { key: string; file_id: string; updated_by?: string | null; updated_at?: string };
+        Update: { key?: string; file_id?: string; updated_by?: string | null; updated_at?: string };
+        Relationships: [];
+      };
       user_preference: {
         Row: { profile_id: string; theme: Database["public"]["Enums"]["theme_preference"]; locale: string; updated_at: string };
         Insert: { profile_id: string; theme?: Database["public"]["Enums"]["theme_preference"]; locale?: string; updated_at?: string };
@@ -174,8 +186,12 @@ export type Database = {
       };
     };
     Views: {
+      public_project: {
+        Row: { id: string | null; slug: string | null; name: string | null; name_en: string | null; summary: string | null; summary_en: string | null; description_md: string | null; description_md_en: string | null; category: string | null; status: Database["public"]["Enums"]["project_status"] | null; starts_on: string | null; ends_on: string | null; updated_at: string | null; cover_file_id: string | null; created_at: string | null };
+        Relationships: [];
+      };
       public_publication: {
-        Row: { id: string | null; type: Database["public"]["Enums"]["content_type"] | null; locale: string | null; slug: string | null; title: string | null; summary: string | null; body_md: string | null; event_at: string | null; event_place: string | null; cover_alt: string | null; cover_credit: string | null; published_at: string | null; cover_file_id: string | null };
+        Row: { id: string | null; type: Database["public"]["Enums"]["content_type"] | null; locale: string | null; slug: string | null; title: string | null; summary: string | null; body_md: string | null; event_at: string | null; event_place: string | null; cover_alt: string | null; cover_credit: string | null; published_at: string | null; cover_file_id: string | null; gallery_file_ids: string[] | null };
         Relationships: [];
       };
     };
@@ -279,6 +295,18 @@ export type Database = {
       public_file_info: {
         Args: { p_file: string };
         Returns: { external_id: string; mime_type: string; name: string; size_bytes: number; content_hash: string }[];
+      };
+      public_gallery: {
+        Args: { p_publication: string };
+        Returns: { file_id: string; alt_text: string; alt_text_en: string; credit: string; caption: string; sort_order: number }[];
+      };
+      public_project_gallery: {
+        Args: { p_slug: string };
+        Returns: { file_id: string; alt_text: string; alt_text_en: string; credit: string; kind: Database["public"]["Enums"]["file_link_kind"]; sort_order: number }[];
+      };
+      public_site_image: {
+        Args: { p_key: string };
+        Returns: { file_id: string; alt_text: string; alt_text_en: string; credit: string }[];
       };
       publish_content: {
         Args: { p_item: string; p_revision?: string };

@@ -107,7 +107,7 @@ test.describe("autenticado", () => {
     // Já vem escuro do servidor (cookie aplicado no <html>), sem depender de JS.
     const ssrTheme = await page.evaluate(() => document.documentElement.dataset.theme);
     expect(ssrTheme).toBe("dark");
-    const savedLight = page.waitForResponse((r) => r.request().method() === "POST");
+    const savedLight = page.waitForResponse((r) => r.request().method() === "POST" && r.url().endsWith("/portal/configuracoes"));
     await page.locator("label", { hasText: "Claro" }).first().click();
     await savedLight;
     await page.reload({ waitUntil: "load" });

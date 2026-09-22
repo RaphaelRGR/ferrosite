@@ -98,3 +98,19 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Escopo ampliado de `drive.readonly` para `+ drive.file`, justificado: criar subpastas e arquivos dentro da raiz; nada além do que o app cria.
 - A pasta `02/Comunica Ferro/SENHAS` e `04/…/LIXEIRA` do Drive humano **não** devem ser copiadas para a raiz do Portal (credenciais não são acervo; o Portal serve bytes a quem tem acesso).
 - Levantamento do Drive (só leitura): 87 pastas / 513 arquivos até 3 níveis (292 JPEG, 147 STL, 22 ZIP, 10 PDF, 9 MP4…). Migração para o acervo é por cópia item a item pelo Portal, com metadados (crédito, consentimento, classificação).
+
+## Addendum DRIVE-004 (2026-09-21)
+
+- Experiências reais nascem dos **relatórios de evento** do Drive (fontes com data/local/programação) e das pastas de fotos; sem relatório, só o que a pasta prova (data das fotos) e `[CONTEÚDO PENDENTE]` no resto. Nenhum nome de pessoa (participantes ou palestrantes) vai ao site; os relatórios (com listas nominais) ficam internos em `relatorios/2026`.
+- Fotos com pessoas identificáveis exigem **consentimento registrado** para ir ao site: importadas com `consent = pending`, classificação interna. O snapshot da publicação só leva a galeria com consentimento; capas escolhidas entre fotos sem pessoas identificáveis (`not_required`). A coordenação decide foto a foto na Galeria do conteúdo (pergunta 7 de 33 continua aberta).
+- Vídeos (MOV/MP4) e ZIP das pastas ficam no Drive humano (fora do acervo do Portal) até haver antivírus.
+- O staging de "Experiências" do protótipo continua sob quarentena abaixo das publicações reais; o item "RUMO Logística — 18 jun 2026" do staging corresponde à visita real publicada e pode ser removido do staging quando a coordenação confirmar.
+
+## Addendum DRIVE-004 / PROJ-001 — publicação e projetos reais (2026-09-21)
+
+- **Consentimento das fotos**: a coordenação autorizou pelo chat o uso no site das fotos das visitas/palestras (inclusive com pessoas) e escolheu a capa da Home. Registrado por foto (`consent_note` com data e origem). Isso responde à pergunta 7 para o acervo atual; fotos novas continuam entrando como pendentes.
+- **Projetos reais**: a coordenação enviou a relação oficial (9 projetos). Cadastrados com os textos dela, público/ativo, líder = coordenador. Categorias atribuídas pelo que o texto diz (comunicação, competição, extensão, P&D, outro) — ajustáveis no Portal. Sem parceiros, números ou datas inventados; capas/galerias vazias até haver fotos específicas.
+- **Staging de projetos** (`ferro-lab`, `extensao`) removido: o primeiro duplicava o FerroLab real; o segundo era placeholder. `comunica-ferro` e `cavalos-de-ferro` do staging são cobertos pelos slugs reais iguais (o hub esconde staging já coberto).
+- **Ordem do hub de projetos**: ordem de cadastro (= ordem da relação enviada). Sem campo de prioridade — se a coordenação quiser outra ordem, criar `sort_order` no projeto.
+- **Fixtures E2E no banco real**: cada rodada E2E cria projetos/empresas/desafios/conteúdos de teste no projeto Supabase de produção (limpos hoje por script auditado). Decisão pendente: criar um projeto Supabase separado para testes (recomendado) ou aceitar a limpeza periódica.
+- **Senha do coordenador**: redefinida por pedido explícito no chat via API admin; recomendação: trocar pela tela de recuperação e não enviar senhas pelo chat.

@@ -20,6 +20,7 @@ export default async function UploadPage({ searchParams }: PageProps<"/portal/ar
   const sp = await searchParams;
   const initialProject = typeof sp.projeto === "string" ? sp.projeto : undefined;
   const missionId = typeof sp.missao === "string" && /^[0-9a-f-]{36}$/.test(sp.missao) ? sp.missao : undefined;
+  const contentId = typeof sp.conteudo === "string" && /^[0-9a-f-]{36}$/.test(sp.conteudo) ? sp.conteudo : undefined;
   const overseer = isOverseer(profile.global_role);
   const [projects, types, conn] = await Promise.all([listUploadTargets(profile.id, overseer), listUploadableTypes(), getDriveClient()]);
   const f = dict.files;
@@ -33,10 +34,10 @@ export default async function UploadPage({ searchParams }: PageProps<"/portal/ar
         <p className="mt-1 max-w-3xl text-sm text-fg-muted">{f.upload.description}</p>
       </header>
       <section className="rounded-xl border border-line bg-surface p-6">
-        {projects.length === 0 && !overseer ? (
+        {projects.length === 0 && !overseer && !contentId ? (
           <p role="status" className="text-sm text-fg-muted">{f.upload.noProjects}</p>
         ) : (
-          <UploadForm dict={dict} projects={projects} overseer={overseer} initialProject={initialProject} missionId={missionId} canWrite={Boolean(conn?.canWrite && conn.rootFolderId)} accept={types} />
+          <UploadForm dict={dict} projects={projects} overseer={overseer} initialProject={initialProject} missionId={missionId} contentId={contentId} canWrite={Boolean(conn?.canWrite && conn.rootFolderId)} accept={types} />
         )}
       </section>
     </div>

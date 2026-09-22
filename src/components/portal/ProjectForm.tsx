@@ -34,6 +34,8 @@ export function ProjectForm({ dict, project, cancelHref }: { dict: Dictionary["p
       {!project && <Input label={`${p.slug} (${dict.common.optional})`} name="slug" defaultValue={state.values?.slug} help={p.slugHelp} pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={80} error={err("slug")} />}
       <Textarea label={p.summary} name="summary" maxLength={2000} defaultValue={state.values?.summary ?? project?.summary} />
       <Textarea label={`${p.summaryEn} (${dict.common.optional})`} name="summary_en" maxLength={2000} defaultValue={state.values?.summary_en ?? project?.summary_en} />
+      <Textarea label={p.description} name="description_md" maxLength={20000} rows={12} help={p.descriptionHelp} defaultValue={state.values?.description_md ?? project?.description_md} />
+      <Textarea label={`${p.descriptionEn} (${dict.common.optional})`} name="description_md_en" maxLength={20000} rows={6} defaultValue={state.values?.description_md_en ?? project?.description_md_en} />
       <div className="grid gap-5 sm:grid-cols-2">
         <Select
           label={p.category}

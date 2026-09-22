@@ -6,10 +6,10 @@ import { expect, test } from "@playwright/test";
  * e o atributo data-content-status; o texto do selo segue o locale.
  */
 const EXPECTED: Record<string, number> = {
-  "/pt": 5,
+  "/pt": 4, // projetos reais (PROJ-001) substituíram a seção em quarentena
   "/pt/curso": 6,
-  "/pt/projetos": 1,
-  "/pt/projetos/comunica-ferro": 1,
+  "/pt/projetos": 0, // hub só com projetos reais do Portal
+  "/pt/projetos/comunica-ferro": 0,
   "/pt/sobre": 3,
   "/pt/experiencias": 1,
   "/pt/experiencias?escopo=internacional": 1,

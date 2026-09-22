@@ -9,6 +9,8 @@ import { EXPERIENCES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { formatDate } from "@/i18n/format";
+import { listPublished } from "@/lib/content/public";
 
 const PATH = "/experiencias";
 const SCOPES = ["all", "brasil", "internacional"] as const;
@@ -34,7 +36,8 @@ function isUpcoming(when: string): boolean {
 export default async function ExperienciasPage({ params, searchParams }: PageProps<"/[locale]/experiencias">) {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
-  if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
+  const published = await listPublished("experience", l);
+  if (l !== "pt" && published.length === 0) return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const dict = getDictionary(l);
   const sp = await searchParams;
   const scope: Scope = SCOPES.includes(sp.escopo as Scope) ? (sp.escopo as Scope) : "all";
@@ -53,6 +56,33 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
       </section>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
+        {published.length > 0 && (
+          <section aria-labelledby="experiencias-publicadas">
+            <h2 id="experiencias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
+              {dict.published.experiencesPublished}
+            </h2>
+            <ol className="mt-4 border-l-2 border-line pl-5" data-published="live">
+              {[...published].sort((a, b) => (b.event_at ?? b.published_at).localeCompare(a.event_at ?? a.published_at)).map((e) => (
+                <li key={e.id} className="relative pb-6 last:pb-0">
+                  <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
+                  <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
+                    {e.event_at && <time dateTime={e.event_at}>{formatDate(l, new Date(e.event_at), { dateStyle: "long" })}</time>}
+                    {e.event_place && ` · ${e.event_place}`}
+                  </p>
+                  <p className="mt-1 font-bold">{e.title}</p>
+                  <p className="mt-1 text-sm text-fg-muted">{e.summary}</p>
+                  <Link
+                    href={localizePath(l, `/experiencias/${e.slug}`)}
+                    className="mt-2 inline-flex items-center gap-1 rounded text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                  >
+                    {dict.published.readExperience} <span aria-hidden="true">→</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+        {l === "pt" && (<>
         <nav aria-label={dict.experiences.filterLabel} className="flex flex-wrap items-center gap-2">
           {SCOPES.map((s) => (
             <Link
@@ -116,6 +146,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
           <h2 className="font-bold">{dict.experiences.registrationTitle}</h2>
           <p className="mt-1 text-sm text-fg-muted">{dict.experiences.registrationClosed}</p>
         </section>
+        </>)}
       </div>
     </div>
   );

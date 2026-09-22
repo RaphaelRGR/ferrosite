@@ -203,3 +203,11 @@ Relatório: `docs/baseline/DRIVE-002-relatorio.md` e guia `docs/GOOGLE_DRIVE_INT
 ## Estado após DRIVE-003 (2026-09-21)
 
 Relatório: `docs/baseline/DRIVE-003-relatorio.md`. Migration 10: allowlist com `uploadable`/`extension` (CAD e Office entram; ZIP/vídeo não), `file_asset.storage_path/drive_folder_id`, `drive_folder` (cache + trava), auditoria `file.uploaded`. Escopo `drive.file` adicionado; upload servidor→Drive com magic bytes, estrutura por entidade sob demanda, `/portal/arquivos/enviar` e `POST /portal/arquivos/upload`. Unit 177, RLS 64; e2e com upload real. Aplicada na nuvem; Drive institucional conectado com escrita, raiz `FERROSITE - (NÃO MEXER!)`.
+
+## Estado após DRIVE-004 (2026-09-21)
+
+Relatório: `docs/baseline/DRIVE-004-relatorio.md`. Migration 11: `content_file` (galeria de conteúdo), `publication.gallery_file_ids` (snapshot só com consentimento), `public_gallery`, `public_file_info` aceita galeria. `experience` ganha página pública (`/experiencias/<slug>`) com galeria pelo proxy; Portal ganha Galeria no conteúdo e **Importar do Drive** (idempotente, por lotes). 8 experiências reais criadas a partir dos relatórios do Drive (visitas FTC, RUMO, Metrô-SP; palestras Lanfranco, VIBTECH, RUMO; Dia do Ferroviário 2025/2026) com fotos importadas para as galerias (internas, consentimento pendente). RLS 67.
+
+## Estado após publicação DRIVE-004 + PROJ-001 (2026-09-21)
+
+8 experiências **publicadas** com capa e galeria (72 fotos públicas, consentimento registrado por autorização da coordenação); Home com foto institucional (`site_image.home_hero`, migration 12) e seção "Visitas técnicas e palestras realizadas"; 9 projetos reais cadastrados e públicos (`public_project`, migrations 13–14) em `/projetos`, `/projetos/<slug>` e na Home. Fixtures E2E purgadas do banco e do Drive. Nuvem com 14 migrations. Unit 177 · RLS 70 · e2e 274.

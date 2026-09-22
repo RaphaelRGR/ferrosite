@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { DispatchMailForm } from "@/components/portal/MailForms";
 import { SinkTestForm } from "@/components/portal/ObservabilityForms";
+import { SiteImageForm } from "@/components/portal/SiteImageForm";
+import { listSiteImageCandidates, getSiteImages } from "@/lib/portal/content";
 import { ThemeToggle } from "@/components/portal/ThemeToggle";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -27,6 +29,8 @@ export default async function PortalSettingsPage() {
   const mailSummary = isAdmin ? await getMailSummary() : [];
   const mailConfigured = isMailConfigured();
   const sinkConfigured = isErrorSinkConfigured();
+  const overseer = isOverseer(profile?.global_role) && profile?.status === "active";
+  const [siteImages, imageCandidates] = overseer ? await Promise.all([getSiteImages(), listSiteImageCandidates()]) : [new Map<string, string>(), []];
 
   return (
     <div className="flex flex-col gap-8">
@@ -54,7 +58,16 @@ export default async function PortalSettingsPage() {
         </dl>
       </section>
 
-      {isOverseer(profile?.global_role) && profile?.status === "active" ? (
+      {overseer ? (
+        <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="site-images-title">
+          <h2 id="site-images-title" className="text-lg font-bold">{dict.portal.settings.siteImages.title}</h2>
+          <div className="mt-4">
+            <SiteImageForm dict={dict.portal} imageKey="home_hero" current={siteImages.get("home_hero") ?? null} candidates={imageCandidates} />
+          </div>
+        </section>
+      ) : null}
+
+      {overseer ? (
         <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="integrations-title">
           <h2 id="integrations-title" className="text-lg font-bold">{dict.portal.integrations.title}</h2>
           <p className="mt-1 text-sm text-fg-muted">{dict.portal.integrations.openHelp}</p>

@@ -32,4 +32,4 @@ export const CONTENT_TRANSITIONS: Record<ContentStatus, ContentStatus[]> = {
 export const APPROVER_TARGETS: ContentStatus[] = ["approved", "published", "scheduled", "unpublished", "changes_requested"];
 
 /** Tipos com página pública já consumindo a projeção (os demais só ficam na projeção até a tela existir). */
-export const CONTENT_TYPE_PUBLIC_PATH: Partial<Record<ContentType, string>> = { news: "/noticias", event: "/eventos" };
+export const CONTENT_TYPE_PUBLIC_PATH: Partial<Record<ContentType, string>> = { news: "/noticias", event: "/eventos", experience: "/experiencias" };

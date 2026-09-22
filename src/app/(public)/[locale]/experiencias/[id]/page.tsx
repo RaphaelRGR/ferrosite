@@ -9,6 +9,11 @@ import { EXPERIENCES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { PublishedArticle } from "@/components/public/PublishedArticle";
+import { getPublished, publicCoverUrl, publicGallery } from "@/lib/content/public";
+
+export const revalidate = 300;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) => EXPERIENCES.map((e) => ({ locale, id: e.id })));
@@ -17,17 +22,24 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/[locale]/experiencias/[id]">): Promise<Metadata> {
   const { locale, id } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
+  const published = await getPublished("experience", l, id);
+  if (published) return publicPageMetadata(l, `/experiencias/${id}`, { title: published.title, description: published.summary });
   const item = EXPERIENCES.find((e) => e.id === id);
   return item ? publicPageMetadata(l, `/experiencias/${id}`, { title: item.title, description: item.description }) : {};
 }
 
-/** Detalhe de experiência: destino, data, objetivo (staging) + campos pendentes explícitos. */
+/** Experiência: publicação aprovada (projeção, sem selo, com galeria) ou, no PT, item do staging sob quarentena. */
 export default async function ExperienciaPage({ params }: PageProps<"/[locale]/experiencias/[id]">) {
   const { locale, id } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
+  const dict = getDictionary(l);
+  const published = await getPublished("experience", l, id);
+  if (published) {
+    const [coverUrl, gallery] = await Promise.all([publicCoverUrl(published), publicGallery(published)]);
+    return <PublishedArticle item={published} locale={l} eyebrow={dict.experiences.eyebrow} backHref={localizePath(l, "/experiencias")} backLabel={dict.published.backToExperiences} labels={dict.published} coverUrl={coverUrl} gallery={gallery} />;
+  }
   const item = EXPERIENCES.find((e) => e.id === id);
   if (!item) notFound();
-  const dict = getDictionary(l);
   if (l !== "pt") return <PendingPage dict={dict} path={`/experiencias/${id}`} />;
 
   return (

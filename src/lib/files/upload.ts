@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 import type { DriveError } from "./drive";
 import { getDriveClient } from "./drive-connection";
-import { ensureFolderPath, PROJECT_AREAS, projectPath, TOP_AREAS, type ProjectArea, type TopArea } from "./drive-folders";
+import { ensureFolderPath, normalizeSegment, PROJECT_AREAS, projectPath, TOP_AREAS, type ProjectArea, type TopArea } from "./drive-folders";
 import { EXTENSION_BY_MIME, extensionOf, safeFileName, sniffMime } from "./sniff";
 
 /**
@@ -19,7 +19,8 @@ import { EXTENSION_BY_MIME, extensionOf, safeFileName, sniffMime } from "./sniff
  */
 export type UploadTarget =
   | { kind: "project"; slug: string; area: ProjectArea; missionId?: string }
-  | { kind: "area"; area: TopArea; sub?: string };
+  | { kind: "area"; area: TopArea; sub?: string }
+  | { kind: "content"; itemId: string };
 
 export type UploadError =
   | "unauthenticated" | "forbidden" | "not_found" | "no_write_scope" | "unconfigured"
@@ -39,6 +40,8 @@ export interface UploadInput {
   credit: string;
   altText: string;
   altTextEn: string;
+  /** Data para o nome seguro (importação usa a data do arquivo de origem). */
+  stamp?: Date;
 }
 
 export interface UploadResult {
@@ -61,6 +64,10 @@ export function parseTarget(fd: FormData): UploadTarget | null {
     if (area === "missoes" && !missionId) return null;
     return { kind: "project", slug, area, missionId };
   }
+  if (kind === "content") {
+    const itemId = String(fd.get("item_id") ?? "").trim();
+    return /^[0-9a-f-]{36}$/.test(itemId) ? { kind: "content", itemId } : null;
+  }
   if (kind === "area") {
     const area = String(fd.get("area") ?? "") as TopArea;
     const sub = String(fd.get("sub") ?? "").trim() || undefined;
@@ -81,7 +88,16 @@ export async function uploadToDrive(input: UploadInput): Promise<{ ok: true; res
   // 1. destino e permissão (RLS decide o que o usuário enxerga)
   let parts: string[];
   let projectId: string | null = null;
-  if (input.target.kind === "project") {
+  let contentItemId: string | null = null;
+  if (input.target.kind === "content") {
+    // conteúdo: quem pode editá-lo (RLS de content_file) — autor em rascunho/revisão ou overseer
+    const { data: item } = await supabase.from("content_item").select("id, type, slug, author_id, status").eq("id", input.target.itemId).maybeSingle();
+    if (!item) return { ok: false, error: "not_found" };
+    const editable = overseer || (item.author_id === userId && ["draft", "changes_requested", "review"].includes(item.status));
+    if (!editable) return { ok: false, error: "forbidden" };
+    contentItemId = item.id;
+    parts = ["conteudos", normalizeSegment(item.type), normalizeSegment(item.slug)];
+  } else if (input.target.kind === "project") {
     const project = await getProjectBySlug(input.target.slug);
     if (!project) return { ok: false, error: "not_found" };
     const role = await getMyProjectRole(project.id, userId);
@@ -102,7 +118,8 @@ export async function uploadToDrive(input: UploadInput): Promise<{ ok: true; res
   const mime = sniffMime(input.bytes);
   if (!mime) return { ok: false, error: "unsupported_type" };
   const ext = extensionOf(input.originalName);
-  if (!EXTENSION_BY_MIME[mime].includes(ext)) return { ok: false, error: "extension_mismatch", detail: mime };
+  // sem extensão: os bytes decidem e o nome recebe a extensão canônica; com extensão errada: recusa (defesa contra renomeados)
+  if (ext && !EXTENSION_BY_MIME[mime].includes(ext)) return { ok: false, error: "extension_mismatch", detail: mime };
   const { data: rule } = await supabase.from("file_type_allowlist").select("max_bytes, uploadable").eq("mime_type", mime).maybeSingle();
   if (!rule?.uploadable) return { ok: false, error: "unsupported_type", detail: mime };
   if (input.bytes.byteLength > rule.max_bytes) return { ok: false, error: "too_large", detail: String(rule.max_bytes) };
@@ -116,7 +133,7 @@ export async function uploadToDrive(input: UploadInput): Promise<{ ok: true; res
   // 4. pasta lógica + bytes
   const folder = await ensureFolderPath(conn.client, conn.rootFolderId, parts, userId);
   if (!folder.ok) return folder.error === "invalid_path" ? { ok: false, error: "invalid_target" } : { ok: false, error: folder.error, detail: folder.detail };
-  const name = safeFileName(input.originalName, mime);
+  const name = safeFileName(input.originalName, mime, input.stamp);
   const up = await conn.client.upload({ parentId: folder.id, name, mimeType: mime, bytes: input.bytes });
   if (!up.ok) return { ok: false, error: up.error, detail: up.detail };
 
@@ -152,7 +169,11 @@ export async function uploadToDrive(input: UploadInput): Promise<{ ok: true; res
   }
 
   // 6. vínculo por destino (falha aqui não desfaz o registro: o arquivo existe e pode ser vinculado depois)
-  if (projectId) {
+  if (contentItemId) {
+    const { count } = await supabase.from("content_file").select("file_id", { count: "exact", head: true }).eq("item_id", contentItemId);
+    const { error: linkErr } = await supabase.from("content_file").insert({ item_id: contentItemId, file_id: created.id, kind: "gallery", position: (count ?? 0) + 1, linked_by: userId });
+    if (linkErr) logEvent("warn", "file.link_failed", { fileId: created.id, contentItemId, message: linkErr.message });
+  } else if (projectId) {
     if (input.target.kind === "project" && input.target.missionId) {
       const { error: linkErr } = await supabase.from("mission_file").insert({ mission_id: input.target.missionId, file_id: created.id, kind: "attachment", linked_by: userId });
       if (linkErr) logEvent("warn", "file.link_failed", { fileId: created.id, missionId: input.target.missionId, message: linkErr.message });

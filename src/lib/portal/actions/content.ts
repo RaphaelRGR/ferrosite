@@ -270,6 +270,30 @@ export async function updateFile(_prev: ActionState, fd: FormData): Promise<Acti
   return { ok: true };
 }
 
+/** Galeria de conteúdo (DRIVE-004): vincular/desvincular/legendar; RLS decide (autor em rascunho ou overseer). */
+export async function linkContentFile(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const itemId = str(fd, "item_id");
+  const fileId = str(fd, "file_id");
+  const op = str(fd, "op") || "link";
+  if (!itemId || !fileId) return fail(fd, { error: "invalid" });
+  const s = await session();
+  if (isState(s)) return fail(fd, s);
+  const supabase = await createClient();
+  let error: { code?: string; message: string } | null = null;
+  if (op === "unlink") {
+    ({ error } = await supabase.from("content_file").delete().eq("item_id", itemId).eq("file_id", fileId));
+  } else if (op === "caption") {
+    const position = Number(fd.get("position"));
+    ({ error } = await supabase.from("content_file").update({ caption: str(fd, "caption", 300), ...(Number.isInteger(position) ? { position } : {}) }).eq("item_id", itemId).eq("file_id", fileId));
+  } else {
+    const { count } = await supabase.from("content_file").select("file_id", { count: "exact", head: true }).eq("item_id", itemId);
+    ({ error } = await supabase.from("content_file").upsert({ item_id: itemId, file_id: fileId, kind: "gallery", position: (count ?? 0) + 1, linked_by: s.userId }, { onConflict: "item_id,file_id" }));
+  }
+  if (error) return fail(fd, { error: dbError(error) });
+  revalidatePath(`/portal/conteudos/${itemId}`);
+  return { ok: true };
+}
+
 export async function linkProjectFile(_prev: ActionState, fd: FormData): Promise<ActionState> {
   const projectId = str(fd, "project_id");
   const slug = str(fd, "slug");
