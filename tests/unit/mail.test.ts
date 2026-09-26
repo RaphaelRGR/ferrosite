@@ -32,6 +32,13 @@ describe("templates (MAIL-001)", () => {
       content_decided: { title: "Nota", decision: "changes_requested" },
       content_published: { title: "Nota", type: "news", slug: "nota", contentLocale: "en" },
       membership_granted: { projectTitle: "Projeto X", projectSlug: "projeto-x", role: "external", expiresAt: "2026-12-31T23:59:59Z" },
+      work_item_assigned: { itemId: "i1", title: "Lista da Rumo", actor: "Andrea", dueAt: "2026-10-01T21:00:00Z" },
+      work_item_approval_requested: { itemId: "i1", title: "Relatório Rumo", actor: "Raphael" },
+      work_item_changes_requested: { itemId: "i1", title: "Relatório Rumo", actor: "Andrea", note: "Incluir presença" },
+      work_item_mentioned: { itemId: "i1", title: "FerroCard", actor: "Andrea" },
+      work_item_due_soon: { itemId: "i1", title: "Lista da Rumo", dueAt: "2026-10-01T21:00:00Z" },
+      work_item_overdue: { itemId: "i1", title: "Lista da Rumo", dueAt: "2026-09-20T21:00:00Z" },
+      work_process_created: { processId: "p1", title: "Visita técnica Rumo", eventDate: "2026-10-20", actor: "Andrea" },
     };
     for (const template of MAIL_TEMPLATES) {
       const pt = renderMail({ template, locale: "pt", payload: payloads[template], siteUrl: "https://exemplo.invalid" });
@@ -133,3 +140,16 @@ describe("dispatch", () => {
     expect(sent).toHaveLength(3); // template inválido não chega ao provedor
   });
 });
+
+describe("avisos das ações (ACT-004)", () => {
+  it("link direto para a ação, prazo no fuso do curso e nota do pedido de alteração", () => {
+    const m = renderMail({ template: "work_item_changes_requested", locale: "pt", payload: { itemId: "abc", title: "Relatório", actor: "Andrea", note: "Incluir presença" }, siteUrl: "https://exemplo.invalid" })!;
+    expect(m.subject).toBe("Alterações pedidas: Relatório");
+    expect(m.text).toContain("O que ajustar: Incluir presença");
+    expect(m.text).toContain("https://exemplo.invalid/portal/acoes/abc");
+    const d = renderMail({ template: "work_item_due_soon", locale: "pt", payload: { itemId: "abc", title: "Lista", dueAt: "2026-10-01T21:00:00Z" }, siteUrl: "" })!;
+    expect(d.text).toContain("Prazo: 01/10/2026, 18:00.");
+    expect(renderMail({ template: "work_item_assigned", locale: "pt", payload: { title: "sem id" }, siteUrl: "" })).toBeNull();
+  });
+});
+

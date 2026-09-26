@@ -1,4 +1,5 @@
 import { institutionalDate } from "@/i18n/format";
+import type { WorkTemplate } from "@/content/work-templates";
 import type { Enums } from "@/types/database";
 
 /**
@@ -284,5 +285,110 @@ export function dueDay(iso: string, now = new Date()): "today" | "tomorrow" | st
   if (d === today) return "today";
   if (d === addDays(today, 1)) return "tomorrow";
   return d;
+}
+
+// ─── Processos a partir de modelos (ACT-004) ────────────────────────────────
+export interface ProcessItemInput {
+  title: string;
+  phase: string;
+  due_at: string | null;
+  kind: "action" | "approval";
+  priority: "low" | "medium" | "high";
+  approver_id: string | null;
+  checklist: string[];
+}
+
+/**
+ * Ações de um processo com prazos a partir da data do evento (18:00 no fuso do
+ * curso). Prazo que já passou vira "hoje": o processo não nasce atrasado.
+ */
+export function buildProcessItems(template: WorkTemplate, opts: { eventDate: string; approverId: string | null }, now = new Date()): ProcessItemInput[] {
+  const today = institutionalDate(now);
+  return template.phases.flatMap((phase) =>
+    phase.items.map((it) => {
+      let due: string | null = null;
+      if (it.offsetDays !== null) {
+        const day = addDays(opts.eventDate, it.offsetDays);
+        due = new Date(`${day < today ? today : day}T${DEFAULT_DUE_TIME}:00-03:00`).toISOString();
+      }
+      const approval = !!it.approval && !!opts.approverId;
+      return { title: it.title, phase: phase.key, due_at: due, kind: approval ? "approval" : "action", priority: it.priority ?? "medium", approver_id: approval ? opts.approverId : null, checklist: it.checklist ?? [] };
+    }),
+  );
+}
+
+/** "45 dias antes", "no dia", "7 dias depois" (prévia do modelo). */
+export function offsetLabel(days: number | null): { key: "none" | "before" | "same" | "after"; days: number } {
+  if (days === null) return { key: "none", days: 0 };
+  if (days === 0) return { key: "same", days: 0 };
+  return days < 0 ? { key: "before", days: -days } : { key: "after", days };
+}
+
+/** Progresso por etapa e geral (concluídas contam; canceladas saem da conta). */
+export function processProgress<T extends { status: WorkItemStatus; process_phase: string }>(items: T[]): { done: number; total: number; byPhase: Record<string, { done: number; total: number }> } {
+  const byPhase: Record<string, { done: number; total: number }> = {};
+  let done = 0;
+  let total = 0;
+  for (const i of items) {
+    if (i.status === "cancelled") continue;
+    const p = (byPhase[i.process_phase] ??= { done: 0, total: 0 });
+    p.total++;
+    total++;
+    if (i.status === "done") {
+      p.done++;
+      done++;
+    }
+  }
+  return { done, total, byPhase };
+}
+
+// ─── Resumos (ACT-004) ───────────────────────────────────────────────────────
+/** Segunda-feira 00:00 da semana corrente, no fuso do curso (ISO). */
+export function weekStart(now = new Date()): string {
+  const today = institutionalDate(now);
+  const w = weekday(today);
+  return new Date(`${addDays(today, w === 0 ? -6 : 1 - w)}T00:00:00-03:00`).toISOString();
+}
+
+export interface WeeklyItem extends WorkItemLike {
+  title: string;
+  created_at: string;
+  completed_at: string | null;
+}
+
+export interface WeeklySummary {
+  since: string;
+  completed: number;
+  created: number;
+  overdue: number;
+  awaitingApproval: number;
+  /** Por responsável: o que concluiu na semana (✓) e o que está aberto com prazo nos próximos 7 dias (○). */
+  people: Array<{ ownerId: string; done: string[]; open: string[] }>;
+  nextWeek: Array<{ id: string; title: string; due_at: string; owner_id: string | null }>;
+}
+
+/** Resumo da semana (desde segunda): números, por pessoa e próximos 7 dias. */
+export function weeklySummary<T extends WeeklyItem>(items: T[], now = new Date()): WeeklySummary {
+  const since = weekStart(now);
+  const limit = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  const doneThisWeek = items.filter((i) => i.status === "done" && i.completed_at && i.completed_at >= since);
+  const openSoon = items.filter((i) => isOpen(i.status) && i.due_at && i.due_at <= limit);
+  const owners = new Map<string, { done: string[]; open: string[] }>();
+  const slot = (id: string) => owners.get(id) ?? owners.set(id, { done: [], open: [] }).get(id)!;
+  for (const i of doneThisWeek) if (i.owner_id) slot(i.owner_id).done.push(i.title);
+  for (const i of openSoon) if (i.owner_id) slot(i.owner_id).open.push(i.title);
+  return {
+    since,
+    completed: doneThisWeek.length,
+    // canceladas não contam como "novas": foram descartadas
+    created: items.filter((i) => i.created_at >= since && i.status !== "cancelled").length,
+    overdue: items.filter((i) => isOverdue(i, now)).length,
+    awaitingApproval: items.filter((i) => i.status === "awaiting_approval").length,
+    people: [...owners.entries()].map(([ownerId, v]) => ({ ownerId, ...v })).sort((a, b) => b.done.length + b.open.length - (a.done.length + a.open.length)),
+    nextWeek: items
+      .filter((i) => isOpen(i.status) && i.due_at && i.due_at >= now.toISOString() && i.due_at <= limit)
+      .sort(byDue)
+      .map((i) => ({ id: i.id, title: i.title, due_at: i.due_at!, owner_id: i.owner_id })),
+  };
 }
 

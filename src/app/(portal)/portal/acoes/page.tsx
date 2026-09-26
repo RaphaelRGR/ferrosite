@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { WorkItemCard, WorkItemList } from "@/components/portal/work-items/WorkItemCard";
 import { WorkItemSnooze, WorkItemTransitions, WorkItemTriage } from "@/components/portal/work-items/WorkItemForms";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
@@ -46,9 +47,14 @@ export default async function WorkItemsPage({ searchParams }: PageProps<"/portal
 
   return (
     <div className="flex flex-col gap-6">
-      <header>
-        <h1 className="text-3xl font-black">{w.title}</h1>
-        <p className="mt-1 max-w-3xl text-sm text-fg-muted">{w.description}</p>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black">{w.title}</h1>
+          <p className="mt-1 max-w-3xl text-sm text-fg-muted">{w.description}</p>
+        </div>
+        <LinkButton href="/portal/acoes/processos" variant="secondary" size="sm">
+          {w.processes.open}
+        </LinkButton>
       </header>
 
       <nav aria-label={w.title} className="flex flex-wrap gap-2">

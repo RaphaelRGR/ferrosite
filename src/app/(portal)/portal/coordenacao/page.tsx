@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertQueue, ruleText, SEVERITY_TONE } from "@/components/portal/coordination/AlertQueue";
 import { IndicatorValue } from "@/components/portal/reports/IndicatorValue";
+import { WeeklySummary } from "@/components/portal/coordination/WeeklySummary";
 import { dueText, WorkItemCard } from "@/components/portal/work-items/WorkItemCard";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -13,8 +14,8 @@ import { requireActiveProfile } from "@/lib/portal/context";
 import { ALERT_RULE_ORDER, ALERT_RULES, buildAlerts } from "@/lib/portal/coordination";
 import { loadCoordinationOverview } from "@/lib/portal/queries/coordination";
 import { computeIndicators, defaultPeriod } from "@/lib/portal/queries/reports";
-import { listOpenWorkItems, personName } from "@/lib/portal/queries/work-items";
-import { buildDesk, filterTab, isOverdue, teamLoad, upcoming } from "@/lib/portal/work-items";
+import { listOpenWorkItems, listWeeklyWorkItems, personName } from "@/lib/portal/queries/work-items";
+import { buildDesk, filterTab, isOverdue, teamLoad, upcoming, weeklySummary, weekStart } from "@/lib/portal/work-items";
 
 export const metadata: Metadata = { title: "Coordenação" };
 
@@ -33,7 +34,9 @@ export default async function CoordinationPage() {
   const c = dict.coordination;
   const now = new Date();
   const period = defaultPeriod(now);
-  const [overview, report, work] = await Promise.all([loadCoordinationOverview(now), computeIndicators(period.start, period.end), listOpenWorkItems()]);
+  const [overview, report, work, weekItems] = await Promise.all([loadCoordinationOverview(now), computeIndicators(period.start, period.end), listOpenWorkItems(), listWeeklyWorkItems(weekStart(now))]);
+  const weekly = weeklySummary(weekItems, now);
+  const weekNames = Object.fromEntries(weekItems.flatMap((i) => (i.owner ? [[i.owner.id, personName(i.owner)]] : [])));
   // Ações (ACT-001): o que depende de mim, carga da equipe, o que está parado e os próximos prazos.
   const mine = buildDesk(work, userId, now);
   const attention = [...mine.forMe, ...mine.overdue];
@@ -143,6 +146,8 @@ export default async function CoordinationPage() {
           )}
         </section>
       </div>
+
+      <WeeklySummary summary={weekly} names={weekNames} dict={dict} />
 
       <section aria-labelledby="panorama">
         <h2 id="panorama" className="text-xl font-bold">

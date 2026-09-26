@@ -112,6 +112,7 @@ Sem I/O de rede; importável em qualquer lugar.
 | `quarantine.ts` | decisão editorial por seção (`isSectionVisible`, `sectionStatus`), lê `content/editorial-inventory.json`. |
 | `staging.ts` | textos herdados do protótipo, só exibidos sob quarentena. |
 | `videos.ts` | IDs dos Shorts do YouTube. |
+| `work-templates.ts` | modelos de processo das Ações (visita técnica): etapas, prazos relativos, aprovação, checklist. |
 
 Diferença entre as três "content": `content/` (raiz) = arquivos de dados;
 `src/content/` = acesso tipado a eles e conteúdo fixo; `src/lib/content/` =
@@ -164,6 +165,8 @@ parte do projeto.
 | Componente específico de Projeto ou Missão no Portal | `src/components/portal/projects/` |
 | Componente de Pessoa no Portal | `src/components/portal/people/` |
 | Novo campo, estado ou regra de ação | migration nova (trigger `guard_work_item_update`) + espelho em `src/lib/portal/work-items.ts` + testes em `tests/rls/work-items.test.ts` e `tests/unit/work-items.test.ts` |
+| Novo modelo de processo (ex.: FerroCard) | objeto em `WORK_TEMPLATES` de `src/content/work-templates.ts` (+ teste em `tests/unit/work-items.test.ts`) |
+| Novo e-mail de evento das ações | trigger na migration + nome na lista `mail_outbox_template_check` + texto em `src/lib/mail/templates.ts` (PT e EN) |
 | Nova seção da Minha mesa | `buildDesk` em `src/lib/portal/work-items.ts` + `components/portal/work-items/Desk.tsx` |
 | Nova regra de alerta da Central da coordenação | regra e limiar em `src/lib/portal/coordination.ts` (+ teste em `tests/unit/coordination.test.ts`), dados em `lib/portal/queries/coordination.ts`, textos em `portal.coordination.rules` (PT e EN) |
 | Componente ligado ao Drive/arquivos no Portal | `src/components/portal/files/` |

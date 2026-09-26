@@ -84,6 +84,11 @@ flowchart LR
   ou pede alteração (com nota); item com aprovador só conclui pela aprovação.
 - O histórico é escrito pelo banco (status, aprovação, prazo, responsável,
   arquivos); a interface junta histórico e comentários numa linha do tempo.
+- Processos: um modelo (`src/content/work-templates.ts`) gera processo + ações +
+  passos numa transação (`create_work_process`, com a RLS do usuário).
+- E-mails (fila `mail_outbox`): recebeu ação, pedido de aprovação, pedido de
+  alteração, menção, vence em 24 h, atrasou, processo criado. Nunca para quem agiu.
+  Lembretes entram na fila pelo cron de `/api/mail/dispatch`.
 - Arquivos: vínculo com `file_asset`; envio direto vai para
   `coordenacao/acoes/<ano>/<id>` no Drive. `can_view_file` libera o arquivo a quem
   vê a ação.

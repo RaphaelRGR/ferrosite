@@ -142,6 +142,11 @@ de terceiros além do Supabase.
   no projeto e na missão. Qualquer conta ativa pode ser responsável: quem não é da
   coordenação vê só o próprio item. Nomes de participantes vêm de
   `work_item_participants()` (a RLS de `profile` não mostra perfis de fora dos projetos).
+  Processos: modelos em `src/content/work-templates.ts` (visita técnica) geram todas
+  as ações de uma vez (`create_work_process()`); resumo do dia na Minha mesa e da
+  semana na Central (com "Copiar" para o WhatsApp). E-mails só de eventos
+  importantes, pela fila `mail_outbox`; lembretes de prazo pelo cron de
+  `/api/mail/dispatch`.
 - **Central da coordenação** (`/portal/coordenacao`): o que depende de mim
   (aprovações/decisões), carga da equipe, atrasos e próximos prazos; abaixo, os
   sinais automáticos por regra

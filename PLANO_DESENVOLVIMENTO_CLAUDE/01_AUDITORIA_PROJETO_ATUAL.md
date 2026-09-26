@@ -255,3 +255,7 @@ Relatório: `docs/baseline/ACT-002-relatorio.md`. Ações ganham Entrada (triage
 ## Estado após ACT-003 (2026-09-26)
 
 Relatório: `docs/baseline/ACT-003-relatorio.md`. Ações ganham checklist, menções (só participantes; aviso na Minha mesa até responder), bloco "Ações" no projeto e na missão (com criação já vinculada) e responsáveis de qualquer papel (veem só o próprio item). Migrations `20260927000400` e `20260927000500` aplicadas na nuvem.
+
+## Estado após ACT-004 (2026-09-26)
+
+Relatório: `docs/baseline/ACT-004-relatorio.md`. Processos a partir de modelos (visita técnica: 8 etapas, 25 ações), resumo do dia (Minha mesa) e da semana (Central) com botão de copiar, e-mails dos eventos importantes das ações e lembretes de prazo pelo cron. Migration `20260927000600` aplicada na nuvem.

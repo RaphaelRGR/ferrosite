@@ -165,3 +165,10 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Menção não dá acesso: só dá para mencionar quem já participa da ação. Sem estado de "lido": responder na ação tira o aviso.
 - Qualquer conta ativa pode ser responsável ou aprovadora; o nome dos participantes vem de uma função do banco que expõe só o nome de exibição, e só para quem pode ver a ação.
 - Desmarcar passo do checklist não vai para o histórico (evita ruído); concluir vai.
+
+## ACT-004: processos, resumos e e-mails (2026-09-26)
+
+- Modelos de processo em código (versionados), não em tabela: editar pelo Portal fica para quando houver demanda. Processo não é missão (missão exige projeto).
+- E-mails só para eventos que pedem ação de alguém; nunca para quem fez a mudança; um aviso por processo.
+- **Pendente do usuário:** Resend (`RESEND_API_KEY`, `MAIL_FROM`), `MAIL_DISPATCH_SECRET` e um cron chamando `POST /api/mail/dispatch` (sugestão: a cada hora).
+- Próximos modelos: FerroCard, Evento, Projeto de extensão, P&D, Missão internacional, Edital, Documento da coordenação, Portfólio de laboratório.

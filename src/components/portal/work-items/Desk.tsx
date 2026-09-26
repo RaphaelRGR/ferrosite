@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -39,6 +40,17 @@ export function Desk({ dict, items, userId, name, missions, mentions = [], now =
   const empty = [desk.overdue, desk.today, desk.forMe, desk.awaitingApproval, desk.waiting, desk.next7, desk.later].every((l) => l.length === 0);
   const first = name.split(/\s+/)[0];
   const inbox = filterTab("entrada", items, now).length;
+  // Resumo do dia (ACT-004): uma frase com o que pede atenção + a lista de hoje, pronto para copiar.
+  const s = d.summary;
+  const parts = [
+    desk.today.length ? s.today.replace("{count}", String(desk.today.length)) : "",
+    desk.overdue.length ? s.overdue.replace("{count}", String(desk.overdue.length)) : "",
+    desk.forMe.length ? s.forMe.replace("{count}", String(desk.forMe.length)) : "",
+    desk.awaitingApproval.length + desk.waiting.length ? s.waiting.replace("{count}", String(desk.awaitingApproval.length + desk.waiting.length)) : "",
+  ].filter(Boolean);
+  const sentence = parts.length ? `${parts.join(" · ")}.` : s.clear;
+  const todayTitles = [...desk.overdue, ...desk.today].map((i) => i.title);
+  const copyText = [`${greeting(now, d.greeting)}${first ? `, ${first}` : ""}.`, sentence, todayTitles.length ? `${s.todayList}: ${todayTitles.join("; ")}.` : ""].filter(Boolean).join("\n");
 
   return (
     <div className="flex flex-col gap-8">
@@ -46,6 +58,15 @@ export function Desk({ dict, items, userId, name, missions, mentions = [], now =
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">{d.title}</p>
         <h1 className="mt-1 text-3xl font-black">{first ? `${greeting(now, d.greeting)}, ${first}.` : `${greeting(now, d.greeting)}.`}</h1>
       </header>
+
+      <section aria-labelledby="resumo-dia" className="flex flex-col gap-2 rounded-xl border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h2 id="resumo-dia" className="text-xs font-bold uppercase tracking-widest text-fg-muted">{s.title}</h2>
+          <p className="mt-1 text-base font-bold" data-daily-summary>{sentence}</p>
+          {todayTitles.length > 0 && <p className="mt-1 text-sm text-fg-muted">{`${s.todayList}: ${todayTitles.join("; ")}.`}</p>}
+        </div>
+        <CopyButton text={copyText} label={s.copy} copiedLabel={dict.common.copied} />
+      </section>
 
       <section aria-labelledby="precisa-de-voce">
         <h2 id="precisa-de-voce" className="text-sm font-bold uppercase tracking-widest text-fg-muted">

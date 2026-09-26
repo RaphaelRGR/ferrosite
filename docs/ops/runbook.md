@@ -70,3 +70,9 @@ Checagem rápida: `GET /api/health` → `{ status: "ok", supabaseConfigured: tru
 - Semanal: revisar fila `/portal/desafios?situacao=received` e `/portal/conteudos?situacao=review`; conferir `failed` em Configurações → E-mails.
 - Mensal: `npm audit`, atualização de dependências, revisão de acessos (Pessoas: pendentes/desativados, grants externos vencidos).
 - Trimestral: ensaio de restore; revisão de retenção de dados de desafios (decisão institucional pendente).
+
+## Lembretes e e-mails das Ações (ACT-004)
+
+- O cron de `POST /api/mail/dispatch` (com `Authorization: Bearer $MAIL_DISPATCH_SECRET`) enfileira os lembretes de prazo (vence em 24 h, atrasou; um por prazo) e depois entrega a fila. Sugestão: a cada hora.
+- Sem `RESEND_API_KEY`/`MAIL_FROM`, os e-mails ficam em `queued` (visíveis em Configurações → E-mails); nada se perde.
+

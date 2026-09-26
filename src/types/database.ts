@@ -185,9 +185,9 @@ export type Database = {
         Relationships: [];
       };
       work_item: {
-        Row: { id: string; kind: Database["public"]["Enums"]["work_item_kind"]; title: string; description: string; status: Database["public"]["Enums"]["work_item_status"]; priority: Database["public"]["Enums"]["mission_priority"]; owner_id: string | null; due_at: string | null; approver_id: string | null; approved_by: string | null; approved_at: string | null; waiting_on: Database["public"]["Enums"]["waiting_party"] | null; waiting_note: string; waiting_since: string | null; snoozed_until: string | null; decision_options: string[]; decision_outcome: string; decided_by: string | null; decided_at: string | null; status_note: string; project_id: string | null; mission_id: string | null; organization_id: string | null; created_by: string; updated_by: string; completed_at: string | null; created_at: string; updated_at: string; version: number };
-        Insert: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by: string; updated_by: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number };
-        Update: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title?: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by?: string; updated_by?: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number };
+        Row: { id: string; kind: Database["public"]["Enums"]["work_item_kind"]; title: string; description: string; status: Database["public"]["Enums"]["work_item_status"]; priority: Database["public"]["Enums"]["mission_priority"]; owner_id: string | null; due_at: string | null; approver_id: string | null; approved_by: string | null; approved_at: string | null; waiting_on: Database["public"]["Enums"]["waiting_party"] | null; waiting_note: string; waiting_since: string | null; snoozed_until: string | null; decision_options: string[]; decision_outcome: string; decided_by: string | null; decided_at: string | null; status_note: string; project_id: string | null; mission_id: string | null; organization_id: string | null; created_by: string; updated_by: string; completed_at: string | null; created_at: string; updated_at: string; version: number; process_id: string | null; process_phase: string; process_position: number };
+        Insert: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by: string; updated_by: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number; process_id?: string | null; process_phase?: string; process_position?: number };
+        Update: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title?: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by?: string; updated_by?: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number; process_id?: string | null; process_phase?: string; process_position?: number };
         Relationships: [];
       };
       work_item_checklist_item: {
@@ -212,6 +212,18 @@ export type Database = {
         Row: { item_id: string; file_id: string; linked_by: string; linked_at: string };
         Insert: { item_id: string; file_id: string; linked_by: string; linked_at?: string };
         Update: { item_id?: string; file_id?: string; linked_by?: string; linked_at?: string };
+        Relationships: [];
+      };
+      work_item_reminder: {
+        Row: { item_id: string; kind: string; due_at: string; sent_at: string };
+        Insert: { item_id: string; kind: string; due_at: string; sent_at?: string };
+        Update: { item_id?: string; kind?: string; due_at?: string; sent_at?: string };
+        Relationships: [];
+      };
+      work_process: {
+        Row: { id: string; template: string; title: string; event_date: string; owner_id: string; project_id: string | null; organization_id: string | null; created_by: string; created_at: string };
+        Insert: { id?: string; template: string; title: string; event_date: string; owner_id: string; project_id?: string | null; organization_id?: string | null; created_by: string; created_at?: string };
+        Update: { id?: string; template?: string; title?: string; event_date?: string; owner_id?: string; project_id?: string | null; organization_id?: string | null; created_by?: string; created_at?: string };
         Relationships: [];
       };
     };
@@ -254,9 +266,17 @@ export type Database = {
         Args: { p_bucket: string; p_window: unknown; p_limit: number };
         Returns: boolean;
       };
+      create_work_process: {
+        Args: { p_process: Json; p_items: Json };
+        Returns: string;
+      };
       current_profile_status: {
         Args: Record<string, never>;
         Returns: Database["public"]["Enums"]["account_status"];
+      };
+      display_name_of: {
+        Args: { p_profile: string };
+        Returns: string;
       };
       drive_integration_status: {
         Args: Record<string, never>;
@@ -269,6 +289,10 @@ export type Database = {
       enqueue_mail_to_profile: {
         Args: { p_template: string; p_profile: string; p_target_type: string; p_target_id: string; p_payload: Json };
         Returns: undefined;
+      };
+      enqueue_work_item_reminders: {
+        Args: Record<string, never>;
+        Returns: number;
       };
       find_profile_by_email: {
         Args: { p_email: string };

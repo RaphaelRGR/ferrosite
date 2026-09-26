@@ -10,7 +10,14 @@ import type { ContentType } from "@/lib/portal/content-constants";
  * pessoais além do nome de quem escreveu (13/21). Sem `siteUrl` não inventamos
  * domínio: as linhas de link ficam de fora.
  */
-export const MAIL_TEMPLATES = ["challenge_received", "content_review_requested", "content_decided", "content_published", "membership_granted"] as const;
+import { formatDate } from "@/i18n/format";
+
+export const MAIL_TEMPLATES = [
+  "challenge_received", "content_review_requested", "content_decided", "content_published", "membership_granted",
+  // ACT-004: só os eventos das ações que pedem atenção de alguém
+  "work_item_assigned", "work_item_approval_requested", "work_item_changes_requested", "work_item_mentioned",
+  "work_item_due_soon", "work_item_overdue", "work_process_created",
+] as const;
 export type MailTemplate = (typeof MAIL_TEMPLATES)[number];
 
 export interface RenderedMail {
@@ -131,6 +138,68 @@ export function renderMail({ template, locale: rawLocale, payload, siteUrl }: Re
         ? compose("pt", `Você entrou no projeto ${project}`, [`Você passou a integrar o projeto "${project}" como ${role}.`, expires ? `O acesso vale até ${expires}.` : ""], link)
         : compose("en", `You joined the project ${project}`, [`You are now part of the project "${project}" as ${role}.`, expires ? `Access is valid until ${expires}.` : ""], link);
     }
+    case "work_item_assigned":
+    case "work_item_approval_requested":
+    case "work_item_changes_requested":
+    case "work_item_mentioned":
+    case "work_item_due_soon":
+    case "work_item_overdue":
+      return workItemMail(template as MailTemplate, locale, payload, siteUrl);
+    case "work_process_created": {
+      const title = field(payload, "title");
+      const id = field(payload, "processId");
+      const actor = field(payload, "actor");
+      const date = field(payload, "eventDate").slice(0, 10);
+      if (!title || !id) return null;
+      const link = siteUrl ? { label: locale === "pt" ? "Abrir o processo" : "Open the process", href: absolute(siteUrl, `/portal/acoes/processos/${id}`) } : undefined;
+      return locale === "pt"
+        ? compose("pt", `Processo com você: ${title}`, [`${actor || "A coordenação"} criou o processo "${title}"${date ? ` (data: ${date})` : ""} e você responde pelas ações dele.`, "As ações aparecem na sua Minha mesa com os prazos de cada etapa."], link)
+        : compose("en", `Process assigned to you: ${title}`, [`${actor || "The coordination"} created the process "${title}"${date ? ` (date: ${date})` : ""} and you own its actions.`, "The actions show up on your desk with each step's deadline."], link);
+    }
+    default:
+      return null;
+  }
+}
+
+/** Texto dos avisos de ação: o que aconteceu, prazo quando houver e o link direto para a ação. */
+function workItemMail(template: MailTemplate, locale: Locale, payload: unknown, siteUrl: string): RenderedMail | null {
+  const title = field(payload, "title");
+  const id = field(payload, "itemId");
+  if (!title || !id) return null;
+  const actor = field(payload, "actor");
+  const dueRaw = field(payload, "dueAt");
+  const due = dueRaw && !Number.isNaN(Date.parse(dueRaw)) ? formatDate(locale, new Date(dueRaw), { dateStyle: "short", timeStyle: "short" }) : "";
+  const link = siteUrl ? { label: locale === "pt" ? "Abrir a ação" : "Open the action", href: absolute(siteUrl, `/portal/acoes/${id}`) } : undefined;
+  const pt = locale === "pt";
+  const who = actor || (pt ? "A administração" : "The administration");
+  const dueLine = due ? (pt ? `Prazo: ${due}.` : `Deadline: ${due}.`) : "";
+  switch (template) {
+    case "work_item_assigned":
+      return pt
+        ? compose("pt", `Nova ação com você: ${title}`, [`${who} atribuiu a você a ação "${title}".`, dueLine], link)
+        : compose("en", `New action for you: ${title}`, [`${who} assigned you the action "${title}".`, dueLine], link);
+    case "work_item_approval_requested":
+      return pt
+        ? compose("pt", `Aprovação pedida: ${title}`, [`${who} pediu a sua aprovação em "${title}".`, "Aprove ou peça alterações direto no Portal."], link)
+        : compose("en", `Approval requested: ${title}`, [`${who} asked for your approval on "${title}".`, "Approve or request changes in the Portal."], link);
+    case "work_item_changes_requested": {
+      const note = field(payload, "note");
+      return pt
+        ? compose("pt", `Alterações pedidas: ${title}`, [`${who} pediu alterações em "${title}".`, note ? `O que ajustar: ${note}` : ""], link)
+        : compose("en", `Changes requested: ${title}`, [`${who} requested changes on "${title}".`, note ? `What to adjust: ${note}` : ""], link);
+    }
+    case "work_item_mentioned":
+      return pt
+        ? compose("pt", `Você foi mencionado: ${title}`, [`${who} mencionou você em um comentário na ação "${title}".`], link)
+        : compose("en", `You were mentioned: ${title}`, [`${who} mentioned you in a comment on the action "${title}".`], link);
+    case "work_item_due_soon":
+      return pt
+        ? compose("pt", `Vence em breve: ${title}`, [`A ação "${title}" vence nas próximas 24 horas.`, dueLine], link)
+        : compose("en", `Due soon: ${title}`, [`The action "${title}" is due within 24 hours.`, dueLine], link);
+    case "work_item_overdue":
+      return pt
+        ? compose("pt", `Atrasada: ${title}`, [`A ação "${title}" passou do prazo.`, dueLine, "Atualize o andamento, marque quem estamos aguardando ou peça um novo prazo."], link)
+        : compose("en", `Overdue: ${title}`, [`The action "${title}" is past its deadline.`, dueLine, "Update its progress, mark who we are waiting on or ask for a new deadline."], link);
     default:
       return null;
   }

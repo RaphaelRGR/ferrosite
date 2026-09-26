@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { dispatchMailOutbox } from "@/lib/mail/dispatch";
+import { enqueueWorkItemReminders } from "@/lib/mail/reminders";
 import { isMailConfigured } from "@/lib/mail/provider";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +24,8 @@ function authorized(req: Request): boolean {
 export async function POST(req: Request) {
   if (!process.env.MAIL_DISPATCH_SECRET) return new NextResponse(null, { status: 404 });
   if (!authorized(req)) return NextResponse.json({ error: "unauthorized" }, { status: 401, headers: { "Cache-Control": "no-store" } });
+  // lembretes de prazo das ações (ACT-004) entram na fila antes da entrega
+  const reminders = await enqueueWorkItemReminders();
   const result = await dispatchMailOutbox(50);
-  return NextResponse.json({ ...result, mailConfigured: isMailConfigured() }, { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({ ...result, reminders, mailConfigured: isMailConfigured() }, { headers: { "Cache-Control": "no-store" } });
 }

@@ -1,13 +1,18 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { findTemplate } from "@/content/work-templates";
+import type { Json } from "@/types/database";
+import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
 import { isOverseer } from "@/lib/portal/authz";
 import { getWorkItem } from "@/lib/portal/queries/work-items";
 import {
-  availableTransitions, canDecide, isOpen, resolveDue, resolveSnooze, WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, WORK_ITEM_STATUSES,
+  availableTransitions, buildProcessItems, canDecide, isOpen, resolveDue, resolveSnooze, WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, WORK_ITEM_STATUSES,
   type WaitingParty, type WorkActor, type WorkItemKind, type WorkItemPriority, type WorkItemStatus,
 } from "@/lib/portal/work-items";
 
@@ -26,6 +31,8 @@ const str = (fd: FormData, key: string, max = 4000) => String(fd.get(key) ?? "")
 const uuidOrNull = (v: string) => (/^[0-9a-f-]{36}$/.test(v) ? v : null);
 
 function revalidateWork(id?: string) {
+  // avisos por e-mail (recebeu ação, aprovação, alteração, menção) já estão na fila do banco (ACT-004)
+  after(dispatchQuietly);
   revalidatePath("/portal");
   revalidatePath("/portal/coordenacao");
   revalidatePath("/portal/acoes");
@@ -184,6 +191,7 @@ export async function commentWorkItem(_prev: ActionState, fd: FormData): Promise
   const supabase = await createClient();
   const { error } = await supabase.from("work_item_comment").insert({ item_id: id, author_id: a.id, body, mentions });
   if (error) return fail(fd, { error: dbError(error) });
+  after(dispatchQuietly); // menção vira e-mail
   revalidatePath(`/portal/acoes/${id}`);
   return { ok: true };
 }
@@ -281,5 +289,33 @@ export async function checklistWorkItem(_prev: ActionState, fd: FormData): Promi
   if (error) return fail(fd, { error: dbError(error) });
   revalidatePath(`/portal/acoes/${id}`);
   return { ok: true };
+}
+
+/** Processo a partir de um modelo: cria processo, ações e passos numa transação (função do banco). */
+export async function createWorkProcess(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const a = await actor();
+  if (isState(a)) return fail(fd, a);
+  if (!a.overseer) return fail(fd, { error: "forbidden" });
+  const template = findTemplate(str(fd, "template"));
+  if (!template) return fail(fd, { error: "invalid" });
+  const title = str(fd, "title", 200);
+  if (title.length < 2) return fail(fd, { error: "invalid", field: "title" });
+  const eventDate = str(fd, "event_date", 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate)) return fail(fd, { error: "invalid", field: "event_date" });
+  const owner = uuidOrNull(str(fd, "owner_id"));
+  if (!owner) return fail(fd, { error: "invalid", field: "owner_id" });
+  const approver = uuidOrNull(str(fd, "approver_id"));
+  const needsApprover = template.phases.some((p) => p.items.some((i) => i.approval));
+  if (needsApprover && (!approver || approver === owner)) return fail(fd, { error: "invalid", field: "approver_id" });
+
+  const items = buildProcessItems(template, { eventDate, approverId: approver });
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("create_work_process", {
+    p_process: { template: template.key, title, event_date: eventDate, owner_id: owner, project_id: str(fd, "project_id"), organization_id: str(fd, "organization_id") },
+    p_items: items as unknown as Json,
+  });
+  if (error || !data) return fail(fd, { error: dbError(error) });
+  revalidateWork();
+  redirect(`/portal/acoes/processos/${data}`);
 }
 

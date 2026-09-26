@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { TECHNICAL_VISIT, WORK_TEMPLATES } from "@/content/work-templates";
 import { getDictionary } from "@/i18n/dictionaries";
 import {
-  availableTransitions, buildDesk, canDecide, dueDay, filterTab, groupByWaiting, resolveDue, resolveSnooze, teamLoad, upcoming,
+  availableTransitions, buildDesk, buildProcessItems, canDecide, dueDay, filterTab, groupByWaiting, offsetLabel, processProgress, resolveDue, resolveSnooze, teamLoad, upcoming, weeklySummary, weekStart,
   WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_STATUSES, WORK_ITEM_TRANSITIONS, type WorkItemLike,
 } from "@/lib/portal/work-items";
 
@@ -177,3 +178,59 @@ describe("etapa 2: Entrada, lembrar depois e abas", () => {
     expect(availableTransitions(item({ status: "cancelled" }), { id: "me", overseer: true })).toEqual([{ to: "planned", label: "reopen" }]);
   });
 });
+
+describe("etapa 4: processos e resumos", () => {
+  it("visita técnica: prazos contados da data da visita (18:00), passado vira hoje, relatório pede aprovação", () => {
+    const items = buildProcessItems(TECHNICAL_VISIT, { eventDate: "2026-11-20", approverId: "coord" }, NOW);
+    const total = TECHNICAL_VISIT.phases.reduce((n, ph) => n + ph.items.length, 0);
+    expect(items).toHaveLength(total);
+    const byTitle = Object.fromEntries(items.map((i) => [i.title, i]));
+    expect(byTitle["Fechar lista final"].due_at).toBe("2026-11-13T21:00:00.000Z"); // 7 dias antes
+    expect(byTitle["Registrar presença"].due_at).toBe("2026-11-20T21:00:00.000Z"); // no dia
+    expect(byTitle["Relatório da visita"]).toMatchObject({ kind: "approval", approver_id: "coord", phase: "pos_visita", priority: "high" });
+    expect(byTitle["Verificar EPI dos participantes"].checklist).toEqual(["Botas", "Óculos", "Colete"]);
+    // visita em 10 dias: o que seria 45 dias antes não nasce atrasado
+    const soon = buildProcessItems(TECHNICAL_VISIT, { eventDate: "2026-10-06", approverId: null }, NOW);
+    expect(soon.find((i) => i.title === "Definir empresa e contato")!.due_at).toBe("2026-09-26T21:00:00.000Z");
+    // sem aprovador, o relatório vira ação comum
+    expect(soon.find((i) => i.title === "Relatório da visita")).toMatchObject({ kind: "action", approver_id: null });
+  });
+
+  it("modelos têm chave, slug e etapas únicos; rótulos de prazo", () => {
+    expect(new Set(WORK_TEMPLATES.map((t) => t.key)).size).toBe(WORK_TEMPLATES.length);
+    for (const t of WORK_TEMPLATES) expect(new Set(t.phases.map((p) => p.key)).size).toBe(t.phases.length);
+    expect(offsetLabel(-45)).toEqual({ key: "before", days: 45 });
+    expect(offsetLabel(0)).toEqual({ key: "same", days: 0 });
+    expect(offsetLabel(7)).toEqual({ key: "after", days: 7 });
+    expect(offsetLabel(null)).toEqual({ key: "none", days: 0 });
+  });
+
+  it("progresso do processo ignora canceladas", () => {
+    const prog = processProgress([
+      { status: "done", process_phase: "a" }, { status: "planned", process_phase: "a" }, { status: "cancelled", process_phase: "a" }, { status: "done", process_phase: "b" },
+    ] as never[]);
+    expect(prog).toEqual({ done: 2, total: 3, byPhase: { a: { done: 1, total: 2 }, b: { done: 1, total: 1 } } });
+  });
+
+  it("semana começa na segunda 00:00 do fuso do curso", () => {
+    expect(weekStart(NOW)).toBe("2026-09-21T03:00:00.000Z"); // sábado 26/09 → segunda 21/09
+    expect(weekStart(new Date("2026-09-27T20:00:00Z"))).toBe("2026-09-21T03:00:00.000Z"); // domingo
+    expect(weekStart(new Date("2026-09-21T02:00:00Z"))).toBe("2026-09-14T03:00:00.000Z"); // 23:00 de domingo em Joinville
+  });
+
+  it("resumo da semana: concluídas desde segunda, novas, atrasadas, aguardando aprovação, por pessoa e próximos 7 dias", () => {
+    const base = { kind: "action" as const, approver_id: null, waiting_on: null, waiting_since: null, snoozed_until: null };
+    const items = [
+      { ...base, id: "1", title: "Relatório Rumo", status: "done" as const, owner_id: "raphael", due_at: null, created_at: "2026-09-10T12:00:00Z", completed_at: "2026-09-24T12:00:00Z" },
+      { ...base, id: "2", title: "Antigo", status: "done" as const, owner_id: "raphael", due_at: null, created_at: "2026-09-01T12:00:00Z", completed_at: "2026-09-15T12:00:00Z" },
+      { ...base, id: "3", title: "Universidades China", status: "planned" as const, owner_id: "raphael", due_at: at(48), created_at: "2026-09-22T12:00:00Z", completed_at: null },
+      { ...base, id: "4", title: "Aprovar relatório", status: "awaiting_approval" as const, owner_id: "andrea", approver_id: "x", due_at: null, created_at: "2026-09-23T12:00:00Z", completed_at: null },
+      { ...base, id: "5", title: "Atrasada", status: "in_progress" as const, owner_id: "andrea", due_at: at(-5), created_at: "2026-09-02T12:00:00Z", completed_at: null },
+    ];
+    const s = weeklySummary(items, NOW);
+    expect(s).toMatchObject({ completed: 1, created: 2, overdue: 1, awaitingApproval: 1 });
+    expect(s.people.find((p) => p.ownerId === "raphael")).toEqual({ ownerId: "raphael", done: ["Relatório Rumo"], open: ["Universidades China"] });
+    expect(s.nextWeek.map((i) => i.id)).toEqual(["3"]);
+  });
+});
+

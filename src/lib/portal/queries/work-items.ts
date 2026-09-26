@@ -14,6 +14,7 @@ export type WorkItemRow = Tables<"work_item"> & {
   mission: (Pick<Tables<"mission">, "id" | "title"> & { project: Pick<Tables<"project">, "slug"> | null }) | null;
   organization: Pick<Tables<"organization">, "id" | "name"> | null;
   checklist: Array<{ done: boolean }>;
+  process: Pick<Tables<"work_process">, "id" | "title"> | null;
 };
 
 const SELECT = [
@@ -25,6 +26,7 @@ const SELECT = [
   "mission:mission_id (id, title, project:project_id (slug))",
   "organization:organization_id (id, name)",
   "checklist:work_item_checklist_item (done)",
+  "process:process_id (id, title)",
 ].join(", ");
 
 export const personName = (p: Pick<PersonRef, "full_name" | "email"> | null | undefined) => (p ? p.full_name || p.email : "");
@@ -187,3 +189,40 @@ export async function listMyMentions(userId: string, now = new Date()): Promise<
   const answered = (m: Row) => (mine ?? []).some((c) => c.item_id === m.item_id && c.created_at > m.created_at);
   return mentions.filter((m) => !answered(m)).map((m) => ({ commentId: m.id, itemId: m.item_id, itemTitle: m.item!.title, author: personName(m.author), body: m.body, at: m.created_at }));
 }
+
+/** Ações da semana para o resumo: abertas + criadas ou concluídas desde `since`. */
+export async function listWeeklyWorkItems(since: string): Promise<WorkItemRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("work_item")
+    .select(SELECT)
+    .or(`created_at.gte.${since},completed_at.gte.${since},status.in.(inbox,planned,in_progress,waiting,blocked,awaiting_approval)`)
+    .limit(1000);
+  return (data ?? []) as unknown as WorkItemRow[];
+}
+
+export type ProcessRow = Tables<"work_process"> & {
+  owner: PersonRef | null;
+  organization: Pick<Tables<"organization">, "id" | "name"> | null;
+  project: Pick<Tables<"project">, "slug" | "name"> | null;
+  items: Array<{ status: WorkItemRow["status"]; process_phase: string }>;
+};
+const PROCESS_SELECT = "*, owner:owner_id (id, full_name, email), organization:organization_id (id, name), project:project_id (slug, name), items:work_item (status, process_phase)";
+
+export async function listProcesses(): Promise<ProcessRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("work_process").select(PROCESS_SELECT).order("event_date", { ascending: false }).limit(60);
+  return (data ?? []) as unknown as ProcessRow[];
+}
+
+export async function getProcess(id: string): Promise<{ process: ProcessRow; items: WorkItemRow[] } | null> {
+  if (!/^[0-9a-f-]{36}$/.test(id)) return null;
+  const supabase = await createClient();
+  const [{ data: process }, { data: items }] = await Promise.all([
+    supabase.from("work_process").select(PROCESS_SELECT).eq("id", id).maybeSingle(),
+    supabase.from("work_item").select(SELECT).eq("process_id", id).order("process_position"),
+  ]);
+  if (!process) return null;
+  return { process: process as unknown as ProcessRow, items: (items ?? []) as unknown as WorkItemRow[] };
+}
+

@@ -249,3 +249,76 @@ describe("checklist, menções e missão (ACT-003)", () => {
   });
 });
 
+describe("processos, e-mails e lembretes (ACT-004)", () => {
+  const outbox = async (template: string, recipient: string) =>
+    (await h.admin.query("select count(*)::int as n from public.mail_outbox where template = $1 and recipient_profile_id = $2", [template, recipient])).rows[0].n as number;
+
+  it("processo cria ações e passos numa transação; um e-mail só para o responsável; membro não cria", async () => {
+    const before = await outbox("work_item_assigned", ids.prof);
+    const items = [
+      { title: "Definir data", phase: "planejamento", due_at: "2026-10-01T21:00:00Z" },
+      { title: "Verificar EPI", phase: "seguranca", checklist: ["Botas", "Óculos", "Colete"] },
+      { title: "Relatório da visita", phase: "pos_visita", kind: "approval", approver_id: ids.coord },
+    ];
+    const pid = (await rows(ids.admin, "select public.create_work_process($1::jsonb, $2::jsonb) as id", [
+      JSON.stringify({ template: "technical_visit", title: "Visita técnica Rumo", event_date: "2026-10-20", owner_id: ids.prof }),
+      JSON.stringify(items),
+    ]))[0].id as string;
+    const created = (await h.admin.query("select title, process_phase, process_position, owner_id from public.work_item where process_id = $1 order by process_position", [pid])).rows;
+    expect(created.map((r) => [r.title, r.process_phase, r.process_position])).toEqual([["Definir data", "planejamento", 1], ["Verificar EPI", "seguranca", 2], ["Relatório da visita", "pos_visita", 3]]);
+    expect(created.every((r) => r.owner_id === ids.prof)).toBe(true);
+    expect((await h.admin.query("select count(*)::int as n from public.work_item_checklist_item c join public.work_item w on w.id = c.item_id where w.process_id = $1", [pid])).rows[0].n).toBe(3);
+    // itens do processo não geram um e-mail cada; o processo avisa uma vez
+    expect(await outbox("work_item_assigned", ids.prof)).toBe(before);
+    expect(await outbox("work_process_created", ids.prof)).toBeGreaterThanOrEqual(1);
+    // responsável de fora vê o nome do processo das ações dele
+    expect(await rows(ids.prof, "select title from public.work_process where id = $1", [pid])).toHaveLength(1);
+    expect(await rows(ids.member, "select title from public.work_process where id = $1", [pid])).toHaveLength(0);
+    // item inválido desfaz tudo
+    const bad = await fails(ids.admin, "select public.create_work_process($1::jsonb, $2::jsonb)", [
+      JSON.stringify({ template: "technical_visit", title: "Processo quebrado", event_date: "2026-10-20", owner_id: ids.prof }),
+      JSON.stringify([{ title: "ok ok" }, { title: "x" }]),
+    ]);
+    expect(bad).toMatch(/violates check constraint/);
+    expect((await h.admin.query("select count(*)::int as n from public.work_process where title = 'Processo quebrado'")).rows[0].n).toBe(0);
+    expect(await fails(ids.member, "select public.create_work_process($1::jsonb, $2::jsonb)", [
+      JSON.stringify({ template: "technical_visit", title: "Intruso", event_date: "2026-10-20", owner_id: ids.member }),
+      JSON.stringify([{ title: "ok ok" }]),
+    ])).toMatch(/row-level security/);
+    // quem não é da coordenação não tira a ação do processo
+    const one = (await h.admin.query("select id from public.work_item where process_id = $1 limit 1", [pid])).rows[0].id;
+    expect(await update(ids.prof, one, "process_id = null")).toMatch(/alteram o processo/);
+  });
+
+  it("e-mails: recebeu ação, pediram aprovação, pediram alteração, menção; nunca para quem fez", async () => {
+    const t = { assigned: await outbox("work_item_assigned", ids.prof), approval: await outbox("work_item_approval_requested", ids.coord), changes: await outbox("work_item_changes_requested", ids.prof), mention: await outbox("work_item_mentioned", ids.coord), self: await outbox("work_item_assigned", ids.admin) };
+    const id = await create(ids.admin, { owner_id: ids.prof, approver_id: ids.coord, title: "Relatório com e-mails" });
+    await create(ids.admin, { owner_id: ids.admin, title: "Para mim mesmo" });
+    expect(await outbox("work_item_assigned", ids.prof)).toBe(t.assigned + 1);
+    expect(await outbox("work_item_assigned", ids.admin)).toBe(t.self);
+    expect(await update(ids.prof, id, "status = 'awaiting_approval'")).toBeNull();
+    expect(await outbox("work_item_approval_requested", ids.coord)).toBe(t.approval + 1);
+    expect(await update(ids.coord, id, "status = 'in_progress', status_note = 'Faltou a lista.'")).toBeNull();
+    expect(await outbox("work_item_changes_requested", ids.prof)).toBe(t.changes + 1);
+    const payload = (await h.admin.query("select payload from public.mail_outbox where template = 'work_item_changes_requested' and recipient_profile_id = $1 order by created_at desc limit 1", [ids.prof])).rows[0].payload;
+    expect(payload).toMatchObject({ itemId: id, title: "Relatório com e-mails", note: "Faltou a lista." });
+    await rows(ids.prof, "insert into public.work_item_comment (item_id, author_id, body, mentions) values ($1, $2, 'Pode olhar?', $3)", [id, ids.prof, [ids.coord, ids.prof]]);
+    expect(await outbox("work_item_mentioned", ids.coord)).toBe(t.mention + 1);
+  });
+
+  it("lembretes: um por prazo (vence em 24 h / atrasou), só pelo service role, sem repetir", async () => {
+    const soon = await create(ids.admin, { owner_id: ids.prof, title: "Vence amanhã", due_at: new Date(Date.now() + 5 * 3600_000).toISOString() });
+    const late = await create(ids.admin, { owner_id: ids.prof, title: "Já atrasou", due_at: new Date(Date.now() - 2 * 3600_000).toISOString() });
+    const count = (template: string, item: string) => h.admin.query("select count(*)::int as n from public.mail_outbox where template = $1 and target_id = $2", [template, item]).then((r) => r.rows[0].n as number);
+    expect(await fails(ids.admin, "select public.enqueue_work_item_reminders()")).toMatch(/permission denied/);
+    await h.asService((c) => c.query("select public.enqueue_work_item_reminders()"));
+    await h.asService((c) => c.query("select public.enqueue_work_item_reminders()"));
+    expect(await count("work_item_due_soon", soon)).toBe(1);
+    expect(await count("work_item_overdue", late)).toBe(1);
+    // novo prazo, novo lembrete
+    await update(ids.admin, soon, "due_at = now() + interval '10 hours'");
+    await h.asService((c) => c.query("select public.enqueue_work_item_reminders()"));
+    expect(await count("work_item_due_soon", soon)).toBe(2);
+  });
+});
+

@@ -61,6 +61,7 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
   if (item.status === "waiting") meta.push({ label: w.waitingLabel, value: <span className="text-warning">{waitingText(item, dict, now)}</span> });
   if (item.project) meta.push({ label: w.project, value: <Link className="underline underline-offset-4" href={`/portal/projetos/${item.project.slug}`}>{item.project.name}</Link> });
   if (item.mission?.project) meta.push({ label: w.mission, value: <Link className="underline underline-offset-4" href={`/portal/projetos/${item.mission.project.slug}/missoes/${item.mission.id}`}>{item.mission.title}</Link> });
+  if (item.process) meta.push({ label: w.processes.partOf, value: overseer ? <Link className="underline underline-offset-4" href={`/portal/acoes/processos/${item.process.id}`}>{item.process.title}</Link> : item.process.title });
   if (item.organization) meta.push({ label: w.organization, value: overseer ? <Link className="underline underline-offset-4" href={`/portal/empresas/${item.organization.id}`}>{item.organization.name}</Link> : item.organization.name });
 
   return (
