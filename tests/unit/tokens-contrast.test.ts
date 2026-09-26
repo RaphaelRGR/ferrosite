@@ -66,13 +66,6 @@ const PAIRS: Array<[string, string, number]> = [
   ["--status-warning", "--bg-surface", 4.5],
   ["--status-danger", "--bg-surface", 4.5],
   ["--status-info", "--bg-surface", 4.5],
-  // categorias de projeto: rótulo em texto normal sobre o fundo tingido
-  ["--cat-communication-fg", "--cat-communication-bg", 4.5],
-  ["--cat-competition-fg", "--cat-competition-bg", 4.5],
-  ["--cat-extension-fg", "--cat-extension-bg", 4.5],
-  ["--cat-rd-fg", "--cat-rd-bg", 4.5],
-  ["--cat-research-fg", "--cat-research-bg", 4.5],
-  ["--cat-other-fg", "--cat-other-bg", 4.5],
 ];
 
 describe.each(Object.entries(themes))("tema %s", (_name, vars) => {
@@ -93,4 +86,32 @@ it("o laranja institucional não é usado como fundo de ação com texto branco 
   for (const vars of Object.values(themes)) {
     expect(contrast("#ffffff", resolve(vars, "--action-primary"))).toBeGreaterThanOrEqual(4.5);
   }
+});
+
+describe("categorias de projeto (src/components/public/project-categories.css)", () => {
+  const cat = readFileSync(path.resolve(process.cwd(), "src/components/public/project-categories.css"), "utf8").replace(/\r\n/g, "\n");
+  const read = (selector: string) => {
+    const start = cat.indexOf(`${selector} {`);
+    if (start < 0) throw new Error(`bloco ${selector} não encontrado`);
+    const vars: Record<string, string> = {};
+    for (const m of cat.slice(start, cat.indexOf("}", start)).matchAll(/(--[\w-]+):\s*([^;]+);/g)) vars[m[1]] = m[2].trim();
+    return vars;
+  };
+  const catThemes = { light: read(':root,\n[data-theme="light"]'), dark: read('[data-theme="dark"]') };
+  const keys = ["communication", "competition", "extension", "rd", "research", "other"];
+
+  describe.each(Object.entries(catThemes))("tema %s", (_name, vars) => {
+    it.each(keys)("rótulo sobre o fundo de %s ≥ 4,5:1", (k) => {
+      const fg = vars[`--cat-${k}-fg`];
+      const bg = vars[`--cat-${k}-bg`];
+      expect(fg, `--cat-${k}-fg`).toMatch(/^#[0-9a-f]{6}$/i);
+      expect(bg, `--cat-${k}-bg`).toMatch(/^#[0-9a-f]{6}$/i);
+      expect(contrast(fg, bg), `${k}: ${fg} sobre ${bg}`).toBeGreaterThanOrEqual(4.5);
+    });
+  });
+
+  it("o componente importa o arquivo de tokens (não depende do globals.css)", () => {
+    const comp = readFileSync(path.resolve(process.cwd(), "src/components/public/ProjectCover.tsx"), "utf8");
+    expect(comp).toContain('import "./project-categories.css";');
+  });
 });

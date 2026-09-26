@@ -11,7 +11,7 @@
 
 | Área | Implementação |
 |---|---|
-| Tokens | `--cat-{communication,competition,extension,rd,research,other}-{bg,fg}` em `globals.css`, tema claro e escuro; os 12 pares entram em `tests/unit/tokens-contrast.test.ts` (texto normal, ≥ 4,5:1). |
+| Tokens | `--cat-{communication,competition,extension,rd,research,other}-{bg,fg}` em `src/components/public/project-categories.css` (claro e escuro), importado pelo próprio `ProjectCover.tsx`; os 12 pares têm contraste AA testado em `tests/unit/tokens-contrast.test.ts`, que também exige o import. |
 | Projetos | `src/components/public/ProjectCover.tsx`: `CategoryChip` (cor + ícone + texto; o status não depende só da cor) e `ProjectCover` (fundo da cor da categoria, trilhos discretos e ícone grande; decorativa). Ícones: megafone (comunicação), troféu (competição), capelo (extensão), engrenagem (P&D com empresas), frasco (pesquisa), pessoas (outros). Foto autorizada sempre tem prioridade; a capa ilustrada entra só enquanto não houver foto. Aplicado nos cartões (Home e hub) e no detalhe do projeto. |
 | Curso | Nova chave `site_image.course_hero` (editável em Configurações → Imagens do site, como a capa da Home), definida pela coordenação com a foto da turma na RUMO. `CourseHero` mostra a foto pelo proxy (`srcset` responsivo, alt e crédito) e volta para a ilustração se a foto deixar de ser liberada. A página do Curso revalida a cada 5 min, como a Home. |
 | Vídeo | Contêiner mais estreito (`max-w-5xl`, colunas `1fr / 320px`): texto e vídeo formam um bloco só. |
@@ -26,3 +26,7 @@
 ## Observação
 
 O servidor de desenvolvimento (`next dev`) manteve em cache o CSS anterior aos tokens mesmo após reinício; o build de produção já trazia os tokens. Se as cores das categorias não aparecerem localmente, apagar `.next/dev` e reiniciar o `next dev`.
+
+## Incidente no deploy
+
+No primeiro deploy, o CSS gerado pela Vercel trouxe todas as regras novas do commit (ex.: `max-w-5xl`) **menos** os tokens `--cat-*` adicionados ao `globals.css` (57.137 bytes contra 57.761 no build local): as capas apareceram sem cor. É o mesmo comportamento visto no `next dev` local, que manteve o `globals.css` anterior em cache mesmo após reinício. Correção: os tokens saíram do `globals.css` para um arquivo próprio importado pelo componente que os usa (arquivo novo é sempre compilado). Recomendação: se uma mudança futura no `globals.css` não aparecer em produção, fazer **Redeploy sem build cache** na Vercel.

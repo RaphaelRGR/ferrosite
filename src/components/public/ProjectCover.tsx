@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./project-categories.css";
 
 /** Categorias com identidade própria; qualquer valor desconhecido cai em "other". */
 export type ProjectCategoryKey = "communication" | "competition" | "extension" | "rd" | "research" | "other";
@@ -7,7 +8,7 @@ export function categoryKey(category: string): ProjectCategoryKey {
   return (["communication", "competition", "extension", "rd", "research"] as const).includes(category as never) ? (category as ProjectCategoryKey) : "other";
 }
 
-/** Cores vêm dos tokens `--cat-*` (globals.css), com contraste AA verificado em tests/unit/tokens-contrast. */
+/** Cores vêm dos tokens `--cat-*` (project-categories.css), com contraste AA verificado em tests/unit/tokens-contrast. */
 const colors = (key: ProjectCategoryKey) => ({ background: `var(--cat-${key}-bg)`, color: `var(--cat-${key}-fg)` });
 
 const ICONS: Record<ProjectCategoryKey, ReactNode> = {
