@@ -52,6 +52,8 @@ function readOptional(fd: FormData): { fields: Record<string, unknown> } | Actio
       approver_id: approver,
       project_id: uuidOrNull(str(fd, "project_id")),
       organization_id: uuidOrNull(str(fd, "organization_id")),
+      // missão só quando o formulário a traz (criada a partir da missão; a edição preserva): o banco herda o projeto dela
+      ...(fd.has("mission_id") ? { mission_id: uuidOrNull(str(fd, "mission_id")) } : {}),
     },
   };
 }
@@ -177,8 +179,10 @@ export async function commentWorkItem(_prev: ActionState, fd: FormData): Promise
   const body = str(fd, "body", 4000);
   if (!id) return fail(fd, { error: "invalid" });
   if (!body) return fail(fd, { error: "invalid", field: "body" });
+  // menções: só quem já participa da ação (o banco confere)
+  const mentions = [...new Set(fd.getAll("mentions").map(String).filter((m) => /^[0-9a-f-]{36}$/.test(m) && m !== a.id))].slice(0, 10);
   const supabase = await createClient();
-  const { error } = await supabase.from("work_item_comment").insert({ item_id: id, author_id: a.id, body });
+  const { error } = await supabase.from("work_item_comment").insert({ item_id: id, author_id: a.id, body, mentions });
   if (error) return fail(fd, { error: dbError(error) });
   revalidatePath(`/portal/acoes/${id}`);
   return { ok: true };
@@ -248,3 +252,34 @@ export async function snoozeWorkItem(_prev: ActionState, fd: FormData): Promise<
   revalidateWork(id);
   return { ok: true };
 }
+
+/** Checklist da ação: adicionar, marcar/desmarcar e remover (responsável ou administração/coordenação; o banco confere). */
+export async function checklistWorkItem(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const a = await actor();
+  if (isState(a)) return fail(fd, a);
+  const id = str(fd, "id");
+  const op = str(fd, "op");
+  if (!id || !["add", "toggle", "remove"].includes(op)) return fail(fd, { error: "invalid" });
+  const supabase = await createClient();
+  let error: { code?: string; message: string } | null = null;
+  if (op === "add") {
+    const label = str(fd, "label", 300);
+    if (!label) return fail(fd, { error: "invalid", field: "label" });
+    const { count } = await supabase.from("work_item_checklist_item").select("id", { count: "exact", head: true }).eq("item_id", id);
+    ({ error } = await supabase.from("work_item_checklist_item").insert({ item_id: id, label, position: (count ?? 0) + 1, created_by: a.id }));
+  } else {
+    const entry = str(fd, "entry_id");
+    if (!/^[0-9a-f-]{36}$/.test(entry)) return fail(fd, { error: "invalid" });
+    if (op === "toggle") {
+      const { data, error: e } = await supabase.from("work_item_checklist_item").update({ done: fd.get("done") === "true" }).eq("id", entry).eq("item_id", id).select("id");
+      error = e;
+      if (!e && !data?.length) return fail(fd, { error: "forbidden" });
+    } else {
+      ({ error } = await supabase.from("work_item_checklist_item").delete().eq("id", entry).eq("item_id", id));
+    }
+  }
+  if (error) return fail(fd, { error: dbError(error) });
+  revalidatePath(`/portal/acoes/${id}`);
+  return { ok: true };
+}
+

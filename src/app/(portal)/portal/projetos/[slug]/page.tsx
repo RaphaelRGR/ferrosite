@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
+import { LinkedWorkItems } from "@/components/portal/work-items/LinkedWorkItems";
 import { StatusActions, type StatusTarget } from "@/components/portal/projects/StatusActions";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -11,6 +12,8 @@ import { canManageProject, canTransitionProject, isMissionLate, PROJECT_TRANSITI
 import { loadProject } from "@/lib/portal/context";
 import { listMissions } from "@/lib/portal/queries/missions";
 import { listActivity } from "@/lib/portal/queries/projects";
+import { listLinkedWorkItems, quickCreateOptions } from "@/lib/portal/queries/work-items";
+import { isOverseer } from "@/lib/portal/authz";
 
 export async function generateMetadata({ params }: PageProps<"/portal/projetos/[slug]">): Promise<Metadata> {
   const { slug } = await params;
@@ -24,7 +27,13 @@ export default async function ProjectOverviewPage({ params }: PageProps<"/portal
   const { slug } = await params;
   const dict = getDictionary("pt").portal;
   const { project, actor } = await loadProject(slug);
-  const [missions, activity] = await Promise.all([listMissions(project.id, { status: "open" }), listActivity(project.id, undefined, 15)]);
+  const overseer = isOverseer(actor.globalRole);
+  const [missions, activity, workItems, createOptions] = await Promise.all([
+    listMissions(project.id, { status: "open" }),
+    listActivity(project.id, undefined, 15),
+    listLinkedWorkItems({ projectId: project.id }),
+    overseer ? quickCreateOptions(actor.id, dict.roles) : Promise.resolve(null),
+  ]);
   const targets: StatusTarget[] = PROJECT_TRANSITIONS[project.status]
     .filter((to) => canTransitionProject(actor, project.status, to))
     .map((to) => ({ to, label: dict.projects.transitionTo.replace("{status}", dict.projectStatus[to]), variant: to === "cancelled" ? "danger" : to === "active" ? "primary" : "secondary" }));
@@ -37,6 +46,7 @@ export default async function ProjectOverviewPage({ params }: PageProps<"/portal
 
       <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-8">
+          <LinkedWorkItems dict={dict} items={workItems} scope="project" createOptions={createOptions} defaults={{ projectId: project.id }} />
           <section className="rounded-xl border border-line bg-surface p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <h2 className="text-lg font-bold">{dict.projects.overview}</h2>

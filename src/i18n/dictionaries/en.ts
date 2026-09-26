@@ -473,6 +473,26 @@ export const en: Dictionary = {
       otherOption: "Other",
       otherPlaceholder: "Describe the decision",
       blocks: { summary: "{count} stalled actions", blocked: "Blocked", empty: "Nothing stalled right now." },
+      checklist: {
+        title: "Checklist",
+        add: "Add step",
+        placeholder: "E.g. Check the boots",
+        remove: "Remove",
+        empty: "No steps yet.",
+        progress: "{done} of {total} steps",
+      },
+      mentions: {
+        label: "Notify (mention)",
+        hint: "Shows on that person's desk until they reply here. Only people already on this action.",
+      },
+      linkedList: {
+        title: "Actions",
+        projectHint: "Administration and coordination commitments linked to this project.",
+        missionHint: "Administration and coordination commitments linked to this mission.",
+        newInProject: "New action in this project",
+        newInMission: "New action in this mission",
+        empty: "No linked actions.",
+      },
       events: {
         created: "created the action",
         status: "changed from {from} to {to}",
@@ -488,6 +508,7 @@ export const en: Dictionary = {
         file_linked: "linked the file {note}",
         file_unlinked: "unlinked the file {note}",
         snoozed: "snoozed it (remind me later)",
+        checklist_done: "completed the step {note}",
         unsnoozed: "brought it back",
       },
       system: "System",
@@ -514,6 +535,8 @@ export const en: Dictionary = {
       noMissions: "No open missions with you.",
       snoozed: "Snoozed items: {count}. They come back on the chosen date.",
       inbox: "In the Inbox: {count} to organize",
+      mentions: "Mentions for you",
+      mentionFrom: "{author} on {item}",
       seeAll: "See all actions",
     },
     projects: {

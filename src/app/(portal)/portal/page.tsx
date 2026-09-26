@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MISSION_STATUS_TONE } from "@/components/portal/projects/MissionCard";
-import { Desk } from "@/components/portal/work-items/Desk";
+import { Desk, MentionList } from "@/components/portal/work-items/Desk";
 import { WorkItemList } from "@/components/portal/work-items/WorkItemCard";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -10,7 +10,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isMissionLate, isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listOpenWorkItems } from "@/lib/portal/queries/work-items";
+import { listMyMentions, listOpenWorkItems } from "@/lib/portal/queries/work-items";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Início" };
@@ -25,19 +25,20 @@ export default async function PortalDashboardPage() {
   const { profile, userId } = await requireActiveProfile();
   const supabase = await createClient();
   const overseer = isOverseer(profile.global_role);
-  const [missions, projects, workItems] = await Promise.all([
+  const [missions, projects, workItems, mentions] = await Promise.all([
     supabase
       .from("mission_assignee")
       .select("mission:mission_id (id, title, status, due_at, project:project_id (slug, name))")
       .eq("profile_id", userId),
     overseer ? Promise.resolve({ data: [] as Array<{ id: string; slug: string; name: string; status: keyof typeof dict.projectStatus }> }) : supabase.from("project").select("id, slug, name, status").not("status", "in", "(archived,cancelled)").order("updated_at", { ascending: false }).limit(6),
     listOpenWorkItems(),
+    listMyMentions(userId),
   ]);
   type Row = { mission: { id: string; title: string; status: "planned" | "in_progress" | "in_validation" | "done" | "paused" | "cancelled"; due_at: string | null; project: { slug: string; name: string } | null } | null };
   const myMissions = ((missions.data ?? []) as unknown as Row[]).map((r) => r.mission).filter((m): m is NonNullable<Row["mission"]> => !!m && m.status !== "done" && m.status !== "cancelled");
   const name = profile.full_name || profile.email;
 
-  if (overseer) return <Desk dict={dict} items={workItems} userId={userId} name={profile.full_name || ""} missions={myMissions} />;
+  if (overseer) return <Desk dict={dict} items={workItems} userId={userId} name={profile.full_name || ""} missions={myMissions} mentions={mentions} />;
 
   const late = myMissions.filter((m) => isMissionLate(m)).length;
   const myProjects = projects.data ?? [];
@@ -52,6 +53,8 @@ export default async function PortalDashboardPage() {
           {name ? `, ${name}` : ""}
         </h1>
       </header>
+
+      <MentionList dict={dict} mentions={mentions} />
 
       {withMe.length > 0 && (
         <div className="flex flex-col gap-2">

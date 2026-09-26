@@ -68,6 +68,9 @@ export function WorkItemCard({ item, dict, showOwner = true, now = new Date() }:
       </div>
       <div className="flex shrink-0 flex-wrap items-center gap-1.5">
         {item.kind !== "action" && <Badge tone="neutral">{w.kinds[item.kind]}</Badge>}
+        {item.checklist?.length > 0 && (
+          <Badge tone={item.checklist.every((c) => c.done) ? "success" : "neutral"}>{`✓ ${item.checklist.filter((c) => c.done).length}/${item.checklist.length}`}</Badge>
+        )}
         {item.priority === "high" && <Badge tone={PRIORITY_TONE.high}>{w.priorities.high}</Badge>}
         {late && <Badge tone="danger">{w.overdue}</Badge>}
         <Badge tone={STATUS_TONE[item.status]}>{w.statuses[item.status]}</Badge>

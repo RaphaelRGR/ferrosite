@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { MISSION_STATUS_TONE, missionTargets } from "@/components/portal/projects/MissionCard";
 import { AssigneeForms, ChecklistForms, CommentForm, MissionForm } from "@/components/portal/projects/MissionForms";
 import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
+import { LinkedWorkItems } from "@/components/portal/work-items/LinkedWorkItems";
 import { StatusActions } from "@/components/portal/projects/StatusActions";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -13,6 +14,8 @@ import { canManageMission, isMissionLate } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
 import { getMission, listChecklist, listComments } from "@/lib/portal/queries/missions";
 import { listActivity, listMembers } from "@/lib/portal/queries/projects";
+import { listLinkedWorkItems, quickCreateOptions } from "@/lib/portal/queries/work-items";
+import { isOverseer } from "@/lib/portal/authz";
 
 export const metadata: Metadata = { title: "Missão" };
 
@@ -30,7 +33,15 @@ export default async function MissionPage({ params, searchParams }: PageProps<"/
   const { project, actor } = await loadProject(slug);
   const mission = await getMission(id);
   if (!mission || mission.project_id !== project.id) notFound();
-  const [checklist, comments, members, activity] = await Promise.all([listChecklist(mission.id), listComments(mission.id), listMembers(project.id), listActivity(project.id, mission.id, 20)]);
+  const overseer = isOverseer(actor.globalRole);
+  const [checklist, comments, members, activity, workItems, createOptions] = await Promise.all([
+    listChecklist(mission.id),
+    listComments(mission.id),
+    listMembers(project.id),
+    listActivity(project.id, mission.id, 20),
+    listLinkedWorkItems({ missionId: mission.id }),
+    overseer ? quickCreateOptions(actor.id, dict.roles) : Promise.resolve(null),
+  ]);
   const manage = canManageMission(actor, { createdBy: mission.created_by, assigneeIds: mission.assignees.map((a) => a.profile_id) });
   const editing = sp.editar === "1" && manage;
   const targets = missionTargets(actor, mission, dict);
@@ -50,6 +61,7 @@ export default async function MissionPage({ params, searchParams }: PageProps<"/
       ) : (
         <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
           <div className="flex flex-col gap-8">
+            <LinkedWorkItems dict={dict} items={workItems} scope="mission" createOptions={createOptions} defaults={{ projectId: project.id, missionId: mission.id }} />
             <section className="rounded-xl border border-line bg-surface p-6">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge tone={MISSION_STATUS_TONE[mission.status]}>{m.status[mission.status]}</Badge>

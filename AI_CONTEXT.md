@@ -49,7 +49,8 @@ de terceiros além do Supabase.
    "·" ou "→"). Comentários de código podem usar.
 10. **Vídeos (Shorts): um por vez**, com "Outro vídeo"/"Ver no YouTube" abaixo do vídeo.
 11. **Ações são privadas**: só admin e coordenação veem a Central, a lista e a Minha mesa;
-    outra pessoa só enxerga o item em que é responsável ou aprovadora (RLS).
+    outra pessoa só enxerga o item em que é responsável ou aprovadora (RLS). Mencionar
+    alguém não dá acesso.
 
 ## 3. Mapa rápido
 
@@ -136,7 +137,11 @@ de terceiros além do Supabase.
   pela aprovação. Missões continuam sendo o trabalho estruturado dentro dos projetos.
   Abas de `/portal/acoes`: Entrada (sem responsável; organizar = responsável + prazo),
   Abertas, Bloqueios (por quem esperamos), Aprovações, Adiadas ("lembrar depois") e
-  Concluídas. Decisão pode ter opções (até 8).
+  Concluídas. Decisão pode ter opções (até 8). Checklist por ação; menções só para
+  quem já participa (aparecem na Minha mesa até a pessoa responder); bloco "Ações"
+  no projeto e na missão. Qualquer conta ativa pode ser responsável: quem não é da
+  coordenação vê só o próprio item. Nomes de participantes vêm de
+  `work_item_participants()` (a RLS de `profile` não mostra perfis de fora dos projetos).
 - **Central da coordenação** (`/portal/coordenacao`): o que depende de mim
   (aprovações/decisões), carga da equipe, atrasos e próximos prazos; abaixo, os
   sinais automáticos por regra

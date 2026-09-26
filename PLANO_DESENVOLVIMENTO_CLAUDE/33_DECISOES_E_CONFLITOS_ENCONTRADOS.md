@@ -159,3 +159,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 
 - Entrada é um estado do item (não lista separada): a triagem preserva o histórico. Adiar não muda o estado, só esconde até a data (08:00, fuso do curso).
 - Correção: item da Entrada pode ser arquivado sem responsável; reaberto, volta para a Entrada.
+
+## ACT-003: colaboração nas ações (2026-09-26)
+
+- Menção não dá acesso: só dá para mencionar quem já participa da ação. Sem estado de "lido": responder na ação tira o aviso.
+- Qualquer conta ativa pode ser responsável ou aprovadora; o nome dos participantes vem de uma função do banco que expõe só o nome de exibição, e só para quem pode ver a ação.
+- Desmarcar passo do checklist não vai para o histórico (evita ruído); concluir vai.

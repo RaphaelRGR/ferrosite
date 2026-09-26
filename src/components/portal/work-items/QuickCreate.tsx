@@ -26,7 +26,19 @@ const WHEN: DuePreset[] = ["today", "tomorrow", "week", "date", "none"];
  * "+ Nova ação" (ACT-001): três perguntas (o quê, quem, quando) e o resto em
  * "Mais opções". Criar precisa ser mais rápido do que escrever no WhatsApp.
  */
-export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreateOptions }) {
+export function QuickCreate({
+  dict,
+  options,
+  defaults,
+  triggerLabel,
+}: {
+  dict: Dict;
+  options: QuickCreateOptions;
+  /** Criada a partir de um projeto ou missão: vínculo já preenchido. */
+  defaults?: { projectId?: string; missionId?: string };
+  /** Rótulo do botão quando não é o "+ Nova ação" do cabeçalho. */
+  triggerLabel?: string;
+}) {
   const w = dict.workItems;
   const [open, setOpen] = useState(false);
   const [when, setWhen] = useState<DuePreset>("tomorrow");
@@ -46,13 +58,20 @@ export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreat
 
   return (
     <>
-      <Button size="sm" onClick={() => setOpen(true)} aria-haspopup="dialog" className="max-sm:px-3 max-[359px]:px-2">
-        <span aria-hidden="true">+</span>
-        {/* no celular só o "+", para caber ao lado do tema e de Sair */}
-        <span className="max-sm:sr-only">{w.newItem}</span>
-      </Button>
+      {triggerLabel ? (
+        <Button size="sm" variant="secondary" onClick={() => setOpen(true)} aria-haspopup="dialog">
+          <span aria-hidden="true">+</span> {triggerLabel}
+        </Button>
+      ) : (
+        <Button size="sm" onClick={() => setOpen(true)} aria-haspopup="dialog" className="max-sm:px-3 max-[359px]:px-2">
+          <span aria-hidden="true">+</span>
+          {/* no celular só o "+", para caber ao lado do tema e de Sair */}
+          <span className="max-sm:sr-only">{w.newItem}</span>
+        </Button>
+      )}
       <Dialog open={open} onClose={() => setOpen(false)} title={w.newItem}>
         <form ref={formRef} action={formAction} className="mt-5 flex flex-col gap-5">
+          {defaults?.missionId && <input type="hidden" name="mission_id" value={defaults.missionId} />}
           <Input label={w.quickTitle} name="title" required maxLength={200} placeholder={w.quickTitlePlaceholder} defaultValue={v?.title} error={err("title")} autoFocus />
           {/* sem responsável = Entrada, para organizar depois */}
           <Select label={w.owner} name="owner_id" defaultValue={v?.owner_id ?? options.me} options={[...people, { value: "", label: w.inboxOwner }]} error={err("owner_id")} />
@@ -81,7 +100,7 @@ export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreat
               <Select label={w.kind} name="kind" value={kind} onChange={(e) => setKind(e.target.value)} options={WORK_ITEM_KINDS.map((k) => ({ value: k, label: w.kinds[k] }))} help={w.kindHelp} />
               <Select label={w.priority} name="priority" defaultValue={v?.priority ?? "medium"} options={WORK_ITEM_PRIORITIES.map((p) => ({ value: p, label: w.priorities[p] }))} />
               <Select label={w.approver} name="approver_id" defaultValue={v?.approver_id ?? ""} options={[{ value: "", label: w.noApprover }, ...people]} error={err("approver_id")} />
-              <Select label={w.project} name="project_id" defaultValue={v?.project_id ?? ""} options={[{ value: "", label: w.none }, ...options.projects.map((p) => ({ value: p.id, label: p.name }))]} />
+              <Select label={w.project} name="project_id" defaultValue={v?.project_id ?? defaults?.projectId ?? ""} options={[{ value: "", label: w.none }, ...options.projects.map((p) => ({ value: p.id, label: p.name }))]} />
               <Select label={w.organization} name="organization_id" defaultValue={v?.organization_id ?? ""} options={[{ value: "", label: w.none }, ...options.organizations.map((o) => ({ value: o.id, label: o.name }))]} />
               <div className="sm:col-span-2">
                 <Textarea label={w.descriptionLabel} name="description" rows={3} maxLength={4000} defaultValue={v?.description} />

@@ -3,14 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Timeline } from "@/components/portal/work-items/Timeline";
 import { dueText, PRIORITY_TONE, STATUS_TONE, waitingText } from "@/components/portal/work-items/WorkItemCard";
-import { WorkItemComment, WorkItemDecision, WorkItemEdit, WorkItemFileLink, WorkItemFileUnlink, WorkItemSnooze, WorkItemTransitions, WorkItemTriage } from "@/components/portal/work-items/WorkItemForms";
+import { WorkItemChecklist, WorkItemComment, WorkItemDecision, WorkItemEdit, WorkItemFileLink, WorkItemFileUnlink, WorkItemSnooze, WorkItemTransitions, WorkItemTriage } from "@/components/portal/work-items/WorkItemForms";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { getWorkItem, getWorkItemTimeline, listAssignablePeople, listFileCandidates, listLinkOptions, listWorkItemFiles, personName } from "@/lib/portal/queries/work-items";
+import { getParticipants, getWorkItem, getWorkItemTimeline, listAssignablePeople, listFileCandidates, listLinkOptions, listWorkItemChecklist, listWorkItemFiles, personName, personOption } from "@/lib/portal/queries/work-items";
 import { availableTransitions, canDecide, isOpen, isOverdue, isSnoozed } from "@/lib/portal/work-items";
 
 export const metadata: Metadata = { title: "Ação" };
@@ -32,9 +32,11 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
   if (!item) notFound();
   const overseer = isOverseer(profile.global_role);
   const actor = { id: userId, overseer };
-  const [timeline, files, people, links, candidates] = await Promise.all([
+  const [timeline, files, checklist, participants, people, links, candidates] = await Promise.all([
     getWorkItemTimeline(id),
     listWorkItemFiles(id),
+    listWorkItemChecklist(id),
+    getParticipants(id),
     overseer ? listAssignablePeople() : Promise.resolve([]),
     overseer ? listLinkOptions() : Promise.resolve({ projects: [], organizations: [] }),
     overseer ? listFileCandidates() : Promise.resolve([]),
@@ -44,12 +46,17 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
   const late = isOverdue(item, now);
   const folderId = files.find((f) => f.file?.drive_folder_id)?.file?.drive_folder_id;
   const fmt = (iso: string) => formatDate("pt", new Date(iso), { dateStyle: "short", timeStyle: "short" });
+  // Nomes pelos participantes: quem não é da coordenação não lê perfis fora dos seus projetos.
+  const names = Object.fromEntries(participants.map((p) => [p.id, p.name]));
+  const nameOf = (ref: Parameters<typeof personName>[0], id: string | null) => (ref ? personName(ref) : id ? (names[id] ?? "") : "");
+  const mentionable = participants.filter((p) => p.canMention && p.id !== userId).map((p) => ({ id: p.id, name: p.name }));
+  const peopleOptions = people.map((p) => personOption(p, dict.roles));
 
   const meta: Array<{ label: string; value: React.ReactNode }> = [
-    { label: w.owner, value: item.owner ? personName(item.owner) : w.none },
+    { label: w.owner, value: nameOf(item.owner, item.owner_id) || w.none },
     { label: w.due, value: item.due_at ? <span className={late ? "font-bold text-danger" : undefined}>{dueText(item.due_at, w, now)}</span> : w.noDue },
   ];
-  if (item.approver) meta.push({ label: w.approver, value: personName(item.approver) });
+  if (item.approver_id) meta.push({ label: w.approver, value: nameOf(item.approver, item.approver_id) });
   if (item.kind === "decision" && item.decision_options.length > 0 && !item.decision_outcome) meta.push({ label: w.decisionOptionsLabel, value: item.decision_options.join(" · ") });
   if (item.status === "waiting") meta.push({ label: w.waitingLabel, value: <span className="text-warning">{waitingText(item, dict, now)}</span> });
   if (item.project) meta.push({ label: w.project, value: <Link className="underline underline-offset-4" href={`/portal/projetos/${item.project.slug}`}>{item.project.name}</Link> });
@@ -73,19 +80,19 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
         </div>
       </header>
 
-      {item.status === "awaiting_approval" && item.approver && (
+      {item.status === "awaiting_approval" && item.approver_id && (
         <p role="status" className={`rounded-lg border px-4 py-3 text-sm font-bold ${item.approver_id === userId ? "border-info bg-surface text-info" : "border-line bg-surface text-fg-muted"}`}>
-          {item.approver_id === userId ? w.approvalForYou.replace("{name}", item.owner ? personName(item.owner) : w.system) : w.awaitingApprovalOf.replace("{name}", personName(item.approver))}
+          {item.approver_id === userId ? w.approvalForYou.replace("{name}", nameOf(item.owner, item.owner_id) || w.system) : w.awaitingApprovalOf.replace("{name}", nameOf(item.approver, item.approver_id))}
         </p>
       )}
       {item.decision_outcome && (
         <p className="rounded-lg border border-success bg-surface px-4 py-3 text-sm">
           <span className="font-bold">{w.decided.replace("{outcome}", item.decision_outcome)}</span>
-          {item.decided_at && item.decider && <span className="block text-xs text-fg-muted">{w.decidedBy.replace("{name}", personName(item.decider)).replace("{date}", fmt(item.decided_at))}</span>}
+          {item.decided_at && item.decided_by && <span className="block text-xs text-fg-muted">{w.decidedBy.replace("{name}", nameOf(item.decider, item.decided_by)).replace("{date}", fmt(item.decided_at))}</span>}
         </p>
       )}
       {item.approved_at && item.status === "done" && (
-        <p className="rounded-lg border border-success bg-surface px-4 py-3 text-sm font-bold text-success">{w.approvedBy.replace("{name}", item.approver ? personName(item.approver) : "").replace("{date}", fmt(item.approved_at))}</p>
+        <p className="rounded-lg border border-success bg-surface px-4 py-3 text-sm font-bold text-success">{w.approvedBy.replace("{name}", nameOf(null, item.approved_by)).replace("{date}", fmt(item.approved_at))}</p>
       )}
 
       {isSnoozed(item, now) && item.snoozed_until && (
@@ -99,7 +106,7 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
           <h2 id="organizar" className="text-base font-bold">{w.triage.title}</h2>
           <p className="mt-1 text-sm text-fg-muted">{w.triage.hint}</p>
           <div className="mt-4">
-            <WorkItemTriage dict={dict} item={item} people={people.map((p) => ({ id: p.id, name: personName(p) }))} me={userId} />
+            <WorkItemTriage dict={dict} item={item} people={peopleOptions} me={userId} />
           </div>
         </section>
       )}
@@ -120,6 +127,13 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
               <p className="mt-2 whitespace-pre-line text-sm">{item.description}</p>
             </section>
           )}
+
+          <section className={card} aria-labelledby="checklist">
+            <h2 id="checklist" className="text-base font-bold">{w.checklist.title}</h2>
+            <div className="mt-3">
+              <WorkItemChecklist dict={dict} itemId={item.id} entries={checklist} canEdit={overseer || item.owner_id === userId} />
+            </div>
+          </section>
 
           <section className={card} aria-labelledby="arquivos">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -168,8 +182,8 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
           <section className={card} aria-labelledby="atividade">
             <h2 id="atividade" className="text-base font-bold">{w.activity}</h2>
             <div className="mt-4 flex flex-col gap-5">
-              <Timeline entries={timeline} dict={dict} />
-              <WorkItemComment dict={dict} itemId={item.id} />
+              <Timeline entries={timeline} dict={dict} names={names} />
+              <WorkItemComment dict={dict} itemId={item.id} mentionable={mentionable} />
             </div>
           </section>
         </div>
@@ -191,7 +205,7 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
               <summary className="cursor-pointer text-base font-bold">{w.edit}</summary>
               <p className="mt-2 text-xs text-fg-muted">{w.editHelp}</p>
               <div className="mt-4">
-                <WorkItemEdit dict={dict} item={item} people={people.map((p) => ({ id: p.id, name: personName(p) }))} projects={links.projects} organizations={links.organizations} />
+                <WorkItemEdit dict={dict} item={item} people={peopleOptions} projects={links.projects} organizations={links.organizations} />
               </div>
             </details>
           )}

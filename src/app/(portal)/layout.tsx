@@ -45,7 +45,7 @@ export default async function PortalLayout({ children }: { children: React.React
   const overseer = status === "active" && isOverseer(profile?.global_role);
   const items = visibleNavItems(portalNavItems(dict.portal, { overseer }), profile);
   // "+ Criar" (ACT-001): opções carregadas só para quem pode criar ações.
-  const quickCreate = overseer ? await quickCreateOptions(user.id) : null;
+  const quickCreate = overseer ? await quickCreateOptions(user.id, dict.portal.roles) : null;
   const navLabels = { menu: dict.portal.nav.menu, open: dict.portal.nav.openMenu, close: dict.portal.nav.closeMenu };
 
   return (

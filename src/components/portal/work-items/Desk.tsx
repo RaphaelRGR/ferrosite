@@ -3,7 +3,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
-import type { WorkItemRow } from "@/lib/portal/queries/work-items";
+import type { MentionRow, WorkItemRow } from "@/lib/portal/queries/work-items";
 import { buildDesk, filterTab } from "@/lib/portal/work-items";
 import { WorkItemList } from "./WorkItemCard";
 
@@ -27,7 +27,7 @@ function greeting(now: Date, g: Dict["desk"]["greeting"]): string {
  * que eu tenho que fazer?" em segundos: contadores no topo e as listas na
  * ordem de urgência; lista vazia não aparece.
  */
-export function Desk({ dict, items, userId, name, missions, now = new Date() }: { dict: Dict; items: WorkItemRow[]; userId: string; name: string; missions: DeskMission[]; now?: Date }) {
+export function Desk({ dict, items, userId, name, missions, mentions = [], now = new Date() }: { dict: Dict; items: WorkItemRow[]; userId: string; name: string; missions: DeskMission[]; mentions?: MentionRow[]; now?: Date }) {
   const d = dict.desk;
   const desk = buildDesk(items, userId, now);
   const counts = [
@@ -62,6 +62,8 @@ export function Desk({ dict, items, userId, name, missions, now = new Date() }: 
           ))}
         </ul>
       </section>
+
+      <MentionList dict={dict} mentions={mentions} />
 
       {inbox > 0 && (
         <Link href="/portal/acoes?aba=entrada" className="self-start rounded-full border border-line-strong bg-surface px-4 py-2 text-sm font-bold hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
@@ -121,3 +123,28 @@ export function Desk({ dict, items, userId, name, missions, now = new Date() }: 
     </div>
   );
 }
+
+/** Menções ainda sem resposta (somem quando a pessoa comenta na ação). */
+export function MentionList({ dict, mentions }: { dict: Dict; mentions: MentionRow[] }) {
+  if (mentions.length === 0) return null;
+  const d = dict.desk;
+  return (
+    <section aria-labelledby="mencoes" className="rounded-xl border border-info bg-surface">
+      <h2 id="mencoes" className="border-b border-line px-4 py-3 text-base font-bold">
+        {d.mentions} <span className="tabular-nums text-fg-muted">({mentions.length})</span>
+      </h2>
+      <ul className="flex flex-col divide-y divide-line">
+        {mentions.map((m) => (
+          <li key={m.commentId} className="px-4 py-3 text-sm">
+            <Link href={`/portal/acoes/${m.itemId}`} className="font-bold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+              {d.mentionFrom.replace("{author}", m.author).replace("{item}", m.itemTitle)}
+            </Link>
+            <span className="mt-0.5 line-clamp-2 block text-fg-muted">{m.body}</span>
+            <span className="block text-xs text-fg-muted">{formatDate("pt", new Date(m.at), { dateStyle: "short", timeStyle: "short" })}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+

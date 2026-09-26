@@ -472,6 +472,26 @@ export const pt = {
       otherOption: "Outra",
       otherPlaceholder: "Descreva a decisão",
       blocks: { summary: "{count} ações paradas", blocked: "Bloqueadas", empty: "Nada parado agora." },
+      checklist: {
+        title: "Checklist",
+        add: "Adicionar passo",
+        placeholder: "Ex.: Conferir botas",
+        remove: "Remover",
+        empty: "Sem passos ainda.",
+        progress: "{done} de {total} passos",
+      },
+      mentions: {
+        label: "Avisar (menção)",
+        hint: "Aparece na Minha mesa da pessoa até ela responder aqui. Só quem já participa da ação.",
+      },
+      linkedList: {
+        title: "Ações",
+        projectHint: "Compromissos da administração e da coordenação ligados a este projeto.",
+        missionHint: "Compromissos da administração e da coordenação ligados a esta missão.",
+        newInProject: "Nova ação neste projeto",
+        newInMission: "Nova ação nesta missão",
+        empty: "Nenhuma ação ligada.",
+      },
       events: {
         created: "criou a ação",
         status: "mudou de {from} para {to}",
@@ -487,6 +507,7 @@ export const pt = {
         file_linked: "vinculou o arquivo {note}",
         file_unlinked: "desvinculou o arquivo {note}",
         snoozed: "adiou (lembrar depois)",
+        checklist_done: "concluiu o passo {note}",
         unsnoozed: "trouxe de volta",
       },
       system: "Sistema",
@@ -513,6 +534,8 @@ export const pt = {
       noMissions: "Nenhuma missão aberta com você.",
       snoozed: "Itens adiados: {count}. Voltam na data marcada.",
       inbox: "Na Entrada: {count} para organizar",
+      mentions: "Menções para você",
+      mentionFrom: "{author} em {item}",
       seeAll: "Ver todas as ações",
     },
     projects: {

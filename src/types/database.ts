@@ -190,10 +190,16 @@ export type Database = {
         Update: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title?: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by?: string; updated_by?: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number };
         Relationships: [];
       };
+      work_item_checklist_item: {
+        Row: { id: string; item_id: string; label: string; done: boolean; position: number; created_by: string; created_at: string; updated_at: string };
+        Insert: { id?: string; item_id: string; label: string; done?: boolean; position?: number; created_by: string; created_at?: string; updated_at?: string };
+        Update: { id?: string; item_id?: string; label?: string; done?: boolean; position?: number; created_by?: string; created_at?: string; updated_at?: string };
+        Relationships: [];
+      };
       work_item_comment: {
-        Row: { id: string; item_id: string; author_id: string; body: string; created_at: string };
-        Insert: { id?: string; item_id: string; author_id: string; body: string; created_at?: string };
-        Update: { id?: string; item_id?: string; author_id?: string; body?: string; created_at?: string };
+        Row: { id: string; item_id: string; author_id: string; body: string; created_at: string; mentions: string[] };
+        Insert: { id?: string; item_id: string; author_id: string; body: string; created_at?: string; mentions?: string[] };
+        Update: { id?: string; item_id?: string; author_id?: string; body?: string; created_at?: string; mentions?: string[] };
         Relationships: [];
       };
       work_item_event: {
@@ -229,6 +235,10 @@ export type Database = {
         Returns: boolean;
       };
       can_view_work_item: {
+        Args: { p_item: string };
+        Returns: boolean;
+      };
+      can_work_on_item: {
         Args: { p_item: string };
         Returns: boolean;
       };
@@ -320,6 +330,10 @@ export type Database = {
         Args: { p_token: string };
         Returns: { id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string; event_place: string; status: Database["public"]["Enums"]["content_status"] }[];
       };
+      profile_can_view_work_item: {
+        Args: { p_item: string; p_profile: string };
+        Returns: boolean;
+      };
       project_role_of: {
         Args: { p_project: string };
         Returns: Database["public"]["Enums"]["project_role"];
@@ -367,6 +381,10 @@ export type Database = {
       valid_decision_options: {
         Args: { p: string[] };
         Returns: boolean;
+      };
+      work_item_participants: {
+        Args: { p_item: string };
+        Returns: { id: string; name: string; can_mention: boolean }[];
       };
     };
     Enums: {

@@ -251,3 +251,7 @@ Relatório: `docs/baseline/ACT-001-relatorio.md`. Ações privadas da administra
 ## Estado após ACT-002 (2026-09-26)
 
 Relatório: `docs/baseline/ACT-002-relatorio.md`. Ações ganham Entrada (triagem: aceitar, lembrar depois, arquivar), aba Bloqueios com resumo por quem esperamos, "Lembrar depois" (aba Adiadas; volta sozinho na data) e decisão com opções. Migrations `20260927000200` e `20260927000300` aplicadas na nuvem.
+
+## Estado após ACT-003 (2026-09-26)
+
+Relatório: `docs/baseline/ACT-003-relatorio.md`. Ações ganham checklist, menções (só participantes; aviso na Minha mesa até responder), bloco "Ações" no projeto e na missão (com criação já vinculada) e responsáveis de qualquer papel (veem só o próprio item). Migrations `20260927000400` e `20260927000500` aplicadas na nuvem.

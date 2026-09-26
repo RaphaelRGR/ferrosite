@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/Input";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { toDateTimeLocal } from "@/i18n/format";
 import { IDLE, type ActionState } from "@/lib/portal/action-state";
-import { acceptWorkItem, commentWorkItem, decideWorkItem, linkWorkItemFile, snoozeWorkItem, transitionWorkItem, updateWorkItem } from "@/lib/portal/actions/work-items";
+import { acceptWorkItem, checklistWorkItem, commentWorkItem, decideWorkItem, linkWorkItemFile, snoozeWorkItem, transitionWorkItem, updateWorkItem } from "@/lib/portal/actions/work-items";
 import { SNOOZE_PRESETS, WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, type SnoozePreset, type WorkTransition } from "@/lib/portal/work-items";
-import type { WorkItemRow } from "@/lib/portal/queries/work-items";
+import type { ChecklistRow, WorkItemRow } from "@/lib/portal/queries/work-items";
 
 type Dict = Dictionary["portal"];
 type Ref = { id: string; version: number };
@@ -173,7 +173,8 @@ export function WorkItemSnooze({ dict, itemId, snoozedUntil }: { dict: Dict; ite
   );
 }
 
-export function WorkItemComment({ dict, itemId }: { dict: Dict; itemId: string }) {
+/** Comentário com menções opcionais (só quem já participa da ação; aparece na Minha mesa da pessoa até ela responder). */
+export function WorkItemComment({ dict, itemId, mentionable = [] }: { dict: Dict; itemId: string; mentionable?: Array<{ id: string; name: string }> }) {
   const w = dict.workItems;
   const [state, formAction, pending] = useActionState(commentWorkItem, IDLE as ActionState);
   const ref = useRef<HTMLFormElement>(null);
@@ -184,6 +185,20 @@ export function WorkItemComment({ dict, itemId }: { dict: Dict; itemId: string }
     <form ref={ref} action={formAction} className="flex flex-col gap-3">
       <input type="hidden" name="id" value={itemId} />
       <Textarea label={w.comment} name="body" required rows={3} maxLength={4000} placeholder={w.commentPlaceholder} error={fieldError(state, "body", dict)} />
+      {mentionable.length > 0 && (
+        <fieldset>
+          <legend className="text-sm font-bold">{w.mentions.label}</legend>
+          <p className="text-xs text-fg-muted">{w.mentions.hint}</p>
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+            {mentionable.map((p) => (
+              <label key={p.id} className="flex min-h-9 items-center gap-2 text-sm">
+                <input type="checkbox" name="mentions" value={p.id} />
+                {p.name}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
       <div>
         <Button type="submit" variant="secondary" loading={pending}>
           {w.send}
@@ -191,6 +206,74 @@ export function WorkItemComment({ dict, itemId }: { dict: Dict; itemId: string }
       </div>
       {state.error && <ActionFeedback state={state} dict={dict} />}
     </form>
+  );
+}
+
+/** Checklist: passos marcáveis; responsável e administração/coordenação editam, os demais só veem. */
+export function WorkItemChecklist({ dict, itemId, entries, canEdit }: { dict: Dict; itemId: string; entries: ChecklistRow[]; canEdit: boolean }) {
+  const c = dict.workItems.checklist;
+  const [state, formAction, pending] = useActionState(checklistWorkItem, IDLE as ActionState);
+  const ref = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    if (state.ok) ref.current?.reset();
+  }, [state]);
+  const done = entries.filter((e) => e.done).length;
+  return (
+    <div className="flex flex-col gap-3">
+      {entries.length === 0 ? (
+        <p className="text-sm text-fg-muted">{c.empty}</p>
+      ) : (
+        <>
+          <p className="text-xs font-bold text-fg-muted">{c.progress.replace("{done}", String(done)).replace("{total}", String(entries.length))}</p>
+          <ul className="flex flex-col gap-1">
+            {entries.map((e) => (
+              <li key={e.id} className="flex items-center justify-between gap-2" data-checklist-entry={e.done ? "done" : "open"}>
+                {canEdit ? (
+                  <form action={formAction} className="min-w-0 flex-1">
+                    <input type="hidden" name="id" value={itemId} />
+                    <input type="hidden" name="op" value="toggle" />
+                    <input type="hidden" name="entry_id" value={e.id} />
+                    <input type="hidden" name="done" value={e.done ? "false" : "true"} />
+                    <button type="submit" disabled={pending} role="checkbox" aria-checked={e.done} className="flex min-h-10 w-full items-center gap-2 rounded-lg px-1 text-left text-sm hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+                      <span aria-hidden="true" className={`flex size-5 shrink-0 items-center justify-center rounded border ${e.done ? "border-success bg-success text-fg-on-action" : "border-line-strong"}`}>{e.done ? "✓" : ""}</span>
+                      <span className={e.done ? "text-fg-muted line-through" : ""}>{e.label}</span>
+                    </button>
+                  </form>
+                ) : (
+                  <span className="flex min-h-10 items-center gap-2 text-sm">
+                    <span aria-hidden="true" className={`flex size-5 items-center justify-center rounded border ${e.done ? "border-success bg-success text-fg-on-action" : "border-line-strong"}`}>{e.done ? "✓" : ""}</span>
+                    <span className={e.done ? "text-fg-muted line-through" : ""}>{e.label}</span>
+                  </span>
+                )}
+                {canEdit && (
+                  <form action={formAction}>
+                    <input type="hidden" name="id" value={itemId} />
+                    <input type="hidden" name="op" value="remove" />
+                    <input type="hidden" name="entry_id" value={e.id} />
+                    <Button type="submit" variant="ghost" size="sm" aria-label={`${c.remove}: ${e.label}`} disabled={pending}>
+                      <span aria-hidden="true">×</span>
+                    </Button>
+                  </form>
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {canEdit && (
+        <form ref={ref} action={formAction} className="flex flex-col gap-2 sm:flex-row sm:items-end">
+          <input type="hidden" name="id" value={itemId} />
+          <input type="hidden" name="op" value="add" />
+          <div className="min-w-0 flex-1">
+            <Input label={c.add} name="label" required maxLength={300} placeholder={c.placeholder} error={fieldError(state, "label", dict)} />
+          </div>
+          <Button type="submit" variant="secondary" loading={pending}>
+            {c.add}
+          </Button>
+        </form>
+      )}
+      {state.error && <ActionFeedback state={state} dict={dict} />}
+    </div>
   );
 }
 
@@ -249,6 +332,8 @@ export function WorkItemEdit({
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
       <Hidden item={item} />
+      {/* a missão não é editada aqui; mantém a atual */}
+      <input type="hidden" name="mission_id" value={item.mission_id ?? ""} />
       <div className="sm:col-span-2">
         <Input label={w.quickTitle} name="title" required maxLength={200} defaultValue={v?.title ?? item.title} error={err("title")} />
       </div>

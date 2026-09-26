@@ -13,6 +13,7 @@ export type WorkItemRow = Tables<"work_item"> & {
   project: Pick<Tables<"project">, "slug" | "name"> | null;
   mission: (Pick<Tables<"mission">, "id" | "title"> & { project: Pick<Tables<"project">, "slug"> | null }) | null;
   organization: Pick<Tables<"organization">, "id" | "name"> | null;
+  checklist: Array<{ done: boolean }>;
 };
 
 const SELECT = [
@@ -23,6 +24,7 @@ const SELECT = [
   "project:project_id (slug, name)",
   "mission:mission_id (id, title, project:project_id (slug))",
   "organization:organization_id (id, name)",
+  "checklist:work_item_checklist_item (done)",
 ].join(", ");
 
 export const personName = (p: Pick<PersonRef, "full_name" | "email"> | null | undefined) => (p ? p.full_name || p.email : "");
@@ -49,21 +51,21 @@ export async function getWorkItem(id: string): Promise<WorkItemRow | null> {
 }
 
 export type TimelineEntry =
-  | { type: "event"; id: string; at: string; actor: PersonRef | null; kind: string; from: string | null; to: string | null; note: string }
-  | { type: "comment"; id: string; at: string; actor: PersonRef | null; body: string };
+  | { type: "event"; id: string; at: string; actor: PersonRef | null; actorId: string | null; kind: string; from: string | null; to: string | null; note: string }
+  | { type: "comment"; id: string; at: string; actor: PersonRef | null; authorId: string; body: string; mentions: string[] };
 
 /** Histórico automático + comentários numa linha do tempo única (mais antigo primeiro). */
 export async function getWorkItemTimeline(id: string): Promise<TimelineEntry[]> {
   const supabase = await createClient();
   const [events, comments] = await Promise.all([
-    supabase.from("work_item_event").select("id, kind, from_value, to_value, note, occurred_at, actor:actor_id (id, full_name, email)").eq("item_id", id).order("occurred_at"),
-    supabase.from("work_item_comment").select("id, body, created_at, author:author_id (id, full_name, email)").eq("item_id", id).order("created_at"),
+    supabase.from("work_item_event").select("id, kind, from_value, to_value, note, occurred_at, actor_id, actor:actor_id (id, full_name, email)").eq("item_id", id).order("occurred_at"),
+    supabase.from("work_item_comment").select("id, body, mentions, created_at, author_id, author:author_id (id, full_name, email)").eq("item_id", id).order("created_at"),
   ]);
-  type Ev = { id: number; kind: string; from_value: string | null; to_value: string | null; note: string; occurred_at: string; actor: PersonRef | null };
-  type Cm = { id: string; body: string; created_at: string; author: PersonRef | null };
+  type Ev = { id: number; kind: string; from_value: string | null; to_value: string | null; note: string; occurred_at: string; actor_id: string | null; actor: PersonRef | null };
+  type Cm = { id: string; body: string; mentions: string[]; created_at: string; author_id: string; author: PersonRef | null };
   const out: TimelineEntry[] = [
-    ...((events.data ?? []) as unknown as Ev[]).map((e) => ({ type: "event" as const, id: `e${e.id}`, at: e.occurred_at, actor: e.actor, kind: e.kind, from: e.from_value, to: e.to_value, note: e.note })),
-    ...((comments.data ?? []) as unknown as Cm[]).map((c) => ({ type: "comment" as const, id: c.id, at: c.created_at, actor: c.author, body: c.body })),
+    ...((events.data ?? []) as unknown as Ev[]).map((e) => ({ type: "event" as const, id: `e${e.id}`, at: e.occurred_at, actor: e.actor, actorId: e.actor_id, kind: e.kind, from: e.from_value, to: e.to_value, note: e.note })),
+    ...((comments.data ?? []) as unknown as Cm[]).map((c) => ({ type: "comment" as const, id: c.id, at: c.created_at, actor: c.author, authorId: c.author_id, body: c.body, mentions: c.mentions ?? [] })),
   ];
   return out.sort((a, b) => a.at.localeCompare(b.at));
 }
@@ -76,11 +78,17 @@ export async function listWorkItemFiles(id: string): Promise<WorkItemFileRow[]> 
   return (data ?? []) as unknown as WorkItemFileRow[];
 }
 
-/** Quem pode receber ações no MVP: admin e coordenação ativos. */
-export async function listAssignablePeople(): Promise<PersonRef[]> {
+export type AssignablePerson = PersonRef & { global_role: Tables<"profile">["global_role"] };
+
+/**
+ * Quem pode receber ações: qualquer conta ativa (ACT-003). Admin e coordenação
+ * primeiro; os demais só enxergam o item que receberem (RLS).
+ */
+export async function listAssignablePeople(): Promise<AssignablePerson[]> {
   const supabase = await createClient();
-  const { data } = await supabase.from("profile").select("id, full_name, email").eq("status", "active").in("global_role", ["admin", "coordination"]).order("full_name");
-  return (data ?? []) as PersonRef[];
+  const { data } = await supabase.from("profile").select("id, full_name, email, global_role").eq("status", "active").order("full_name");
+  const rank = (p: AssignablePerson) => (p.global_role === "admin" || p.global_role === "coordination" ? 0 : 1);
+  return ((data ?? []) as AssignablePerson[]).sort((a, b) => rank(a) - rank(b));
 }
 
 /** Vínculos opcionais da criação ("Mais opções"). */
@@ -100,8 +108,82 @@ export async function listFileCandidates(): Promise<Array<{ id: string; label: s
   return (data ?? []).map((f) => ({ id: f.id, label: f.storage_path ? `${f.name} · ${f.storage_path}` : f.name }));
 }
 
-/** Opções do "+ Criar": pessoas que podem receber ações e vínculos opcionais. */
-export async function quickCreateOptions(me: string): Promise<{ me: string; people: Array<{ id: string; name: string }>; projects: Array<{ id: string; name: string }>; organizations: Array<{ id: string; name: string }> }> {
+/** Rótulo nas listas de escolha: admin/coordenação pelo nome; os demais com o papel. */
+export function personOption(p: AssignablePerson, roles: Record<string, string>): { id: string; name: string } {
+  const overseer = p.global_role === "admin" || p.global_role === "coordination";
+  return { id: p.id, name: overseer ? personName(p) : `${personName(p)} · ${roles[p.global_role] ?? p.global_role}` };
+}
+
+export interface QuickCreateData {
+  me: string;
+  people: Array<{ id: string; name: string }>;
+  projects: Array<{ id: string; name: string }>;
+  organizations: Array<{ id: string; name: string }>;
+}
+
+/** Opções do "+ Nova ação": pessoas que podem receber ações e vínculos opcionais. */
+export async function quickCreateOptions(me: string, roles: Record<string, string>): Promise<QuickCreateData> {
   const [people, links] = await Promise.all([listAssignablePeople(), listLinkOptions()]);
-  return { me, people: people.map((p) => ({ id: p.id, name: personName(p) })), ...links };
+  return { me, people: people.map((p) => personOption(p, roles)), ...links };
+}
+
+/** Nomes de quem participa da ação e quem pode ser mencionado (função do banco; vale também para quem não é da coordenação). */
+export async function getParticipants(id: string): Promise<Array<{ id: string; name: string; canMention: boolean }>> {
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("work_item_participants", { p_item: id });
+  return (data ?? []).map((r) => ({ id: r.id, name: r.name, canMention: r.can_mention }));
+}
+
+export type ChecklistRow = Tables<"work_item_checklist_item">;
+export async function listWorkItemChecklist(id: string): Promise<ChecklistRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("work_item_checklist_item").select("*").eq("item_id", id).order("position").order("created_at");
+  return data ?? [];
+}
+
+/** Ações ligadas a um projeto ou a uma missão (abertas primeiro, depois as concluídas mais recentes). */
+export async function listLinkedWorkItems(filter: { projectId?: string; missionId?: string }): Promise<WorkItemRow[]> {
+  if (!filter.missionId && !filter.projectId) return [];
+  const supabase = await createClient();
+  let q = supabase.from("work_item").select(SELECT);
+  q = filter.missionId ? q.eq("mission_id", filter.missionId) : q.eq("project_id", filter.projectId!);
+  const { data } = await q.order("completed_at", { ascending: false, nullsFirst: true }).order("due_at", { ascending: true, nullsFirst: false }).limit(100);
+  return (data ?? []) as unknown as WorkItemRow[];
+}
+
+export interface MentionRow {
+  commentId: string;
+  itemId: string;
+  itemTitle: string;
+  author: string;
+  body: string;
+  at: string;
+}
+
+/**
+ * Menções para a pessoa nos últimos 14 dias ainda sem resposta: comentar na
+ * ação depois da menção tira o aviso da Minha mesa (não há estado de "lido").
+ */
+export async function listMyMentions(userId: string, now = new Date()): Promise<MentionRow[]> {
+  const supabase = await createClient();
+  const since = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString();
+  const { data } = await supabase
+    .from("work_item_comment")
+    .select("id, item_id, body, created_at, author:author_id (id, full_name, email), item:item_id (id, title, status)")
+    .contains("mentions", [userId])
+    .neq("author_id", userId)
+    .gte("created_at", since)
+    .order("created_at", { ascending: false })
+    .limit(30);
+  type Row = { id: string; item_id: string; body: string; created_at: string; author: PersonRef | null; item: { id: string; title: string; status: string } | null };
+  const mentions = ((data ?? []) as unknown as Row[]).filter((m) => m.item && m.item.status !== "cancelled");
+  if (mentions.length === 0) return [];
+  const { data: mine } = await supabase
+    .from("work_item_comment")
+    .select("item_id, created_at")
+    .eq("author_id", userId)
+    .in("item_id", [...new Set(mentions.map((m) => m.item_id))])
+    .gte("created_at", since);
+  const answered = (m: Row) => (mine ?? []).some((c) => c.item_id === m.item_id && c.created_at > m.created_at);
+  return mentions.filter((m) => !answered(m)).map((m) => ({ commentId: m.id, itemId: m.item_id, itemTitle: m.item!.title, author: personName(m.author), body: m.body, at: m.created_at }));
 }

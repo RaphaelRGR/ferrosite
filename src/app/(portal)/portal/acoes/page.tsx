@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listAssignablePeople, listClosedWorkItems, listOpenWorkItems, personName, type WorkItemRow } from "@/lib/portal/queries/work-items";
+import { listAssignablePeople, listClosedWorkItems, listOpenWorkItems, personName, personOption, type WorkItemRow } from "@/lib/portal/queries/work-items";
 import { filterTab, groupByWaiting, WORK_TABS, type WorkTab } from "@/lib/portal/work-items";
 
 export const metadata: Metadata = { title: "Ações" };
@@ -34,12 +34,15 @@ export default async function WorkItemsPage({ searchParams }: PageProps<"/portal
   const tab: WorkTab = (WORK_TABS as readonly string[]).includes(asked) ? (asked as WorkTab) : "abertas";
   const [people, open, closed] = await Promise.all([listAssignablePeople(), listOpenWorkItems(), tab === "concluidas" ? listClosedWorkItems() : Promise.resolve([] as WorkItemRow[])]);
   const owner = typeof sp.responsavel === "string" && people.some((p) => p.id === sp.responsavel) ? sp.responsavel : undefined;
+  // Filtro: admin/coordenação sempre; os demais só se tiverem ação aberta.
+  const withItems = new Set(open.map((i) => i.owner_id));
+  const filterPeople = people.filter((p) => p.global_role === "admin" || p.global_role === "coordination" || withItems.has(p.id) || p.id === owner);
   const byOwner = (list: WorkItemRow[]) => (owner ? list.filter((i) => i.owner_id === owner) : list);
   const now = new Date();
   const counts = Object.fromEntries(WORK_TABS.map((t) => [t, t === "concluidas" ? null : byOwner(filterTab(t, open, now)).length])) as Record<WorkTab, number | null>;
   const items = byOwner(tab === "concluidas" ? closed : filterTab(tab, open, now));
   const href = (t: WorkTab, o = owner) => `/portal/acoes?aba=${t}${o ? `&responsavel=${o}` : ""}`;
-  const personOpts = people.map((p) => ({ id: p.id, name: personName(p) }));
+  const personOpts = people.map((p) => personOption(p, dict.roles));
 
   return (
     <div className="flex flex-col gap-6">
@@ -62,7 +65,7 @@ export default async function WorkItemsPage({ searchParams }: PageProps<"/portal
           <Link href={href(tab, undefined)} aria-current={!owner ? "page" : undefined} className={chip(!owner)}>
             {w.everyone}
           </Link>
-          {people.map((p) => (
+          {filterPeople.map((p) => (
             <Link key={p.id} href={href(tab, p.id)} aria-current={owner === p.id ? "page" : undefined} className={chip(owner === p.id)}>
               {personName(p)}
             </Link>

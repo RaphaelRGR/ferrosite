@@ -204,3 +204,48 @@ describe("entrada, lembrar depois e decisão com opções (ACT-002)", () => {
     expect(await update(ids.admin, id, "status = 'inbox'")).toBeNull();
   });
 });
+
+describe("checklist, menções e missão (ACT-003)", () => {
+  it("checklist: responsável e coordenação mexem; aprovador de fora só lê; concluir passo vai ao histórico", async () => {
+    const id = await create(ids.admin, { owner_id: ids.prof, approver_id: ids.other, title: "Confirmar lista final" });
+    const add = (by: string, label: string) => fails(by, "insert into public.work_item_checklist_item (item_id, label, created_by) values ($1, $2, $3)", [id, label, by]);
+    expect(await add(ids.admin, "Conferir inscritos")).toBeNull();
+    expect(await add(ids.prof, "Gerar PDF")).toBeNull();
+    expect(await add(ids.other, "Intruso")).toMatch(/row-level security/);
+    expect(await add(ids.member, "Intruso")).toMatch(/row-level security/);
+    expect(await rows(ids.other, "select label from public.work_item_checklist_item where item_id = $1", [id])).toHaveLength(2);
+    expect(await rows(ids.member, "select label from public.work_item_checklist_item where item_id = $1", [id])).toHaveLength(0);
+    await rows(ids.prof, "update public.work_item_checklist_item set done = true where item_id = $1 and label = 'Gerar PDF'", [id]);
+    const log = await events(id);
+    expect(log.map((e) => [e.kind, e.note])).toContainEqual(["checklist_done", "Gerar PDF"]);
+  });
+
+  it("menção só para quem já participa da ação; mencionar não dá acesso", async () => {
+    const id = await create(ids.admin, { owner_id: ids.prof, title: "Revisar FerroCard FTC" });
+    const comment = (by: string, mentions: string[]) =>
+      fails(by, "insert into public.work_item_comment (item_id, author_id, body, mentions) values ($1, $2, 'O card já foi conferido?', $3)", [id, by, mentions]);
+    expect(await comment(ids.admin, [ids.coord, ids.prof])).toBeNull();
+    expect(await comment(ids.admin, [ids.member])).toMatch(/só dá para mencionar quem já participa/);
+    expect(await rows(ids.member, "select id from public.work_item where id = $1", [id])).toHaveLength(0);
+  });
+
+  it("ação ligada a missão herda o projeto; missão de outro projeto é recusada", async () => {
+    const p1 = (await rows(ids.coord, "insert into public.project (slug, name, created_by, updated_by) values ('proj-acao-1', 'Proj 1', $1, $1) returning id", [ids.coord]))[0].id;
+    const p2 = (await rows(ids.coord, "insert into public.project (slug, name, created_by, updated_by) values ('proj-acao-2', 'Proj 2', $1, $1) returning id", [ids.coord]))[0].id;
+    const m1 = (await rows(ids.coord, "insert into public.mission (project_id, title, created_by, updated_by) values ($1, 'Organizar visita', $2, $2) returning id", [p1, ids.coord]))[0].id;
+    const id = await create(ids.admin, { owner_id: ids.admin, mission_id: m1, title: "Conferir EPI" });
+    expect((await h.admin.query("select project_id from public.work_item where id = $1", [id])).rows[0].project_id).toBe(p1);
+    expect(await fails(ids.admin, "insert into public.work_item (title, owner_id, mission_id, project_id, created_by, updated_by) values ('x y', $1, $2, $3, $1, $1)", [ids.admin, m1, p2])).toMatch(/outro projeto/);
+  });
+
+  it("participantes: responsável de fora vê os nomes de quem atuou; quem não vê a ação não recebe nada", async () => {
+    const id = await create(ids.coord, { owner_id: ids.prof, approver_id: ids.coord, title: "Portfólio do laboratório" });
+    const list = await rows(ids.prof, "select id, name, can_mention from public.work_item_participants($1)", [id]);
+    const byId = Object.fromEntries(list.map((r) => [r.id, r]));
+    expect(byId[ids.coord]).toMatchObject({ name: "coord", can_mention: true });
+    expect(byId[ids.prof]).toMatchObject({ can_mention: true });
+    expect(byId[ids.member]).toBeUndefined();
+    expect(await rows(ids.member, "select * from public.work_item_participants($1)", [id])).toHaveLength(0);
+  });
+});
+
