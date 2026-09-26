@@ -11,6 +11,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { mediaUrl } from "@/lib/content/media";
 import { getPublished, publicCoverId } from "@/lib/content/public";
+import { isSectionVisible } from "@/content/quarantine";
 
 // Slugs publicados pelo Portal renderizam sob demanda (ISR); os do staging são pré-renderizados.
 export const revalidate = 300;
@@ -42,7 +43,7 @@ export default async function NoticiaPage({ params }: PageProps<"/[locale]/notic
     return <PublishedArticle item={published} locale={l} eyebrow={dict.newsPage.eyebrow} backHref={localizePath(l, "/noticias")} backLabel={dict.newsPage.back} labels={dict.published} coverFileId={coverFileId} />;
   }
   const item = NEWS.find((n) => n.id === id);
-  if (!item) notFound();
+  if (!item || !isSectionVisible("noticias.detalhe")) notFound();
   if (l !== "pt") return <PendingPage dict={dict} path={`/noticias/${id}`} />;
 
   return (

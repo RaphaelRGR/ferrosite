@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { PendingPage, EditorialPending } from "@/components/layout/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { HISTORY, IDENTITY, RESEARCH_LINES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { isSectionVisible } from "@/content/quarantine";
 
 const PATH = "/sobre";
 
@@ -24,6 +25,8 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const dict = getDictionary(l);
+  const sections = ["sobre.historia", "sobre.identidade", "sobre.pesquisa"];
+  const anyVisible = sections.some((id) => isSectionVisible(id));
 
   return (
     <div className="bg-canvas">
@@ -33,6 +36,7 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
         </div>
       </section>
 
+      {!anyVisible && <EditorialPending dict={dict} />}
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
         <UnverifiedContent section="sobre.historia">
           <section className="rounded-2xl border border-line bg-surface p-6 sm:p-8">

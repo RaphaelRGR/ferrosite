@@ -129,3 +129,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Publicada a página `/pt/privacidade` descrevendo o tratamento real (relatório `docs/baseline/PRIV-001-relatorio.md`). Três decisões seguem pendentes e estão marcadas na própria página: **encarregado de dados e canal de atendimento ao titular**, **prazos de retenção** (desafios, mensagens, auditoria, acervo) e a **lista oficial de operadores/subcontratados**.
 - Enquanto não houver canal publicado, o pedido de remoção de foto não tem endereço no site: hoje depende de contato direto com a coordenação.
 - A página assume que o controlador é a UFSC, pelo curso no Campus Joinville. Se a universidade indicar outra forma de identificar o controlador, o texto muda.
+
+## Addendum EDIT-001 (2026-09-26)
+
+- A coordenação confirmou como verificados fluxograma, grades (PDFs oficiais) e laboratórios (Portfólio EFM/UFSC), incluindo os responsáveis de cada laboratório tal como publicados no portfólio.
+- Produção passa a esconder todo conteúdo não verificado (`strict`). Para revisar o que ainda está em quarentena, usar um deploy de preview da Vercel (fica em `review`, com selos) ou o ambiente local.
+- Pendentes de fonte: indicadores da Home, notícias, parceiros/logos (tipo de vínculo e autorização), "Sobre o curso", dados básicos (duração, turno, vagas, ingresso), pilares, história, missão/visão e pesquisa.

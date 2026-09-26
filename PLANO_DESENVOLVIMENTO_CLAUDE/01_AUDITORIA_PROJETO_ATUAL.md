@@ -223,3 +223,7 @@ Relatório: `docs/baseline/PERF-001-relatorio.md`. O proxy público passou a ser
 ## Estado após SEO-001 (2026-09-22)
 
 Relatório: `docs/baseline/SEO-001-relatorio.md`. Todas as páginas públicas passaram a ter imagem de compartilhamento: cartão institucional gerado em `/og/<locale>` (1200x630, PT/EN) e, onde há capa publicada, a própria foto em `?w=1280`. `twitter:card` e `og:image:alt` incluídos; robots libera `/api/midia/`.
+
+## Estado após EDIT-001 (2026-09-26)
+
+Relatório: `docs/baseline/EDIT-001-relatorio.md`. Produção na Vercel passou a `strict` (conteúdo não verificado não aparece nem vai no código-fonte); fluxograma, grades e laboratórios verificados pela coordenação; bloco duplicado de experiências saiu da Home; Sobre e Notícias mostram "Em validação" quando não há conteúdo liberado.

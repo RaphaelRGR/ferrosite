@@ -81,6 +81,8 @@ export const en: Dictionary = {
     pageTitle: "Page in preparation",
     pageDescription: "This page is not available in English yet. The content is under editorial review.",
     viewInOtherLocale: "View in Portuguese",
+    editorialTitle: "Under review",
+    editorialDescription: "This content will be published once it is confirmed by the programme coordination.",
     projectDetail: "Problem, goals, team, milestones, results and gallery for this project will be published after approval in the Portal.",
   },
   pages: {

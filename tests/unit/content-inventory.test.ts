@@ -87,8 +87,33 @@ describe("política de renderização", () => {
       else if (live.every((e) => e.status === "VERIFIED" && e.decision === "confirmar")) expect(st).toBe("VERIFIED");
       else expect(st).toBe("UNVERIFIED");
     }
-    // uma entrada descartada não esconde a seção inteira (regressão encontrada em FLOW-001)
-    expect(sectionStatus("curso.curriculum")).toBe("UNVERIFIED");
+    // uma entrada descartada não esconde a seção inteira (regressão encontrada em FLOW-001):
+    // curso.curriculum tem as ementas do protótipo descartadas e as matrizes verificadas.
+    expect(sectionStatus("curso.curriculum")).toBe("VERIFIED");
     expect(() => sectionStatus("nao.existe")).toThrow();
+  });
+});
+
+describe("modo editorial por ambiente (next.config.ts)", () => {
+  // Produção na Vercel esconde o que não foi verificado; o resto do mundo revisa com selo.
+  const resolve = (env: Record<string, string | undefined>) => env.NEXT_PUBLIC_CONTENT_MODE || (env.VERCEL_ENV === "production" ? "strict" : "review");
+
+  it("produção da Vercel = strict; preview, local e CI = review; variável explícita vence", async () => {
+    const config = (await import("node:fs")).readFileSync("next.config.ts", "utf8");
+    // a regra testada aqui é a mesma do arquivo de configuração
+    expect(config).toContain('process.env.NEXT_PUBLIC_CONTENT_MODE || (process.env.VERCEL_ENV === "production" ? "strict" : "review")');
+    expect(resolve({ VERCEL_ENV: "production" })).toBe("strict");
+    expect(resolve({ VERCEL_ENV: "preview" })).toBe("review");
+    expect(resolve({})).toBe("review");
+    expect(resolve({ VERCEL_ENV: "production", NEXT_PUBLIC_CONTENT_MODE: "review" })).toBe("review");
+  });
+
+  it("fluxograma, grades e laboratórios estão verificados; o que tem só texto do protótipo continua em quarentena", () => {
+    for (const id of ["curso.curriculum", "curso.flowchart", "curso.labs", "laboratorios.hub", "laboratorios.detalhe", "laboratorios.detalhe.conteudo", "empresas.capacidades"]) {
+      expect(sectionStatus(id), id).toBe("VERIFIED");
+    }
+    for (const id of ["home.indicators", "home.news", "home.partners-strip", "curso.pillars", "sobre.historia"]) {
+      expect(sectionStatus(id), id).toBe("UNVERIFIED");
+    }
   });
 });

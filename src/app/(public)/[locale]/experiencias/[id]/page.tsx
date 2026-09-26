@@ -12,6 +12,7 @@ import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedArticle } from "@/components/public/PublishedArticle";
 import { mediaUrl } from "@/lib/content/media";
 import { getPublished, publicCoverId, publicGallery } from "@/lib/content/public";
+import { isSectionVisible } from "@/content/quarantine";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -42,7 +43,7 @@ export default async function ExperienciaPage({ params }: PageProps<"/[locale]/e
     return <PublishedArticle item={published} locale={l} eyebrow={dict.experiences.eyebrow} backHref={localizePath(l, "/experiencias")} backLabel={dict.published.backToExperiences} labels={dict.published} coverFileId={coverFileId} gallery={gallery} />;
   }
   const item = EXPERIENCES.find((e) => e.id === id);
-  if (!item) notFound();
+  if (!item || !isSectionVisible("experiencias.detalhe")) notFound();
   if (l !== "pt") return <PendingPage dict={dict} path={`/experiencias/${id}`} />;
 
   return (

@@ -14,6 +14,7 @@ import { projectText } from "@/components/public/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { mediaImage, mediaUrl } from "@/lib/content/media";
 import { getPublicProject, publicProjectGallery } from "@/lib/content/public";
+import { isSectionVisible } from "@/content/quarantine";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -75,7 +76,7 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
     );
   }
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
-  if (!project) notFound();
+  if (!project || !isSectionVisible("projetos.detalhe")) notFound();
   if (l !== "pt") return <PendingPage dict={dict} path={`/projetos/${slug}`} />;
 
   return (

@@ -78,6 +78,8 @@ export const pt = {
     pageTitle: "Página em preparação",
     pageDescription: "Esta página ainda não está disponível em inglês. O conteúdo está em revisão editorial.",
     viewInOtherLocale: "Ver em português",
+    editorialTitle: "Em validação",
+    editorialDescription: "Este conteúdo será publicado depois de confirmado pela coordenação do curso.",
     projectDetail: "Problema, objetivos, equipe, marcos, resultados e galeria deste projeto serão publicados após aprovação no Portal.",
   },
   pages: {

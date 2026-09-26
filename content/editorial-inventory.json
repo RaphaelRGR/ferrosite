@@ -1,7 +1,7 @@
 {
   "_meta": {
     "schema": 1,
-    "description": "Quarentena editorial (BASE-002). Inventário de todo conteúdo institucional hard-coded no protótipo, extraído do código em 2026-09-14. Cada entrada nasce UNVERIFIED e só vira VERIFIED com fonte primária, owner e verified_at. decision: confirmar | corrigir | descartar. Nada aqui foi importado de mockups. Registro mínimo conforme 35_CONTEUDOS_INSTITUCIONAIS_PENDENTES.md. Atualizado em 2026-09-15 (PUBLIC-001): seções legadas da Home/Curso ficaram sem consumidor; novas seções apontam para src/content/staging.ts.",
+    "description": "Quarentena editorial (BASE-002). Inventário de todo conteúdo institucional hard-coded no protótipo, extraído do código em 2026-09-14. Cada entrada nasce UNVERIFIED e só vira VERIFIED com fonte primária, owner e verified_at. decision: confirmar | corrigir | descartar. Nada aqui foi importado de mockups. Registro mínimo conforme 35_CONTEUDOS_INSTITUCIONAIS_PENDENTES.md. Atualizado em 2026-09-15 (PUBLIC-001): seções legadas da Home/Curso ficaram sem consumidor; novas seções apontam para src/content/staging.ts. Atualizado em 2026-09-25: fluxograma, grades e laboratórios verificados pela coordenação.",
     "extracted_at": "2026-09-14",
     "statuses": [
       "UNVERIFIED",
@@ -345,21 +345,33 @@
           "kind": "curriculum",
           "value_pt": "Matriz 2025 (currículo 20251): 62 obrigatórias (incl. atividades complementares/extensão) + 24 optativas",
           "source": "public/grades/grade2025.pdf — CURRÍCULO DO CURSO 604, SeTIC/UFSC (sha256 no JSON)",
-          "notes": "Estrutura, cargas, pré-requisitos e ementas extraídos do PDF em 2026-09-15. Falta owner/verified_at institucional."
+          "notes": "Estrutura, cargas, pré-requisitos e ementas extraídos do PDF em 2026-09-15. Falta owner/verified_at institucional. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "curso.curriculum.2016",
           "kind": "curriculum",
           "value_pt": "Matriz 2016: 61 obrigatórias (4 slots de optativa obrigatória) + 28 optativas",
           "source": "public/grades/grade2016.pdf (sha256 no JSON)",
-          "notes": "Pré-requisitos EMB5109 e EMB5628 citados no PDF não pertencem ao currículo (registrados em unknownPrerequisites)."
+          "notes": "Pré-requisitos EMB5109 e EMB5628 citados no PDF não pertencem ao currículo (registrados em unknownPrerequisites). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "curso.curriculum.2012",
           "kind": "curriculum",
           "value_pt": "Matriz 2012: 61 obrigatórias + 7 optativas",
           "source": "public/grades/grade2012.pdf (sha256 no JSON)",
-          "notes": "O PDF não traz pré-requisitos: as arestas exibidas são as legadas do protótipo (prerequisitesSource=legacy-unverified), incluindo EMB5512→EMB5107 e EMB5605→EMB5116 (ambas fase 6). Confirmar com a coordenação."
+          "notes": "O PDF não traz pré-requisitos: as arestas exibidas são as legadas do protótipo (prerequisitesSource=legacy-unverified), incluindo EMB5512→EMB5107 e EMB5605→EMB5116 (ambas fase 6). Confirmar com a coordenação. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "curso.curriculum.ementas",
@@ -922,7 +934,11 @@
           "kind": "curriculum",
           "value_pt": "Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts)",
           "source": "content/curriculum/*.json (PDFs oficiais)",
-          "notes": "Fluxograma refeito em FLOW-002; dados canônicos com sha256 do PDF."
+          "notes": "Fluxograma refeito em FLOW-002; dados canônicos com sha256 do PDF. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         }
       ]
     },
@@ -937,7 +953,11 @@
           "kind": "narrative",
           "value_pt": "14 laboratórios: LMSE, LMS, LabDSE, Robótica Avançada, NSO, LaCMa, LDTPav, LABMCI, LASC, IDA Lab, LIFE, Aeolus, LTS, LAV",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
-          "notes": "LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio."
+          "notes": "LABMCI, LASC e IDA Lab sem página no portfólio (14). Confirmar owner e versão do portfólio. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         }
       ]
     },
@@ -1076,14 +1096,22 @@
           "kind": "narrative",
           "value_pt": "14 laboratórios do portfólio (11 com página, 1 duplicada, 3 só índice); primeira frase de 'O laboratório' em cada card",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…)",
-          "notes": "Ordem do PDF."
+          "notes": "Ordem do PDF. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.hub.capacidades",
           "kind": "narrative",
           "value_pt": "Taxonomia de 20 capacidades (14) e vínculos lab↔capacidade com nível offered/prospective/pending derivados das seções 'Aplicações'",
           "source": "PLANO 14 + portfólio (seções Aplicações)",
-          "notes": "Curadoria inicial; validar com coordenação. LDTPav: via permanente/geotecnia = potencial. LASC/IDA Lab: só pelo nome."
+          "notes": "Curadoria inicial; validar com coordenação. LDTPav: via permanente/geotecnia = potencial. LASC/IDA Lab: só pelo nome. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         }
       ]
     },
@@ -1099,8 +1127,12 @@
           "value_pt": "Prof. Marcos Alves Rabelo, Dr. Eng.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.3",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.lms",
@@ -1108,8 +1140,12 @@
           "value_pt": "Prof. Marcelo Heidemann, D.Sc. — Civil/Geotechnical Engineer",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.4",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.labdse",
@@ -1117,8 +1153,12 @@
           "value_pt": "Prof. Régis Kovacs Scalice, Dr.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.5",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.robotica",
@@ -1126,8 +1166,12 @@
           "value_pt": "Prof. Roberto Simoni, Dr. Eng. — Coordenador do POSECM",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.6",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.nso",
@@ -1135,8 +1179,12 @@
           "value_pt": "Prof. Thiago Pontin Tancredi, Dr. Eng.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.7",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.lacma",
@@ -1144,8 +1192,12 @@
           "value_pt": "Prof. Wagner M. Pachekoski, Dr.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.8",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.life",
@@ -1153,8 +1205,12 @@
           "value_pt": "Prof. André Luís Condino Fujarra, Dr. Eng.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.9",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.aeolus",
@@ -1162,8 +1218,12 @@
           "value_pt": "Prof. Filipe Dutra da Silva, Dr.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.10",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.lts",
@@ -1171,8 +1231,12 @@
           "value_pt": "Prof. Tiago Vieira da Cunha, Dr.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.11",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.lav",
@@ -1180,8 +1244,12 @@
           "value_pt": "Prof. Thiago Antonio Fiorentin, Dr. Eng. · Prof. Yesid Ernesto Asaff, Dr. Eng.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.12",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.responsavel.ldtpav",
@@ -1189,8 +1257,12 @@
           "value_pt": "Prof. Breno Salgado Barra, Dr. Eng. · Prof. Yader Guerrero Pérez, Dr. Eng.",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.13",
           "classification": "public",
-          "consent_or_license": null,
-          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição."
+          "consent_or_license": "Nome e titulação publicados pela própria UFSC no Portfólio de Laboratórios EFM (documento institucional público); reprodução no site autorizada pela coordenação em 2026-09-25.",
+          "notes": "Nome e titulação como no portfólio institucional; sem e-mail/telefone/sala. Confirmar consentimento de exibição. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         }
       ]
     },
@@ -1206,7 +1278,11 @@
           "value_pt": "LMSE — Laboratório de Mecânica dos Sólidos Experimental: 3 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.3",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.lms",
@@ -1214,7 +1290,11 @@
           "value_pt": "LMS — Laboratório de Mecânica dos Solos: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.4",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.labdse",
@@ -1222,14 +1302,22 @@
           "value_pt": "LabDSE — Laboratório de Desenvolvimento de Sistemas de Engenharia: 3 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.5",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.robotica",
           "kind": "narrative",
           "value_pt": "Lab. Robótica Avançada — página do PDF com corpo idêntico ao LabDSE; nada publicado além de nome/responsável",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.6",
-          "notes": "Validar diferencial (14)."
+          "notes": "Validar diferencial (14). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.nso",
@@ -1237,7 +1325,11 @@
           "value_pt": "NSO — Núcleo de Simulação e Otimização: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.7",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.lacma",
@@ -1245,7 +1337,11 @@
           "value_pt": "LaCMa — Laboratório de Caracterização de Materiais: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.8",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém typo de origem ('characterização')."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém typo de origem ('characterização'). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.life",
@@ -1253,7 +1349,11 @@
           "value_pt": "LIFE — Laboratório de Interações Fluido-Estrutura: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.9",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.aeolus",
@@ -1261,7 +1361,11 @@
           "value_pt": "Aeolus — Laboratório de Aerodinâmica: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.10",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.lts",
@@ -1269,7 +1373,11 @@
           "value_pt": "LTS — Laboratório de Tecnologia da Soldagem: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 3 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.11",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.lav",
@@ -1277,7 +1385,11 @@
           "value_pt": "LAV — Laboratório de Acústica e Vibrações: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 4 aplicações",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.12",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém bio do professor (dado pessoal em documento institucional)."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. Contém bio do professor (dado pessoal em documento institucional). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.ldtpav",
@@ -1285,28 +1397,44 @@
           "value_pt": "LDTPav — Laboratório de Desenvolvimento e Tecnologia em Pavimentação: 4 parágrafos 'O laboratório', 4 'Histórico e projetos', 3 aplicações (3 prospectivas)",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.13",
           "classification": "public",
-          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED."
+          "notes": "Texto verbatim do portfólio; validar com o responsável antes de VERIFIED. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.labmci",
           "kind": "narrative",
           "value_pt": "LABMCI — só no índice do portfólio (nome); página pendente",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
-          "notes": "[CONTEÚDO PENDENTE] (35)."
+          "notes": "[CONTEÚDO PENDENTE] (35). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.lasc",
           "kind": "narrative",
           "value_pt": "LASC — só no índice do portfólio (nome); página pendente",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
-          "notes": "[CONTEÚDO PENDENTE] (35)."
+          "notes": "[CONTEÚDO PENDENTE] (35). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         },
         {
           "content_id": "laboratorios.detalhe.idalab",
           "kind": "narrative",
           "value_pt": "IDA Lab — só no índice do portfólio (nome); página pendente",
           "source": "referencias_ferro/Portfolio_Laboratorios_EFM_UFSC.pdf (sha256 e7909daf35fe…) p.2",
-          "notes": "[CONTEÚDO PENDENTE] (35)."
+          "notes": "[CONTEÚDO PENDENTE] (35). | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         }
       ]
     },
@@ -1321,7 +1449,11 @@
           "kind": "narrative",
           "value_pt": "Por capacidade: nº de labs com capacidade descrita / potencial / sem página",
           "source": "src/data/capabilities.ts",
-          "notes": "Derivado da mesma curadoria de laboratorios.hub.capacidades."
+          "notes": "Derivado da mesma curadoria de laboratorios.hub.capacidades. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
+          "status": "VERIFIED",
+          "decision": "confirmar",
+          "owner": "Coordenação do curso",
+          "verified_at": "2026-09-25"
         }
       ]
     }

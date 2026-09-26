@@ -37,8 +37,16 @@ const SECURITY_HEADERS = [
   ...(isProd ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }] : []),
 ];
 
+/**
+ * Modo editorial (BASE-002): em produção na Vercel o conteúdo não verificado some
+ * (`strict`); em preview, local e CI ele aparece com selo (`review`), para revisão
+ * e para os testes da quarentena. A variável explícita sempre vence.
+ */
+const CONTENT_MODE = process.env.NEXT_PUBLIC_CONTENT_MODE || (process.env.VERCEL_ENV === "production" ? "strict" : "review");
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  env: { NEXT_PUBLIC_CONTENT_MODE: CONTENT_MODE },
   // Rotas renomeadas mantêm redirect permanente (28): /visitas -> /experiencias (guia §9).
   async redirects() {
     return [{ source: "/:locale(pt|en)/visitas", destination: "/:locale/experiencias", permanent: true }];

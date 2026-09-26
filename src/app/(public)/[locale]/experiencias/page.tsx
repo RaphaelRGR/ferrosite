@@ -11,6 +11,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { formatDate } from "@/i18n/format";
 import { listPublished } from "@/lib/content/public";
+import { isSectionVisible } from "@/content/quarantine";
 
 const PATH = "/experiencias";
 const SCOPES = ["all", "brasil", "internacional"] as const;
@@ -88,7 +89,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
             </ol>
           </section>
         )}
-        {l === "pt" && (<>
+        {l === "pt" && isSectionVisible("experiencias.hub") && (<>
         <nav aria-label={dict.experiences.filterLabel} className="flex flex-wrap items-center gap-2">
           {SCOPES.map((s) => (
             <Link

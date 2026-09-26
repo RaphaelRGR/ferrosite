@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { PendingPage, EditorialPending } from "@/components/layout/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { NEWS } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
@@ -9,6 +9,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { listPublished } from "@/lib/content/public";
+import { isSectionVisible } from "@/content/quarantine";
 
 const PATH = "/noticias";
 // Projeção pública (PUB-001): ISR + revalidatePath ao publicar/despublicar.
@@ -40,6 +41,7 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
           <SectionHeading as="h1" eyebrow={dict.newsPage.eyebrow} title={dict.newsPage.title} description={dict.newsPage.description} />
         </div>
       </section>
+      {published.length === 0 && !isSectionVisible("noticias.hub") && <EditorialPending dict={dict} />}
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
         {published.length > 0 && (
           <section aria-labelledby="noticias-publicadas">

@@ -51,7 +51,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {editorial ? (
         <>
           <FeaturedProjects locale={l} dict={dict.home.projects} projects={visibleProjects} covers={projectCovers} fullDict={dict} />
-          <ExperiencesPreview locale={l} dict={dict.home.experiences} />
+          {/* O bloco do protótipo duplicava as visitas reais (e anunciava datas já passadas). */}
+          {experiences.length === 0 && <ExperiencesPreview locale={l} dict={dict.home.experiences} />}
           <NewsPreview locale={l} dict={dict.home.news} />
           <PartnersStrip dict={dict.home.partners} />
         </>

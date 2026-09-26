@@ -6,8 +6,8 @@ import { expect, test } from "@playwright/test";
  * e o atributo data-content-status; o texto do selo segue o locale.
  */
 const EXPECTED: Record<string, number> = {
-  "/pt": 4, // projetos reais (PROJ-001) substituíram a seção em quarentena
-  "/pt/curso": 6,
+  "/pt": 3, // indicadores, notícias e parceiros; o bloco de experiências do protótipo saiu (há experiências reais)
+  "/pt/curso": 3, // sobre, dados básicos e pilares; fluxograma, grades e laboratórios verificados (2026-09-25)
   "/pt/projetos": 0, // hub só com projetos reais do Portal
   "/pt/projetos/comunica-ferro": 0,
   "/pt/sobre": 3,
@@ -16,12 +16,12 @@ const EXPECTED: Record<string, number> = {
   "/pt/eventos": 0,
   "/pt/noticias": 1,
   "/pt/noticias/noticias.grid.08mai": 1,
-  "/pt/laboratorios": 1,
+  "/pt/laboratorios": 0, // portfólio de laboratórios verificado
   "/pt/laboratorios?capacidade=logistica": 0,
-  "/pt/laboratorios/lav": 2,
-  "/pt/laboratorios/robotica": 1,
-  "/pt/laboratorios/lasc": 1,
-  "/pt/para-empresas": 1,
+  "/pt/laboratorios/lav": 0,
+  "/pt/laboratorios/robotica": 0,
+  "/pt/laboratorios/lasc": 0,
+  "/pt/para-empresas": 0, // áreas de desafio derivam dos laboratórios verificados
 };
 
 for (const [route, count] of Object.entries(EXPECTED)) {

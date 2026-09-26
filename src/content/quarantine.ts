@@ -79,13 +79,18 @@ export function sectionStatus(id: string): ContentStatus {
 }
 
 /**
- * review (default): conteúdo não verificado aparece com marca visível.
- * strict (NEXT_PUBLIC_CONTENT_MODE=strict, inlined no build): não renderiza.
- * Default é review porque não há deploy de produção antes do gate de F5 (29)
- * e a marca visível já impede que o conteúdo seja lido como fato.
+ * review: conteúdo não verificado aparece com marca visível (preview, local, CI).
+ * strict: não renderiza — é o padrão na produção da Vercel (next.config.ts, a
+ * partir de VERCEL_ENV), para que placeholder nunca seja lido como fato (04).
+ * NEXT_PUBLIC_CONTENT_MODE explícito sempre vence; o valor é fixado no build.
  */
 export function contentMode(): ContentMode {
   return process.env.NEXT_PUBLIC_CONTENT_MODE === "strict" ? "strict" : "review";
+}
+
+/** A seção aparece no modo atual? Páginas usam isto para não sobrar um esqueleto vazio em `strict`. */
+export function isSectionVisible(id: string, mode: ContentMode = contentMode()): boolean {
+  return shouldRender(sectionStatus(id), mode);
 }
 
 export function shouldRender(status: ContentStatus, mode: ContentMode = contentMode()): boolean {
