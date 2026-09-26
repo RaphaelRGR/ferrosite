@@ -198,10 +198,8 @@ export function CourseCta({ dict }: { dict: CourseDict["cta"] }) {
             <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">
+            {/* O Portal (uso interno) fica só no topo e no rodapé, como na Home. */}
             <LinkButton href="#trajetoria">{dict.primary}</LinkButton>
-            <LinkButton href="/portal" variant="secondary">
-              {dict.secondary}
-            </LinkButton>
           </div>
         </div>
       </div>

@@ -883,7 +883,7 @@ export const pt = {
     },
     labs: { eyebrow: "Laboratórios e ambientes de aprendizagem", title: "Infraestrutura de pesquisa do CTJ", description: "Laboratórios mapeados no portfólio institucional de laboratórios (2026).", pendingDetail: "Detalhes pendentes" },
     areas: { eyebrow: "Áreas de atuação", title: "Onde você pode fazer a diferença" },
-    cta: { title: "Seu futuro sobre trilhos", description: "Ingresso pelo SiSU e pelo Vestibular UFSC. Informações oficiais de ingresso em preparação.", primary: "Ver a grade", secondary: "Acessar o Portal" },
+    cta: { title: "Seu futuro sobre trilhos", description: "Ingresso pelo SiSU e pelo Vestibular UFSC. Informações oficiais de ingresso em preparação.", primary: "Ver a grade" },
   },
   flowchart: {
     title: "Fluxograma curricular",

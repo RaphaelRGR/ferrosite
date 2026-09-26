@@ -884,7 +884,7 @@ export const en: Dictionary = {
     },
     labs: { eyebrow: "Laboratories and learning environments", title: "CTJ research infrastructure", description: "Laboratories mapped in the institutional laboratory portfolio (2026).", pendingDetail: "Details pending" },
     areas: { eyebrow: "Fields of work", title: "Where you can make a difference" },
-    cta: { title: "Your future on rails", description: "Admission through SiSU and the UFSC entrance exam. Official admission information in preparation.", primary: "See the curriculum", secondary: "Access the Portal" },
+    cta: { title: "Your future on rails", description: "Admission through SiSU and the UFSC entrance exam. Official admission information in preparation.", primary: "See the curriculum" },
   },
   flowchart: {
     title: "Curriculum flowchart",
