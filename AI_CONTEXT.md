@@ -14,7 +14,8 @@ Metroviária da UFSC Joinville**. Em produção em https://engferroviaria.vercel
 - **Site público** (`/pt/...`, `/en/...`): curso, fluxograma curricular, projetos,
   experiências (visitas técnicas), notícias, eventos, laboratórios, para empresas,
   sobre, privacidade.
-- **Portal** (`/portal/...`, só PT): Central da coordenação, projetos, equipes e missões, pessoas, empresas
+- **Portal** (`/portal/...`, só PT): Minha mesa e Ações (compromissos privados da
+  administração e da coordenação), Central da coordenação, projetos, equipes e missões, pessoas, empresas
   e desafios (CRM), conteúdos (redação → revisão → aprovação → publicação),
   arquivos (Google Drive), relatórios, configurações.
 
@@ -47,6 +48,8 @@ de terceiros além do Supabase.
 9. **Texto visível do site sem travessão "—"** (use dois-pontos, vírgula, parênteses,
    "·" ou "→"). Comentários de código podem usar.
 10. **Vídeos (Shorts): um por vez**, com "Outro vídeo"/"Ver no YouTube" abaixo do vídeo.
+11. **Ações são privadas**: só admin e coordenação veem a Central, a lista e a Minha mesa;
+    outra pessoa só enxerga o item em que é responsável ou aprovadora (RLS).
 
 ## 3. Mapa rápido
 
@@ -67,6 +70,7 @@ de terceiros além do Supabase.
 | Consultas do Portal (leituras) | `src/lib/portal/queries/*.ts` |
 | Regras de papel e estados | `src/lib/portal/authz.ts` (espelho das migrations) |
 | Regras de alerta da Central da coordenação | `src/lib/portal/coordination.ts` (funções puras + limiares) |
+| Ações (regras, Minha mesa, prazos) | `src/lib/portal/work-items.ts` (espelho puro) + `supabase/migrations/20260927000100_work_items.sql` |
 | Leitura do conteúdo publicado no site | `src/lib/content/public.ts` |
 | Google Drive | `src/lib/files/*` + `docs/GOOGLE_DRIVE_INTEGRATION.md` |
 | Clientes Supabase | `src/lib/supabase/{server,middleware,public,admin,env}.ts` |
@@ -92,6 +96,7 @@ de terceiros além do Supabase.
 | Arquivos (Drive) | fotos via `/api/midia/[id]` | `/portal/arquivos/**` | `file_asset`, `content_file`, `project_file`, `drive_*`, `site_image` |
 | Relatórios | não | `/portal/relatorios` | `report_snapshot`, `compute_indicators()` |
 | Coordenação | não | `/portal/coordenacao` (admin/coordenação) | só leitura: missões, projetos, conteúdos, desafios, empresas |
+| Ações (compromissos) | não | `/portal` (Minha mesa), `/portal/acoes/**`, "+ Criar" | `work_item`, `work_item_event`, `work_item_comment`, `work_item_file` |
 | E-mail | não | Configurações | `mail_outbox` (fila por trigger) |
 | Auditoria | não | não (append-only) | `audit_event`, `activity_event`, `crm_event` |
 
@@ -123,7 +128,15 @@ de terceiros além do Supabase.
 - Publicação: rascunho → revisão → aprovação (por outra pessoa com papel de
   aprovação) → publicado (`publish_content()` gera o snapshot público). Estados
   guardados por trigger; o espelho está em `lib/portal/content-constants.ts`.
-- **Central da coordenação** (`/portal/coordenacao`): fila de decisões com regras
+- **Ações** (ACT-001): unidade pequena de compromisso (ação, aprovação, decisão,
+  follow-up) com um único responsável, prazo, status, "aguardando quem", aprovador,
+  comentários, histórico automático (trigger) e arquivos do Drive. Criadas pelo
+  "+ Criar" do cabeçalho. Para admin/coordenação o Início (`/portal`) é a **Minha
+  mesa**. Aprovar ou pedir alteração só o aprovador; item com aprovador só conclui
+  pela aprovação. Missões continuam sendo o trabalho estruturado dentro dos projetos.
+- **Central da coordenação** (`/portal/coordenacao`): o que depende de mim
+  (aprovações/decisões), carga da equipe, atrasos e próximos prazos; abaixo, os
+  sinais automáticos por regra
   explícitas (regra + evidência + próxima ação), panorama, agenda e indicadores.
   Limiares em `ALERT_RULES` (`lib/portal/coordination.ts`); leitura em
   `lib/portal/queries/coordination.ts`. Sem migration: só lê dados existentes.

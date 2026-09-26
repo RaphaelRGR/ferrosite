@@ -13,6 +13,7 @@ export interface NavItem {
 const ICONS = {
   dashboard: "M3 11.5 12 4l9 7.5M5 10v10h5v-6h4v6h5V10",
   coordination: "M9 3h6v3H9zM7 4.5H5V21h14V4.5h-2M8.5 13.5l2.5 2.5 4.5-5",
+  workItems: "M4 6h2m4 0h10M4 12h2m4 0h10M4 18h2m4 0h10",
   projects: "M3 7h6l2 2h10v11H3z",
   people: "M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0Zm-12 9a8 8 0 0 1 16 0",
   organizations: "M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5",
@@ -28,10 +29,12 @@ const ICONS = {
  * (03: página inexistente não aparece na navegação). Missões vivem dentro do
  * projeto; Arquivos, Relatórios etc. entram quando suas fatias forem entregues.
  */
-export function portalNavItems(dict: Dictionary["portal"]): NavItem[] {
+export function portalNavItems(dict: Dictionary["portal"], opts: { overseer?: boolean } = {}): NavItem[] {
   return [
-    { href: "/portal", label: dict.nav.dashboard, icon: ICONS.dashboard },
+    // Para administração e coordenação o Início é a Minha Mesa (ACT-001).
+    { href: "/portal", label: opts.overseer ? dict.nav.desk : dict.nav.dashboard, icon: ICONS.dashboard },
     { href: "/portal/coordenacao", label: dict.nav.coordination, icon: ICONS.coordination, requires: ["admin", "coordination"] },
+    { href: "/portal/acoes", label: dict.nav.workItems, icon: ICONS.workItems, requires: ["admin", "coordination"] },
     { href: "/portal/projetos", label: dict.nav.projects, icon: ICONS.projects },
     { href: "/portal/pessoas", label: dict.nav.people, icon: ICONS.people, requires: ["admin", "coordination"] },
     { href: "/portal/empresas", label: dict.nav.organizations, icon: ICONS.organizations, requires: ["admin", "coordination"] },

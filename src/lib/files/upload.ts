@@ -20,7 +20,8 @@ import { EXTENSION_BY_MIME, extensionOf, safeFileName, sniffMime } from "./sniff
 export type UploadTarget =
   | { kind: "project"; slug: string; area: ProjectArea; missionId?: string }
   | { kind: "area"; area: TopArea; sub?: string }
-  | { kind: "content"; itemId: string };
+  | { kind: "content"; itemId: string }
+  | { kind: "work_item"; itemId: string };
 
 export type UploadError =
   | "unauthenticated" | "forbidden" | "not_found" | "no_write_scope" | "unconfigured"
@@ -68,6 +69,10 @@ export function parseTarget(fd: FormData): UploadTarget | null {
     const itemId = String(fd.get("item_id") ?? "").trim();
     return /^[0-9a-f-]{36}$/.test(itemId) ? { kind: "content", itemId } : null;
   }
+  if (kind === "work_item") {
+    const itemId = String(fd.get("item_id") ?? "").trim();
+    return /^[0-9a-f-]{36}$/.test(itemId) ? { kind: "work_item", itemId } : null;
+  }
   if (kind === "area") {
     const area = String(fd.get("area") ?? "") as TopArea;
     const sub = String(fd.get("sub") ?? "").trim() || undefined;
@@ -89,7 +94,15 @@ export async function uploadToDrive(input: UploadInput): Promise<{ ok: true; res
   let parts: string[];
   let projectId: string | null = null;
   let contentItemId: string | null = null;
-  if (input.target.kind === "content") {
+  let workItemId: string | null = null;
+  if (input.target.kind === "work_item") {
+    // ação (ACT-001): admin/coordenação ou o responsável; a RLS já esconde o item de quem não o vê
+    const { data: item } = await supabase.from("work_item").select("id, owner_id, created_at").eq("id", input.target.itemId).maybeSingle();
+    if (!item) return { ok: false, error: "not_found" };
+    if (!overseer && item.owner_id !== userId) return { ok: false, error: "forbidden" };
+    workItemId = item.id;
+    parts = ["coordenacao", "acoes", item.created_at.slice(0, 4), item.id.replace(/-/g, "").slice(0, 8)];
+  } else if (input.target.kind === "content") {
     // conteúdo: quem pode editá-lo (RLS de content_file) — autor em rascunho/revisão ou overseer
     const { data: item } = await supabase.from("content_item").select("id, type, slug, author_id, status").eq("id", input.target.itemId).maybeSingle();
     if (!item) return { ok: false, error: "not_found" };
@@ -169,7 +182,10 @@ export async function uploadToDrive(input: UploadInput): Promise<{ ok: true; res
   }
 
   // 6. vínculo por destino (falha aqui não desfaz o registro: o arquivo existe e pode ser vinculado depois)
-  if (contentItemId) {
+  if (workItemId) {
+    const { error: linkErr } = await supabase.from("work_item_file").insert({ item_id: workItemId, file_id: created.id, linked_by: userId });
+    if (linkErr) logEvent("warn", "file.link_failed", { fileId: created.id, workItemId, message: linkErr.message });
+  } else if (contentItemId) {
     const { count } = await supabase.from("content_file").select("file_id", { count: "exact", head: true }).eq("item_id", contentItemId);
     const { error: linkErr } = await supabase.from("content_file").insert({ item_id: contentItemId, file_id: created.id, kind: "gallery", position: (count ?? 0) + 1, linked_by: userId });
     if (linkErr) logEvent("warn", "file.link_failed", { fileId: created.id, contentItemId, message: linkErr.message });

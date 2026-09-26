@@ -243,3 +243,7 @@ Relatório: `docs/CLEANUP_REPORT.md`. Limpeza sem mudança de comportamento: có
 ## Estado após COORD-001 (2026-09-26)
 
 Relatório: `docs/baseline/COORD-001-relatorio.md`. Central da coordenação em `/portal/coordenacao` (admin/coordenação): panorama, fila de decisões com 9 regras explícitas (regra + evidência + próxima ação, uma entidade por alerta), agenda de 60 dias, indicadores de 90 dias e ações rápidas. Sem migration.
+
+## Estado após ACT-001 (2026-09-26)
+
+Relatório: `docs/baseline/ACT-001-relatorio.md`. Ações privadas da administração e da coordenação (ação, aprovação, decisão, follow-up) com responsável único, prazo, "aguardando quem", aprovação com pedido de alteração, comentários, histórico por trigger e arquivos do Drive; "+ Criar" no cabeçalho; Minha mesa como Início de admin/coordenação; Central da coordenação com o que depende de mim, carga da equipe e prazos. Migration `20260927000100_work_items` aplicada na nuvem.

@@ -21,14 +21,14 @@ test("admin vê a Central: panorama, fila com regra/evidência/ação, agenda, i
   test.skip(!admin.email || !admin.password, "defina E2E_ADMIN_EMAIL/E2E_ADMIN_PASSWORD");
   await login(page, admin.email!, admin.password!);
 
-  // atalho no Início e item no menu
-  await page.getByRole("link", { name: /Abrir a Central da coordenação/ }).click();
+  // item no menu (o Início de admin/coordenação é a Minha mesa)
+  await page.getByRole("navigation").getByRole("link", { name: "Coordenação" }).first().click();
   await page.waitForURL("**/portal/coordenacao");
   await expect(page.getByRole("navigation").getByRole("link", { name: "Coordenação" }).first()).toHaveAttribute("aria-current", "page");
 
   await expect(page.getByRole("heading", { level: 1, name: "Central da coordenação" })).toBeVisible();
-  for (const name of ["Panorama", /Fila de decisões/, "Agenda dos próximos 60 dias", "Indicadores dos últimos 90 dias", "Ações rápidas", "Como os alertas funcionam"]) {
-    await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
+  for (const name of ["Precisa da sua atenção", "Aguardando equipe", "Atenção", "Próximos prazos", "Panorama", /Sinais do Portal/, "Agenda dos próximos 60 dias", "Indicadores dos últimos 90 dias", "Ações rápidas", "Como os alertas funcionam"]) {
+    await expect(page.getByRole("heading", { level: 2, name, exact: typeof name === "string" })).toBeVisible();
   }
   await expect(page.getByRole("link", { name: /Projetos ativos/ })).toHaveAttribute("href", "/portal/projetos?situacao=active");
 
@@ -59,5 +59,5 @@ test("conta sem papel de coordenação não acessa nem vê o item de menu", asyn
   await page.goto("/portal/coordenacao", { waitUntil: "load" });
   await expect(page.getByRole("heading", { level: 1, name: "Central da coordenação" })).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1, name: NOT_FOUND })).toBeVisible();
-  await expect(page.getByText("Fila de decisões")).toHaveCount(0);
+  await expect(page.getByText("Sinais do Portal")).toHaveCount(0);
 });

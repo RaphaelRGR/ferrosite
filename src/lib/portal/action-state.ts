@@ -12,6 +12,8 @@ export interface ActionState {
   field?: string;
   /** Valores digitados, devolvidos em erro: o React 19 limpa o form após a action e a pessoa não pode perder o texto. */
   values?: Record<string, string>;
+  /** Registro criado (quando a ação cria algo e a tela quer oferecer o link). */
+  id?: string;
 }
 
 const CONTROL_FIELDS = new Set(["id", "version", "from", "to", "slug", "project_id", "profile_id", "item_id", "op", "done", "position", "organization_id", "contact_id"]);

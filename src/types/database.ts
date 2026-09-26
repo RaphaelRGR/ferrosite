@@ -184,6 +184,30 @@ export type Database = {
         Update: { profile_id?: string; theme?: Database["public"]["Enums"]["theme_preference"]; locale?: string; updated_at?: string };
         Relationships: [];
       };
+      work_item: {
+        Row: { id: string; kind: Database["public"]["Enums"]["work_item_kind"]; title: string; description: string; status: Database["public"]["Enums"]["work_item_status"]; priority: Database["public"]["Enums"]["mission_priority"]; owner_id: string | null; due_at: string | null; approver_id: string | null; approved_by: string | null; approved_at: string | null; waiting_on: Database["public"]["Enums"]["waiting_party"] | null; waiting_note: string; waiting_since: string | null; snoozed_until: string | null; decision_options: string[]; decision_outcome: string; decided_by: string | null; decided_at: string | null; status_note: string; project_id: string | null; mission_id: string | null; organization_id: string | null; created_by: string; updated_by: string; completed_at: string | null; created_at: string; updated_at: string; version: number };
+        Insert: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by: string; updated_by: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number };
+        Update: { id?: string; kind?: Database["public"]["Enums"]["work_item_kind"]; title?: string; description?: string; status?: Database["public"]["Enums"]["work_item_status"]; priority?: Database["public"]["Enums"]["mission_priority"]; owner_id?: string | null; due_at?: string | null; approver_id?: string | null; approved_by?: string | null; approved_at?: string | null; waiting_on?: Database["public"]["Enums"]["waiting_party"] | null; waiting_note?: string; waiting_since?: string | null; snoozed_until?: string | null; decision_options?: string[]; decision_outcome?: string; decided_by?: string | null; decided_at?: string | null; status_note?: string; project_id?: string | null; mission_id?: string | null; organization_id?: string | null; created_by?: string; updated_by?: string; completed_at?: string | null; created_at?: string; updated_at?: string; version?: number };
+        Relationships: [];
+      };
+      work_item_comment: {
+        Row: { id: string; item_id: string; author_id: string; body: string; created_at: string };
+        Insert: { id?: string; item_id: string; author_id: string; body: string; created_at?: string };
+        Update: { id?: string; item_id?: string; author_id?: string; body?: string; created_at?: string };
+        Relationships: [];
+      };
+      work_item_event: {
+        Row: { id: number; item_id: string; actor_id: string | null; kind: string; from_value: string | null; to_value: string | null; note: string; occurred_at: string };
+        Insert: { item_id: string; actor_id?: string | null; kind: string; from_value?: string | null; to_value?: string | null; note?: string; occurred_at?: string };
+        Update: { item_id?: string; actor_id?: string | null; kind?: string; from_value?: string | null; to_value?: string | null; note?: string; occurred_at?: string };
+        Relationships: [];
+      };
+      work_item_file: {
+        Row: { item_id: string; file_id: string; linked_by: string; linked_at: string };
+        Insert: { item_id: string; file_id: string; linked_by: string; linked_at?: string };
+        Update: { item_id?: string; file_id?: string; linked_by?: string; linked_at?: string };
+        Relationships: [];
+      };
     };
     Views: {
       public_project: {
@@ -202,6 +226,10 @@ export type Database = {
       };
       can_view_file: {
         Args: { p_file: string };
+        Returns: boolean;
+      };
+      can_view_work_item: {
+        Args: { p_item: string };
         Returns: boolean;
       };
       claim_mail_outbox: {
@@ -274,6 +302,10 @@ export type Database = {
       };
       log_crm: {
         Args: { p_org: string; p_challenge: string; p_kind: string; p_from?: string; p_to?: string; p_payload?: Json };
+        Returns: undefined;
+      };
+      log_work_item: {
+        Args: { p_item: string; p_kind: string; p_from?: string; p_to?: string; p_note?: string };
         Returns: undefined;
       };
       mail_outbox_summary: {
@@ -356,6 +388,9 @@ export type Database = {
       project_status: "draft" | "planned" | "active" | "paused" | "completed" | "archived" | "cancelled";
       relationship_activity_kind: "note" | "call" | "email" | "meeting" | "visit" | "proposal";
       theme_preference: "light" | "dark" | "system";
+      waiting_party: "coordination" | "admin" | "student" | "professor" | "company" | "supplier" | "secretariat" | "transport" | "ufsc" | "other";
+      work_item_kind: "action" | "approval" | "decision" | "follow_up";
+      work_item_status: "inbox" | "planned" | "in_progress" | "waiting" | "awaiting_approval" | "done" | "blocked" | "cancelled";
     };
     CompositeTypes: Record<string, never>;
   };

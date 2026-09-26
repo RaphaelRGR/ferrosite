@@ -6,6 +6,7 @@ import type { DriveClient, DriveError } from "./drive";
  * entidades do Portal — nunca a árvore humana do Drive:
  *   projetos/<slug>/{galeria,documentos,tecnico,missoes/<id-curto>}
  *   conteudos/<tipo>/<slug> · visitas/<periodo> · relatorios/<ano> · comunicacao · acervo-historico
+ *   coordenacao/acoes/<ano>/<id-curto> (anexos das ações, ACT-001)
  * O caminho lógico é a única fonte; o id do Drive fica em cache (`drive_folder`, só service role).
  * O Portal só cria; nunca move, renomeia ou apaga.
  */

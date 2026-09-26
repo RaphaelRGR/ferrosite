@@ -24,6 +24,7 @@ export function UploadForm({
   initialProject,
   missionId,
   contentId,
+  workItemId,
   canWrite,
   accept,
 }: {
@@ -34,6 +35,8 @@ export function UploadForm({
   missionId?: string;
   /** Conteúdo de destino (galeria): conteudos/<tipo>/<slug>. */
   contentId?: string;
+  /** Ação de destino (ACT-001): coordenacao/acoes/<ano>/<id-curto>. */
+  workItemId?: string;
   canWrite: boolean;
   /** Extensões aceitas (da allowlist `uploadable`). */
   accept: string[];
@@ -42,7 +45,7 @@ export function UploadForm({
   const router = useRouter();
   const fileId = useId();
   const [target, setTarget] = useState<"project" | "area">(initialProject || !overseer ? "project" : "area");
-  const contentMode = Boolean(contentId);
+  const contentMode = Boolean(contentId || workItemId);
   const [pending, setPending] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -112,9 +115,9 @@ export function UploadForm({
 
       {contentMode && (
         <>
-          <input type="hidden" name="target" value="content" />
-          <input type="hidden" name="item_id" value={contentId} />
-          <p className="text-sm text-fg-muted">{u.contentTarget}</p>
+          <input type="hidden" name="target" value={workItemId ? "work_item" : "content"} />
+          <input type="hidden" name="item_id" value={workItemId ?? contentId} />
+          <p className="text-sm text-fg-muted">{workItemId ? u.workItemTarget : u.contentTarget}</p>
         </>
       )}
       {!contentMode && overseer && (

@@ -147,3 +147,10 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 
 - Limiares padrão (em `ALERT_RULES`, visíveis na página): projeto sem atualização 30 dias; desafio sem triagem 3 dias; revisão parada 3 dias; aprovado sem publicar 7 dias; empresa sem retorno 30 dias. **A coordenação pode pedir outros valores.**
 - Pendente: editar limiares pelo Portal com histórico (doc 12); regras "visita sem relatório" e "oportunidades/editais" aguardam os módulos correspondentes.
+
+## ACT-001: Ações e Minha mesa (2026-09-26)
+
+- Decisões do usuário: Minha mesa substitui o Início para admin/coordenação; a Central do COORD-001 evolui para a visão da coordenação (alertas por regra viram "Sinais do Portal"); primeira entrega = MVP das seções 44/45.
+- Ações são privadas (admin e coordenação); outra pessoa só vê o item em que é responsável ou aprovadora. No MVP a lista de responsáveis mostra só admin/coordenação.
+- **Pendente do usuário:** convidar a conta da coordenadora (Andrea) no Portal com papel coordenação.
+- Próximas etapas: Entrada/triagem, Bloqueios, Lembrar depois e decisões com opções (2); checklist, menções, ações no projeto/missão (3); templates, resumo semanal, e-mails (4).

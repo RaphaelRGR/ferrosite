@@ -7,7 +7,7 @@ describe("navegação do Portal", () => {
   const items = portalNavItems(getDictionary("pt").portal);
 
   it("só lista rotas existentes e rotuladas pelo catálogo", () => {
-    expect(items.map((i) => i.href)).toEqual(["/portal", "/portal/coordenacao", "/portal/projetos", "/portal/pessoas", "/portal/empresas", "/portal/desafios", "/portal/conteudos", "/portal/arquivos", "/portal/relatorios", "/portal/configuracoes"]);
+    expect(items.map((i) => i.href)).toEqual(["/portal", "/portal/coordenacao", "/portal/acoes", "/portal/projetos", "/portal/pessoas", "/portal/empresas", "/portal/desafios", "/portal/conteudos", "/portal/arquivos", "/portal/relatorios", "/portal/configuracoes"]);
     for (const i of items) expect(i.label.length).toBeGreaterThan(0);
   });
 
@@ -19,7 +19,14 @@ describe("navegação do Portal", () => {
     expect(visibleNavItems(items, { global_role: "advisor" }).map((i) => i.href)).toEqual(["/portal", "/portal/projetos", "/portal/desafios", "/portal/conteudos", "/portal/arquivos", "/portal/configuracoes"]);
     expect(visibleNavItems(items, { global_role: "member" }).map((i) => i.href)).not.toContain("/portal/coordenacao");
     expect(visibleNavItems(items, { global_role: "coordination" }).map((i) => i.href)).toContain("/portal/coordenacao");
-    expect(visibleNavItems(items, null)).toHaveLength(items.length - 5);
+    expect(visibleNavItems(items, { global_role: "member" }).map((i) => i.href)).not.toContain("/portal/acoes");
+    expect(visibleNavItems(items, null)).toHaveLength(items.length - 6);
+  });
+
+  it("para administração e coordenação o Início se chama Minha mesa", () => {
+    const dict = getDictionary("pt").portal;
+    expect(portalNavItems(dict, { overseer: true })[0]).toMatchObject({ href: "/portal", label: "Minha mesa" });
+    expect(portalNavItems(dict)[0]).toMatchObject({ href: "/portal", label: "Início" });
   });
 
   it("marca o item ativo pelo prefixo, exceto o início que é exato", () => {

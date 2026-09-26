@@ -242,8 +242,10 @@ test.describe("jornada autenticada no Portal", () => {
     expect(csv.status()).toBe(200);
     expect(csv.headers()["content-type"]).toMatch(/text\/csv/);
     expect(await csv.text()).toContain("Projetos ativos");
-    // Início mostra dados canônicos
+    // Início de admin/coordenação é a Minha mesa; os números canônicos ficam no Panorama da Central (ACT-001)
     await page.goto("/portal", { waitUntil: "load" });
+    await expect(page.getByRole("heading", { name: "Precisa de você" })).toBeVisible();
+    await page.goto("/portal/coordenacao", { waitUntil: "load" });
     await expect(page.getByText("Desafios aguardando triagem")).toBeAttached();
   });
 

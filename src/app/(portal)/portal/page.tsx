@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MISSION_STATUS_TONE } from "@/components/portal/projects/MissionCard";
+import { Desk } from "@/components/portal/work-items/Desk";
+import { WorkItemList } from "@/components/portal/work-items/WorkItemCard";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -8,34 +10,38 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isMissionLate, isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
+import { listOpenWorkItems } from "@/lib/portal/queries/work-items";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Início" };
 
 /**
- * Início do Portal (05): widgets por perfil com dados canônicos — minhas
- * missões abertas (com atraso derivado), meus projetos e, para overseers,
- * filas de triagem/revisão. Sem indicadores fictícios: vazio é vazio.
+ * Início do Portal. Administração e coordenação veem a Minha Mesa (ACT-001:
+ * o trabalho primeiro). Os demais veem suas missões, projetos e, se houver,
+ * as ações que a administração/coordenação atribuiu a eles. Vazio é vazio.
  */
 export default async function PortalDashboardPage() {
   const dict = getDictionary("pt").portal;
   const { profile, userId } = await requireActiveProfile();
   const supabase = await createClient();
   const overseer = isOverseer(profile.global_role);
-  const [missions, projects, challenges, reviews] = await Promise.all([
+  const [missions, projects, workItems] = await Promise.all([
     supabase
       .from("mission_assignee")
       .select("mission:mission_id (id, title, status, due_at, project:project_id (slug, name))")
       .eq("profile_id", userId),
-    supabase.from("project").select("id, slug, name, status").not("status", "in", "(archived,cancelled)").order("updated_at", { ascending: false }).limit(6),
-    overseer ? supabase.from("research_challenge").select("id", { count: "exact", head: true }).eq("status", "received") : Promise.resolve({ count: null }),
-    overseer ? supabase.from("content_item").select("id", { count: "exact", head: true }).eq("status", "review") : Promise.resolve({ count: null }),
+    overseer ? Promise.resolve({ data: [] as Array<{ id: string; slug: string; name: string; status: keyof typeof dict.projectStatus }> }) : supabase.from("project").select("id, slug, name, status").not("status", "in", "(archived,cancelled)").order("updated_at", { ascending: false }).limit(6),
+    listOpenWorkItems(),
   ]);
   type Row = { mission: { id: string; title: string; status: "planned" | "in_progress" | "in_validation" | "done" | "paused" | "cancelled"; due_at: string | null; project: { slug: string; name: string } | null } | null };
   const myMissions = ((missions.data ?? []) as unknown as Row[]).map((r) => r.mission).filter((m): m is NonNullable<Row["mission"]> => !!m && m.status !== "done" && m.status !== "cancelled");
+  const name = profile.full_name || profile.email;
+
+  if (overseer) return <Desk dict={dict} items={workItems} userId={userId} name={profile.full_name || ""} missions={myMissions} />;
+
   const late = myMissions.filter((m) => isMissionLate(m)).length;
   const myProjects = projects.data ?? [];
-  const name = profile.full_name || profile.email;
+  const withMe = workItems.filter((i) => i.owner_id === userId || i.approver_id === userId);
 
   return (
     <div className="flex flex-col gap-8">
@@ -47,23 +53,10 @@ export default async function PortalDashboardPage() {
         </h1>
       </header>
 
-      {overseer && (
-        <Link href="/portal/coordenacao" className="flex flex-col gap-1 rounded-xl border border-line-strong bg-surface p-5 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-lg font-bold">{dict.dashboard.coordinationLink} →</span>
-          <span className="text-sm text-fg-muted">{dict.dashboard.coordinationHint}</span>
-        </Link>
-      )}
-
-      {overseer && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Link href="/portal/desafios?situacao=received" className="rounded-xl border border-line bg-surface p-5 hover:border-line-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-            <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{dict.dashboard.pendingChallenges}</p>
-            <p className="mt-1 text-3xl font-black tabular-nums">{challenges.count ?? dict.common.none}</p>
-          </Link>
-          <Link href="/portal/conteudos?situacao=review" className="rounded-xl border border-line bg-surface p-5 hover:border-line-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-            <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{dict.dashboard.pendingContent}</p>
-            <p className="mt-1 text-3xl font-black tabular-nums">{reviews.count ?? dict.common.none}</p>
-          </Link>
+      {withMe.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <WorkItemList id="acoes-com-voce" title={dict.workItems.assignedToYou} items={withMe} dict={dict} />
+          <p className="text-xs text-fg-muted">{dict.workItems.assignedToYouHint}</p>
         </div>
       )}
 

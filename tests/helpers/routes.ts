@@ -18,6 +18,8 @@ export const PUBLIC_ROUTES = LOCALES.flatMap((locale) => PUBLIC_PATHS.map((path)
 export const PORTAL_ROUTES = [
   "/portal",
   "/portal/coordenacao",
+  "/portal/acoes",
+  "/portal/acoes/00000000-0000-0000-0000-000000000000",
   "/portal/projetos",
   "/portal/questoes",
   "/portal/acervo",

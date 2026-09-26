@@ -25,6 +25,7 @@ Supabase (fonte de verdade de dados estruturados)      Google Drive (fonte de ve
 | Ações | `src/lib/portal/actions/drive.ts` | testar conexão, salvar pasta, desconectar (auditadas) |
 | UI | `src/app/(portal)/portal/configuracoes/integracoes/page.tsx`, `src/components/portal/files/DriveIntegration.tsx` | Configurações → Integrações → Google Drive |
 | Banco | `supabase/migrations/20260921000100_drive_integration.sql` | tabela + função de estado sem tokens |
+| Anexos de ações | `src/lib/files/upload.ts` (alvo `work_item`) | pasta `coordenacao/acoes/<ano>/<id-curto>`; vínculo em `work_item_file` (ACT-001) |
 | Erros | `src/lib/files/drive-errors.ts` | mensagens para a UI (sem stack/segredos) |
 
 Arquivos relacionados a projetos/missões continuam em `file_asset` (`provider = google_drive`, `external_id` = fileId) — a integração só fornece o acesso; a arquitetura "Supabase = metadados, Drive = bytes" do FILE-001/DRIVE-001 permanece.

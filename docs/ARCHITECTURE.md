@@ -62,6 +62,30 @@ flowchart TD
   por trigger no banco; as constantes em `lib/portal/*-constants.ts` e
   `authz.ts` são espelhos para a interface.
 
+## Ações (compromissos da administração e da coordenação)
+
+```mermaid
+flowchart LR
+  C["+ Criar (o quê, quem, quando)"] --> W[(work_item)]
+  W -->|trigger| E[(work_item_event: histórico)]
+  W --- K[(work_item_comment)]
+  W --- F[(work_item_file)] --> FA[(file_asset → Drive)]
+  W --> M[Minha mesa]
+  W --> CC[Central da coordenação]
+```
+
+- Camada transversal e privada: admin e coordenação veem tudo; outra pessoa só o
+  item em que é responsável ou aprovadora (RLS). Quem não é da coordenação não
+  altera responsável, prazo ou dados (trigger).
+- Estados: planejada → em execução ⇄ aguardando (com "aguardando quem") /
+  bloqueada → aguardando aprovação → concluída; cancelada. Só o aprovador aprova
+  ou pede alteração (com nota); item com aprovador só conclui pela aprovação.
+- O histórico é escrito pelo banco (status, aprovação, prazo, responsável,
+  arquivos); a interface junta histórico e comentários numa linha do tempo.
+- Arquivos: vínculo com `file_asset`; envio direto vai para
+  `coordenacao/acoes/<ano>/<id>` no Drive. `can_view_file` libera o arquivo a quem
+  vê a ação.
+
 ## Autenticação
 
 ```mermaid

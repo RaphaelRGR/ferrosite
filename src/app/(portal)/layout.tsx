@@ -6,12 +6,15 @@ import { HtmlShell } from "@/components/layout/HtmlShell";
 import { MobileNav } from "@/components/portal/shell/MobileNav";
 import { PortalNav } from "@/components/portal/shell/PortalNav";
 import { ThemeToggle } from "@/components/portal/shell/ThemeToggle";
+import { QuickCreate } from "@/components/portal/work-items/QuickCreate";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { getDictionary } from "@/i18n/dictionaries";
 import { signOut } from "@/lib/auth/actions";
 import { getCurrentSession } from "@/lib/auth/session";
+import { isOverseer } from "@/lib/portal/authz";
 import { portalNavItems, visibleNavItems } from "@/lib/portal/navigation";
+import { quickCreateOptions } from "@/lib/portal/queries/work-items";
 import { initialHtmlTheme, parseTheme, SYSTEM_THEME_SCRIPT, THEME_COOKIE } from "@/lib/portal/theme";
 import { AccessGate } from "./AccessGate";
 
@@ -39,7 +42,10 @@ export default async function PortalLayout({ children }: { children: React.React
   const { user, profile } = session;
   const status = profile?.status ?? "pending";
   const theme = parseTheme((await cookies()).get(THEME_COOKIE)?.value);
-  const items = visibleNavItems(portalNavItems(dict.portal), profile);
+  const overseer = status === "active" && isOverseer(profile?.global_role);
+  const items = visibleNavItems(portalNavItems(dict.portal, { overseer }), profile);
+  // "+ Criar" (ACT-001): opções carregadas só para quem pode criar ações.
+  const quickCreate = overseer ? await quickCreateOptions(user.id) : null;
   const navLabels = { menu: dict.portal.nav.menu, open: dict.portal.nav.openMenu, close: dict.portal.nav.closeMenu };
 
   return (
@@ -68,17 +74,18 @@ export default async function PortalLayout({ children }: { children: React.React
 
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="border-b border-line bg-surface">
-            <div className="flex items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-6">
+            <div className="flex items-center justify-between gap-2 px-3 py-3 max-[359px]:gap-1 max-[359px]:px-2 sm:gap-3 sm:px-6">
               <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                 {status === "active" && <MobileNav items={items} labels={navLabels} />}
-                <Link href="/portal" className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus max-[359px]:hidden lg:hidden">
+                <Link href="/portal" className={`flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus lg:hidden ${quickCreate ? "max-[419px]:hidden" : "max-[359px]:hidden"}`}>
                   <BrandLogo width={40} className="shrink-0 p-0.5" />
                   {/* em telas estreitas o nome não cabe ao lado do seletor de tema e de Sair; o logo e o menu identificam o Portal */}
                   <span className="hidden text-sm font-black uppercase tracking-[0.12em] sm:inline">{dict.portal.name}</span>
                 </Link>
                 <span className="hidden text-sm font-black uppercase tracking-[0.12em] lg:inline">{dict.portal.name}</span>
               </div>
-              <div className="flex min-w-0 items-center gap-1.5 sm:gap-4">
+              <div className="flex min-w-0 items-center gap-1.5 max-[359px]:gap-1 sm:gap-4">
+                {quickCreate && <QuickCreate dict={dict.portal} options={quickCreate} />}
                 <ThemeToggle initial={theme} labels={dict.portal.theme} />
                 <span className="hidden max-w-[16rem] truncate text-xs text-fg-muted md:inline" title={user.email ?? undefined}>
                   {profile?.full_name || user.email}
