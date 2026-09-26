@@ -72,11 +72,10 @@ test("catálogo de componentes não é indexável e fica fora da navegação pú
 });
 
 for (const asset of GRADE_ASSETS) {
-  test(`GET ${asset} continua servido (fallback documental das grades)`, async ({ request }) => {
+  test(`GET ${asset} continua servido (PDF oficial da grade)`, async ({ request }) => {
     const response = await request.get(asset);
     expect(response.status()).toBe(200);
-    const type = response.headers()["content-type"] ?? "";
-    expect(type).toMatch(asset.endsWith(".pdf") ? /application\/pdf/ : /text\/html/);
+    expect(response.headers()["content-type"] ?? "").toMatch(/application\/pdf/);
   });
 }
 

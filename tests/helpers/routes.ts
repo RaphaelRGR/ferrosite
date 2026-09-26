@@ -44,11 +44,8 @@ export const LOGIN_ROUTE = "/login";
 // Rotas HTML acessíveis sem sessão.
 export const HTML_ROUTES = [...PUBLIC_ROUTES, CATALOG_ROUTE, LOGIN_ROUTE] as const;
 
-// Grades legadas: precisam continuar servidas como fallback documental.
+// PDFs oficiais das matrizes: fonte do fluxograma e link "baixar grade".
 export const GRADE_ASSETS = [
-  "/grades/fluxo2025.html",
-  "/grades/fluxo2016.html",
-  "/grades/fluxo2012.html",
   "/grades/grade2025.pdf",
   "/grades/grade2016.pdf",
   "/grades/grade2012.pdf",

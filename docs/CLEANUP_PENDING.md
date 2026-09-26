@@ -1,13 +1,13 @@
 # Limpeza: itens para decisão
 
 Itens que parecem legado ou dispensáveis, mas cuja remoção **não foi provada
-segura** ou depende de decisão do curso. Nada aqui foi apagado. Levantado na
+segura** ou depende de decisão do curso. Só os itens marcados como resolvidos foram apagados, por decisão explícita. Levantado na
 limpeza de 2026-09-26 (`docs/CLEANUP_REPORT.md`).
 
 | # | Item | Por que parece legado | Por que não foi removido | O que confirmar |
 |---|---|---|---|---|
-| 1 | `public/logo-icon.png` | nenhum código referencia desde o site novo; o favicon é `src/app/favicon.ico` e o logo é `public/brand/efm-logo-lockup.png` | é uma URL pública (pode estar linkada fora do site) e é um ativo de marca | apagar, ou mover para `referencias_ferro/` como arquivo de identidade |
-| 2 | `public/grades/fluxo2025.html`, `fluxo2016.html`, `fluxo2012.html` | o fluxograma interativo da página Curso substitui esses HTML do protótipo; nenhum link do site aponta para eles | registrados como "fallback documental" desde a auditoria (BASE-001) e testados em `tests/helpers/routes.ts`; podem ter links externos | se o curso não divulga esses endereços, remover os 3 arquivos e a entrada em `GRADE_ASSETS` |
+| ~~1~~ | **Resolvido em 2026-09-26: removido a pedido.** `public/logo-icon.png` | nenhum código referencia desde o site novo; o favicon é `src/app/favicon.ico` e o logo é `public/brand/efm-logo-lockup.png` | é uma URL pública (pode estar linkada fora do site) e é um ativo de marca | apagar, ou mover para `referencias_ferro/` como arquivo de identidade |
+| ~~2~~ | **Resolvido em 2026-09-26: removidos a pedido.** `public/grades/fluxo2025.html`, `fluxo2016.html`, `fluxo2012.html` | o fluxograma interativo da página Curso substitui esses HTML do protótipo; nenhum link do site aponta para eles | registrados como "fallback documental" desde a auditoria (BASE-001) e testados em `tests/helpers/routes.ts`; podem ter links externos | se o curso não divulga esses endereços, remover os 3 arquivos e a entrada em `GRADE_ASSETS` |
 | 3 | `/portal/questoes` | placeholder do protótipo, fora do menu | decisão pendente (33, pergunta 6) | o módulo "Questões" continua? Se não, remover a página e a rota em `tests/helpers/routes.ts` |
 | 4 | `/portal/acervo` | só redireciona para `/portal/arquivos` | preserva links antigos do protótipo (28) | se ninguém usa o endereço antigo, remover |
 | 5 | `/[locale]/simuladores` | página sem produto definido, não indexada | decisão pendente (33) | existe plano de simuladores? Se não, remover a página e a entrada do dicionário |

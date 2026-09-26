@@ -139,5 +139,6 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 ## CLEAN-002: limpeza e reorganização (2026-09-26)
 
 - Nada foi apagado sem prova de não uso; o que ficou em dúvida está em `docs/CLEANUP_PENDING.md` para decisão (logo antigo `public/logo-icon.png`, fluxogramas HTML de `public/grades/`, páginas `questoes`, `acervo` e `simuladores`, fallback por conta de serviço do Google, scripts locais de sessão).
+- Decisão do usuário (2026-09-26): removidos `public/logo-icon.png` e os fluxogramas HTML do protótipo (`public/grades/fluxo*.html`); o fluxograma interativo e os PDFs oficiais seguem como referência.
 - O insumo do gerador curricular (`content/curriculum/legacy-prototype.ts`) continua necessário: guarda categorias, nomes curtos e as arestas da grade 2012, que o PDF não traz.
 - Estrutura e regras de organização passam a ser as de `docs/PROJECT_STRUCTURE.md` e `docs/CONVENTIONS.md`.

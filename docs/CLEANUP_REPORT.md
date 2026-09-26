@@ -49,6 +49,8 @@ Todos sem nenhum import, referência textual ou uso dinâmico (busca em `src`,
 | Constantes | `src/lib/constants.ts` | cores, nome e menu do protótipo (links para rotas que não existem mais, como `/visitas`); nenhum uso |
 | Cliente Supabase | `src/lib/supabase/client.ts` (browser) | nenhum Client Component acessa o Supabase direto; tudo passa pelo servidor |
 | CSS | `.marquee-track` e `@keyframes marquee` em `globals.css` | carrossel de logos removido antes; nenhuma classe usa |
+| Asset (decisão posterior) | `public/logo-icon.png` | removido a pedido depois da revisão de `CLEANUP_PENDING.md` (sem uso no código) |
+| Asset (decisão posterior) | `public/grades/fluxo{2025,2016,2012}.html` | fluxogramas HTML do protótipo, substituídos pelo fluxograma interativo; removidos a pedido (os PDFs oficiais continuam) |
 | Exports órfãos | `getContentSection` (quarantine), `isAdminClientConfigured` (admin), `IndicatorId` (reports), `contentType` (rota OG) | zero usos; o `ImageResponse` já define o content-type |
 
 ## Dependências removidas
@@ -122,8 +124,7 @@ diferente por campo (ver `CLEANUP_PENDING.md`, item 11).
 
 - `referencias_ferro/` (inclui o PDF que gera `content/labs.json`) e
   `PLANO_DESENVOLVIMENTO_CLAUDE/`: intocados.
-- Fluxograma: JSON 2025/2016/2012, insumo legado do gerador, PDFs oficiais e os
-  HTML antigos em `public/grades/`.
+- Fluxograma: JSON 2025/2016/2012, insumo legado do gerador e PDFs oficiais.
 - `src/content/staging.ts`: texto herdado em quarentena (validação pendente).
 - `docs/baseline/`: relatórios históricos não foram reescritos (citam caminhos
   antigos, como é natural num histórico).
@@ -132,8 +133,7 @@ diferente por campo (ver `CLEANUP_PENDING.md`, item 11).
 
 ## Itens ainda incertos
 
-13 itens em `docs/CLEANUP_PENDING.md` (ex.: `public/logo-icon.png`,
-fluxogramas HTML antigos, páginas placeholder, fallback de conta de serviço,
+11 itens em aberto em `docs/CLEANUP_PENDING.md` (ex.: páginas placeholder, fallback de conta de serviço,
 scripts locais de sessão).
 
 ## Testes executados

@@ -27,7 +27,7 @@ Arquitetura (como as partes conversam): `docs/ARCHITECTURE.md`. Regras de escrit
 ├── public/                    arquivos servidos como estão (URLs públicas estáveis)
 │   ├── brand/                 logo oficial
 │   ├── empresas/              logos de empresas (uso sob autorização de marca)
-│   └── grades/                PDFs oficiais das matrizes + fluxogramas HTML legados
+│   └── grades/                PDFs oficiais das matrizes
 ├── scripts/                   ferramentas de manutenção (geradores, banco, env)
 ├── src/
 │   ├── app/                   rotas do Next (App Router)
@@ -130,7 +130,6 @@ Servido na raiz do domínio com a mesma URL. Renomear quebra links externos.
 - `brand/efm-logo-lockup.png`: logo oficial (cabeçalho, OG).
 - `empresas/*.png`: logos de empresas (bloco em quarentena até haver autorização de marca).
 - `grades/grade<ano>.pdf`: PDFs oficiais (fonte do fluxograma e botão "baixar grade").
-- `grades/fluxo<ano>.html`: fluxogramas HTML do protótipo, mantidos como fallback documental (testados por `tests/helpers/routes.ts`).
 
 Fotos de projetos, experiências e capas **não** entram aqui: ficam no Google Drive
 e são cadastradas pelo Portal.
