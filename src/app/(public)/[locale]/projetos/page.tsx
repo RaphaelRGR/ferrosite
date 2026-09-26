@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { FEATURED_PROJECTS } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { ProjectCards } from "@/components/public/ProjectCards";
+import { ProjectCards } from "@/components/public/projects/ProjectCards";
 import { listPublicProjects, publicCoverIds } from "@/lib/content/public";
 
 const PATH = "/projetos";

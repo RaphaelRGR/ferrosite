@@ -7,7 +7,7 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listOrganizations, PARTNERSHIP_STAGES, type PartnershipStage } from "@/lib/portal/crm";
+import { listOrganizations, PARTNERSHIP_STAGES, type PartnershipStage } from "@/lib/portal/queries/crm";
 
 export const metadata: Metadata = { title: "Empresas" };
 

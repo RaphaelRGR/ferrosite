@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { mediaImage } from "@/lib/content/media";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
 import { HeroArt } from "@/components/public/HeroArt";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { ABOUT_COURSE_TEXT, COURSE_FACTS, PILLARS } from "@/content/staging";
-import { hasDetail, LABS } from "@/data/labs";
-import { CURRICULUMS, type CurriculumData } from "@/data/curriculums";
+import { hasDetail, LABS } from "@/content/labs";
+import { CURRICULUMS, type CurriculumData } from "@/content/curriculums";
 import { formatNumber } from "@/i18n/format";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";

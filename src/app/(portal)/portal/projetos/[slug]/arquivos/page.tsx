@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LinkFileForm, UnlinkFileForm } from "@/components/portal/ContentForms";
-import { ProjectHeader } from "@/components/portal/ProjectHeader";
+import { LinkFileForm, UnlinkFileForm } from "@/components/portal/files/FileForms";
+import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { canManageProject } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
-import { listFiles, listProjectFiles } from "@/lib/portal/content";
+import { listFiles, listProjectFiles } from "@/lib/portal/queries/content";
 
 export const metadata: Metadata = { title: "Arquivos do projeto" };
 

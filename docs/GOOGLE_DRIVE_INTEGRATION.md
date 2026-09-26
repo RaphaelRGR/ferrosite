@@ -23,7 +23,7 @@ Supabase (fonte de verdade de dados estruturados)      Google Drive (fonte de ve
 | Guard | `src/lib/files/drive-guard.ts` | sessão Supabase ativa **e** papel admin/coordenação — usado por rotas e ações |
 | Rotas | `src/app/api/auth/google/start`, `…/callback` | início e retorno do OAuth |
 | Ações | `src/lib/portal/actions/drive.ts` | testar conexão, salvar pasta, desconectar (auditadas) |
-| UI | `src/app/(portal)/portal/configuracoes/integracoes/page.tsx`, `src/components/portal/DriveIntegration.tsx` | Configurações → Integrações → Google Drive |
+| UI | `src/app/(portal)/portal/configuracoes/integracoes/page.tsx`, `src/components/portal/files/DriveIntegration.tsx` | Configurações → Integrações → Google Drive |
 | Banco | `supabase/migrations/20260921000100_drive_integration.sql` | tabela + função de estado sem tokens |
 | Erros | `src/lib/files/drive-errors.ts` | mensagens para a UI (sem stack/segredos) |
 

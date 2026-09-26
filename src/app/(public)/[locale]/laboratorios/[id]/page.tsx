@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { CapabilityBadge } from "@/components/public/labs/LabCard";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { capabilitiesOf } from "@/data/capabilities";
-import { getLab, hasDetail, LABS } from "@/data/labs";
+import { capabilitiesOf } from "@/content/capabilities";
+import { getLab, hasDetail, LABS } from "@/content/labs";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FileForm } from "@/components/portal/ContentForms";
+import { FileForm } from "@/components/portal/files/FileForms";
 import { getDictionary } from "@/i18n/dictionaries";
 import { requireActiveProfile } from "@/lib/portal/context";
 

@@ -2,8 +2,8 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { CAPABILITY_IDS, CAPABILITY_LINKS, capabilitiesOf, isCapabilityId, labsWithCapability } from "@/data/capabilities";
-import { getLab, hasDetail, LABS, LABS_SOURCE } from "@/data/labs";
+import { CAPABILITY_IDS, CAPABILITY_LINKS, capabilitiesOf, isCapabilityId, labsWithCapability } from "@/content/capabilities";
+import { getLab, hasDetail, LABS, LABS_SOURCE } from "@/content/labs";
 import { pt } from "@/i18n/dictionaries/pt";
 import { en } from "@/i18n/dictionaries/en";
 

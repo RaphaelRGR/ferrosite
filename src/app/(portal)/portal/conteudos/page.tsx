@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CONTENT_STATUS_TONE } from "@/components/portal/content-tones";
+import { CONTENT_STATUS_TONE } from "@/components/portal/content/content-tones";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { CONTENT_STATUSES, CONTENT_TYPES, listContent, type ContentStatus, type ContentType } from "@/lib/portal/content";
+import { CONTENT_STATUSES, CONTENT_TYPES, listContent, type ContentStatus, type ContentType } from "@/lib/portal/queries/content";
 
 export const metadata: Metadata = { title: "Conteúdos" };
 

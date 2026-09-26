@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";

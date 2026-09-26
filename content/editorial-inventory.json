@@ -337,7 +337,7 @@
     {
       "id": "curso.curriculum",
       "route": "/curso",
-      "component": "content/curriculum/*.json (gerado dos PDFs oficiais por scripts/curriculum_from_pdf.py) + src/data/curriculums.ts",
+      "component": "content/curriculum/*.json (gerado dos PDFs oficiais por scripts/curriculum_from_pdf.py) + src/content/curriculums.ts",
       "title": "Fluxograma curricular (matrizes 2025/2016/2012)",
       "entries": [
         {
@@ -376,7 +376,7 @@
         {
           "content_id": "curso.curriculum.ementas",
           "kind": "narrative",
-          "value_pt": "Ementas editoriais do protótipo (13/15/10 disciplinas) — substituídas pelas ementas oficiais do PDF; texto preservado em src/data/curriculums.legacy.ts",
+          "value_pt": "Ementas editoriais do protótipo (13/15/10 disciplinas) — substituídas pelas ementas oficiais do PDF; texto preservado em content/curriculum/legacy-prototype.ts",
           "notes": "Não eram ementas oficiais. Removidas da UI em FLOW-001.",
           "status": "DISCARDED",
           "decision": "descartar"
@@ -926,13 +926,13 @@
     {
       "id": "curso.flowchart",
       "route": "/curso",
-      "component": "src/components/curriculum/CurriculumExplorer.tsx",
+      "component": "src/components/public/curriculum/CurriculumExplorer.tsx",
       "title": "Curso — fluxograma interativo",
       "entries": [
         {
           "content_id": "curso.flowchart.dados",
           "kind": "curriculum",
-          "value_pt": "Fluxograma das matrizes 2025/2016/2012 (dados de src/data/curriculums.ts)",
+          "value_pt": "Fluxograma das matrizes 2025/2016/2012 (dados de src/content/curriculums.ts)",
           "source": "content/curriculum/*.json (PDFs oficiais)",
           "notes": "Fluxograma refeito em FLOW-002; dados canônicos com sha256 do PDF. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
           "status": "VERIFIED",
@@ -945,7 +945,7 @@
     {
       "id": "curso.labs",
       "route": "/curso",
-      "component": "CourseSections.tsx (CourseLabs) + src/data/labs.ts (content/labs.json)",
+      "component": "CourseSections.tsx (CourseLabs) + src/content/labs.ts (content/labs.json)",
       "title": "Curso — laboratórios",
       "entries": [
         {
@@ -1088,7 +1088,7 @@
     {
       "id": "laboratorios.hub",
       "route": "/laboratorios",
-      "component": "src/app/(public)/[locale]/laboratorios/page.tsx + src/data/{labs,capabilities}.ts",
+      "component": "src/app/(public)/[locale]/laboratorios/page.tsx + src/content/{labs,capabilities}.ts",
       "title": "Laboratórios — hub e relação capacidade↔lab",
       "entries": [
         {
@@ -1448,7 +1448,7 @@
           "content_id": "empresas.capacidades.contagens",
           "kind": "narrative",
           "value_pt": "Por capacidade: nº de labs com capacidade descrita / potencial / sem página",
-          "source": "src/data/capabilities.ts",
+          "source": "src/content/capabilities.ts",
           "notes": "Derivado da mesma curadoria de laboratorios.hub.capacidades. | Validado pela coordenação do curso em 2026-09-25 (chat): fluxograma e grades vêm dos PDFs oficiais da matriz; laboratórios, responsáveis e capacidades vêm do Portfólio de Laboratórios EFM/UFSC.",
           "status": "VERIFIED",
           "decision": "confirmar",

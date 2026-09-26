@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProjectForm } from "@/components/portal/ProjectForm";
+import { ProjectForm } from "@/components/portal/projects/ProjectForm";
 import { getDictionary } from "@/i18n/dictionaries";
 import { canCreateProject } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";

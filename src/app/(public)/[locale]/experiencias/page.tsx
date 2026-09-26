@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -9,7 +9,7 @@ import { EXPERIENCES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { ExperienceCard, experienceDate, experienceKind, type ExperienceKind } from "@/components/public/ExperienceCard";
+import { ExperienceCard, experienceDate, experienceKind, type ExperienceKind } from "@/components/public/experiences/ExperienceCard";
 import { listPublished, publicCoverIds } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
 

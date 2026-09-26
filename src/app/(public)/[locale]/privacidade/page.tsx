@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";

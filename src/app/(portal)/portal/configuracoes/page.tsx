@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { DispatchMailForm } from "@/components/portal/MailForms";
-import { SinkTestForm } from "@/components/portal/ObservabilityForms";
-import { SiteImageForm } from "@/components/portal/SiteImageForm";
-import { listSiteImageCandidates, getSiteImages } from "@/lib/portal/content";
-import { ThemeToggle } from "@/components/portal/ThemeToggle";
+import { DispatchMailForm } from "@/components/portal/settings/MailForms";
+import { SinkTestForm } from "@/components/portal/settings/ObservabilityForms";
+import { SiteImageForm } from "@/components/portal/settings/SiteImageForm";
+import { listSiteImageCandidates, getSiteImages } from "@/lib/portal/queries/content";
+import { ThemeToggle } from "@/components/portal/shell/ThemeToggle";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentSession } from "@/lib/auth/session";
@@ -12,7 +12,7 @@ import { formatDate } from "@/i18n/format";
 import { isMailConfigured } from "@/lib/mail/provider";
 import { isErrorSinkConfigured } from "@/lib/observability/sink";
 import { isOverseer } from "@/lib/portal/authz";
-import { getMailSummary, type MailStatus } from "@/lib/portal/mail";
+import { getMailSummary, type MailStatus } from "@/lib/portal/queries/mail";
 import { parseTheme, THEME_COOKIE } from "@/lib/portal/theme";
 
 export const metadata: Metadata = { title: "Configurações" };

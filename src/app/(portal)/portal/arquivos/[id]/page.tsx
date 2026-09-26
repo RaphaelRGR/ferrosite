@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FileForm, VerifyFileForm } from "@/components/portal/ContentForms";
+import { FileForm, VerifyFileForm } from "@/components/portal/files/FileForms";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDriveClient } from "@/lib/files/drive-connection";
 import { Badge } from "@/components/ui/Badge";
@@ -9,7 +9,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { getFile } from "@/lib/portal/content";
+import { getFile } from "@/lib/portal/queries/content";
 
 export const metadata: Metadata = { title: "Arquivo" };
 

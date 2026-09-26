@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import {
   AboutCourse,
   CourseCta,
@@ -10,7 +10,7 @@ import {
   CoursePillarsSection,
 } from "@/components/public/course/CourseSections";
 import { Suspense } from "react";
-import { CurriculumExplorer } from "@/components/curriculum/CurriculumExplorer";
+import { CurriculumExplorer } from "@/components/public/curriculum/CurriculumExplorer";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";

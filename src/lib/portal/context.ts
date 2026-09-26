@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { getCurrentSession, type CurrentProfile } from "@/lib/auth/session";
 import { type Actor } from "./authz";
-import { getMyProjectRole, getProjectBySlug, type ProjectRow } from "./projects";
+import { getMyProjectRole, getProjectBySlug, type ProjectRow } from "@/lib/portal/queries/projects";
 
 /** Sessão ativa obrigatória nas páginas do Portal (o layout já bloqueia; aqui é defesa em profundidade). */
 export async function requireActiveProfile(): Promise<{ userId: string; profile: CurrentProfile }> {

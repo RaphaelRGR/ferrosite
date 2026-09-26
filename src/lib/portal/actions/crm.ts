@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, fail, type ActionState } from "../action-state";
-import { isOverseer } from "../authz";
-import { ACTIVITY_KINDS, CHALLENGE_STATUSES, CHALLENGE_TRANSITIONS, ORGANIZATION_KINDS, PARTNERSHIP_STAGES, type ActivityKind, type ChallengeStatus, type OrganizationKind, type PartnershipStage } from "../crm";
+import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
+import { isOverseer } from "@/lib/portal/authz";
+import { ACTIVITY_KINDS, CHALLENGE_STATUSES, CHALLENGE_TRANSITIONS, ORGANIZATION_KINDS, PARTNERSHIP_STAGES, type ActivityKind, type ChallengeStatus, type OrganizationKind, type PartnershipStage } from "@/lib/portal/queries/crm";
 
 /**
  * Server Actions do CRM (13): organizações, contatos, interações, pipeline e

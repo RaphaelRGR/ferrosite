@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TriageForm } from "@/components/portal/CrmForms";
-import { CHALLENGE_TONE } from "@/components/portal/crm-tones";
+import { TriageForm } from "@/components/portal/crm/CrmForms";
+import { CHALLENGE_TONE } from "@/components/portal/crm/crm-tones";
 import { Badge } from "@/components/ui/Badge";
-import { isCapabilityId, labsWithCapability } from "@/data/capabilities";
+import { isCapabilityId, labsWithCapability } from "@/content/capabilities";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { getChallenge, listCrmEvents, listOrganizations, listTriagers } from "@/lib/portal/crm";
+import { getChallenge, listCrmEvents, listOrganizations, listTriagers } from "@/lib/portal/queries/crm";
 
 export const metadata: Metadata = { title: "Desafio" };
 

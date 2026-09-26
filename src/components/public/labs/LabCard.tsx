@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
-import { capabilitiesOf, type CapabilityLevel } from "@/data/capabilities";
-import { getLab, hasDetail, type Lab } from "@/data/labs";
+import { capabilitiesOf, type CapabilityLevel } from "@/content/capabilities";
+import { getLab, hasDetail, type Lab } from "@/content/labs";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 

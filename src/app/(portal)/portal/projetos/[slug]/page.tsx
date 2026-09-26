@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ProjectHeader } from "@/components/portal/ProjectHeader";
-import { StatusActions, type StatusTarget } from "@/components/portal/StatusActions";
+import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
+import { StatusActions, type StatusTarget } from "@/components/portal/projects/StatusActions";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -9,8 +9,8 @@ import { formatDate } from "@/i18n/format";
 import { transitionProject } from "@/lib/portal/actions/projects";
 import { canManageProject, canTransitionProject, isMissionLate, PROJECT_TRANSITIONS } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
-import { listMissions } from "@/lib/portal/missions";
-import { listActivity } from "@/lib/portal/projects";
+import { listMissions } from "@/lib/portal/queries/missions";
+import { listActivity } from "@/lib/portal/queries/projects";
 
 export async function generateMetadata({ params }: PageProps<"/portal/projetos/[slug]">): Promise<Metadata> {
   const { slug } = await params;

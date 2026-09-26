@@ -15,7 +15,6 @@ import { OG_SIZE, SITE_URL } from "@/i18n/metadata";
  * próprio bloco `openGraph`, e metadata de segmento filho substitui a do pai:
  * a URL precisa ser estável para entrar em `publicPageMetadata`.
  */
-export const contentType = "image/png";
 
 /** Domínio mostrado no rodapé do cartão. */
 const SITE_HOST = SITE_URL.host.replace(/^www\./, "");

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DriveIntegrationCard } from "@/components/portal/DriveIntegration";
+import { DriveIntegrationCard } from "@/components/portal/files/DriveIntegration";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isServiceAccountConfigured } from "@/lib/files/drive";
 import { getDriveStatus } from "@/lib/files/drive-connection";

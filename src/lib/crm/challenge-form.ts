@@ -1,4 +1,4 @@
-import { isCapabilityId, type CapabilityId } from "@/data/capabilities";
+import { isCapabilityId, type CapabilityId } from "@/content/capabilities";
 
 /**
  * Validação do formulário público "Tenho um desafio" (13/21), compartilhada

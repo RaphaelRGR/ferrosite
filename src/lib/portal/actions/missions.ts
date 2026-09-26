@@ -4,10 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, fail, type ActionState } from "../action-state";
-import { canCreateMission, canManageMission, canTransitionMission, MISSION_STATUSES, type Actor, type MissionStatus } from "../authz";
-import { getMission } from "../missions";
-import { getMyProjectRole } from "../projects";
+import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
+import { canCreateMission, canManageMission, canTransitionMission, MISSION_STATUSES, type Actor, type MissionStatus } from "@/lib/portal/authz";
+import { getMission } from "@/lib/portal/queries/missions";
+import { getMyProjectRole } from "@/lib/portal/queries/projects";
 
 /**
  * Server Actions de missão (PORTAL-003): criação, edição com versão,

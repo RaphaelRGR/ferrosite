@@ -3,15 +3,15 @@
  * Troca o `code` por sessão (cookies) e redireciona apenas para destinos da
  * allowlist. Código ausente/inválido nunca cria sessão (21).
  */
-import { NextResponse, type NextRequest } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { isSupabaseConfigured } from '@/lib/supabase/env';
-import { safeNextPath } from '@/lib/auth/redirects';
+import { NextResponse, type NextRequest } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { safeNextPath } from "@/lib/auth/redirects";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
-  const code = searchParams.get('code');
-  const next = safeNextPath(searchParams.get('next'));
+  const code = searchParams.get("code");
+  const next = safeNextPath(searchParams.get("next"));
 
   if (!isSupabaseConfigured()) {
     return NextResponse.redirect(`${origin}/login?error=config`, 307);

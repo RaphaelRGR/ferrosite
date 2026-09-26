@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SnapshotForm } from "@/components/portal/ReportForms";
+import { SnapshotForm } from "@/components/portal/reports/ReportForms";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate, formatNumber } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { computeIndicators, listSnapshots, parsePeriod, type Indicator } from "@/lib/portal/reports";
+import { computeIndicators, listSnapshots, parsePeriod, type Indicator } from "@/lib/portal/queries/reports";
 
 export const metadata: Metadata = { title: "Relatórios" };
 

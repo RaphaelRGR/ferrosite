@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { UploadForm } from "@/components/portal/UploadForm";
+import { UploadForm } from "@/components/portal/files/UploadForm";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getDriveClient } from "@/lib/files/drive-connection";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listUploadableTypes, listUploadTargets } from "@/lib/portal/content";
+import { listUploadableTypes, listUploadTargets } from "@/lib/portal/queries/content";
 
 export const metadata: Metadata = { title: "Enviar arquivo" };
 

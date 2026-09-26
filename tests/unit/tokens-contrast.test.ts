@@ -88,8 +88,8 @@ it("o laranja institucional não é usado como fundo de ação com texto branco 
   }
 });
 
-describe("categorias de projeto (src/components/public/project-categories.css)", () => {
-  const cat = readFileSync(path.resolve(process.cwd(), "src/components/public/project-categories.css"), "utf8").replace(/\r\n/g, "\n");
+describe("categorias de projeto (src/components/public/projects/project-categories.css)", () => {
+  const cat = readFileSync(path.resolve(process.cwd(), "src/components/public/projects/project-categories.css"), "utf8").replace(/\r\n/g, "\n");
   const read = (selector: string) => {
     const start = cat.indexOf(`${selector} {`);
     if (start < 0) throw new Error(`bloco ${selector} não encontrado`);
@@ -111,7 +111,7 @@ describe("categorias de projeto (src/components/public/project-categories.css)",
   });
 
   it("o componente importa o arquivo de tokens (não depende do globals.css)", () => {
-    const comp = readFileSync(path.resolve(process.cwd(), "src/components/public/ProjectCover.tsx"), "utf8");
+    const comp = readFileSync(path.resolve(process.cwd(), "src/components/public/projects/ProjectCover.tsx"), "utf8");
     expect(comp).toContain('import "./project-categories.css";');
   });
 });

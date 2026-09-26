@@ -25,6 +25,7 @@
 *.pem
 
 # debug
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -58,3 +59,10 @@ google-oauth*.json
 # scripts de sessão do operador (nunca commitar)
 /_*.mjs
 /_*.mts
+
+# python (geradores em scripts/)
+__pycache__/
+*.pyc
+
+# configuração local do Claude Code (permissões pessoais)
+/.claude/settings.local.json

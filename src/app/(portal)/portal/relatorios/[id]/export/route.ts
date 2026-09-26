@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getCurrentSession } from "@/lib/auth/session";
 import { isOverseer } from "@/lib/portal/authz";
-import { getSnapshot, reportToCsv, type IndicatorReport } from "@/lib/portal/reports";
+import { getSnapshot, reportToCsv, type IndicatorReport } from "@/lib/portal/queries/reports";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";

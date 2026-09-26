@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
 import { HeroArt } from "@/components/public/HeroArt";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
@@ -8,10 +8,10 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import { EXPERIENCES, FEATURED_PROJECTS, INDICATORS, NEWS, PARTNER_LOGOS } from "@/content/staging";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { ExperienceCard } from "@/components/public/ExperienceCard";
+import { ExperienceCard } from "@/components/public/experiences/ExperienceCard";
 import { mediaImage } from "@/lib/content/media";
 import type { PublicProject, PublishedItem } from "@/lib/content/public";
-import { ProjectCards } from "@/components/public/ProjectCards";
+import { ProjectCards } from "@/components/public/projects/ProjectCards";
 
 type HomeDict = Dictionary["home"];
 

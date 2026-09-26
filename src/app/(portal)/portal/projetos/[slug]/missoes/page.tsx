@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MissionCard } from "@/components/portal/MissionCard";
-import { ProjectHeader } from "@/components/portal/ProjectHeader";
+import { MissionCard } from "@/components/portal/projects/MissionCard";
+import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
-import { formatDate } from "@/i18n/format";
+import { formatDate, institutionalDate } from "@/i18n/format";
 import { canCreateMission, MISSION_STATUSES, type MissionStatus } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
-import { listMissions, type MissionWithAssignees } from "@/lib/portal/missions";
+import { listMissions, type MissionWithAssignees } from "@/lib/portal/queries/missions";
 
 export const metadata: Metadata = { title: "Missões" };
 
@@ -18,8 +18,7 @@ const KANBAN_COLUMNS: MissionStatus[] = ["planned", "in_progress", "in_validatio
 
 /** Início da semana (segunda) em America/Sao_Paulo, como chave "YYYY-MM-DD". */
 function weekKey(iso: string): string {
-  const d = new Date(iso);
-  const local = new Date(new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(d) + "T00:00:00Z");
+  const local = new Date(`${institutionalDate(new Date(iso))}T00:00:00Z`);
   const day = (local.getUTCDay() + 6) % 7;
   local.setUTCDate(local.getUTCDate() - day);
   return local.toISOString().slice(0, 10);

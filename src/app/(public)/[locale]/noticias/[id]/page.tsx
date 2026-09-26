@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { PublishedArticle } from "@/components/public/PublishedArticle";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { LinkButton } from "@/components/ui/LinkButton";

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentSession } from "@/lib/auth/session";
 import { getDriveClient } from "@/lib/files/drive-connection";
 import { proxyDriveFile } from "@/lib/files/proxy";
-import { getFile } from "@/lib/portal/content";
+import { getFile } from "@/lib/portal/queries/content";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CURRICULUMS } from "@/data/curriculums";
+import { CURRICULUMS } from "@/content/curriculums";
 import { ancestors, buildGraph, descendants, neighborhood, searchSubjects } from "@/lib/curriculum/graph";
 
 const c2025 = CURRICULUMS.find((c) => c.year === 2025)!;

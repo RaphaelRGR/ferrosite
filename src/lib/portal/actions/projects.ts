@@ -6,9 +6,9 @@ import { after } from "next/server";
 import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, fail, type ActionState } from "../action-state";
-import { canCreateProject, canManageProject, canTransitionProject, CLASSIFICATIONS, PROJECT_CATEGORIES, PROJECT_STATUSES, SLUG_RE, slugify, type Actor, type Classification, type ProjectCategory, type ProjectStatus } from "../authz";
-import { getMyProjectRole } from "../projects";
+import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
+import { canCreateProject, canManageProject, canTransitionProject, CLASSIFICATIONS, PROJECT_CATEGORIES, PROJECT_STATUSES, SLUG_RE, slugify, type Actor, type Classification, type ProjectCategory, type ProjectStatus } from "@/lib/portal/authz";
+import { getMyProjectRole } from "@/lib/portal/queries/projects";
 
 /**
  * Server Actions de projeto/equipe (PORTAL-002). Validação cedo (papel,

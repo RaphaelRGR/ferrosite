@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PendingSection } from "@/components/layout/PendingContent";
+import { PendingSection } from "@/components/editorial/PendingContent";
 import {
   CourseFronts,
   ExperiencesPreview,

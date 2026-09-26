@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ContentForm } from "@/components/portal/ContentForms";
+import { ContentForm } from "@/components/portal/content/ContentForms";
 import { getDictionary } from "@/i18n/dictionaries";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listFiles, listProjectOptions } from "@/lib/portal/content";
+import { listFiles, listProjectOptions } from "@/lib/portal/queries/content";
 
 export const metadata: Metadata = { title: "Novo conteúdo" };
 

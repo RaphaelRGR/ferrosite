@@ -1,4 +1,4 @@
-import { allSubjects, prerequisiteCodes, type CurriculumData, type Subject } from "@/data/curriculums";
+import { allSubjects, prerequisiteCodes, type CurriculumData, type Subject } from "@/content/curriculums";
 
 /**
  * Funções puras do grafo curricular (09): ancestrais (pré-requisitos

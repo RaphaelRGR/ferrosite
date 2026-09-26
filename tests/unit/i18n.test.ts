@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { localizePath, negotiateLocale, splitLocale } from "@/i18n/config";
 import { en } from "@/i18n/dictionaries/en";
 import { pt } from "@/i18n/dictionaries/pt";
-import { formatDate, formatList, formatNumber } from "@/i18n/format";
+import { formatDate, formatList, formatNumber, institutionalDate, toDateTimeLocal } from "@/i18n/format";
 
 function flatten(obj: object, prefix = ""): Record<string, string> {
   return Object.entries(obj).reduce<Record<string, string>>((acc, [key, value]) => {
@@ -72,5 +72,18 @@ describe("formatação Intl", () => {
     expect(formatNumber("en", 1234.5)).toBe("1,234.5");
     expect(formatList("pt", ["a", "b", "c"])).toBe("a, b e c");
     expect(formatList("en", ["a", "b", "c"])).toBe("a, b, and c");
+  });
+});
+
+describe("datas no fuso do curso (America/Sao_Paulo)", () => {
+  it("institutionalDate usa a data civil de Joinville, não a UTC", () => {
+    // 02:30 UTC ainda é o dia anterior em Joinville (-03:00)
+    expect(institutionalDate(new Date("2026-03-10T02:30:00Z"))).toBe("2026-03-09");
+    expect(institutionalDate(new Date("2026-03-10T15:00:00Z"))).toBe("2026-03-10");
+  });
+
+  it("toDateTimeLocal gera o valor do input datetime-local no fuso do curso", () => {
+    expect(toDateTimeLocal("2026-03-10T15:05:00Z")).toBe("2026-03-10T12:05");
+    expect(toDateTimeLocal(null)).toBe("");
   });
 });

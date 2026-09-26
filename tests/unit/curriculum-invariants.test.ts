@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { allSubjects, CURRICULUMS, prerequisiteCodes, type CurriculumData, type Subject } from "@/data/curriculums";
+import { allSubjects, CURRICULUMS, prerequisiteCodes, type CurriculumData, type Subject } from "@/content/curriculums";
 
 /**
  * Invariantes das três matrizes (FLOW-001). A fonte canônica são os JSON

@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 import { LOCALES, localizePath } from "@/i18n/config";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, fail, type ActionState } from "../action-state";
-import { isOverseer } from "../authz";
+import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
+import { isOverseer } from "@/lib/portal/authz";
 
 // Arquivo "use server" só pode exportar funções assíncronas: as chaves ficam em content-constants.
 const SITE_IMAGE_KEYS = ["home_hero", "course_hero"] as const;

@@ -1,7 +1,7 @@
 import { getCurrentSession } from "@/lib/auth/session";
 import { logEvent } from "@/lib/observability/log";
 import { isOverseer } from "@/lib/portal/authz";
-import { getMyProjectRole, getProjectBySlug } from "@/lib/portal/projects";
+import { getMyProjectRole, getProjectBySlug } from "@/lib/portal/queries/projects";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/types/database";
 import type { DriveError } from "./drive";

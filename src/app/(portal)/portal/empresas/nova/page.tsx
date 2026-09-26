@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { OrganizationForm } from "@/components/portal/CrmForms";
+import { OrganizationForm } from "@/components/portal/crm/CrmForms";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";

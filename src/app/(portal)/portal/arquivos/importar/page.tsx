@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ImportForm } from "@/components/portal/ImportForm";
+import { ImportForm } from "@/components/portal/files/ImportForm";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getDriveClient } from "@/lib/files/drive-connection";
 import { isOverseer } from "@/lib/portal/authz";
-import { listContent, listUploadTargets } from "@/lib/portal/content";
+import { listContent, listUploadTargets } from "@/lib/portal/queries/content";
 import { requireActiveProfile } from "@/lib/portal/context";
 
 export const metadata: Metadata = { title: "Importar do Drive" };

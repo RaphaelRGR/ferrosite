@@ -4,7 +4,7 @@ import { getCurrentSession } from "@/lib/auth/session";
 import { logEvent } from "@/lib/observability/log";
 import { getErrorSink, type SinkStats } from "@/lib/observability/sink";
 import { createClient } from "@/lib/supabase/server";
-import type { ActionState } from "../action-state";
+import type { ActionState } from "@/lib/portal/action-state";
 
 export interface SinkTestState extends ActionState {
   stats?: SinkStats;

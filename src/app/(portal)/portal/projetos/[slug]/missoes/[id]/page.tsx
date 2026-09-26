@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MISSION_STATUS_TONE, missionTargets } from "@/components/portal/MissionCard";
-import { AssigneeForms, ChecklistForms, CommentForm, MissionForm } from "@/components/portal/MissionForms";
-import { ProjectHeader } from "@/components/portal/ProjectHeader";
-import { StatusActions } from "@/components/portal/StatusActions";
+import { MISSION_STATUS_TONE, missionTargets } from "@/components/portal/projects/MissionCard";
+import { AssigneeForms, ChecklistForms, CommentForm, MissionForm } from "@/components/portal/projects/MissionForms";
+import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
+import { StatusActions } from "@/components/portal/projects/StatusActions";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -11,8 +11,8 @@ import { formatDate } from "@/i18n/format";
 import { transitionMission } from "@/lib/portal/actions/missions";
 import { canManageMission, isMissionLate } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
-import { getMission, listChecklist, listComments } from "@/lib/portal/missions";
-import { listActivity, listMembers } from "@/lib/portal/projects";
+import { getMission, listChecklist, listComments } from "@/lib/portal/queries/missions";
+import { listActivity, listMembers } from "@/lib/portal/queries/projects";
 
 export const metadata: Metadata = { title: "Missão" };
 

@@ -7,7 +7,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate, formatNumber } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listFiles } from "@/lib/portal/content";
+import { listFiles } from "@/lib/portal/queries/content";
 
 export const metadata: Metadata = { title: "Arquivos" };
 

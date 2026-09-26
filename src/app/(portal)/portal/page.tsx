@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MISSION_STATUS_TONE } from "@/components/portal/MissionCard";
+import { MISSION_STATUS_TONE } from "@/components/portal/projects/MissionCard";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";

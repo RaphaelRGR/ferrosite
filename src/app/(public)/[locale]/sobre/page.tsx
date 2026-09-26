@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage, EditorialPending } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage, EditorialPending } from "@/components/editorial/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { HISTORY, IDENTITY, RESEARCH_LINES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";

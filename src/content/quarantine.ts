@@ -60,10 +60,6 @@ export const CONTENT_SECTIONS: ContentSection[] = (inventory.sections as Array<O
 
 const SECTION_INDEX = new Map(CONTENT_SECTIONS.map((s) => [s.id, s]));
 
-export function getContentSection(id: string): ContentSection | undefined {
-  return SECTION_INDEX.get(id);
-}
-
 /**
  * Entradas descartadas saem do cálculo (o conteúdo delas já não é exibido).
  * A seção é DISCARDED só se todas forem; VERIFIED se todas as restantes estiverem

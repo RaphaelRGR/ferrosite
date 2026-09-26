@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MissionForm } from "@/components/portal/MissionForms";
-import { ProjectHeader } from "@/components/portal/ProjectHeader";
+import { MissionForm } from "@/components/portal/projects/MissionForms";
+import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
 import { getDictionary } from "@/i18n/dictionaries";
 import { canCreateMission } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";

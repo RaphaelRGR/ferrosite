@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -10,8 +10,8 @@ import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedGallery } from "@/components/public/PublishedGallery";
-import { CategoryChip, ProjectCover } from "@/components/public/ProjectCover";
-import { projectText } from "@/components/public/ProjectCards";
+import { CategoryChip, ProjectCover } from "@/components/public/projects/ProjectCover";
+import { projectText } from "@/components/public/projects/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { mediaImage, mediaUrl } from "@/lib/content/media";
 import { getPublicProject, publicProjectGallery } from "@/lib/content/public";

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { UnverifiedContent } from "@/components/content/UnverifiedContent";
-import { PendingPage } from "@/components/layout/PendingContent";
+import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
+import { PendingPage } from "@/components/editorial/PendingContent";
 import { LabCard } from "@/components/public/labs/LabCard";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { CAPABILITY_IDS, capabilitiesOf, isCapabilityId } from "@/data/capabilities";
-import { LABS } from "@/data/labs";
+import { CAPABILITY_IDS, capabilitiesOf, isCapabilityId } from "@/content/capabilities";
+import { LABS } from "@/content/labs";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/laborato
 /**
  * Hub de laboratórios (04 "P&D e laboratórios", 14): navegação por capacidade
  * como estado de URL (?capacidade=), sem JS obrigatório. A relação
- * lab↔capacidade é administrada (src/data/capabilities.ts), não busca textual.
+ * lab↔capacidade é administrada (src/content/capabilities.ts), não busca textual.
  * Conteúdo do portfólio sob quarentena até validação institucional.
  */
 export default async function LaboratoriosPage({ params, searchParams }: PageProps<"/[locale]/laboratorios">) {

@@ -108,32 +108,6 @@ body {
   }
 }
 
-/* ─── Animação do carrossel de logos ─────────────────────────── */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.marquee-track {
-  display: flex;
-  gap: 16px;
-  width: max-content;
-  animation: marquee 30s linear infinite;
-}
-
-@media (min-width: 640px) {
-  .marquee-track {
-    gap: 24px;
-  }
-}
-
-/* Movimento reduzido: o carrossel fica estático (conteúdo permanece visível). */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
-
 /* ─── Conteúdo publicado (Markdown restrito renderizado no servidor) ── */
 .prose-content > * + * { margin-top: 0.9em; }
 .prose-content h2 { font-size: 1.375rem; font-weight: 800; letter-spacing: -0.01em; margin-top: 1.6em; }

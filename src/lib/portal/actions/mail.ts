@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentSession } from "@/lib/auth/session";
 import { dispatchMailOutbox, type DispatchResult } from "@/lib/mail/dispatch";
 import { createClient } from "@/lib/supabase/server";
-import type { ActionState } from "../action-state";
+import type { ActionState } from "@/lib/portal/action-state";
 
 export interface DispatchState extends ActionState {
   result?: DispatchResult;

@@ -10,13 +10,13 @@ import { dispatchQuietly } from "@/lib/mail/dispatch";
 import { getCurrentSession } from "@/lib/auth/session";
 import { LOCALES, localizePath } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, fail, type ActionState } from "../action-state";
-import { isOverseer, SLUG_RE, slugify } from "../authz";
+import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
+import { isOverseer, SLUG_RE, slugify } from "@/lib/portal/authz";
 import {
   APPROVER_TARGETS, CONSENT_STATUSES, CONTENT_STATUSES, CONTENT_TRANSITIONS, CONTENT_TYPE_PUBLIC_PATH, CONTENT_TYPES, FILE_LINK_KINDS, FILE_MIME_TYPES, FILE_PROVIDERS, FILE_STATUSES,
   type ConsentStatus, type ContentStatus, type ContentType, type FileLinkKind, type FileProvider, type FileStatus,
-} from "../content-constants";
-import { getContent, getFile } from "../content";
+} from "@/lib/portal/content-constants";
+import { getContent, getFile } from "@/lib/portal/queries/content";
 
 /**
  * Server Actions de conteúdo (PUB-001) e arquivos (FILE-001). O fluxo de

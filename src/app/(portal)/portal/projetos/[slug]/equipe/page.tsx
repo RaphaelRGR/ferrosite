@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { ProjectHeader } from "@/components/portal/ProjectHeader";
-import { AddMemberForm, MemberRowForms } from "@/components/portal/TeamForms";
+import { ProjectHeader } from "@/components/portal/projects/ProjectHeader";
+import { AddMemberForm, MemberRowForms } from "@/components/portal/projects/TeamForms";
 import { Badge } from "@/components/ui/Badge";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { canManageProject } from "@/lib/portal/authz";
 import { loadProject } from "@/lib/portal/context";
-import { listMembers } from "@/lib/portal/projects";
+import { listMembers } from "@/lib/portal/queries/projects";
 
 /** Grant vencido (11): prazo passado. Fora do render para não chamar Date.now() no JSX. */
 function isExpired(expiresAt: string | null, now = new Date()): boolean {

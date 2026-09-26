@@ -7,7 +7,7 @@ import { localizePath, type Locale } from "@/i18n/config";
 import { Textarea } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { LinkButton } from "@/components/ui/LinkButton";
-import { CAPABILITY_IDS } from "@/data/capabilities";
+import { CAPABILITY_IDS } from "@/content/capabilities";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { submitChallenge, type ChallengeSubmitState } from "@/lib/crm/public-actions";
 import type { ChallengeField } from "@/lib/crm/challenge-form";

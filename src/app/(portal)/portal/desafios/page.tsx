@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CHALLENGE_TONE } from "@/components/portal/crm-tones";
+import { CHALLENGE_TONE } from "@/components/portal/crm/crm-tones";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { CHALLENGE_STATUSES, listChallenges, type ChallengeStatus } from "@/lib/portal/crm";
+import { CHALLENGE_STATUSES, listChallenges, type ChallengeStatus } from "@/lib/portal/queries/crm";
 
 export const metadata: Metadata = { title: "Desafios" };
 

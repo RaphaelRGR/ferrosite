@@ -21,7 +21,7 @@ from pypdf import PdfReader
 CODE = r"[A-Z]{3}\d{4}"
 OUT_DIR = "content/curriculum"
 
-# Categorias herdadas do protótipo (src/data/curriculums.ts antes de FLOW-001) + novas por palavra-chave.
+# Categorias herdadas do protótipo (src/data/curriculums.ts antes de FLOW-001; hoje em content/curriculum/legacy-prototype.ts) + novas por palavra-chave.
 KEYWORDS = [
     ("physics", r"F[ií]sica"), ("math", r"C[áa]lculo|[ÁA]lgebra|Geometria|Estat[íi]stica|Equa[çc][õo]es|Metrologia|Num[ée]rico"),
     ("railway", r"Ferrovi|Metrovi|Via Permanente|Locomotiv|Vag[õo]es|Tra[çc][ãa]o|Roda|Dinâmica Ferro|Opera[çc][ãa]o Ferro|Trens|Sinaliza"),
@@ -40,7 +40,7 @@ CATEGORY_OVERRIDES = {"EMB5598": "project", "EMB5997": "project", "EMB5533": "pr
 
 def legacy_metadata():
     """Categorias, nomes curtos, flags ext e pré-requisitos do dataset legado, por ano."""
-    s = open("src/data/curriculums.legacy.ts", encoding="utf-8").read()
+    s = open("content/curriculum/legacy-prototype.ts", encoding="utf-8").read()
     meta = {}
     for year in (2025, 2016, 2012):
         m = {}

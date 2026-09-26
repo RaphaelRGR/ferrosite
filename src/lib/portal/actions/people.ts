@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { getCurrentSession } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { dbError, fail, type ActionState } from "../action-state";
-import { canChangePrivileges, type GlobalRole } from "../authz";
+import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
+import { canChangePrivileges, type GlobalRole } from "@/lib/portal/authz";
 
 const ROLES: GlobalRole[] = ["admin", "coordination", "advisor", "member", "external", "viewer"];
 const STATUSES = ["pending", "active", "disabled"] as const;

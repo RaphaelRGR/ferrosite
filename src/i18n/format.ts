@@ -22,6 +22,19 @@ export function formatNumber(locale: Locale, value: number, options?: Intl.Numbe
   return new Intl.NumberFormat(LOCALE_TAGS[locale], options).format(value);
 }
 
+/** Data civil "YYYY-MM-DD" no fuso do curso (chaves de período, semana, filtros). */
+export function institutionalDate(date: Date): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: INSTITUTIONAL_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+}
+
+/** Valor de `<input type="datetime-local">` ("YYYY-MM-DDTHH:mm") no fuso do curso. */
+export function toDateTimeLocal(iso: string | null): string {
+  if (!iso) return "";
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: INSTITUTIONAL_TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date(iso));
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "00";
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
+}
+
 export function formatList(locale: Locale, items: string[]): string {
   return new Intl.ListFormat(LOCALE_TAGS[locale], { style: "long", type: "conjunction" }).format(items);
 }

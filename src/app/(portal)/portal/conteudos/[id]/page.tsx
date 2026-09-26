@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContentForm, ContentTransitions, RollbackForm } from "@/components/portal/ContentForms";
-import { CONTENT_STATUS_TONE } from "@/components/portal/content-tones";
+import { ContentForm, ContentTransitions, RollbackForm } from "@/components/portal/content/ContentForms";
+import { CONTENT_STATUS_TONE } from "@/components/portal/content/content-tones";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -11,8 +11,8 @@ import { localizePath, type Locale } from "@/i18n/config";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { CONTENT_TYPE_PUBLIC_PATH, getContent, listApprovals, listContentFiles, listFiles, listProjectOptions, listPublications, listRevisions } from "@/lib/portal/content";
-import { ContentGallery } from "@/components/portal/GalleryForms";
+import { CONTENT_TYPE_PUBLIC_PATH, getContent, listApprovals, listContentFiles, listFiles, listProjectOptions, listPublications, listRevisions } from "@/lib/portal/queries/content";
+import { ContentGallery } from "@/components/portal/content/GalleryForms";
 import { getDriveClient } from "@/lib/files/drive-connection";
 
 export const metadata: Metadata = { title: "Conteúdo" };

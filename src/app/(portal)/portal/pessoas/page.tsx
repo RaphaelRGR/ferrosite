@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProfileAccessForm } from "@/components/portal/PeopleForms";
+import { ProfileAccessForm } from "@/components/portal/people/PeopleForms";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { getDictionary } from "@/i18n/dictionaries";

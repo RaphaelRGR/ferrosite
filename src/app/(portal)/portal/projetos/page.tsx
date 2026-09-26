@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PROJECT_STATUS_TONE } from "@/components/portal/ProjectHeader";
+import { PROJECT_STATUS_TONE } from "@/components/portal/projects/ProjectHeader";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LinkButton } from "@/components/ui/LinkButton";
@@ -8,7 +8,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { canCreateProject, PROJECT_STATUSES, type ProjectStatus } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { listProjects } from "@/lib/portal/projects";
+import { listProjects } from "@/lib/portal/queries/projects";
 
 export const metadata: Metadata = { title: "Projetos" };
 

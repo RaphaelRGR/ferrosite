@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ActivityForm, ContactForm, OrganizationForm, StageForm } from "@/components/portal/CrmForms";
+import { ActivityForm, ContactForm, OrganizationForm, StageForm } from "@/components/portal/crm/CrmForms";
 import { Badge } from "@/components/ui/Badge";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { getOrganization, listActivities, listContacts, listCrmEvents } from "@/lib/portal/crm";
+import { getOrganization, listActivities, listContacts, listCrmEvents } from "@/lib/portal/queries/crm";
 
 export const metadata: Metadata = { title: "Organização" };
 

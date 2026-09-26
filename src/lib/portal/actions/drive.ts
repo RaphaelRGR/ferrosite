@@ -6,11 +6,11 @@ import { disconnect, getDriveClient, recordCheck, setRootFolder } from "@/lib/fi
 import { driveErrorMessage } from "@/lib/files/drive-errors";
 import { requireDriveManager } from "@/lib/files/drive-guard";
 import { createClient } from "@/lib/supabase/server";
-import { fail, type ActionState } from "../action-state";
+import { fail, type ActionState } from "@/lib/portal/action-state";
 import { importBatch, type ImportBatchResult } from "@/lib/files/import";
 import { parseTarget } from "@/lib/files/upload";
-import { CLASSIFICATIONS } from "../authz";
-import { CONSENT_STATUSES } from "../content-constants";
+import { CLASSIFICATIONS } from "@/lib/portal/authz";
+import { CONSENT_STATUSES } from "@/lib/portal/content-constants";
 
 const PAGE = "/portal/configuracoes/integracoes";
 
