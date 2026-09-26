@@ -8,11 +8,13 @@ import { expect, test } from "@playwright/test";
 test("experiências: filtro por escopo via URL altera a lista e é compartilhável", async ({ page }) => {
   await page.goto("/pt/experiencias", { waitUntil: "load" });
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Da sala de aula para o mundo real");
-  await expect(page.getByText(/^\d+ experiências$/)).toHaveText("6 experiências");
+  // contador do bloco do protótipo (as publicadas têm filtros e contadores próprios acima)
+  const escopo = page.getByRole("navigation", { name: "Filtrar por escopo" });
+  await expect(escopo.getByText(/^\d+ experiências$/)).toHaveText("6 experiências");
 
-  await page.getByRole("navigation", { name: "Filtrar por escopo" }).getByRole("link", { name: "Internacional" }).click();
+  await escopo.getByRole("link", { name: "Internacional" }).click();
   await page.waitForURL("**/pt/experiencias?escopo=internacional");
-  await expect(page.getByText(/^\d+ experiências$/)).toHaveText("1 experiências");
+  await expect(page.getByRole("navigation", { name: "Filtrar por escopo" }).getByText(/^\d+ experiências$/)).toHaveText("1 experiências");
   await expect(page.getByRole("link", { name: "Internacional", exact: true })).toHaveAttribute("aria-current", "page");
   await expect(page.getByText("UTN, Buenos Aires")).toBeAttached();
   await expect(page.getByText("Oficinas da MRS")).toHaveCount(0);

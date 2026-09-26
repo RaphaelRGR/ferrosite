@@ -49,6 +49,7 @@ test("a rota de mídia recusa largura fora da lista e o lightbox abre a foto gra
 
   await grade.first().click();
   const foto = page.locator('dialog[aria-label="Galeria"] img');
-  await expect(foto).toBeVisible();
+  // a foto grande vem do Drive pelo proxy: com a máquina carregada pode passar de 5 s
+  await expect(foto).toBeVisible({ timeout: 20_000 });
   await expect(foto).toHaveAttribute("src", /\?w=(960|1280|1600)$/);
 });

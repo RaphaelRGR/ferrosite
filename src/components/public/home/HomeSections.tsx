@@ -8,7 +8,7 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import { EXPERIENCES, FEATURED_PROJECTS, INDICATORS, NEWS, PARTNER_LOGOS } from "@/content/staging";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { formatDate } from "@/i18n/format";
+import { ExperienceCard } from "@/components/public/ExperienceCard";
 import { mediaImage } from "@/lib/content/media";
 import type { PublicProject, PublishedItem } from "@/lib/content/public";
 import { ProjectCards } from "@/components/public/ProjectCards";
@@ -159,38 +159,15 @@ export function FeaturedProjects({ locale, dict, projects = [], covers = new Map
   );
 }
 
-export function PublishedExperiences({ locale, dict, items, covers }: { locale: Locale; dict: HomeDict["experiences"]; items: PublishedItem[]; covers: Map<string, string> }) {
+export function PublishedExperiences({ locale, dict, items, covers, cardDict }: { locale: Locale; dict: HomeDict["experiences"]; items: PublishedItem[]; covers: Map<string, string>; cardDict: Pick<Dictionary["experiences"], "kinds" | "detail"> }) {
   if (items.length === 0) return null;
   return (
     <section className="bg-surface" data-published="live">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <SectionHeading eyebrow={dict.eyebrow} title={dict.publishedTitle} link={{ href: localizePath(locale, "/experiencias"), label: dict.link }} />
-        <ul className="mt-10 grid gap-5 md:grid-cols-3" data-reveal-group>
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
           {items.slice(0, 6).map((e) => (
-            <li key={e.id} className="card-lift relative flex flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
-              {covers.get(e.id) && (
-                <div className="zoom-media">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
-                  <img {...mediaImage(covers.get(e.id)!, "card")} alt={e.cover_alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-                </div>
-              )}
-              <div className="flex flex-1 flex-col gap-2 p-5">
-                <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
-                  {e.event_at && <time dateTime={e.event_at}>{formatDate(locale, new Date(e.event_at), { dateStyle: "medium" })}</time>}
-                  {e.event_place && ` · ${e.event_place}`}
-                </p>
-                <h3 className="font-bold leading-snug">
-                  {/* Link esticado: título, imagem e cartão inteiro levam à experiência (um único destino por cartão). */}
-                  <Link href={localizePath(locale, `/experiencias/${e.slug}`)} className="rounded after:absolute after:inset-0 after:content-[''] hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-                    {e.title}
-                  </Link>
-                </h3>
-                <p className="text-sm text-fg-muted">{e.summary}</p>
-                <span aria-hidden="true" className="mt-auto inline-flex items-center gap-1 pt-2 text-sm font-bold text-link">
-                  {dict.detail} <span>→</span>
-                </span>
-              </div>
-            </li>
+            <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={locale} dict={cardDict} tone="canvas" />
           ))}
         </ul>
       </div>
@@ -276,7 +253,8 @@ export function PartnersStrip({ dict }: { dict: HomeDict["partners"] }) {
   );
 }
 
-export function FinalCta({ locale, dict }: { locale: Locale; dict: HomeDict["cta"] }) {
+/** CTA final. `showNews` evita um botão que leva a uma página sem notícia publicada. */
+export function FinalCta({ locale, dict, showNews = true }: { locale: Locale; dict: HomeDict["cta"]; showNews?: boolean }) {
   return (
     <section className="bg-canvas">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
@@ -287,9 +265,11 @@ export function FinalCta({ locale, dict }: { locale: Locale; dict: HomeDict["cta
           </div>
           <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">
             <LinkButton href={localizePath(locale, "/curso")}>{dict.student}</LinkButton>
-            <LinkButton href={localizePath(locale, "/noticias")} variant="secondary">
-              {dict.community}
-            </LinkButton>
+            {showNews && (
+              <LinkButton href={localizePath(locale, "/noticias")} variant="secondary">
+                {dict.community}
+              </LinkButton>
+            )}
             <LinkButton href="/portal" variant="ghost">
               {dict.portal}
             </LinkButton>

@@ -9,13 +9,21 @@ import { EXPERIENCES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { formatDate } from "@/i18n/format";
-import { listPublished } from "@/lib/content/public";
+import { ExperienceCard, experienceDate, experienceKind, type ExperienceKind } from "@/components/public/ExperienceCard";
+import { listPublished, publicCoverIds } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
 
 const PATH = "/experiencias";
 const SCOPES = ["all", "brasil", "internacional"] as const;
 type Scope = (typeof SCOPES)[number];
+const KINDS: ExperienceKind[] = ["visit", "talk", "event"];
+// slug da URL por tipo (PT, como o resto das rotas públicas)
+const KIND_PARAM: Record<ExperienceKind, string> = { visit: "visita", talk: "palestra", event: "evento" };
+
+const chip = (active: boolean) =>
+  `inline-flex min-h-10 items-center rounded-full border px-4 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${
+    active ? "border-action bg-action text-fg-on-action" : "border-line-strong bg-surface text-fg hover:bg-surface-2"
+  }`;
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/experiencias">): Promise<Metadata> {
   const { locale } = await params;
@@ -43,6 +51,23 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
   const sp = await searchParams;
   const scope: Scope = SCOPES.includes(sp.escopo as Scope) ? (sp.escopo as Scope) : "all";
 
+  // Publicadas: filtro por tipo e ano (URL), agrupadas por ano do acontecimento, mais recentes primeiro.
+  const sorted = [...published].sort((a, b) => experienceDate(b).localeCompare(experienceDate(a)));
+  const years = [...new Set(sorted.map((e) => experienceDate(e).slice(0, 4)))];
+  const kindParam = Object.entries(KIND_PARAM).find(([, v]) => v === sp.tipo)?.[0] as ExperienceKind | undefined;
+  const kind: ExperienceKind | "all" = kindParam ?? "all";
+  const year: string = typeof sp.ano === "string" && years.includes(sp.ano) ? sp.ano : "all";
+  const filtered = sorted.filter((e) => (kind === "all" || experienceKind(e.title) === kind) && (year === "all" || experienceDate(e).startsWith(year)));
+  const groups = [...new Set(filtered.map((e) => experienceDate(e).slice(0, 4)))].map((y) => [y, filtered.filter((e) => experienceDate(e).startsWith(y))] as const);
+  const covers = await publicCoverIds(filtered);
+  const filterHref = (k: ExperienceKind | "all", y: string) => {
+    const q = new URLSearchParams();
+    if (k !== "all") q.set("tipo", KIND_PARAM[k]);
+    if (y !== "all") q.set("ano", y);
+    const qs = q.toString();
+    return qs ? `${localizePath(l, PATH)}?${qs}` : localizePath(l, PATH);
+  };
+
   const items = EXPERIENCES.filter((e) => scope === "all" || e.scope === scope);
   const past = items.filter((e) => !isUpcoming(e.when));
   const upcoming = items.filter((e) => isUpcoming(e.when));
@@ -58,35 +83,50 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
 
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
         {published.length > 0 && (
-          <section aria-labelledby="experiencias-publicadas">
-            <h2 id="experiencias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
-              {dict.published.experiencesPublished}
-            </h2>
-            <ol className="mt-4 border-l-2 border-line pl-5" data-published="live" data-reveal-group>
-              {[...published].sort((a, b) => (b.event_at ?? b.published_at).localeCompare(a.event_at ?? a.published_at)).map((e) => (
-                <li key={e.id} className="relative pb-6 last:pb-0">
-                  <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
-                  <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
-                    {e.event_at && <time dateTime={e.event_at}>{formatDate(l, new Date(e.event_at), { dateStyle: "long" })}</time>}
-                    {e.event_place && ` · ${e.event_place}`}
-                  </p>
-                  <h3 className="mt-1 font-bold">
-                    <Link href={localizePath(l, `/experiencias/${e.slug}`)} className="rounded underline-offset-4 hover:text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-                      {e.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-1 text-sm text-fg-muted">{e.summary}</p>
-                  <Link
-                    href={localizePath(l, `/experiencias/${e.slug}`)}
-                    tabIndex={-1}
-                    aria-hidden="true"
-                    className="mt-2 inline-flex items-center gap-1 rounded text-sm font-bold text-link underline-offset-4 hover:underline"
-                  >
-                    {dict.published.readExperience} <span>→</span>
+          <section aria-labelledby="experiencias-publicadas" className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
+              <h2 id="experiencias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
+                {dict.published.experiencesPublished}
+              </h2>
+              {/* Filtros como links (estado na URL: compartilhável e sem JS obrigatório). */}
+              <nav aria-label={dict.experiences.kindFilterLabel} className="flex flex-wrap items-center gap-2">
+                {(["all", ...KINDS] as const).map((k) => (
+                  <Link key={k} href={filterHref(k, year)} aria-current={kind === k ? "page" : undefined} className={chip(kind === k)}>
+                    {k === "all" ? dict.experiences.all : dict.experiences.kinds[k]}
                   </Link>
-                </li>
-              ))}
-            </ol>
+                ))}
+              </nav>
+              {years.length > 1 && (
+                <nav aria-label={dict.experiences.yearFilterLabel} className="flex flex-wrap items-center gap-2">
+                  {(["all", ...years] as const).map((y) => (
+                    <Link key={y} href={filterHref(kind, y)} aria-current={year === y ? "page" : undefined} className={chip(year === y)}>
+                      {y === "all" ? dict.experiences.allYears : y}
+                    </Link>
+                  ))}
+                </nav>
+              )}
+              <p className="text-sm text-fg-muted" aria-live="polite">
+                {dict.experiences.results.replace("{count}", String(filtered.length))}
+              </p>
+            </div>
+
+            {filtered.length === 0 ? (
+              <EmptyState title={dict.experiences.empty} description="" />
+            ) : (
+              groups.map(([groupYear, list]) => (
+                <section key={groupYear} aria-labelledby={`ano-${groupYear}`}>
+                  <h3 id={`ano-${groupYear}`} className="flex items-baseline gap-3 border-b border-line pb-3 text-2xl font-black tracking-tight">
+                    {groupYear}
+                    <span className="text-sm font-bold text-fg-muted">{dict.experiences.results.replace("{count}", String(list.length))}</span>
+                  </h3>
+                  <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-published="live" data-reveal-group>
+                    {list.map((e) => (
+                      <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={l} dict={dict.experiences} />
+                    ))}
+                  </ul>
+                </section>
+              ))
+            )}
           </section>
         )}
         {l === "pt" && isSectionVisible("experiencias.hub") && (<>

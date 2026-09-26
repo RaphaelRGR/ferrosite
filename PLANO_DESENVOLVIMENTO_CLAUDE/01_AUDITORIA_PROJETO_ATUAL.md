@@ -227,3 +227,7 @@ Relatório: `docs/baseline/SEO-001-relatorio.md`. Todas as páginas públicas pa
 ## Estado após EDIT-001 (2026-09-26)
 
 Relatório: `docs/baseline/EDIT-001-relatorio.md`. Produção na Vercel passou a `strict` (conteúdo não verificado não aparece nem vai no código-fonte); fluxograma, grades e laboratórios verificados pela coordenação; bloco duplicado de experiências saiu da Home; Sobre e Notícias mostram "Em validação" quando não há conteúdo liberado.
+
+## Estado após DESIGN-B (2026-09-26)
+
+Relatório: `docs/baseline/DESIGN-B-relatorio.md`. Hub de Experiências em cartões com foto, agrupados por ano, com filtros de tipo e ano na URL; capa padrão da marca para experiência sem foto; metadados em "tipo · data" com local em linha própria; CTA de notícias só com notícia publicada.
