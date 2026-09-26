@@ -253,7 +253,7 @@ export function PartnersStrip({ dict }: { dict: HomeDict["partners"] }) {
   );
 }
 
-/** CTA final. `showNews` evita um botão que leva a uma página sem notícia publicada. */
+/** CTA final para o público do site. `showNews` evita um botão que leva a uma página sem notícia publicada; o Portal (uso interno) fica só no topo e no rodapé. */
 export function FinalCta({ locale, dict, showNews = true }: { locale: Locale; dict: HomeDict["cta"]; showNews?: boolean }) {
   return (
     <section className="bg-canvas">
@@ -270,9 +270,6 @@ export function FinalCta({ locale, dict, showNews = true }: { locale: Locale; di
                 {dict.community}
               </LinkButton>
             )}
-            <LinkButton href="/portal" variant="ghost">
-              {dict.portal}
-            </LinkButton>
           </div>
         </div>
       </div>

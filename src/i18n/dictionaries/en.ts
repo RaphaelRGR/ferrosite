@@ -858,7 +858,6 @@ export const en: Dictionary = {
       description: "Build the future of mobility with us.",
       student: "About the program",
       community: "Follow the news",
-      portal: "Access the Portal",
     },
   },
   course: {

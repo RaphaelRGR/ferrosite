@@ -857,7 +857,6 @@ export const pt = {
       description: "Construa o futuro da mobilidade com a gente.",
       student: "Conheça o curso",
       community: "Acompanhe as notícias",
-      portal: "Acesse o Portal",
     },
   },
   course: {

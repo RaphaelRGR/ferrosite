@@ -64,7 +64,9 @@ test.describe("documento por locale", () => {
     await expect(page.locator("footer")).not.toContainText("direitos");
     await expect(page.getByRole("heading", { name: "Content in preparation" })).toBeAttached();
     await expect(page.getByTestId("manifesto-heading")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "Access the Portal" })).toBeAttached();
+    // CTA final em inglês; o Portal (uso interno) saiu do CTA e fica no topo/rodapé
+    await expect(page.getByRole("link", { name: "About the program" }).last()).toBeAttached();
+    await expect(page.getByRole("link", { name: "Access the Portal" })).toHaveCount(0);
   });
 
   test("/en/curso mostra indisponibilidade explícita com link para o PT em vez de conteúdo em português", async ({ page }) => {
