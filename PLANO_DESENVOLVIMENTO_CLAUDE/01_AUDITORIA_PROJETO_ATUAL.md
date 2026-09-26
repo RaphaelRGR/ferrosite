@@ -235,3 +235,7 @@ Relatório: `docs/baseline/DESIGN-B-relatorio.md`. Hub de Experiências em cart�
 ## Estado após DESIGN-C (2026-09-26)
 
 Relatório: `docs/baseline/DESIGN-C-relatorio.md`. Projetos com cor, ícone e capa ilustrada por categoria (tokens com contraste AA testado); hero do Curso com foto institucional (`site_image.course_hero`); seção de vídeo compacta; fundos alternados na Home. Auditoria de design de 2026-09-25: Blocos A, B e C concluídos.
+
+## Estado após CLEAN-002 (2026-09-26)
+
+Relatório: `docs/CLEANUP_REPORT.md`. Limpeza sem mudança de comportamento: código sem uso removido (`AnimatedSection`, `lib/constants.ts`, cliente Supabase de browser, CSS do marquee, exports órfãos); datas no fuso do curso centralizadas em `i18n/format.ts`; `src/data` → `src/content`; componentes por domínio (`components/editorial`, `public/{curriculum,projects,experiences}`, `portal/{shell,projects,content,files,crm,settings,people,reports}`); `lib/portal/queries` ao lado de `lib/portal/actions`. Documentação de entrada: `AI_CONTEXT.md`, `docs/PROJECT_STRUCTURE.md`, `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`. Itens incertos em `docs/CLEANUP_PENDING.md`.

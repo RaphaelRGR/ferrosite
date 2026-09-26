@@ -135,3 +135,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - A coordenação confirmou como verificados fluxograma, grades (PDFs oficiais) e laboratórios (Portfólio EFM/UFSC), incluindo os responsáveis de cada laboratório tal como publicados no portfólio.
 - Produção passa a esconder todo conteúdo não verificado (`strict`). Para revisar o que ainda está em quarentena, usar um deploy de preview da Vercel (fica em `review`, com selos) ou o ambiente local.
 - Pendentes de fonte: indicadores da Home, notícias, parceiros/logos (tipo de vínculo e autorização), "Sobre o curso", dados básicos (duração, turno, vagas, ingresso), pilares, história, missão/visão e pesquisa.
+
+## CLEAN-002: limpeza e reorganização (2026-09-26)
+
+- Nada foi apagado sem prova de não uso; o que ficou em dúvida está em `docs/CLEANUP_PENDING.md` para decisão (logo antigo `public/logo-icon.png`, fluxogramas HTML de `public/grades/`, páginas `questoes`, `acervo` e `simuladores`, fallback por conta de serviço do Google, scripts locais de sessão).
+- O insumo do gerador curricular (`content/curriculum/legacy-prototype.ts`) continua necessário: guarda categorias, nomes curtos e as arestas da grade 2012, que o PDF não traz.
+- Estrutura e regras de organização passam a ser as de `docs/PROJECT_STRUCTURE.md` e `docs/CONVENTIONS.md`.

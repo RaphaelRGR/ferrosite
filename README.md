@@ -1,60 +1,122 @@
-# FerroSite — Engenharia Ferroviária e Metroviária (UFSC Joinville)
+# FerroSite: Engenharia Ferroviária e Metroviária (UFSC Joinville)
 
-Site público (PT/EN) + Portal interno do curso. Next.js 16 (App Router, Turbopack), React 19, Tailwind 4, Supabase (Auth + Postgres com RLS). O plano de desenvolvimento e as decisões estão em `PLANO_DESENVOLVIMENTO_CLAUDE/`; cada etapa tem relatório em `docs/baseline/`.
+Site público (PT/EN) e Portal interno do curso de Engenharia Ferroviária e
+Metroviária da UFSC Joinville. Em produção: https://engferroviaria.vercel.app
 
-## Começar
+## O que é
 
-Node `>=20.9` (ver `.nvmrc`). `npm ci`, copie `.env.example` para `.env.local` (sem as variáveis do Supabase o Portal responde 503 e o site funciona sem publicações), depois:
+- **Site público**: apresenta o curso (com o fluxograma curricular interativo das
+  matrizes 2025, 2016 e 2012), projetos, experiências e visitas técnicas,
+  notícias, eventos, laboratórios e a área para empresas. Português e inglês.
+- **Portal**: ferramenta da coordenação e das equipes para gerir projetos,
+  missões, pessoas e papéis, empresas e desafios, conteúdos (com aprovação antes
+  de publicar), arquivos, relatórios e configurações.
 
-```bash
-npm run dev
+## Estrutura geral
+
+| Parte | Tecnologia | Papel |
+|---|---|---|
+| Aplicação | Next.js 16 (App Router), React 19, TypeScript, Tailwind 4 | site e Portal no mesmo app |
+| Identidade e dados | Supabase (Auth + Postgres com RLS) | login, dados, regras de acesso, auditoria |
+| Arquivos | Google Drive institucional (OAuth) | fotos e documentos; o banco guarda só metadados |
+| Hospedagem | Vercel | deploy automático a cada push em `main` |
+
+O site lê apenas o que foi aprovado e publicado pelo Portal; o Portal é protegido
+por sessão, perfil ativo e RLS. Detalhes em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Como executar
+
+1. Node `>=20.9` (ver `.nvmrc`).
+2. `npm ci`
+3. Copie `.env.example` para `.env.local` e preencha. Sem Supabase, o site
+   funciona sem publicações e o Portal responde 503.
+4. `npm run dev` → http://localhost:3000 (o site redireciona para `/pt`).
+5. Testes de tela, na primeira vez: `npx playwright install chromium`.
+
+## Variáveis de ambiente
+
+Nomes apenas; valores ficam em `.env.local` (nunca versionado). Descrição de cada
+uma em `.env.example`.
+
+| Grupo | Variáveis |
+|---|---|
+| Supabase (público) | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` |
+| Site | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_CONTENT_MODE` (`review`/`strict`) |
+| Supabase (servidor) | `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD`, `SUPABASE_DB_URL` |
+| Formulário público | `CHALLENGE_HASH_SECRET` |
+| E-mail | `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_REPLY_TO`, `MAIL_DISPATCH_SECRET` |
+| Google Drive | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`, `GOOGLE_DRIVE_ROOT_FOLDER_ID`, `DRIVE_TOKEN_KEY`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_KEY` |
+| Erros | `ERROR_SINK_URL`, `ERROR_SINK_TOKEN`, `ERROR_SINK_LEVEL` |
+| Testes e2e | `E2E_ADMIN_*`, `E2E_REVIEWER_*`, `E2E_MEMBER_*`, `E2E_UPLOAD_PROJECT_SLUG` |
+
+## Estrutura de pastas
+
+```
+src/app/          rotas: (public)/[locale] site · (portal)/portal Portal · (auth) login · api · og
+src/components/   ui · layout · editorial · public/<domínio> · portal/<domínio>
+src/lib/          supabase · auth · portal (actions, queries, authz) · content · files (Drive) · crm · mail · observability
+src/content/      conteúdo estático tipado (currículo, labs, quarentena editorial)
+src/i18n/         dicionários PT/EN, formatação, metadata
+content/          JSON gerados (currículo, labs) e inventário editorial
+supabase/         migrations (schema, RLS, triggers)
+tests/            unit · rls · e2e · integration
+docs/             arquitetura, estrutura, convenções, relatórios
+scripts/          geradores e utilitários de banco/env
 ```
 
-Primeira execução do Playwright: `npx playwright install chromium`.
+Mapa completo, com "onde coloco um novo...?": [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 
-## Estrutura
-
-| Pasta | Conteúdo |
-|---|---|
-| `src/app/(public)/[locale]` | site público: Início, Curso (fluxograma dos PDFs oficiais), Projetos, Experiências, Notícias, Eventos, Laboratórios, Para Empresas (+ formulário de desafio), Sobre, pré-visualização por token |
-| `src/app/(portal)` | Portal: projetos/equipe/missões, pessoas, empresas/desafios (CRM), conteúdos (aprovação → publicação), arquivos, relatórios, configurações |
-| `src/app/(auth)`, `src/app/api` | login/callback, health |
-| `src/lib` | auth, portal (authz, ações, consultas), crm, content (Markdown restrito, projeção pública), mail (templates PT/EN, provedor Resend via fetch, entrega da fila), files (Drive por conta de serviço via REST, proxy de bytes), observability, supabase (clientes server/browser/admin/public) |
-| `src/i18n` | catálogos PT/EN tipados, formatação, metadata |
-| `src/content`, `content/` | quarentena editorial (`editorial-inventory.json`), staging do protótipo, `labs.json` (gerado do portfólio), `curriculum/*.json` (gerado dos PDFs oficiais) |
-| `src/data`, `scripts/` | loaders e geradores (`curriculum_from_pdf.py`, `labs_from_pdf.py`, `db-types-local.mjs`) |
-| `supabase/migrations` | schema, RLS, triggers e funções (fonte única de verdade do banco) |
-| `tests/` | `unit` (Vitest), `rls` (migrations reais em Postgres embutido), `e2e` (Playwright + axe), `integration` (nuvem, opcional) |
-| `docs/` | relatórios por etapa, inventário editorial, `ops/runbook.md` |
-
-## Scripts
+## Scripts importantes
 
 | Comando | O que faz |
 |---|---|
-| `npm run lint` | ESLint com `--max-warnings 0` |
-| `npm run typecheck` | `next typegen && tsc --noEmit` |
-| `npm test` | Vitest (invariantes curriculares, i18n, quarentena, autorização, Markdown, formulário, logs) |
-| `npm run test:rls` | políticas/triggers reais em Postgres embutido (sem nuvem) |
-| `npm run test:e2e` | Playwright: smoke, links, axe estrito, quarentena, fluxograma, hubs, formulário, cabeçalhos (exige `npm run build`; porta 3100) |
+| `npm run dev` | servidor de desenvolvimento (porta 3000) |
+| `npm run build` / `npm start` | build e servidor de produção |
+| `npm run lint` | ESLint, zero avisos |
+| `npm run typecheck` | tipos das rotas + `tsc` |
+| `npm test` | testes unitários (Vitest) |
+| `npm run test:rls` | políticas do banco em Postgres embutido (sem nuvem) |
+| `npm run test:e2e` | Playwright + axe no build de produção (porta 3100; exige `npm run build`) |
 | `npm run test:integration` | contra o Supabase real (pula sem variáveis) |
-| `npm run build` | build de produção |
 | `npm run check` | lint → typecheck → test → test:rls → build → test:e2e |
-| `npm run db:push` / `npm run db:types` | aplica migrations / gera tipos contra a nuvem (`SUPABASE_DB_PASSWORD` e `SUPABASE_DB_URL` em `.env.local`) |
-| `npm run db:types:local` | gera `src/types/database.ts` das migrations em Postgres embutido (sem Docker) |
-| `npm run google:env` | copia Client ID/secret de `secrets/client_secret*.json` para `.env.local` (nunca commitado) |
+| `npm run db:push` / `npm run db:types` | aplica migrations / gera tipos na nuvem |
+| `npm run db:types:local` | gera `src/types/database.ts` a partir das migrations, sem Docker |
+| `npm run google:env` | copia Client ID/secret de `secrets/client_secret*.json` para `.env.local` |
 | `npm run content:report` | regenera `docs/content/inventario-editorial.md` |
-| `npm run baseline:screenshots` | screenshots de referência em `docs/baseline/screenshots/` |
+| `npm run baseline:screenshots` | screenshots de referência |
 
-## Regras que o código respeita
+## Onde está a documentação
 
-- Nenhuma afirmação institucional sem fonte: conteúdo herdado do protótipo aparece com o selo "Conteúdo em verificação" (`NEXT_PUBLIC_CONTENT_MODE=strict` o oculta); dados pessoais/contatos não são publicados; lacunas ficam como `[CONTEÚDO PENDENTE]`.
-- Erros do servidor e do navegador saem como JSON estruturado (sem dados sensíveis) e, com `ERROR_SINK_URL`, seguem para um webhook genérico — sem SDK de terceiros.
-- Arquivos vivem no Google Drive institucional, conectado por OAuth em Configurações → Integrações (`docs/GOOGLE_DRIVE_INTEGRATION.md`; identidade continua no Supabase); o Portal guarda metadados, verifica pelo provedor (auditado), serve original/miniatura por proxy autenticado e **envia arquivos** para subpastas por entidade (tipo provado por magic bytes; ZIP/vídeo fora até haver antivírus). O site só recebe a capa de uma publicação viva, verificada, pública e com consentimento — nunca um link do Drive.
-- Experiências (visitas técnicas, palestras) publicadas têm galeria só com fotos verificadas, públicas e com consentimento; o acervo do Drive humano é importado item a item pelo Portal (Arquivos → Importar do Drive).
-- E-mails (confirmação de desafio, revisão/decisão/publicação, ingresso em equipe) nascem por trigger na tabela `mail_outbox` e são entregues depois da resposta; sem provedor configurado ficam na fila.
-- O site lê só a projeção pública aprovada (`public_publication`); o Portal produz, revisa, aprova e publica (snapshot, rollback, despublicação auditada).
-- Autorização decidida no servidor/RLS; máquinas de estado e guardas vivem em triggers; tudo crítico é auditado (append-only).
-- PT e EN têm conteúdo próprio; EN nunca mostra PT como fallback silencioso.
-- Currículos e laboratórios vêm de geradores sobre os PDFs oficiais (com sha256) — não editar os JSON à mão.
+| Documento | Para quê |
+|---|---|
+| [AI_CONTEXT.md](AI_CONTEXT.md) | resumo para IAs e para quem chega agora: o que não quebrar e onde está cada coisa |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | como site, Portal, Supabase e Drive se conectam |
+| [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) | pastas e onde colocar código novo |
+| [docs/CONVENTIONS.md](docs/CONVENTIONS.md) | nomes, imports, serviços, erros |
+| [docs/GOOGLE_DRIVE_INTEGRATION.md](docs/GOOGLE_DRIVE_INTEGRATION.md) | configurar e operar o Drive |
+| [docs/ops/runbook.md](docs/ops/runbook.md) | operação e incidentes |
+| `docs/baseline/` | relatório de cada etapa entregue |
+| `PLANO_DESENVOLVIMENTO_CLAUDE/` | plano do produto; `33_DECISOES_E_CONFLITOS_ENCONTRADOS.md` guarda decisões e pendências |
+| [docs/CLEANUP_REPORT.md](docs/CLEANUP_REPORT.md) / [docs/CLEANUP_PENDING.md](docs/CLEANUP_PENDING.md) | última limpeza e itens para decisão |
 
-Operação: `docs/ops/runbook.md`. Decisões e pendências institucionais: `PLANO_DESENVOLVIMENTO_CLAUDE/33_DECISOES_E_CONFLITOS_ENCONTRADOS.md`.
+## Onde estão as referências
+
+`referencias_ferro/`: mockups, identidade visual, guia de redesign e o portfólio
+de laboratórios (PDF que gera `content/labs.json`). É material de referência: não
+apagar nem reorganizar.
+
+## Regras importantes
+
+- **Nada institucional inventado.** Texto sem fonte fica em quarentena (selo em
+  `review`, oculto em `strict`, que é o modo da produção); lacunas aparecem como
+  `[CONTEÚDO PENDENTE]`. Sem dados pessoais ou contatos publicados.
+- **Autorização no servidor e no banco** (RLS, triggers, funções); a interface
+  apenas espelha.
+- **PT e EN com conteúdo próprio**; EN nunca mostra PT como fallback.
+- **Currículos e laboratórios são gerados** dos PDFs oficiais (`scripts/*.py`):
+  não editar os JSON à mão.
+- **Segredos só no servidor**: service role e credenciais do Google nunca vão ao
+  navegador, ao código, aos logs ou à documentação. O OAuth do Google serve só ao
+  Drive; o login do Portal é do Supabase.
+- **Arquivos no Drive**, servidos por proxy; o site nunca expõe link do Drive.
+- **Texto visível sem travessão "—"**; vídeos curtos aparecem um por vez.
