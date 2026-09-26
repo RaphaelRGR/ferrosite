@@ -239,3 +239,7 @@ Relatório: `docs/baseline/DESIGN-C-relatorio.md`. Projetos com cor, ícone e ca
 ## Estado após CLEAN-002 (2026-09-26)
 
 Relatório: `docs/CLEANUP_REPORT.md`. Limpeza sem mudança de comportamento: código sem uso removido (`AnimatedSection`, `lib/constants.ts`, cliente Supabase de browser, CSS do marquee, exports órfãos); datas no fuso do curso centralizadas em `i18n/format.ts`; `src/data` → `src/content`; componentes por domínio (`components/editorial`, `public/{curriculum,projects,experiences}`, `portal/{shell,projects,content,files,crm,settings,people,reports}`); `lib/portal/queries` ao lado de `lib/portal/actions`. Documentação de entrada: `AI_CONTEXT.md`, `docs/PROJECT_STRUCTURE.md`, `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`. Itens incertos em `docs/CLEANUP_PENDING.md`.
+
+## Estado após COORD-001 (2026-09-26)
+
+Relatório: `docs/baseline/COORD-001-relatorio.md`. Central da coordenação em `/portal/coordenacao` (admin/coordenação): panorama, fila de decisões com 9 regras explícitas (regra + evidência + próxima ação, uma entidade por alerta), agenda de 60 dias, indicadores de 90 dias e ações rápidas. Sem migration.

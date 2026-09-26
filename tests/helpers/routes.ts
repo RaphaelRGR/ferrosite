@@ -17,6 +17,7 @@ export const PUBLIC_ROUTES = LOCALES.flatMap((locale) => PUBLIC_PATHS.map((path)
 // Exigem sessão + perfil ativo (AUTH-002): anônimo recebe 307 para /login.
 export const PORTAL_ROUTES = [
   "/portal",
+  "/portal/coordenacao",
   "/portal/projetos",
   "/portal/questoes",
   "/portal/acervo",

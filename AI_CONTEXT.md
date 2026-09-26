@@ -14,7 +14,7 @@ Metroviária da UFSC Joinville**. Em produção em https://engferroviaria.vercel
 - **Site público** (`/pt/...`, `/en/...`): curso, fluxograma curricular, projetos,
   experiências (visitas técnicas), notícias, eventos, laboratórios, para empresas,
   sobre, privacidade.
-- **Portal** (`/portal/...`, só PT): projetos, equipes e missões, pessoas, empresas
+- **Portal** (`/portal/...`, só PT): Central da coordenação, projetos, equipes e missões, pessoas, empresas
   e desafios (CRM), conteúdos (redação → revisão → aprovação → publicação),
   arquivos (Google Drive), relatórios, configurações.
 
@@ -66,6 +66,7 @@ de terceiros além do Supabase.
 | Server Actions do Portal (mutações) | `src/lib/portal/actions/*.ts` |
 | Consultas do Portal (leituras) | `src/lib/portal/queries/*.ts` |
 | Regras de papel e estados | `src/lib/portal/authz.ts` (espelho das migrations) |
+| Regras de alerta da Central da coordenação | `src/lib/portal/coordination.ts` (funções puras + limiares) |
 | Leitura do conteúdo publicado no site | `src/lib/content/public.ts` |
 | Google Drive | `src/lib/files/*` + `docs/GOOGLE_DRIVE_INTEGRATION.md` |
 | Clientes Supabase | `src/lib/supabase/{server,middleware,public,admin,env}.ts` |
@@ -90,6 +91,7 @@ de terceiros além do Supabase.
 | Conteúdo e publicação | `/noticias`, `/eventos`, `/experiencias` | `/portal/conteudos/**` | `content_item`, `content_revision`, `approval_request`, `publication` |
 | Arquivos (Drive) | fotos via `/api/midia/[id]` | `/portal/arquivos/**` | `file_asset`, `content_file`, `project_file`, `drive_*`, `site_image` |
 | Relatórios | não | `/portal/relatorios` | `report_snapshot`, `compute_indicators()` |
+| Coordenação | não | `/portal/coordenacao` (admin/coordenação) | só leitura: missões, projetos, conteúdos, desafios, empresas |
 | E-mail | não | Configurações | `mail_outbox` (fila por trigger) |
 | Auditoria | não | não (append-only) | `audit_event`, `activity_event`, `crm_event` |
 
@@ -121,6 +123,10 @@ de terceiros além do Supabase.
 - Publicação: rascunho → revisão → aprovação (por outra pessoa com papel de
   aprovação) → publicado (`publish_content()` gera o snapshot público). Estados
   guardados por trigger; o espelho está em `lib/portal/content-constants.ts`.
+- **Central da coordenação** (`/portal/coordenacao`): fila de decisões com regras
+  explícitas (regra + evidência + próxima ação), panorama, agenda e indicadores.
+  Limiares em `ALERT_RULES` (`lib/portal/coordination.ts`); leitura em
+  `lib/portal/queries/coordination.ts`. Sem migration: só lê dados existentes.
 - `/portal/questoes` é placeholder por decisão pendente; `/portal/acervo` redireciona
   para Arquivos (links antigos). Não remover sem decisão.
 

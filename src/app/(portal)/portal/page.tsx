@@ -48,6 +48,13 @@ export default async function PortalDashboardPage() {
       </header>
 
       {overseer && (
+        <Link href="/portal/coordenacao" className="flex flex-col gap-1 rounded-xl border border-line-strong bg-surface p-5 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:flex-row sm:items-center sm:justify-between">
+          <span className="text-lg font-bold">{dict.dashboard.coordinationLink} →</span>
+          <span className="text-sm text-fg-muted">{dict.dashboard.coordinationHint}</span>
+        </Link>
+      )}
+
+      {overseer && (
         <div className="grid gap-4 sm:grid-cols-2">
           <Link href="/portal/desafios?situacao=received" className="rounded-xl border border-line bg-surface p-5 hover:border-line-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
             <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{dict.dashboard.pendingChallenges}</p>

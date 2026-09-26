@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { IndicatorValue } from "@/components/portal/reports/IndicatorValue";
 import { SnapshotForm } from "@/components/portal/reports/ReportForms";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { getDictionary } from "@/i18n/dictionaries";
-import { formatDate, formatNumber } from "@/i18n/format";
+import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
-import { computeIndicators, listSnapshots, parsePeriod, type Indicator } from "@/lib/portal/queries/reports";
+import { computeIndicators, listSnapshots, parsePeriod } from "@/lib/portal/queries/reports";
 
 export const metadata: Metadata = { title: "Relatórios" };
 
@@ -24,12 +25,6 @@ export default async function ReportsPage({ searchParams }: PageProps<"/portal/r
   const r = dict.reports;
   const [report, snapshots] = await Promise.all([period.valid ? computeIndicators(period.start, period.end) : Promise.resolve(null), listSnapshots()]);
   const fmtDate = (d: string) => formatDate("pt", new Date(`${d}T12:00:00-03:00`), { dateStyle: "short" });
-  const renderValue = (ind: Indicator) => {
-    if (ind.value === null) return <span className="text-fg-muted">{r.noData}</span>;
-    if (typeof ind.value === "object") return Object.entries(ind.value).map(([k, v]) => `${r.funnel[k as keyof typeof r.funnel] ?? k}: ${formatNumber("pt", v)}`).join(" · ");
-    if (ind.id === "late_rate") return `${formatNumber("pt", ind.value * 100, { maximumFractionDigits: 1 })}% (${ind.numerator}/${ind.denominator} ${r.denominator})`;
-    return formatNumber("pt", ind.value);
-  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -81,7 +76,7 @@ export default async function ReportsPage({ searchParams }: PageProps<"/portal/r
                     <th scope="row" className="px-4 py-3 font-bold">
                       {r.names[ind.id as keyof typeof r.names] ?? ind.id}
                     </th>
-                    <td className="px-4 py-3 tabular-nums">{renderValue(ind)}</td>
+                    <td className="px-4 py-3 tabular-nums"><IndicatorValue indicator={ind} dict={r} /></td>
                     <td className="px-4 py-3 font-mono text-xs">{ind.source ?? <span className="font-sans text-fg-muted">{r.noData}</span>}</td>
                     <td className="px-4 py-3 text-xs text-fg-muted">{ind.formula}</td>
                   </tr>

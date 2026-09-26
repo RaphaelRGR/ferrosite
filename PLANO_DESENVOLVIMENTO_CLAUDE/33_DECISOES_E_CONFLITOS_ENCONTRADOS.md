@@ -142,3 +142,8 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Decisão do usuário (2026-09-26): removidos `public/logo-icon.png` e os fluxogramas HTML do protótipo (`public/grades/fluxo*.html`); o fluxograma interativo e os PDFs oficiais seguem como referência.
 - O insumo do gerador curricular (`content/curriculum/legacy-prototype.ts`) continua necessário: guarda categorias, nomes curtos e as arestas da grade 2012, que o PDF não traz.
 - Estrutura e regras de organização passam a ser as de `docs/PROJECT_STRUCTURE.md` e `docs/CONVENTIONS.md`.
+
+## COORD-001: Central da coordenação (2026-09-26)
+
+- Limiares padrão (em `ALERT_RULES`, visíveis na página): projeto sem atualização 30 dias; desafio sem triagem 3 dias; revisão parada 3 dias; aprovado sem publicar 7 dias; empresa sem retorno 30 dias. **A coordenação pode pedir outros valores.**
+- Pendente: editar limiares pelo Portal com histórico (doc 12); regras "visita sem relatório" e "oportunidades/editais" aguardam os módulos correspondentes.

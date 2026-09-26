@@ -58,7 +58,7 @@ tem seu próprio root layout.
 | Pasta | O que é |
 |---|---|
 | `(public)/[locale]/` | site público. `layout.tsx` monta o shell; cada seção é uma pasta (`curso`, `projetos/[slug]`, `experiencias/[id]`, `noticias`, `eventos`, `laboratorios`, `para-empresas`, `sobre`, `privacidade`, `simuladores`, `previa/[token]`). `[...rest]` devolve 404 localizado. |
-| `(portal)/portal/` | Portal. `(portal)/layout.tsx` exige sessão e perfil ativo (`AccessGate`). Pastas espelham o menu: `projetos`, `pessoas`, `empresas`, `desafios`, `conteudos`, `arquivos`, `relatorios`, `configuracoes`. `route.ts` internos servem bytes do Drive e exportações. |
+| `(portal)/portal/` | Portal. `(portal)/layout.tsx` exige sessão e perfil ativo (`AccessGate`). Pastas espelham o menu: `coordenacao`, `projetos`, `pessoas`, `empresas`, `desafios`, `conteudos`, `arquivos`, `relatorios`, `configuracoes`. `route.ts` internos servem bytes do Drive e exportações. |
 | `(auth)/login/` | tela de login (Supabase Auth). |
 | `(catalog)/design-system/` | catálogo de componentes para desenvolvimento (noindex, fora do menu). |
 | `api/` | rotas HTTP: `auth/callback` (Supabase), `auth/google/*` (conectar o Drive), `midia/[id]` (fotos públicas), `mail/dispatch` (cron da fila), `telemetry` (erros do navegador), `health`. |
@@ -79,7 +79,7 @@ componentes reutilizáveis (vão para `components`), textos fixos (vão para `i1
 | `layout/` | moldura das páginas: `HtmlShell` (html/body compartilhado), `PublicShell` + `PublicHeader` + `LocaleSwitcher` (site). | conteúdo de página. O shell do Portal está em `portal/shell/`. |
 | `editorial/` | estado editorial: `UnverifiedContent` (quarentena, Server Component), `UnverifiedFrame` (selo), `PendingContent` (`EditorialPending`, `PendingPage`). | componentes visuais comuns. |
 | `public/` | componentes do site público. Na raiz, os usados por várias páginas (`SectionHeading`, `HeroArt`, `PublishedArticle`, `PublishedGallery`, `ShortsStrip`). Subpastas por domínio: `home/`, `course/`, `curriculum/` (fluxograma), `projects/`, `experiences/`, `labs/`, `companies/`, `motion/` (animações e easter eggs). | nada do Portal. |
-| `portal/` | componentes do Portal. Na raiz só `ActionFeedback` (retorno de toda Server Action). Subpastas por domínio: `shell/` (menu, menu móvel, tema), `projects/` (projeto, equipe, missões, transições), `content/` (conteúdos e galeria), `files/` (metadados, envio, importação, integração com o Drive), `crm/`, `people/`, `reports/`, `settings/`. | componentes do site público. |
+| `portal/` | componentes do Portal. Na raiz só `ActionFeedback` (retorno de toda Server Action). Subpastas por domínio: `shell/` (menu, menu móvel, tema), `coordination/` (fila de alertas da Central), `projects/` (projeto, equipe, missões, transições), `content/` (conteúdos e galeria), `files/` (metadados, envio, importação, integração com o Drive), `crm/`, `people/`, `reports/`, `settings/`. | componentes do site público. |
 
 Uma pasta de domínio pode ter um único arquivo: o critério é previsibilidade
 ("componente de Pessoas fica em `portal/people`").
@@ -90,7 +90,7 @@ Uma pasta de domínio pode ter um único arquivo: o critério é previsibilidade
 |---|---|
 | `supabase/` | clientes: `server` (sessão do usuário), `middleware` (renova sessão no proxy), `public` (anônimo, só projeções públicas), `admin` (service role, só servidor), `env`. |
 | `auth/` | sessão atual (`session.ts`), login/logout (`actions.ts`), redirects seguros (`redirects.ts`). |
-| `portal/` | regras do Portal. `actions/` = Server Actions (mutações, `"use server"`); `queries/` = leituras; na raiz: `authz` (papéis e estados), `action-state` (retorno padrão das ações), `context`, `navigation`, `theme`, `*-constants` (listas e transições importáveis por Client Components). |
+| `portal/` | regras do Portal. `actions/` = Server Actions (mutações, `"use server"`); `queries/` = leituras; na raiz: `authz` (papéis e estados), `coordination` (regras de alerta da Central, puras e testadas), `action-state` (retorno padrão das ações), `context`, `navigation`, `theme`, `*-constants` (listas e transições importáveis por Client Components). |
 | `content/` | conteúdo publicado no site: `public.ts` (lê as projeções públicas), `media.ts` (URLs do proxy de mídia com larguras), `markdown.ts` (Markdown restrito), `videos.ts` (oEmbed do YouTube). |
 | `files/` | Google Drive: `drive.ts` (API REST), `google-oauth.ts`, `drive-connection.ts`, `drive-folders.ts`, `upload.ts`, `import.ts`, `sniff.ts` (tipo por magic bytes), `proxy.ts` (servir bytes), `drive-guard.ts`, `drive-errors.ts`. |
 | `crm/` | lado público do CRM: formulário "Tenho um desafio" (validação e envio). |
@@ -163,6 +163,7 @@ parte do projeto.
 | Componente específico de Projeto no site | `src/components/public/projects/` |
 | Componente específico de Projeto ou Missão no Portal | `src/components/portal/projects/` |
 | Componente de Pessoa no Portal | `src/components/portal/people/` |
+| Nova regra de alerta da Central da coordenação | regra e limiar em `src/lib/portal/coordination.ts` (+ teste em `tests/unit/coordination.test.ts`), dados em `lib/portal/queries/coordination.ts`, textos em `portal.coordination.rules` (PT e EN) |
 | Componente ligado ao Drive/arquivos no Portal | `src/components/portal/files/` |
 | Componente usado por várias páginas públicas | `src/components/public/` (raiz) |
 | Seção de uma página pública específica | `src/components/public/<página>/` (ex.: `home/HomeSections.tsx`) |
