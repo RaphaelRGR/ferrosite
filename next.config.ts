@@ -4,7 +4,9 @@ const isProd = process.env.NODE_ENV === "production";
 
 /**
  * Cabeçalhos de segurança (OPS-001, 21) após inventário de origens: fontes via
- * next/font (self-hosted), imagens/vídeos locais, conexões só com o Supabase.
+ * next/font (self-hosted), imagens/vídeos locais (miniaturas do YouTube passam
+ * pelo otimizador do Next, então img-src não precisa de i.ytimg.com), conexões
+ * só com o Supabase.
  * Scripts: Next injeta scripts inline nas páginas estáticas; sem nonce (que
  * exigiria renderização dinâmica de todo o site público) mantemos
  * 'unsafe-inline' em script-src e compensamos com object-src/base-uri/
@@ -14,7 +16,7 @@ const CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://i.ytimg.com",
+  "img-src 'self' data: blob:",
   "font-src 'self' data:",
   "media-src 'self'",
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
@@ -47,6 +49,13 @@ const CONTENT_MODE = process.env.NEXT_PUBLIC_CONTENT_MODE || (process.env.VERCEL
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   env: { NEXT_PUBLIC_CONTENT_MODE: CONTENT_MODE },
+  // Miniatura dos Shorts: o original vertical do YouTube (oar2.jpg, 1080x1920) passa
+  // de 380 KB em alguns vídeos. O otimizador do Next (sharp, já incluso no next)
+  // entrega WebP na largura exibida (384 ou 640 px). Só miniaturas /vi/<id>/*.jpg.
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/*/*.jpg" }],
+    maximumResponseBody: 5_000_000,
+  },
   // Rotas renomeadas mantêm redirect permanente (28): /visitas -> /experiencias (guia §9).
   async redirects() {
     return [{ source: "/:locale(pt|en)/visitas", destination: "/:locale/experiencias", permanent: true }];

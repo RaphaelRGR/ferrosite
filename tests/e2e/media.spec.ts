@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { COURSE_SHORTS } from "../../src/content/videos";
 
 /**
  * Orçamento de imagem (22 e critério "galeria não carrega originais em massa"):
@@ -52,4 +53,20 @@ test("a rota de mídia recusa largura fora da lista e o lightbox abre a foto gra
   // a foto grande vem do Drive pelo proxy: com a máquina carregada pode passar de 5 s
   await expect(foto).toBeVisible({ timeout: 20_000 });
   await expect(foto).toHaveAttribute("src", /\?w=(960|1280|1600)$/);
+});
+
+/**
+ * A Home sorteia um Short por visita; o teste por página só vê o sorteado. Aqui
+ * cada miniatura passa pelo otimizador na maior largura que o site pede (640 px,
+ * a 2x do cartão de 320 px), para o orçamento valer para todos, sem depender do
+ * sorteio. O original do YouTube (oar2.jpg) chega a 380 KB.
+ */
+test(`miniaturas dos Shorts pelo otimizador ficam abaixo de ${MAX_IMAGE_KB} KB`, async ({ page }) => {
+  for (const id of COURSE_SHORTS) {
+    const url = encodeURIComponent(`https://i.ytimg.com/vi/${id}/oar2.jpg`);
+    const res = await page.request.get(`/_next/image?url=${url}&w=640&q=75`, { headers: { accept: "image/webp,image/*" } });
+    expect(res.status(), id).toBe(200);
+    expect(res.headers()["content-type"], id).toBe("image/webp");
+    expect((await res.body()).length, id).toBeLessThan(MAX_IMAGE_KB * 1024);
+  }
 });

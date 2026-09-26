@@ -8,14 +8,16 @@ test("/pt/curso: um Short por vez, YouTube só depois do clique, 'Outro vídeo' 
   const thirdParty: string[] = [];
   page.on("request", (r) => {
     const host = new URL(r.url()).host;
-    if (/youtube\.com|youtube-nocookie\.com|googlevideo\.com|doubleclick/.test(host)) thirdParty.push(r.url());
+    if (/youtube\.com|youtube-nocookie\.com|googlevideo\.com|ytimg\.com|doubleclick/.test(host)) thirdParty.push(r.url());
   });
   await page.goto("/pt/curso", { waitUntil: "load" });
   const strip = page.locator("[data-shorts]").first();
   const play = strip.getByRole("button", { name: /^Assistir: / });
   await expect(play).toHaveCount(1);
   await expect(strip.locator("iframe")).toHaveCount(0);
-  expect(thirdParty.filter((u) => !u.includes("i.ytimg.com"))).toEqual([]);
+  // a miniatura vem do otimizador do Next (mesma origem), nunca direto do YouTube
+  await expect(play.locator("img")).toHaveAttribute("src", /^(https?:\/\/localhost:\d+)?\/_next\/image\?url=https%3A%2F%2Fi\.ytimg\.com%2Fvi%2F/);
+  expect(thirdParty).toEqual([]);
 
   const firstTitle = await play.getAttribute("aria-label");
   await play.click();
@@ -25,7 +27,7 @@ test("/pt/curso: um Short por vez, YouTube só depois do clique, 'Outro vídeo' 
   await expect(frame).toHaveAttribute("title", /\S/);
   const csp = (await (await page.request.get("/pt/curso")).headers())["content-security-policy"];
   expect(csp).toMatch(/frame-src https:\/\/www\.youtube-nocookie\.com/);
-  expect(csp).toMatch(/img-src [^;]*https:\/\/i\.ytimg\.com/);
+  expect(csp).not.toMatch(/i\.ytimg\.com/);
 
   await strip.getByRole("button", { name: "Outro vídeo" }).click();
   await expect(strip.locator("iframe")).toHaveCount(0);

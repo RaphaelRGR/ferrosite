@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import type { ShortVideo } from "@/lib/content/videos";
 
@@ -40,7 +41,9 @@ const useHydrated = () => useSyncExternalStore(noop, () => true, () => false);
  * Um Short do curso por vez: sorteado a cada visita (no cliente, porque as
  * páginas são estáticas/ISR), com "Outro vídeo" para avançar na ordem sorteada.
  * O player do YouTube só carrega quando o visitante clica (fachada com
- * miniatura: sem cookies nem scripts de terceiros antes disso). Sem JS, esqueleto.
+ * miniatura: sem cookies nem scripts de terceiros antes disso). A miniatura vem
+ * pelo otimizador do Next (WebP na largura exibida), então o navegador não fala
+ * com o YouTube antes do clique. Sem JS, esqueleto.
  */
 export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: ShortVideo[]; labels: ShortsLabels; tone?: "surface" | "canvas" }) {
   const hydrated = useHydrated();
@@ -48,6 +51,8 @@ export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: Shor
   const [seed] = useState(() => Math.floor(Math.random() * 0xffffffff));
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  // vídeo cuja miniatura vertical falhou: usa o hqdefault (4:3) no lugar
+  const [thumbFailed, setThumbFailed] = useState<string | null>(null);
   const order = useMemo(() => (hydrated ? shuffle(videos, seed) : []), [hydrated, videos, seed]);
   const video = order[index % Math.max(order.length, 1)] ?? null;
   const next = () => {
@@ -93,15 +98,14 @@ export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: Shor
                 aria-label={`${labels.play}: ${video.title || labels.untitled}`}
                 className="zoom-media group absolute inset-0 block h-full w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element -- miniatura pública do YouTube, sem otimização externa */}
-                <img
+                {/* Largura fixa: srcset só 1x/2x (384 e 640 px), nunca o original de 1080 px. */}
+                <Image
                   key={video.id}
-                  src={video.thumb}
+                  src={thumbFailed === video.id ? video.thumbFallback : video.thumb}
                   alt=""
-                  loading="lazy"
-                  onError={(e) => {
-                    if (e.currentTarget.src !== video.thumbFallback) e.currentTarget.src = video.thumbFallback;
-                  }}
+                  width={320}
+                  height={569}
+                  onError={() => setThumbFailed(video.id)}
                   className="h-full w-full object-cover"
                 />
                 <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
