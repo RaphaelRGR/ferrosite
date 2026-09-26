@@ -62,7 +62,10 @@ export default async function PortalSettingsPage() {
         <section className="rounded-xl border border-line bg-surface p-6" aria-labelledby="site-images-title">
           <h2 id="site-images-title" className="text-lg font-bold">{dict.portal.settings.siteImages.title}</h2>
           <div className="mt-4">
-            <SiteImageForm dict={dict.portal} imageKey="home_hero" current={siteImages.get("home_hero") ?? null} candidates={imageCandidates} />
+            <div className="flex flex-col gap-6">
+              <SiteImageForm dict={dict.portal} imageKey="home_hero" current={siteImages.get("home_hero") ?? null} candidates={imageCandidates} />
+              <SiteImageForm dict={dict.portal} imageKey="course_hero" current={siteImages.get("course_hero") ?? null} candidates={imageCandidates} />
+            </div>
           </div>
         </section>
       ) : null}

@@ -15,8 +15,11 @@ import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { listShorts } from "@/lib/content/videos";
+import { publicSiteImage } from "@/lib/content/public";
 import { ShortsStrip } from "@/components/public/ShortsStrip";
 
+// foto do hero vem do acervo: revalida como a Home
+export const revalidate = 300;
 const PATH = "/curso";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/curso">): Promise<Metadata> {
@@ -37,11 +40,11 @@ export default async function CursoPage({ params }: PageProps<"/[locale]/curso">
   if (l !== "pt") return <PendingPage dict={getDictionary(l)} path={PATH} />;
   const full = getDictionary(l);
   const dict = full.course;
-  const shorts = await listShorts();
+  const [shorts, hero] = await Promise.all([listShorts(), publicSiteImage("course_hero", l)]);
 
   return (
     <>
-      <CourseHero dict={dict.hero} />
+      <CourseHero dict={dict.hero} hero={hero} creditLabel={full.home.hero.photoCredit} />
       <AboutCourse dict={dict.about} />
       <CoursePillarsSection dict={dict.pillars} />
       <ShortsStrip videos={shorts} labels={full.videos} tone="canvas" />

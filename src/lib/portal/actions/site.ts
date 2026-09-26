@@ -8,7 +8,7 @@ import { dbError, fail, type ActionState } from "../action-state";
 import { isOverseer } from "../authz";
 
 // Arquivo "use server" só pode exportar funções assíncronas: as chaves ficam em content-constants.
-const SITE_IMAGE_KEYS = ["home_hero"] as const;
+const SITE_IMAGE_KEYS = ["home_hero", "course_hero"] as const;
 
 /** Define/remove a imagem institucional de uma posição do site (RLS: coordenação; trigger audita). */
 export async function setSiteImage(_prev: ActionState, fd: FormData): Promise<ActionState> {
@@ -25,6 +25,9 @@ export async function setSiteImage(_prev: ActionState, fd: FormData): Promise<Ac
     : await supabase.from("site_image").delete().eq("key", key);
   if (error) return fail(fd, { error: dbError(error) });
   revalidatePath("/portal/configuracoes");
-  for (const l of LOCALES) revalidatePath(localizePath(l, "/"));
+  for (const l of LOCALES) {
+    revalidatePath(localizePath(l, "/"));
+    revalidatePath(localizePath(l, "/curso"));
+  }
   return { ok: true };
 }

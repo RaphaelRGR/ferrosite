@@ -763,7 +763,7 @@ export const pt = {
       siteImages: {
         title: "Imagens do site",
         help: "Só aparecem arquivos do acervo verificados, públicos e com consentimento (ou sem pessoas). O site passa a mostrar a imagem na próxima revalidação.",
-        keys: { home_hero: "Capa da página inicial" },
+        keys: { home_hero: "Capa da página inicial", course_hero: "Capa da página do Curso" },
       },
       observability: {
         title: "Observabilidade",

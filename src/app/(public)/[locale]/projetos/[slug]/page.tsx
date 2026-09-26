@@ -10,6 +10,7 @@ import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedGallery } from "@/components/public/PublishedGallery";
+import { CategoryChip, ProjectCover } from "@/components/public/ProjectCover";
 import { projectText } from "@/components/public/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { mediaImage, mediaUrl } from "@/lib/content/media";
@@ -52,10 +53,15 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
       <section className="bg-canvas">
         <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
           <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12" data-published="live">
-            <Badge tone="neutral" className="self-start">{dict.portal.projectCategory[real.category as keyof typeof dict.portal.projectCategory]}</Badge>
+            <CategoryChip category={real.category} label={dict.portal.projectCategory[real.category as keyof typeof dict.portal.projectCategory]} />
             <div className="mt-4">
               <SectionHeading as="h1" eyebrow={dict.pages.projects.title} title={realText.name} description={realText.summary} />
             </div>
+            {!gallery[0] && (
+              <div className="mt-8 overflow-hidden rounded-2xl border border-line">
+                <ProjectCover category={real.category} aspect="aspect-[21/9]" />
+              </div>
+            )}
             {gallery[0] && (
               <figure className="mt-8">
                 {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}

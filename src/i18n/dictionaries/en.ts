@@ -764,7 +764,7 @@ export const en: Dictionary = {
       siteImages: {
         title: "Website images",
         help: "Only archive files that are verified, public and with consent (or without people) are listed. The website shows the image on the next revalidation.",
-        keys: { home_hero: "Home page cover" },
+        keys: { home_hero: "Home page cover", course_hero: "Programme page cover" },
       },
       observability: {
         title: "Observability",

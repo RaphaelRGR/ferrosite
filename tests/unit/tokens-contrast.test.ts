@@ -66,6 +66,13 @@ const PAIRS: Array<[string, string, number]> = [
   ["--status-warning", "--bg-surface", 4.5],
   ["--status-danger", "--bg-surface", 4.5],
   ["--status-info", "--bg-surface", 4.5],
+  // categorias de projeto: rótulo em texto normal sobre o fundo tingido
+  ["--cat-communication-fg", "--cat-communication-bg", 4.5],
+  ["--cat-competition-fg", "--cat-competition-bg", 4.5],
+  ["--cat-extension-fg", "--cat-extension-bg", 4.5],
+  ["--cat-rd-fg", "--cat-rd-bg", 4.5],
+  ["--cat-research-fg", "--cat-research-bg", 4.5],
+  ["--cat-other-fg", "--cat-other-bg", 4.5],
 ];
 
 describe.each(Object.entries(themes))("tema %s", (_name, vars) => {

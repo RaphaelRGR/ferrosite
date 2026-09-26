@@ -231,3 +231,7 @@ Relatório: `docs/baseline/EDIT-001-relatorio.md`. Produção na Vercel passou a
 ## Estado após DESIGN-B (2026-09-26)
 
 Relatório: `docs/baseline/DESIGN-B-relatorio.md`. Hub de Experiências em cartões com foto, agrupados por ano, com filtros de tipo e ano na URL; capa padrão da marca para experiência sem foto; metadados em "tipo · data" com local em linha própria; CTA de notícias só com notícia publicada.
+
+## Estado após DESIGN-C (2026-09-26)
+
+Relatório: `docs/baseline/DESIGN-C-relatorio.md`. Projetos com cor, ícone e capa ilustrada por categoria (tokens com contraste AA testado); hero do Curso com foto institucional (`site_image.course_hero`); seção de vídeo compacta; fundos alternados na Home. Auditoria de design de 2026-09-25: Blocos A, B e C concluídos.

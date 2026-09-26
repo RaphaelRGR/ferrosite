@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { mediaImage } from "@/lib/content/media";
 import { UnverifiedContent } from "@/components/content/UnverifiedContent";
 import { HeroArt } from "@/components/public/HeroArt";
 import { SectionHeading } from "@/components/public/SectionHeading";
@@ -13,7 +14,8 @@ import type { Dictionary } from "@/i18n/dictionaries";
 
 type CourseDict = Dictionary["course"];
 
-export function CourseHero({ dict }: { dict: CourseDict["hero"] }) {
+/** Hero do Curso: foto institucional (`site_image.course_hero`) quando liberada; sem ela, a ilustração. */
+export function CourseHero({ dict, hero = null, creditLabel }: { dict: CourseDict["hero"]; hero?: { fileId: string; alt: string; credit: string } | null; creditLabel: string }) {
   return (
     <section className="bg-surface">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_1fr] lg:py-20">
@@ -28,9 +30,19 @@ export function CourseHero({ dict }: { dict: CourseDict["hero"] }) {
             </LinkButton>
           </div>
         </div>
-        <div className="overflow-hidden rounded-[32px] border border-line shadow-sm">
-          <HeroArt title={dict.title} />
-        </div>
+        {hero ? (
+          <figure>
+            <div className="hero-media overflow-hidden rounded-[32px] border border-line shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
+              <img {...mediaImage(hero.fileId, "hero")} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
+            </div>
+            {hero.credit && <figcaption className="mt-2 text-right text-xs text-fg-muted">{`${creditLabel}: ${hero.credit}`}</figcaption>}
+          </figure>
+        ) : (
+          <div className="overflow-hidden rounded-[32px] border border-line shadow-sm">
+            <HeroArt title={dict.title} />
+          </div>
+        )}
       </div>
     </section>
   );

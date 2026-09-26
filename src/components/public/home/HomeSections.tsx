@@ -90,7 +90,7 @@ export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict[
   // Em EN a página do curso está pendente e não tem a âncora.
   const target = localizePath(locale, "/curso") + (locale === "pt" ? "#frentes" : "");
   return (
-    <section className="bg-surface">
+    <section className="bg-canvas">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <SectionHeading eyebrow={dict.eyebrow} title={dict.title} description={dict.description} link={{ href: target, label: dict.link }} />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
@@ -98,7 +98,7 @@ export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict[
             <li key={item.key}>
               <Link
                 href={target}
-                className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-canvas p-6 transition-colors hover:border-action focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-action focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
               >
                 <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent/10 text-link">
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6">
@@ -120,11 +120,11 @@ export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict[
 export function FeaturedProjects({ locale, dict, projects = [], covers = new Map(), fullDict }: { locale: Locale; dict: HomeDict["projects"]; projects?: PublicProject[]; covers?: Map<string, string>; fullDict?: Dictionary }) {
   if (projects.length > 0 && fullDict) {
     return (
-      <section className="bg-canvas">
+      <section className="bg-surface">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
           <SectionHeading eyebrow={dict.eyebrow} title={dict.title} link={{ href: localizePath(locale, "/projetos"), label: dict.link }} />
           <div className="mt-10">
-            <ProjectCards projects={projects.slice(0, 8)} covers={covers} locale={locale} dict={fullDict} detailLabel={dict.detail} columns={4} />
+            <ProjectCards projects={projects.slice(0, 8)} covers={covers} locale={locale} dict={fullDict} detailLabel={dict.detail} columns={4} tone="canvas" />
           </div>
         </div>
       </section>
@@ -162,12 +162,12 @@ export function FeaturedProjects({ locale, dict, projects = [], covers = new Map
 export function PublishedExperiences({ locale, dict, items, covers, cardDict }: { locale: Locale; dict: HomeDict["experiences"]; items: PublishedItem[]; covers: Map<string, string>; cardDict: Pick<Dictionary["experiences"], "kinds" | "detail"> }) {
   if (items.length === 0) return null;
   return (
-    <section className="bg-surface" data-published="live">
+    <section className="bg-canvas" data-published="live">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <SectionHeading eyebrow={dict.eyebrow} title={dict.publishedTitle} link={{ href: localizePath(locale, "/experiencias"), label: dict.link }} />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
           {items.slice(0, 6).map((e) => (
-            <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={locale} dict={cardDict} tone="canvas" />
+            <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={locale} dict={cardDict} />
           ))}
         </ul>
       </div>

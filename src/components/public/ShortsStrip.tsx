@@ -58,7 +58,8 @@ export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: Shor
   if (videos.length === 0) return null;
   return (
     <section className={tone === "canvas" ? "bg-canvas" : "bg-surface"} data-shorts>
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_minmax(260px,320px)] lg:gap-16">
+      {/* Coluna mais estreita: texto e vídeo formam um bloco só, sem o vazio lateral de antes. */}
+      <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_320px] lg:gap-14">
         <div data-reveal>
           <p className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-link">
             <span aria-hidden="true" className="rail-mark h-0.5 w-6 rounded-full bg-action" />

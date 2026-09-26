@@ -35,6 +35,19 @@
   --status-warning: #7a5200;
   --status-danger: #b3261e;
   --status-info: #1d5bb8;
+  /* categorias de projeto (capa ilustrada e selo): fundo tingido + traço da mesma família */
+  --cat-communication-bg: #fdebe3;
+  --cat-communication-fg: #9a2f0a;
+  --cat-competition-bg: #fdf1d2;
+  --cat-competition-fg: #6d4a00;
+  --cat-extension-bg: #e3f3e9;
+  --cat-extension-fg: #1a6541;
+  --cat-rd-bg: #e4ecfa;
+  --cat-rd-fg: #1a51a3;
+  --cat-research-bg: #efe7f8;
+  --cat-research-fg: #5b2d91;
+  --cat-other-bg: #eceef2;
+  --cat-other-fg: #3d444e;
 }
 
 [data-theme="dark"] {
@@ -55,6 +68,18 @@
   --status-warning: #e9bd4a;
   --status-danger: #ff8078;
   --status-info: #7fb3ff;
+  --cat-communication-bg: #3a1a0e;
+  --cat-communication-fg: #ffb08f;
+  --cat-competition-bg: #362a09;
+  --cat-competition-fg: #f1cd6e;
+  --cat-extension-bg: #0f2e1f;
+  --cat-extension-fg: #7fd8a6;
+  --cat-rd-bg: #11233f;
+  --cat-rd-fg: #9cc3ff;
+  --cat-research-bg: #2a1a3d;
+  --cat-research-fg: #d2b3f7;
+  --cat-other-bg: #24272c;
+  --cat-other-fg: #c9ced6;
 }
 
 /* Utilitários Tailwind derivados dos tokens: bg-canvas, bg-surface, text-fg,
