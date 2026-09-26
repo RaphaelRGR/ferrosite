@@ -171,3 +171,36 @@ describe("arquivos", () => {
     expect((await events(id)).map((e) => [e.kind, e.note])).toContainEqual(["file_linked", "Lista_Rumo.pdf"]);
   });
 });
+
+describe("entrada, lembrar depois e decisão com opções (ACT-002)", () => {
+  it("item sem responsável nasce na Entrada; aceitar exige responsável; só a coordenação cria na Entrada", async () => {
+    const id = (await rows(ids.coord, "insert into public.work_item (title, status, created_by, updated_by) values ('Pesquisar universidades ferroviárias na China', 'inbox', $1, $1) returning id", [ids.coord]))[0].id as string;
+    expect(await update(ids.coord, id, "status = 'planned'")).toMatch(/work_item_owner_required/);
+    expect(await update(ids.coord, id, "status = 'planned', owner_id = $3, due_at = now() + interval '3 days'", [ids.admin])).toBeNull();
+    expect((await events(id)).map((e) => e.kind)).toEqual(expect.arrayContaining(["created", "status", "owner", "due"]));
+    expect(await fails(ids.member, "insert into public.work_item (title, status, created_by, updated_by) values ('x y', 'inbox', $1, $1)", [ids.member])).toMatch(/row-level security/);
+  });
+
+  it("lembrar depois: o responsável adia o próprio item e isso vai para o histórico", async () => {
+    const id = await create(ids.admin, { owner_id: ids.prof, title: "Conversar com Rumo sobre estágio" });
+    expect(await update(ids.prof, id, "snoozed_until = '2026-10-05T11:00:00Z'")).toBeNull();
+    expect(await update(ids.prof, id, "snoozed_until = null")).toBeNull();
+    expect((await events(id)).map((e) => e.kind)).toEqual(["created", "snoozed", "unsnoozed"]);
+  });
+
+  it("opções de decisão: até 8, sem opção vazia; quem não é da coordenação não muda as opções", async () => {
+    const id = await create(ids.admin, { owner_id: ids.prof, kind: "decision", title: "Data da visita técnica" });
+    expect(await update(ids.admin, id, "decision_options = array['12 OUT', '19 OUT']")).toBeNull();
+    expect(await update(ids.admin, id, "decision_options = array['12 OUT', '  ']")).toMatch(/work_item_decision_options_valid/);
+    expect(await update(ids.admin, id, "decision_options = array['1','2','3','4','5','6','7','8','9']")).toMatch(/work_item_decision_options_valid/);
+    expect(await update(ids.prof, id, "decision_options = array['outra']")).toMatch(/administração e coordenação/);
+    expect(await update(ids.prof, id, "decision_outcome = '19 OUT', status = 'done'")).toBeNull();
+  });
+
+  it("item da Entrada pode ser arquivado sem responsável e reaberto de volta na Entrada", async () => {
+    const id = (await rows(ids.admin, "insert into public.work_item (title, status, created_by, updated_by) values ('Ideia solta', 'inbox', $1, $1) returning id", [ids.admin]))[0].id as string;
+    expect(await update(ids.admin, id, "status = 'cancelled'")).toBeNull();
+    expect(await update(ids.admin, id, "status = 'planned'")).toMatch(/work_item_owner_required/);
+    expect(await update(ids.admin, id, "status = 'inbox'")).toBeNull();
+  });
+});

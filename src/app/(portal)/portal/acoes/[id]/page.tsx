@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Timeline } from "@/components/portal/work-items/Timeline";
 import { dueText, PRIORITY_TONE, STATUS_TONE, waitingText } from "@/components/portal/work-items/WorkItemCard";
-import { WorkItemComment, WorkItemDecision, WorkItemEdit, WorkItemFileLink, WorkItemFileUnlink, WorkItemTransitions } from "@/components/portal/work-items/WorkItemForms";
+import { WorkItemComment, WorkItemDecision, WorkItemEdit, WorkItemFileLink, WorkItemFileUnlink, WorkItemSnooze, WorkItemTransitions, WorkItemTriage } from "@/components/portal/work-items/WorkItemForms";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -11,7 +11,7 @@ import { formatDate } from "@/i18n/format";
 import { isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
 import { getWorkItem, getWorkItemTimeline, listAssignablePeople, listFileCandidates, listLinkOptions, listWorkItemFiles, personName } from "@/lib/portal/queries/work-items";
-import { availableTransitions, canDecide, isOverdue } from "@/lib/portal/work-items";
+import { availableTransitions, canDecide, isOpen, isOverdue, isSnoozed } from "@/lib/portal/work-items";
 
 export const metadata: Metadata = { title: "Ação" };
 
@@ -50,6 +50,7 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
     { label: w.due, value: item.due_at ? <span className={late ? "font-bold text-danger" : undefined}>{dueText(item.due_at, w, now)}</span> : w.noDue },
   ];
   if (item.approver) meta.push({ label: w.approver, value: personName(item.approver) });
+  if (item.kind === "decision" && item.decision_options.length > 0 && !item.decision_outcome) meta.push({ label: w.decisionOptionsLabel, value: item.decision_options.join(" · ") });
   if (item.status === "waiting") meta.push({ label: w.waitingLabel, value: <span className="text-warning">{waitingText(item, dict, now)}</span> });
   if (item.project) meta.push({ label: w.project, value: <Link className="underline underline-offset-4" href={`/portal/projetos/${item.project.slug}`}>{item.project.name}</Link> });
   if (item.mission?.project) meta.push({ label: w.mission, value: <Link className="underline underline-offset-4" href={`/portal/projetos/${item.mission.project.slug}/missoes/${item.mission.id}`}>{item.mission.title}</Link> });
@@ -87,8 +88,29 @@ export default async function WorkItemPage({ params }: PageProps<"/portal/acoes/
         <p className="rounded-lg border border-success bg-surface px-4 py-3 text-sm font-bold text-success">{w.approvedBy.replace("{name}", item.approver ? personName(item.approver) : "").replace("{date}", fmt(item.approved_at))}</p>
       )}
 
+      {isSnoozed(item, now) && item.snoozed_until && (
+        <p role="status" className="rounded-lg border border-line bg-surface px-4 py-3 text-sm text-fg-muted">
+          {w.snooze.until.replace("{date}", fmt(item.snoozed_until))}
+        </p>
+      )}
+
+      {item.status === "inbox" && overseer && (
+        <section className={card} aria-labelledby="organizar">
+          <h2 id="organizar" className="text-base font-bold">{w.triage.title}</h2>
+          <p className="mt-1 text-sm text-fg-muted">{w.triage.hint}</p>
+          <div className="mt-4">
+            <WorkItemTriage dict={dict} item={item} people={people.map((p) => ({ id: p.id, name: personName(p) }))} me={userId} />
+          </div>
+        </section>
+      )}
+
       <WorkItemTransitions dict={dict} item={item} transitions={transitions} />
-      {canDecide(item, actor) && <WorkItemDecision dict={dict} item={item} />}
+      {canDecide(item, actor) && <WorkItemDecision dict={dict} item={item} options={item.decision_options} />}
+      {isOpen(item.status) && (overseer || item.owner_id === userId) && (
+        <div className="max-w-md">
+          <WorkItemSnooze dict={dict} itemId={item.id} snoozedUntil={isSnoozed(item, now) ? item.snoozed_until : null} />
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="flex min-w-0 flex-col gap-6">

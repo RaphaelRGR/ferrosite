@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/database";
-import type { WorkItemStatus } from "@/lib/portal/work-items";
 
 /**
  * Leituras das ações (ACT-001) com o cliente de sessão: a RLS entrega tudo a
@@ -35,22 +34,10 @@ export async function listOpenWorkItems(): Promise<WorkItemRow[]> {
   return (data ?? []) as unknown as WorkItemRow[];
 }
 
-export const WORK_TABS = ["abertas", "aguardando", "aprovacoes", "concluidas"] as const;
-export type WorkTab = (typeof WORK_TABS)[number];
-
-export async function listWorkItems(tab: WorkTab, ownerId?: string): Promise<WorkItemRow[]> {
+/** Concluídas e canceladas mais recentes (as abas abertas filtram `listOpenWorkItems` com `filterTab`). */
+export async function listClosedWorkItems(): Promise<WorkItemRow[]> {
   const supabase = await createClient();
-  let q = supabase.from("work_item").select(SELECT);
-  const statuses: Record<WorkTab, WorkItemStatus[]> = {
-    abertas: ["inbox", "planned", "in_progress", "blocked"],
-    aguardando: ["waiting", "awaiting_approval"],
-    aprovacoes: ["awaiting_approval"],
-    concluidas: ["done", "cancelled"],
-  };
-  q = q.in("status", statuses[tab]);
-  if (ownerId) q = q.eq("owner_id", ownerId);
-  q = tab === "concluidas" ? q.order("updated_at", { ascending: false }) : q.order("due_at", { ascending: true, nullsFirst: false });
-  const { data } = await q.limit(200);
+  const { data } = await supabase.from("work_item").select(SELECT).in("status", ["done", "cancelled"]).order("updated_at", { ascending: false }).limit(100);
   return (data ?? []) as unknown as WorkItemRow[];
 }
 

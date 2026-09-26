@@ -364,6 +364,10 @@ export type Database = {
         Args: { p_item: string; p_reason?: string };
         Returns: undefined;
       };
+      valid_decision_options: {
+        Args: { p: string[] };
+        Returns: boolean;
+      };
     };
     Enums: {
       account_status: "pending" | "active" | "disabled";

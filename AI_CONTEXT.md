@@ -134,6 +134,9 @@ de terceiros além do Supabase.
   "+ Criar" do cabeçalho. Para admin/coordenação o Início (`/portal`) é a **Minha
   mesa**. Aprovar ou pedir alteração só o aprovador; item com aprovador só conclui
   pela aprovação. Missões continuam sendo o trabalho estruturado dentro dos projetos.
+  Abas de `/portal/acoes`: Entrada (sem responsável; organizar = responsável + prazo),
+  Abertas, Bloqueios (por quem esperamos), Aprovações, Adiadas ("lembrar depois") e
+  Concluídas. Decisão pode ter opções (até 8).
 - **Central da coordenação** (`/portal/coordenacao`): o que depende de mim
   (aprovações/decisões), carga da equipe, atrasos e próximos prazos; abaixo, os
   sinais automáticos por regra

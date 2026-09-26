@@ -4,7 +4,7 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
 import type { WorkItemRow } from "@/lib/portal/queries/work-items";
-import { buildDesk } from "@/lib/portal/work-items";
+import { buildDesk, filterTab } from "@/lib/portal/work-items";
 import { WorkItemList } from "./WorkItemCard";
 
 type Dict = Dictionary["portal"];
@@ -38,6 +38,7 @@ export function Desk({ dict, items, userId, name, missions, now = new Date() }: 
   ];
   const empty = [desk.overdue, desk.today, desk.forMe, desk.awaitingApproval, desk.waiting, desk.next7, desk.later].every((l) => l.length === 0);
   const first = name.split(/\s+/)[0];
+  const inbox = filterTab("entrada", items, now).length;
 
   return (
     <div className="flex flex-col gap-8">
@@ -61,6 +62,12 @@ export function Desk({ dict, items, userId, name, missions, now = new Date() }: 
           ))}
         </ul>
       </section>
+
+      {inbox > 0 && (
+        <Link href="/portal/acoes?aba=entrada" className="self-start rounded-full border border-line-strong bg-surface px-4 py-2 text-sm font-bold hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+          {d.inbox.replace("{count}", String(inbox))} →
+        </Link>
+      )}
 
       {empty ? (
         <EmptyState title={d.emptyTitle} description={d.emptyDescription} />

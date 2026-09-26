@@ -14,7 +14,7 @@ import { ALERT_RULE_ORDER, ALERT_RULES, buildAlerts } from "@/lib/portal/coordin
 import { loadCoordinationOverview } from "@/lib/portal/queries/coordination";
 import { computeIndicators, defaultPeriod } from "@/lib/portal/queries/reports";
 import { listOpenWorkItems, personName } from "@/lib/portal/queries/work-items";
-import { buildDesk, isOverdue, teamLoad, upcoming } from "@/lib/portal/work-items";
+import { buildDesk, filterTab, isOverdue, teamLoad, upcoming } from "@/lib/portal/work-items";
 
 export const metadata: Metadata = { title: "Coordenação" };
 
@@ -43,8 +43,9 @@ export default async function CoordinationPage() {
   const team = teamLoad(work, userId);
   const watch = [
     { label: c.watchItems.overdue, value: work.filter((i) => isOverdue(i, now)).length, href: "/portal/acoes?aba=abertas" },
-    { label: c.watchItems.blocked, value: work.filter((i) => i.status === "blocked").length, href: "/portal/acoes?aba=abertas" },
-    { label: c.watchItems.waiting, value: work.filter((i) => i.status === "waiting").length, href: "/portal/acoes?aba=aguardando" },
+    { label: c.watchItems.blocked, value: work.filter((i) => i.status === "blocked").length, href: "/portal/acoes?aba=bloqueios" },
+    { label: c.watchItems.waiting, value: work.filter((i) => i.status === "waiting").length, href: "/portal/acoes?aba=bloqueios" },
+    { label: c.watchItems.inbox, value: filterTab("entrada", work, now).length, href: "/portal/acoes?aba=entrada" },
   ];
   const deadlines = upcoming(work, now);
   const alerts = buildAlerts(overview.input, now);

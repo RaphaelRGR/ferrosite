@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/Input";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { toDateTimeLocal } from "@/i18n/format";
 import { IDLE, type ActionState } from "@/lib/portal/action-state";
-import { commentWorkItem, decideWorkItem, linkWorkItemFile, transitionWorkItem, updateWorkItem } from "@/lib/portal/actions/work-items";
-import { WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, type WorkTransition } from "@/lib/portal/work-items";
+import { acceptWorkItem, commentWorkItem, decideWorkItem, linkWorkItemFile, snoozeWorkItem, transitionWorkItem, updateWorkItem } from "@/lib/portal/actions/work-items";
+import { SNOOZE_PRESETS, WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, type SnoozePreset, type WorkTransition } from "@/lib/portal/work-items";
 import type { WorkItemRow } from "@/lib/portal/queries/work-items";
 
 type Dict = Dictionary["portal"];
@@ -88,19 +88,87 @@ export function WorkItemTransitions({ dict, item, transitions }: { dict: Dict; i
   );
 }
 
-export function WorkItemDecision({ dict, item }: { dict: Dict; item: Ref }) {
+/** Decisão: escolher uma das opções cadastradas ou escrever outra. */
+export function WorkItemDecision({ dict, item, options = [] }: { dict: Dict; item: Ref; options?: string[] }) {
   const w = dict.workItems;
   const [state, formAction, pending] = useActionState(decideWorkItem, IDLE as ActionState);
+  const [choice, setChoice] = useState(options[0] ?? "__other__");
   return (
     <form action={formAction} className="flex flex-col gap-3 rounded-lg border border-line bg-canvas p-4">
       <Hidden item={item} />
-      <Textarea label={w.decisionOutcome} name="outcome" required rows={2} maxLength={1000} error={fieldError(state, "outcome", dict)} />
+      {options.length > 0 && (
+        <fieldset className="flex flex-col gap-2">
+          <legend className="mb-1 text-sm font-bold">{w.decisionOutcome}</legend>
+          {[...options, "__other__"].map((o) => (
+            <label key={o} className="flex min-h-10 items-center gap-2 text-sm">
+              <input type="radio" name="choice" value={o} checked={choice === o} onChange={() => setChoice(o)} />
+              {o === "__other__" ? w.otherOption : o}
+            </label>
+          ))}
+        </fieldset>
+      )}
+      {choice === "__other__" && (
+        <Textarea label={options.length ? w.otherOption : w.decisionOutcome} name="outcome" required rows={2} maxLength={1000} placeholder={w.otherPlaceholder} error={fieldError(state, "outcome", dict)} />
+      )}
       <div>
         <Button type="submit" loading={pending}>
           {w.decide}
         </Button>
       </div>
       <ActionFeedback state={state} dict={dict} />
+    </form>
+  );
+}
+
+/** Entrada → planejada: quem responde e até quando. */
+export function WorkItemTriage({ dict, item, people, me }: { dict: Dict; item: Ref; people: Array<{ id: string; name: string }>; me: string }) {
+  const w = dict.workItems;
+  const [state, formAction, pending] = useActionState(acceptWorkItem, IDLE as ActionState);
+  const [when, setWhen] = useState("tomorrow");
+  return (
+    <form action={formAction} className="flex flex-col gap-3">
+      <Hidden item={item} />
+      <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+        <Select label={w.owner} name="owner_id" required defaultValue={me} options={people.map((p) => ({ value: p.id, label: p.id === me ? `${p.name} (${w.me})` : p.name }))} error={fieldError(state, "owner_id", dict)} />
+        <Select label={w.when} name="when" value={when} onChange={(e) => setWhen(e.target.value)} options={(["today", "tomorrow", "week", "none", "date"] as const).map((k) => ({ value: k, label: w.whenOptions[k] }))} />
+        <Button type="submit" loading={pending}>
+          {w.triage.accept}
+        </Button>
+      </div>
+      {when === "date" && <Input label={w.dueDate} name="due_date" type="date" required error={fieldError(state, "due_date", dict)} />}
+      <ActionFeedback state={state} dict={dict} />
+    </form>
+  );
+}
+
+/** Lembrar depois: some das listas até a data; "Trazer de volta" desfaz. */
+export function WorkItemSnooze({ dict, itemId, snoozedUntil }: { dict: Dict; itemId: string; snoozedUntil?: string | null }) {
+  const w = dict.workItems;
+  const [state, formAction, pending] = useActionState(snoozeWorkItem, IDLE as ActionState);
+  const [preset, setPreset] = useState<SnoozePreset>("tomorrow");
+  if (snoozedUntil) {
+    return (
+      <form action={formAction}>
+        <input type="hidden" name="id" value={itemId} />
+        <input type="hidden" name="until" value="clear" />
+        <Button type="submit" variant="secondary" size="sm" loading={pending}>
+          {w.snooze.clear}
+        </Button>
+        {state.error && <ActionFeedback state={state} dict={dict} />}
+      </form>
+    );
+  }
+  return (
+    <form action={formAction} className="flex flex-col gap-3">
+      <input type="hidden" name="id" value={itemId} />
+      <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+        <Select label={w.snooze.label} name="until" value={preset} onChange={(e) => setPreset(e.target.value as SnoozePreset)} options={SNOOZE_PRESETS.map((k) => ({ value: k, label: w.snooze.options[k] }))} />
+        <Button type="submit" variant="secondary" loading={pending}>
+          {w.snooze.submit}
+        </Button>
+      </div>
+      {preset === "date" && <Input label={w.snooze.date} name="snooze_date" type="date" required error={fieldError(state, "snooze_date", dict)} />}
+      {state.error && <ActionFeedback state={state} dict={dict} />}
     </form>
   );
 }
@@ -194,6 +262,11 @@ export function WorkItemEdit({
       <div className="sm:col-span-2">
         <Textarea label={w.descriptionLabel} name="description" rows={4} maxLength={4000} defaultValue={v?.description ?? item.description} />
       </div>
+      {item.kind === "decision" && (
+        <div className="sm:col-span-2">
+          <Textarea label={w.decisionOptions} name="decision_options" rows={3} maxLength={2000} defaultValue={v?.decision_options ?? item.decision_options.join("\n")} help={w.decisionOptionsHelp} error={err("decision_options")} />
+        </div>
+      )}
       <div className="flex flex-col gap-3 sm:col-span-2">
         <div>
           <Button type="submit" loading={pending}>

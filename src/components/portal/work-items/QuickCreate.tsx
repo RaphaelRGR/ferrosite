@@ -30,6 +30,7 @@ export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreat
   const w = dict.workItems;
   const [open, setOpen] = useState(false);
   const [when, setWhen] = useState<DuePreset>("tomorrow");
+  const [kind, setKind] = useState("action");
   const [state, formAction, pending] = useActionState(createWorkItem, IDLE as ActionState);
   const formRef = useRef<HTMLFormElement>(null);
   const err = (f: string) => fieldError(state, f, dict);
@@ -53,7 +54,8 @@ export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreat
       <Dialog open={open} onClose={() => setOpen(false)} title={w.newItem}>
         <form ref={formRef} action={formAction} className="mt-5 flex flex-col gap-5">
           <Input label={w.quickTitle} name="title" required maxLength={200} placeholder={w.quickTitlePlaceholder} defaultValue={v?.title} error={err("title")} autoFocus />
-          <Select label={w.owner} name="owner_id" required defaultValue={v?.owner_id ?? options.me} options={people} error={err("owner_id")} />
+          {/* sem responsável = Entrada, para organizar depois */}
+          <Select label={w.owner} name="owner_id" defaultValue={v?.owner_id ?? options.me} options={[...people, { value: "", label: w.inboxOwner }]} error={err("owner_id")} />
 
           <fieldset>
             <legend className="mb-2 text-sm font-bold">{w.when}</legend>
@@ -76,7 +78,7 @@ export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreat
           <details className="rounded-lg border border-line p-4 [&[open]>summary]:mb-4">
             <summary className="cursor-pointer text-sm font-bold">{w.moreOptions}</summary>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Select label={w.kind} name="kind" defaultValue={v?.kind ?? "action"} options={WORK_ITEM_KINDS.map((k) => ({ value: k, label: w.kinds[k] }))} help={w.kindHelp} />
+              <Select label={w.kind} name="kind" value={kind} onChange={(e) => setKind(e.target.value)} options={WORK_ITEM_KINDS.map((k) => ({ value: k, label: w.kinds[k] }))} help={w.kindHelp} />
               <Select label={w.priority} name="priority" defaultValue={v?.priority ?? "medium"} options={WORK_ITEM_PRIORITIES.map((p) => ({ value: p, label: w.priorities[p] }))} />
               <Select label={w.approver} name="approver_id" defaultValue={v?.approver_id ?? ""} options={[{ value: "", label: w.noApprover }, ...people]} error={err("approver_id")} />
               <Select label={w.project} name="project_id" defaultValue={v?.project_id ?? ""} options={[{ value: "", label: w.none }, ...options.projects.map((p) => ({ value: p.id, label: p.name }))]} />
@@ -84,6 +86,11 @@ export function QuickCreate({ dict, options }: { dict: Dict; options: QuickCreat
               <div className="sm:col-span-2">
                 <Textarea label={w.descriptionLabel} name="description" rows={3} maxLength={4000} defaultValue={v?.description} />
               </div>
+              {kind === "decision" && (
+                <div className="sm:col-span-2">
+                  <Textarea label={w.decisionOptions} name="decision_options" rows={3} maxLength={2000} defaultValue={v?.decision_options} help={w.decisionOptionsHelp} error={err("decision_options")} />
+                </div>
+              )}
             </div>
           </details>
 

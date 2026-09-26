@@ -7,7 +7,7 @@ import { dbError, fail, type ActionState } from "@/lib/portal/action-state";
 import { isOverseer } from "@/lib/portal/authz";
 import { getWorkItem } from "@/lib/portal/queries/work-items";
 import {
-  availableTransitions, canDecide, resolveDue, WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, WORK_ITEM_STATUSES,
+  availableTransitions, canDecide, isOpen, resolveDue, resolveSnooze, WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_PRIORITIES, WORK_ITEM_STATUSES,
   type WaitingParty, type WorkActor, type WorkItemKind, type WorkItemPriority, type WorkItemStatus,
 } from "@/lib/portal/work-items";
 
@@ -40,9 +40,13 @@ function readOptional(fd: FormData): { fields: Record<string, unknown> } | Actio
   if (!WORK_ITEM_PRIORITIES.includes(priority)) return { error: "invalid", field: "priority" };
   const approver = uuidOrNull(str(fd, "approver_id"));
   if (kind === "approval" && !approver) return { error: "invalid", field: "approver_id" };
+  // Opções de decisão: uma por linha, até 8, sem repetição.
+  const options = kind === "decision" ? [...new Set(str(fd, "decision_options", 2000).split(/\r?\n/).map((o) => o.trim().slice(0, 200)).filter(Boolean))] : [];
+  if (options.length > 8) return { error: "invalid", field: "decision_options" };
   return {
     fields: {
       kind,
+      decision_options: options,
       priority,
       description: str(fd, "description", 4000),
       approver_id: approver,
@@ -58,14 +62,14 @@ export async function createWorkItem(_prev: ActionState, fd: FormData): Promise<
   if (!a.overseer) return fail(fd, { error: "forbidden" });
   const title = str(fd, "title", 200);
   if (title.length < 2) return fail(fd, { error: "invalid", field: "title" });
+  // Sem responsável = Entrada (triagem depois).
   const owner = uuidOrNull(str(fd, "owner_id"));
-  if (!owner) return fail(fd, { error: "invalid", field: "owner_id" });
   const due = resolveDue(str(fd, "when") || "none", str(fd, "due_date", 10), str(fd, "due_time", 5));
   if (due === undefined) return fail(fd, { error: "invalid", field: "due_date" });
   const opt = readOptional(fd);
   if (isState(opt)) return fail(fd, opt);
   // Pedido de aprovação já na criação: o tipo "aprovação" nasce aguardando o aprovador.
-  const status: WorkItemStatus = opt.fields.kind === "approval" ? "awaiting_approval" : "planned";
+  const status: WorkItemStatus = !owner ? "inbox" : opt.fields.kind === "approval" ? "awaiting_approval" : "planned";
   if (status === "awaiting_approval" && opt.fields.approver_id === owner) return fail(fd, { error: "invalid", field: "approver_id" });
 
   const supabase = await createClient();
@@ -144,7 +148,9 @@ export async function decideWorkItem(_prev: ActionState, fd: FormData): Promise<
   if (isState(a)) return fail(fd, a);
   const id = str(fd, "id");
   const version = Number(fd.get("version"));
-  const outcome = str(fd, "outcome", 1000);
+  // Opção escolhida, ou "Outra" com o texto livre.
+  const choice = str(fd, "choice", 200);
+  const outcome = choice && choice !== "__other__" ? choice : str(fd, "outcome", 1000);
   if (!id || !Number.isInteger(version)) return fail(fd, { error: "invalid" });
   if (!outcome) return fail(fd, { error: "invalid", field: "outcome" });
   const item = await getWorkItem(id);
@@ -193,5 +199,52 @@ export async function linkWorkItemFile(_prev: ActionState, fd: FormData): Promis
       : await supabase.from("work_item_file").insert({ item_id: id, file_id: fileId, linked_by: a.id });
   if (error) return fail(fd, { error: dbError(error) });
   revalidatePath(`/portal/acoes/${id}`);
+  return { ok: true };
+}
+
+/** Entrada → planejada: quem responde e até quando (triagem). */
+export async function acceptWorkItem(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const a = await actor();
+  if (isState(a)) return fail(fd, a);
+  if (!a.overseer) return fail(fd, { error: "forbidden" });
+  const id = str(fd, "id");
+  const version = Number(fd.get("version"));
+  if (!id || !Number.isInteger(version)) return fail(fd, { error: "invalid" });
+  const owner = uuidOrNull(str(fd, "owner_id"));
+  if (!owner) return fail(fd, { error: "invalid", field: "owner_id" });
+  const due = resolveDue(str(fd, "when") || "none", str(fd, "due_date", 10), "");
+  if (due === undefined) return fail(fd, { error: "invalid", field: "due_date" });
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("work_item")
+    .update({ owner_id: owner, due_at: due, status: "planned", snoozed_until: null, updated_by: a.id })
+    .eq("id", id)
+    .eq("version", version)
+    .eq("status", "inbox")
+    .select("id");
+  if (error) return fail(fd, { error: dbError(error) });
+  if (!data?.length) return fail(fd, { error: "conflict" });
+  revalidateWork(id);
+  return { ok: true };
+}
+
+/** Lembrar depois: some das listas até a data escolhida (ou volta agora, com "clear"). */
+export async function snoozeWorkItem(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const a = await actor();
+  if (isState(a)) return fail(fd, a);
+  const id = str(fd, "id");
+  if (!id) return fail(fd, { error: "invalid" });
+  const item = await getWorkItem(id);
+  if (!item) return fail(fd, { error: "not_found" });
+  if (!isOpen(item.status) || !(a.overseer || item.owner_id === a.id)) return fail(fd, { error: "forbidden" });
+  const preset = str(fd, "until");
+  const until = preset === "clear" ? null : resolveSnooze(preset, str(fd, "snooze_date", 10));
+  if (until === undefined) return fail(fd, { error: "invalid", field: "snooze_date" });
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("work_item").update({ snoozed_until: until, updated_by: a.id }).eq("id", id);
+  if (error) return fail(fd, { error: dbError(error) });
+  revalidateWork(id);
   return { ok: true };
 }

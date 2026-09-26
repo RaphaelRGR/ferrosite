@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getDictionary } from "@/i18n/dictionaries";
 import {
-  availableTransitions, buildDesk, canDecide, dueDay, groupByWaiting, resolveDue, teamLoad, upcoming,
+  availableTransitions, buildDesk, canDecide, dueDay, filterTab, groupByWaiting, resolveDue, resolveSnooze, teamLoad, upcoming,
   WAITING_PARTIES, WORK_ITEM_KINDS, WORK_ITEM_STATUSES, WORK_ITEM_TRANSITIONS, type WorkItemLike,
 } from "@/lib/portal/work-items";
 
@@ -130,5 +130,50 @@ describe("textos", () => {
       for (const p of WAITING_PARTIES) expect(w.waitingParties[p]).toBeTruthy();
       for (const t of ["start", "resume", "wait", "block", "requestApproval", "complete", "approve", "requestChanges", "reopen", "cancel"] as const) expect(w.transitions[t]).toBeTruthy();
     }
+  });
+});
+
+describe("etapa 2: Entrada, lembrar depois e abas", () => {
+  it("na Entrada só se arquiva por botão (aceitar é o formulário de triagem)", () => {
+    expect(availableTransitions(item({ status: "inbox", owner_id: null }), { id: "me", overseer: true })).toEqual([{ to: "cancelled", label: "archive" }]);
+    expect(availableTransitions(item({ status: "inbox", owner_id: null }), { id: "me", overseer: false })).toEqual([]);
+  });
+
+  it("lembrar depois volta às 08:00 no fuso do curso", () => {
+    const wed = new Date("2026-09-23T15:00:00Z");
+    expect(resolveSnooze("tomorrow", "", wed)).toBe("2026-09-24T11:00:00.000Z");
+    expect(resolveSnooze("next_week", "", wed)).toBe("2026-09-28T11:00:00.000Z"); // segunda
+    expect(resolveSnooze("next_week", "", new Date("2026-09-27T15:00:00Z"))).toBe("2026-09-28T11:00:00.000Z"); // domingo
+    expect(resolveSnooze("next_month", "", wed)).toBe("2026-10-23T11:00:00.000Z");
+    expect(resolveSnooze("next_month", "", new Date("2027-01-31T15:00:00Z"))).toBe("2027-02-28T11:00:00.000Z");
+    expect(resolveSnooze("next_month", "", new Date("2026-12-15T15:00:00Z"))).toBe("2027-01-15T11:00:00.000Z");
+    expect(resolveSnooze("date", "2026-10-05", wed)).toBe("2026-10-05T11:00:00.000Z");
+    expect(resolveSnooze("date", "2026-09-23", wed)).toBeUndefined(); // hoje não é "depois"
+    expect(resolveSnooze("amanha", "", wed)).toBeUndefined();
+  });
+
+  it("abas: adiados saem de todas e ficam só em Adiadas; Bloqueios junta aguardando, bloqueadas e aprovação", () => {
+    const items = [
+      item({ id: "inbox", status: "inbox", owner_id: null }),
+      item({ id: "planned" }),
+      item({ id: "progress", status: "in_progress" }),
+      item({ id: "waiting", status: "waiting", waiting_on: "company" }),
+      item({ id: "blocked", status: "blocked" }),
+      item({ id: "approval", status: "awaiting_approval", approver_id: "coord" }),
+      item({ id: "snoozed", snoozed_until: at(24) }),
+      item({ id: "woke", snoozed_until: at(-1) }),
+      item({ id: "done", status: "done" }),
+    ];
+    const ids = (tab: Parameters<typeof filterTab>[0]) => filterTab(tab, items, NOW).map((i) => i.id);
+    expect(ids("entrada")).toEqual(["inbox"]);
+    expect(ids("abertas")).toEqual(["planned", "progress", "woke"]);
+    expect(ids("bloqueios")).toEqual(["waiting", "blocked", "approval"]);
+    expect(ids("aprovacoes")).toEqual(["approval"]);
+    expect(ids("adiadas")).toEqual(["snoozed"]);
+  });
+
+  it("reabrir cancelado sem responsável volta para a Entrada", () => {
+    expect(availableTransitions(item({ status: "cancelled", owner_id: null }), { id: "me", overseer: true })).toEqual([{ to: "inbox", label: "reopen" }]);
+    expect(availableTransitions(item({ status: "cancelled" }), { id: "me", overseer: true })).toEqual([{ to: "planned", label: "reopen" }]);
   });
 });

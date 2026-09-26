@@ -26,7 +26,7 @@ export const WORK_ITEM_TRANSITIONS: Record<WorkItemStatus, WorkItemStatus[]> = {
   blocked: ["in_progress", "planned", "waiting", "cancelled"],
   awaiting_approval: ["done", "in_progress", "cancelled"],
   done: ["in_progress"],
-  cancelled: ["planned"],
+  cancelled: ["planned", "inbox"],
 };
 
 const CLOSED: WorkItemStatus[] = ["done", "cancelled"];
@@ -64,8 +64,8 @@ export type WorkTransition =
   | { to: "awaiting_approval"; label: "requestApproval" }
   | { to: "done"; label: "complete" | "approve" }
   | { to: "in_progress"; label: "requestChanges" }
-  | { to: "planned"; label: "reopen" }
-  | { to: "cancelled"; label: "cancel" };
+  | { to: "planned" | "inbox"; label: "reopen" }
+  | { to: "cancelled"; label: "cancel" | "archive" };
 
 /**
  * Botões de andamento que a pessoa pode usar agora. Mesma regra do banco:
@@ -85,14 +85,17 @@ export function availableTransitions(item: WorkItemLike, actor: WorkActor): Work
     return out;
   }
   if (s === "done") return actor.overseer ? [{ to: "in_progress", label: "reopen" }] : [];
-  if (s === "cancelled") return actor.overseer ? [{ to: "planned", label: "reopen" }] : [];
+  // Reabrir: sem responsável volta para a Entrada.
+  if (s === "cancelled") return actor.overseer ? [{ to: item.owner_id ? "planned" : "inbox", label: "reopen" }] : [];
+  // Entrada: aceitar (responsável + prazo) é um formulário próprio; aqui só arquivar.
+  if (s === "inbox") return actor.overseer ? [{ to: "cancelled", label: "archive" }] : [];
   if (!canWork) return out;
 
-  if (s === "planned" || s === "inbox") out.push({ to: "in_progress", label: "start" });
+  if (s === "planned") out.push({ to: "in_progress", label: "start" });
   if (s === "waiting" || s === "blocked") out.push({ to: "in_progress", label: "resume" });
-  if (s !== "waiting" && s !== "inbox") out.push({ to: "waiting", label: "wait" });
-  if (s !== "blocked" && s !== "inbox") out.push({ to: "blocked", label: "block" });
-  if (s !== "inbox" && s !== "blocked" && item.kind !== "decision") {
+  if (s !== "waiting") out.push({ to: "waiting", label: "wait" });
+  if (s !== "blocked") out.push({ to: "blocked", label: "block" });
+  if (s !== "blocked" && item.kind !== "decision") {
     if (item.approver_id && item.approver_id !== item.owner_id) out.push({ to: "awaiting_approval", label: "requestApproval" });
     else if (!item.approver_id) out.push({ to: "done", label: "complete" });
   }
@@ -154,6 +157,63 @@ export function resolveDue(preset: string, date: string, time: string, now = new
       return undefined;
   }
   return new Date(`${day}T${t}:00-03:00`).toISOString();
+}
+
+// ─── Lembrar depois ─────────────────────────────────────────────────────────
+export const SNOOZE_PRESETS = ["tomorrow", "next_week", "next_month", "date"] as const;
+export type SnoozePreset = (typeof SNOOZE_PRESETS)[number];
+/** Hora em que o item adiado volta à mesa (início do expediente no fuso do curso). */
+export const SNOOZE_TIME = "08:00";
+
+/** Amanhã · segunda que vem · mesmo dia do mês seguinte (ou o último dia) · data escolhida; sempre às 08:00. */
+export function resolveSnooze(preset: string, date: string, now = new Date()): string | undefined {
+  const today = institutionalDate(now);
+  let day: string;
+  switch (preset) {
+    case "tomorrow":
+      day = addDays(today, 1);
+      break;
+    case "next_week": {
+      const w = weekday(today);
+      day = addDays(today, w === 0 ? 1 : 8 - w);
+      break;
+    }
+    case "next_month": {
+      const [y, m, d] = today.split("-").map(Number);
+      const lastDay = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      day = `${m === 12 ? y + 1 : y}-${String(m === 12 ? 1 : m + 1).padStart(2, "0")}-${String(Math.min(d, lastDay)).padStart(2, "0")}`;
+      break;
+    }
+    case "date":
+      if (!DATE.test(date) || date <= today) return undefined;
+      day = date;
+      break;
+    default:
+      return undefined;
+  }
+  return new Date(`${day}T${SNOOZE_TIME}:00-03:00`).toISOString();
+}
+
+// ─── Abas da lista de ações ─────────────────────────────────────────────────
+export const WORK_TABS = ["entrada", "abertas", "bloqueios", "aprovacoes", "adiadas", "concluidas"] as const;
+export type WorkTab = (typeof WORK_TABS)[number];
+
+/**
+ * Itens abertos de cada aba (Concluídas vem de outra consulta). Adiados saem de
+ * todas as abas até a data e ficam só em "Adiadas". Bloqueios = tudo que está
+ * parado por alguém ou algo: aguardando terceiros, bloqueado, aguardando aprovação.
+ */
+export function filterTab<T extends WorkItemLike>(tab: WorkTab, items: T[], now = new Date()): T[] {
+  if (tab === "adiadas") return items.filter((i) => isOpen(i.status) && isSnoozed(i, now));
+  const active = items.filter((i) => isOpen(i.status) && !isSnoozed(i, now));
+  const statuses: Record<Exclude<WorkTab, "adiadas">, WorkItemStatus[]> = {
+    entrada: ["inbox"],
+    abertas: ["planned", "in_progress"],
+    bloqueios: ["waiting", "blocked", "awaiting_approval"],
+    aprovacoes: ["awaiting_approval"],
+    concluidas: ["done", "cancelled"],
+  };
+  return active.filter((i) => statuses[tab].includes(i.status));
 }
 
 // ─── Minha Mesa e visão da coordenação ──────────────────────────────────────

@@ -247,3 +247,7 @@ Relatório: `docs/baseline/COORD-001-relatorio.md`. Central da coordenação em 
 ## Estado após ACT-001 (2026-09-26)
 
 Relatório: `docs/baseline/ACT-001-relatorio.md`. Ações privadas da administração e da coordenação (ação, aprovação, decisão, follow-up) com responsável único, prazo, "aguardando quem", aprovação com pedido de alteração, comentários, histórico por trigger e arquivos do Drive; "+ Criar" no cabeçalho; Minha mesa como Início de admin/coordenação; Central da coordenação com o que depende de mim, carga da equipe e prazos. Migration `20260927000100_work_items` aplicada na nuvem.
+
+## Estado após ACT-002 (2026-09-26)
+
+Relatório: `docs/baseline/ACT-002-relatorio.md`. Ações ganham Entrada (triagem: aceitar, lembrar depois, arquivar), aba Bloqueios com resumo por quem esperamos, "Lembrar depois" (aba Adiadas; volta sozinho na data) e decisão com opções. Migrations `20260927000200` e `20260927000300` aplicadas na nuvem.

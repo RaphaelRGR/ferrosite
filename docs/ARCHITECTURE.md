@@ -77,6 +77,8 @@ flowchart LR
 - Camada transversal e privada: admin e coordenação veem tudo; outra pessoa só o
   item em que é responsável ou aprovadora (RLS). Quem não é da coordenação não
   altera responsável, prazo ou dados (trigger).
+- Entrada: item sem responsável (`inbox`); aceitar define responsável e prazo.
+  "Lembrar depois" (`snoozed_until`) tira o item das listas até a data sem mudar o estado.
 - Estados: planejada → em execução ⇄ aguardando (com "aguardando quem") /
   bloqueada → aguardando aprovação → concluída; cancelada. Só o aprovador aprova
   ou pede alteração (com nota); item com aprovador só conclui pela aprovação.

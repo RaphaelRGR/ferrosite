@@ -154,3 +154,8 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Ações são privadas (admin e coordenação); outra pessoa só vê o item em que é responsável ou aprovadora. No MVP a lista de responsáveis mostra só admin/coordenação.
 - **Pendente do usuário:** convidar a conta da coordenadora (Andrea) no Portal com papel coordenação.
 - Próximas etapas: Entrada/triagem, Bloqueios, Lembrar depois e decisões com opções (2); checklist, menções, ações no projeto/missão (3); templates, resumo semanal, e-mails (4).
+
+## ACT-002: Entrada e lembrar depois (2026-09-26)
+
+- Entrada é um estado do item (não lista separada): a triagem preserva o histórico. Adiar não muda o estado, só esconde até a data (08:00, fuso do curso).
+- Correção: item da Entrada pode ser arquivado sem responsável; reaberto, volta para a Entrada.

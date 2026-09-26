@@ -62,6 +62,9 @@ export function WorkItemCard({ item, dict, showOwner = true, now = new Date() }:
         </span>
         {item.status === "waiting" && <span className="block text-xs text-warning">{waitingText(item, dict, now)}</span>}
         {item.status === "awaiting_approval" && item.approver && <span className="block text-xs text-fg-muted">{w.awaitingApprovalOf.replace("{name}", personName(item.approver))}</span>}
+        {item.snoozed_until && new Date(item.snoozed_until) > now && (
+          <span className="block text-xs text-fg-muted">{w.snooze.until.replace("{date}", formatDate("pt", new Date(item.snoozed_until), { dateStyle: "short" }))}</span>
+        )}
       </div>
       <div className="flex shrink-0 flex-wrap items-center gap-1.5">
         {item.kind !== "action" && <Badge tone="neutral">{w.kinds[item.kind]}</Badge>}
