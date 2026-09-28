@@ -115,7 +115,10 @@ function oauthTokenSource(row: Row) {
     if (access && expiresAt > Date.now() + 60_000) return access;
     // As credenciais OAuth só são necessárias para renovar: um token válido serve mesmo sem elas (ex.: ambiente só de leitura).
     const cfg = readGoogleOAuthEnv();
-    if (!cfg) throw new DriveTokenError("unconfigured", "GOOGLE_CLIENT_ID/SECRET/REDIRECT_URI ausentes");
+    if (!cfg) {
+      await patchRow({ last_error: "token expirado e GOOGLE_CLIENT_ID/SECRET/REDIRECT_URI ausentes no servidor: não dá para renovar" });
+      throw new DriveTokenError("unconfigured", "GOOGLE_CLIENT_ID/SECRET/REDIRECT_URI ausentes");
+    }
     const refresh = decryptSecret(row.refresh_token_enc);
     if (!refresh) {
       await markRevoked("sem refresh token (chave de cifra mudou ou conexão incompleta)");
@@ -127,6 +130,8 @@ function oauthTokenSource(row: Row) {
         await markRevoked("autorização revogada no Google (invalid_grant)");
         throw new DriveTokenError("revoked", "invalid_grant");
       }
+      // Outros motivos (credencial do app errada, rede) não revogam a conexão, mas ficam visíveis em Integrações.
+      await patchRow({ last_error: `renovação do token falhou (${r.error}): ${r.detail}`.slice(0, 300) });
       throw new DriveTokenError(r.error === "network" ? "network" : "provider", r.detail);
     }
     row.access_token_enc = encryptSecret(r.accessToken);

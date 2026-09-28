@@ -57,9 +57,9 @@ const nextConfig: NextConfig = {
       // Portal, login e APIs nunca entram em cache compartilhado (21: sessão/PII).
       { source: "/portal/:path*", headers: [{ key: "Cache-Control", value: "private, no-store" }] },
       { source: "/login", headers: [{ key: "Cache-Control", value: "private, no-store" }] },
-      { source: "/api/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] },
-      // mídia pública (DRIVE-001): capa de publicação viva; cache curto para despublicação/revogação valer em minutos
-      { source: "/api/midia/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=300, stale-while-revalidate=600" }] },
+      // /api/midia decide o próprio cache (a regra daqui sobrescreveria a da rota): foto com cache
+      // curto; falha do Drive sem cache, para a imagem voltar assim que a conexão voltar.
+      { source: "/api/:path((?!midia/).*)", headers: [{ key: "Cache-Control", value: "no-store" }] },
     ];
   },
 };

@@ -139,3 +139,13 @@ Nenhuma mensagem mostra stack, token ou segredo; o log do servidor registra só 
 - Tokens: cifrados no banco, tabela sem policy para `authenticated`/`anon`; nunca em cookie legível, localStorage ou resposta de API; a UI recebe só a função de estado (`has_refresh_token` booleano).
 - Rotas e ações validam sessão + papel no servidor; membro recebe 403.
 - `secrets/`, `client_secret*.json`, `google-oauth*.json`, `.env*` (exceto `.env.example`) ignorados pelo git.
+
+## Autorização expirada (invalid_grant)
+
+Sintoma: fotos do site não aparecem e `/api/midia/...` responde erro. Causa comum: o app OAuth está em **modo de teste** no Google Cloud (tela de consentimento OAuth → Status de publicação = "Testing"); nesse modo a autorização vale **7 dias**. Correção:
+
+1. Google Cloud Console → APIs e serviços → Tela de consentimento OAuth → **Publicar app** (status "Em produção"). App não verificado funciona para uso interno (aviso "O Google não verificou este app" no consentimento).
+2. Conferir na Vercel `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` e `GOOGLE_REDIRECT_URI` (`https://<domínio>/api/auth/google/callback`, também cadastrado em "URIs de redirecionamento autorizados").
+3. Portal → Configurações → Integrações → **Conectar Google Drive** de novo com a conta institucional.
+
+Quando a renovação falha, o motivo fica em "último erro" da integração e no log (`drive.proxy_failed`); `invalid_grant` marca a conexão como revogada e o site passa a mostrar as capas ilustradas até reconectar.
