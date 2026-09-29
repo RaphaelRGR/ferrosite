@@ -11,6 +11,8 @@ import { publicPageMetadata } from "@/i18n/metadata";
 import { ProjectCards } from "@/components/public/projects/ProjectCards";
 import { listPublicProjects, publicCoverIds } from "@/lib/content/public";
 
+// projetos públicos e capas do Drive: revalida como as demais páginas com conteúdo publicado
+export const revalidate = 300;
 const PATH = "/projetos";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/projetos">): Promise<Metadata> {

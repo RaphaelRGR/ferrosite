@@ -17,6 +17,10 @@ import { listShorts } from "@/lib/content/videos";
 import { ShortsStrip } from "@/components/public/ShortsStrip";
 import { publicPageMetadata } from "@/i18n/metadata";
 
+// Conteúdo publicado e fotos do Drive: sem isto a Home ficava congelada na versão do build
+// (ex.: sem fotos se o Drive estava fora no deploy) até a próxima publicação.
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
