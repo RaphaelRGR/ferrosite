@@ -178,3 +178,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Região das funções fixada em `gru1` no `vercel.json`: o banco está em `sa-east-1`. Mudar o Supabase de região exige mudar este arquivo junto.
 - `getClaims()` no lugar de `getUser()`: a identidade vem do JWT verificado localmente (ES256). Um token roubado/encerrado em outro lugar continua válido até expirar (até 1 h), como em qualquer JWT; conta desativada é barrada na hora pelo `profile.status` no layout. Se o projeto voltar a uma chave simétrica (HS256), `getClaims` cai sozinho para `getUser` (mais lento, igualmente seguro).
 - Cache da CDN para fotos públicas: 5 min frescas + até 1 h servidas enquanto revalida. Despublicar ou revogar consentimento continua valendo em minutos.
+
+## TEST-001: projeto Supabase de testes (2026-10-09)
+
+- Resolvida a pendência "projeto Supabase separado para testes": mesma conta do site, criado pelo usuário; o banco de testes recebe cópia só do conteúdo público.
+- Fixtures nunca mais na produção: os scripts recusam `.env.test.local` ausente ou com o ref da produção.
+- **Pendente do usuário:** criar o projeto e preencher `.env.test.local`; depois, remover as contas e2e antigas do Auth da produção.

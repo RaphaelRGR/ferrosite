@@ -1,15 +1,26 @@
 import { defineConfig, devices } from "@playwright/test";
 import { existsSync, readFileSync } from "node:fs";
 
-// Carrega .env.local (credenciais de teste e Supabase) sem dependência extra; não sobrescreve o ambiente.
-if (existsSync(".env.local")) {
-  for (const line of readFileSync(".env.local", "utf8").split(/\r?\n/)) {
+/**
+ * TEST-001: o e2e roda contra um projeto Supabase SÓ DE TESTES (`.env.test.local`), nunca contra a
+ * produção, porque cada rodada cria projetos, empresas, ações e uploads de verdade. O servidor é o build
+ * próprio em `.next-e2e` (`npm run test:e2e` gera; NEXT_PUBLIC_* ficam embutidos no build).
+ * No CI sem esse arquivo, segue sem Supabase (os testes do Portal são pulados).
+ */
+const TEST_ENV_FILE = ".env.test.local";
+const testEnv: Record<string, string> = {};
+if (existsSync(TEST_ENV_FILE)) {
+  for (const line of readFileSync(TEST_ENV_FILE, "utf8").split(/\r?\n/)) {
     const i = line.indexOf("=");
     if (line.startsWith("#") || i < 0) continue;
-    const key = line.slice(0, i).trim();
-    if (!(key in process.env)) process.env[key] = line.slice(i + 1).trim();
+    testEnv[line.slice(0, i).trim()] = line.slice(i + 1).trim();
   }
+} else if (!process.env.CI && !process.env.PLAYWRIGHT_BASE_URL) {
+  throw new Error(`${TEST_ENV_FILE} não existe: o e2e não roda contra a produção. Veja docs/TESTING.md.`);
 }
+// credenciais das contas de teste (E2E_*) para as specs; o ambiente explícito vence
+for (const [k, v] of Object.entries(testEnv)) if (!(k in process.env)) process.env[k] = v;
+const serverEnv = existsSync(TEST_ENV_FILE) ? { ...process.env, ...testEnv, NEXT_DIST_DIR: ".next-e2e" } as Record<string, string> : undefined;
 
 /**
  * Dois projetos:
@@ -17,9 +28,7 @@ if (existsSync(".env.local")) {
  * - baseline: captura de screenshots de regressão em docs/baseline/screenshots
  *   (sob demanda: `npm run baseline:screenshots`).
  *
- * O servidor é o build de produção (`next start`), então `npm run build`
- * precisa ter sido executado antes. Use PLAYWRIGHT_BASE_URL para apontar
- * para um servidor já em execução.
+ * Use PLAYWRIGHT_BASE_URL para apontar para um servidor já em execução.
  */
 const PORT = 3100;
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${PORT}`;
@@ -57,6 +66,7 @@ export default defineConfig({
     ? undefined
     : {
         command: `npx next start -p ${PORT}`,
+        env: serverEnv,
         url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 60_000,

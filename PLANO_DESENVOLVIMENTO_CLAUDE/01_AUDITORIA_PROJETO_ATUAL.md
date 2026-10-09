@@ -263,3 +263,7 @@ Relatório: `docs/baseline/ACT-004-relatorio.md`. Processos a partir de modelos 
 ## Estado após PERF-002 (2026-10-09)
 
 Relatório: `docs/baseline/PERF-002-relatorio.md`. Funções da Vercel movidas de iad1 (EUA) para gru1 (São Paulo, junto do Supabase); sessão verificada localmente com `getClaims()` (JWT ES256) em vez de `getUser()` pela rede; proxy só toca na sessão em Portal, login e callbacks de auth; fotos de `/api/midia` em cache na CDN; esqueleto de carregamento em cada pasta do Portal com subpáginas.
+
+## Estado após TEST-001 (2026-10-09)
+
+Relatório: `docs/baseline/TEST-001-relatorio.md`. E2E e integração passam a exigir um projeto Supabase só de testes (`.env.test.local`, `npm run test:db:setup`); recusam rodar contra a produção. Banco de produção e Drive limpos das sobras de teste no mesmo dia.

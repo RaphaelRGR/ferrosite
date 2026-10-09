@@ -215,11 +215,15 @@ npm run typecheck
 npm test            # unit (Vitest)
 npm run test:rls    # RLS em Postgres embutido
 npm run build
-npm run test:e2e    # Playwright em next start :3100 (exige build)
+npm run test:e2e    # build próprio (.next-e2e) + Playwright em next start :3100
 ```
 
-- O e2e roda contra o Supabase real de `.env.local` e cria fixtures; o formulário
-  de desafio tem limite de 5 envios/h por origem (falha legítima se repetir muito).
+- O e2e e os testes de integração rodam contra o **projeto Supabase de testes**
+  (`.env.test.local`, montado com `npm run test:db:setup`), nunca contra a produção: os scripts
+  recusam um arquivo ausente ou que aponte para o projeto do `.env.local`. Detalhes em `docs/TESTING.md`.
+- O formulário de desafio tem limite de 5 envios/h por origem (falha legítima se repetir muito).
+- A suíte e2e inteira em paralelo satura o servidor local; antes de culpar o código por um
+  timeout, rode o arquivo com `--workers=1`.
 - `next dev` recria o bloco do `AGENTS.md`; isso é esperado.
 - Arquivos com CRLF e LF misturados: preserve o final de linha ao editar por script.
 

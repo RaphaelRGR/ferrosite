@@ -46,6 +46,8 @@ const CONTENT_MODE = process.env.NEXT_PUBLIC_CONTENT_MODE || (process.env.VERCEL
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // TEST-001: o e2e usa um build próprio (.next-e2e) apontando para o Supabase de testes.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   env: { NEXT_PUBLIC_CONTENT_MODE: CONTENT_MODE },
   // Rotas renomeadas mantêm redirect permanente (28): /visitas -> /experiencias (guia §9).
   async redirects() {
