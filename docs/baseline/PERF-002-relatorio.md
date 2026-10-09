@@ -27,7 +27,19 @@ Data: 2026-10-09 · Pedido: "o site e o portal estão lentos, principalmente o p
 ## Validação
 
 - `npm run typecheck`, `npm test` (233), `npm run build`, eslint dos arquivos alterados e `npm run test:e2e` completo.
-- Produção: comparação de TTFB e `X-Vercel-Id` antes e depois (ver a mensagem do commit/entrega).
+- e2e completo: 326 passaram; 2 falharam só com a suíte em paralelo (criar ação pelo diálogo sob carga local, sintoma que já aparecia no código anterior) e passam isoladas. Os specs da Central e das Ações rodados em série: todos verdes, Central em 4,1 s.
+- Banco medido direto: 15 a 20 ms por consulta (196 ações, 6 perfis); não é gargalo.
+
+### Produção, antes → depois (medido de Joinville)
+
+| | Antes | Depois |
+|---|---|---|
+| Região da função (`X-Vercel-Id`) | `gru1::iad1` | `gru1::gru1` |
+| `/pt/experiencias` (dinâmica) | 1,23 a 1,47 s | 0,29 a 0,33 s |
+| `/pt`, `/pt/curso` (cache) | 0,12 a 0,40 s | 0,10 a 0,12 s |
+| Foto (`/api/midia`), 1ª visita | 1,7 a 2,6 s (sempre MISS) | 0,7 a 1,2 s |
+| Foto, visitas seguintes | 1,7 a 2,6 s | **0,10 a 0,15 s** (HIT da CDN) |
+| Página do Portal | 4 a 6 consultas × ~130 ms só de distância | mesmas consultas a poucos ms |
 
 ## Pendências
 
