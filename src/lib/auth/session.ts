@@ -1,5 +1,4 @@
 import { cache } from "react";
-import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 
 export type GlobalRole = "admin" | "coordination" | "advisor" | "member" | "external" | "viewer";
@@ -13,22 +12,33 @@ export interface CurrentProfile {
   status: AccountStatus;
 }
 
+/** Identidade vinda do JWT verificado (só o que o Portal usa). */
+export interface SessionUser {
+  id: string;
+  email: string | null;
+}
+
 /**
  * Usuário autenticado + perfil (RLS: o próprio perfil é sempre legível).
  * `cache` deduplica por request entre layout e páginas. Sem sessão ⇒ null.
+ *
+ * PERF-002: `getClaims` verifica a assinatura do JWT localmente (chave ES256 do
+ * projeto, JWKS em cache no processo), sem ida ao servidor de auth a cada
+ * clique. Conta desativada continua barrada na hora pelo `profile.status`, e a
+ * RLS valida o mesmo token em toda consulta.
  */
-export const getCurrentSession = cache(async (): Promise<{ user: User; profile: CurrentProfile | null } | null> => {
+export const getCurrentSession = cache(async (): Promise<{ user: SessionUser; profile: CurrentProfile | null } | null> => {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  const { data, error } = await supabase.auth.getClaims();
+  const sub = data?.claims.sub;
+  if (error || !sub) return null;
 
-  const { data } = await supabase
+  const { data: row } = await supabase
     .from("profile")
     .select("id, email, full_name, global_role, status")
-    .eq("id", user.id)
+    .eq("id", sub)
     .maybeSingle();
 
-  return { user, profile: (data as CurrentProfile | null) ?? null };
+  const email = typeof data.claims.email === "string" ? data.claims.email : null;
+  return { user: { id: sub, email }, profile: (row as CurrentProfile | null) ?? null };
 });

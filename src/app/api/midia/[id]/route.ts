@@ -5,7 +5,10 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
 
-const CACHE = "public, max-age=300, stale-while-revalidate=600";
+// PERF-002: s-maxage põe a foto no cache da CDN da Vercel (sem isto, toda visita baixava
+// do Drive de novo, ~2 s por foto). Fresca por 5 min; depois, até 1 h servida do cache
+// enquanto revalida em segundo plano. Despublicar/revogar continua valendo em minutos.
+const CACHE = "public, max-age=300, s-maxage=300, stale-while-revalidate=3600";
 
 /**
  * Mídia pública (DRIVE-001, 17): só a capa ou a galeria de uma publicação viva,

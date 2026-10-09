@@ -17,10 +17,9 @@ export async function setThemePreference(theme: ThemePreference): Promise<void> 
 
   if (isSupabaseConfigured()) {
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) await supabase.from("user_preference").upsert({ profile_id: user.id, theme: value });
+    const { data } = await supabase.auth.getClaims();
+    const sub = data?.claims.sub;
+    if (sub) await supabase.from("user_preference").upsert({ profile_id: sub, theme: value });
   }
   revalidatePath("/portal", "layout");
 }

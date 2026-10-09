@@ -259,3 +259,7 @@ Relatório: `docs/baseline/ACT-003-relatorio.md`. Ações ganham checklist, men�
 ## Estado após ACT-004 (2026-09-26)
 
 Relatório: `docs/baseline/ACT-004-relatorio.md`. Processos a partir de modelos (visita técnica: 8 etapas, 25 ações), resumo do dia (Minha mesa) e da semana (Central) com botão de copiar, e-mails dos eventos importantes das ações e lembretes de prazo pelo cron. Migration `20260927000600` aplicada na nuvem.
+
+## Estado após PERF-002 (2026-10-09)
+
+Relatório: `docs/baseline/PERF-002-relatorio.md`. Funções da Vercel movidas de iad1 (EUA) para gru1 (São Paulo, junto do Supabase); sessão verificada localmente com `getClaims()` (JWT ES256) em vez de `getUser()` pela rede; proxy só toca na sessão em Portal, login e callbacks de auth; fotos de `/api/midia` em cache na CDN; esqueleto de carregamento em cada pasta do Portal com subpáginas.

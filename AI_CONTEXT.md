@@ -124,6 +124,8 @@ de terceiros além do Supabase.
 - Papéis globais (`global_role`): `admin`, `coordination` (juntos = "overseer"),
   `advisor`, `member`, `external`, `viewer`. Papéis por projeto: `leader`,
   `member`, `viewer`, `external`. Menu por papel em `src/lib/portal/navigation.ts`.
+- Pasta nova do Portal com subpáginas ganha `loading.tsx` (reexporta `PageSkeleton`):
+  sem isso, navegar entre páginas irmãs fica sem resposta até a página chegar.
 - Mutação = Server Action em `lib/portal/actions/<domínio>.ts`, que devolve
   `ActionState` (`lib/portal/action-state.ts`) exibido por `ActionFeedback`.
 - Publicação: rascunho → revisão → aprovação (por outra pessoa com papel de
@@ -165,6 +167,10 @@ de terceiros além do Supabase.
   teste em `tests/rls`. Não alterar migrations já aplicadas; criar outra.
 - `npm run test:rls` aplica as migrations reais num Postgres embutido (sem nuvem).
 - `npm run db:push` aplica na nuvem (usa `SUPABASE_DB_URL`, pooler IPv4).
+- **Região:** Supabase em `sa-east-1`; as funções da Vercel ficam em `gru1` (`vercel.json`).
+  Cada consulta conta: em outra região, cada ida e volta ao banco custa ~130 ms.
+- Identidade no servidor: `getClaims()` (JWT ES256 verificado localmente), nunca
+  `getUser()` por request. O proxy só toca na sessão em `/portal`, `/login` e `/api/auth/*`.
 
 ## 8. Google Drive
 

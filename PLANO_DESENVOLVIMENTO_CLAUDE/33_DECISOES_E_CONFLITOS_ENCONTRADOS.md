@@ -172,3 +172,9 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - E-mails só para eventos que pedem ação de alguém; nunca para quem fez a mudança; um aviso por processo.
 - **Pendente do usuário:** Resend (`RESEND_API_KEY`, `MAIL_FROM`), `MAIL_DISPATCH_SECRET` e um cron chamando `POST /api/mail/dispatch` (sugestão: a cada hora).
 - Próximos modelos: FerroCard, Evento, Projeto de extensão, P&D, Missão internacional, Edital, Documento da coordenação, Portfólio de laboratório.
+
+## PERF-002: desempenho (2026-10-09)
+
+- Região das funções fixada em `gru1` no `vercel.json`: o banco está em `sa-east-1`. Mudar o Supabase de região exige mudar este arquivo junto.
+- `getClaims()` no lugar de `getUser()`: a identidade vem do JWT verificado localmente (ES256). Um token roubado/encerrado em outro lugar continua válido até expirar (até 1 h), como em qualquer JWT; conta desativada é barrada na hora pelo `profile.status` no layout. Se o projeto voltar a uma chave simétrica (HS256), `getClaims` cai sozinho para `getUser` (mais lento, igualmente seguro).
+- Cache da CDN para fotos públicas: 5 min frescas + até 1 h servidas enquanto revalida. Despublicar ou revogar consentimento continua valendo em minutos.

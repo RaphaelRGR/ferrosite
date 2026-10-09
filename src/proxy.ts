@@ -14,6 +14,9 @@ import { DEFAULT_LOCALE, hasLocale, LOCALE_COOKIE, negotiateLocale, splitLocale 
  *    - sem sessão válida ⇒ redirect para /login?next=<caminho allowlisted>;
  *    - com sessão ⇒ segue; o layout do Portal ainda exige perfil ATIVO.
  * 3. /login com sessão ⇒ /portal.
+ * Só Portal, login e callbacks de auth tocam na sessão (PERF-002): site público,
+ * fotos (/api/midia) e OG não dependem dela, e assim não pagam a verificação nem
+ * recebem Set-Cookie (o que impediria o cache da CDN).
  */
 const UNPREFIXED_PREFIXES = ["/portal", "/api", "/design-system", "/login", "/og"];
 const PORTAL_PREFIX = "/portal";
@@ -22,6 +25,12 @@ function needsLocale(pathname: string): boolean {
   if (UNPREFIXED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) return false;
   if (/\.[a-z0-9]+$/i.test(pathname)) return false; // arquivos estáticos (pdf, html, png...)
   return splitLocale(pathname).locale === null;
+}
+
+const SESSION_PREFIXES = [PORTAL_PREFIX, "/login", "/api/auth"];
+
+function needsSession(pathname: string): boolean {
+  return SESSION_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
 function isPortalPath(pathname: string): boolean {
@@ -52,9 +61,11 @@ export async function proxy(request: NextRequest) {
     });
   }
 
-  const { response, user } = await updateSession(request);
+  if (!needsSession(pathname)) return NextResponse.next();
 
-  if (portal && !user) {
+  const { response, userId } = await updateSession(request);
+
+  if (portal && !userId) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.search = "";
@@ -62,7 +73,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 307);
   }
 
-  if (pathname === "/login" && user) {
+  if (pathname === "/login" && userId) {
     const url = request.nextUrl.clone();
     url.pathname = safeNextPath(request.nextUrl.searchParams.get("next"));
     url.search = "";

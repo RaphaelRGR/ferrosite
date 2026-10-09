@@ -1,15 +1,9 @@
-import { Skeleton } from "@/components/ui/Skeleton";
+import { PageSkeleton } from "@/components/portal/shell/PageSkeleton";
 
-/** Loading do Portal: esqueleto com a forma das páginas (cabeçalho + cartões), anunciado como status. */
-export default function PortalLoading() {
-  return (
-    <div role="status" aria-label="Carregando" className="flex flex-col gap-6">
-      <Skeleton className="h-9 w-64" />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        <Skeleton className="h-36 rounded-xl" />
-        <Skeleton className="h-36 rounded-xl" />
-        <Skeleton className="h-36 rounded-xl" />
-      </div>
-    </div>
-  );
-}
+/**
+ * Loading do Portal. PERF-002: o mesmo esqueleto existe em cada pasta com
+ * subpáginas (`portal/.../loading.tsx`). Uma fronteira só no topo não aparece ao
+ * navegar entre páginas irmãs (o segmento de cima não muda), e o clique parecia
+ * travado até a página nova chegar inteira.
+ */
+export default PageSkeleton;

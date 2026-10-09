@@ -31,6 +31,10 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : "list",
+  // PERF-002: o Portal mostra o esqueleto (loading.tsx) assim que o link é clicado e o
+  // conteúdo chega depois por streaming; a espera que antes ficava na navegação
+  // (waitForURL, 30 s) passou para as asserções. 10 s absorve a suíte em paralelo.
+  expect: { timeout: 10_000 },
   use: {
     baseURL,
     trace: "retain-on-failure",
