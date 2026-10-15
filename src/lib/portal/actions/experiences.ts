@@ -123,11 +123,12 @@ export async function importExperiencePhotos(_prev: PhotoImportState, fd: FormDa
   const who = await overseer();
   if (isState(who)) return who;
   const supabase = await createClient();
-  const { data: item } = await supabase.from("content_item").select("id, title, photo_folder_id, consent_confirmed").eq("id", id).eq("type", "experience").maybeSingle();
+  const { data: item } = await supabase.from("content_item").select("id, title, photo_folder_id").eq("id", id).eq("type", "experience").maybeSingle();
   if (!item) return { error: "not_found" };
   if (!item.photo_folder_id) return { error: "invalid", field: "folder" };
-  // sem a confirmação de autorização, as fotos entram internas (não vão ao site)
-  const authorized = item.consent_confirmed;
+  // autorização declarada a cada importação (na criação ela já foi exigida); sem ela, as fotos entram
+  // internas e podem ser liberadas uma a uma depois
+  const authorized = fd.get("authorized") === "1";
   const r = await importBatch({
     sourceFolderId: item.photo_folder_id,
     target: { kind: "content", itemId: id },
@@ -169,6 +170,26 @@ export async function toggleExperiencePhoto(_prev: ActionState, fd: FormData): P
   const supabase = await createClient();
   const { error } = await supabase.from("content_file").update({ kind: show ? "gallery" : "attachment" }).eq("item_id", id).eq("file_id", fileId);
   if (error) return { error: dbError(error) };
+  revalidatePath(`${PORTAL}/${id}`);
+  return { ok: true };
+}
+
+/** Liberar para o site uma foto interna (sem autorização registrada): quem libera declara a autorização. */
+export async function releaseExperiencePhoto(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  const id = uuid(str(fd, "id"));
+  const fileId = uuid(str(fd, "file_id"));
+  if (!id || !fileId) return { error: "invalid" };
+  const who = await overseer();
+  if (isState(who)) return who;
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("file_asset")
+    .update({ classification: "public", consent: "granted", consent_note: authorizationNote(who.name), updated_by: who.userId })
+    .eq("id", fileId)
+    .eq("status", "verified");
+  if (error) return { error: dbError(error) };
+  // garante o vínculo de galeria: a foto entra no site na próxima "Atualizar no site"
+  await supabase.from("content_file").update({ kind: "gallery" }).eq("item_id", id).eq("file_id", fileId);
   revalidatePath(`${PORTAL}/${id}`);
   return { ok: true };
 }

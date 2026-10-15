@@ -22,6 +22,8 @@ export function PhotoImporter({ dict, itemId, hasFolder, hasPhotos, autoStart }:
   const [error, setError] = useState<string | null>(null);
   const cancel = useRef(false);
   const started = useRef(false);
+  // logo após criar, a autorização já foi confirmada no formulário
+  const [authorized, setAuthorized] = useState(autoStart);
 
   async function run() {
     setRunning(true);
@@ -36,6 +38,7 @@ export function PhotoImporter({ dict, itemId, hasFolder, hasPhotos, autoStart }:
         const fd = new FormData();
         fd.set("id", itemId);
         fd.set("cursor", String(cursor));
+        if (authorized) fd.set("authorized", "1");
         const state = await importExperiencePhotos(prev, fd);
         prev = state;
         if (state.error) {
@@ -71,6 +74,12 @@ export function PhotoImporter({ dict, itemId, hasFolder, hasPhotos, autoStart }:
 
   return (
     <div className="flex flex-col gap-3">
+      <label className="flex items-start gap-3 text-sm">
+        <input type="checkbox" checked={authorized} onChange={(ev) => setAuthorized(ev.target.checked)} disabled={running} className="mt-0.5 size-5 shrink-0" />
+        <span>
+          {e.authorized} <span className="text-fg-muted">{e.authorizedImportHelp}</span>
+        </span>
+      </label>
       <div className="flex flex-wrap items-center gap-3">
         <Button type="button" variant={hasPhotos ? "secondary" : "primary"} loading={running} onClick={() => void run()} disabled={running}>
           {hasPhotos ? e.importMore : e.importStart}

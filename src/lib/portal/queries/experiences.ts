@@ -43,20 +43,29 @@ export async function listExperiences(): Promise<ExperienceListItem[]> {
   if (rows.length === 0) return [];
   const ids = rows.map((r) => r.id);
   const [links, pubs] = await Promise.all([
-    supabase.from("content_file").select("item_id").in("item_id", ids).eq("kind", "gallery"),
+    supabase.from("content_file").select("item_id, file:file_id (status, classification, consent)").in("item_id", ids).eq("kind", "gallery"),
     supabase.from("publication").select("item_id").in("item_id", ids).is("unpublished_at", null),
   ]);
   const count = new Map<string, number>();
-  for (const l of links.data ?? []) count.set(l.item_id, (count.get(l.item_id) ?? 0) + 1);
+  type L = { item_id: string; file: { status: string; classification: string; consent: string } | null };
+  for (const l of (links.data ?? []) as unknown as L[]) if (l.file && isPublishable(l.file)) count.set(l.item_id, (count.get(l.item_id) ?? 0) + 1);
   const live = new Set((pubs.data ?? []).map((p) => p.item_id));
   return rows.map((r) => ({ ...r, photos: count.get(r.id) ?? 0, site: siteState(r.status, live.has(r.id)) }));
+}
+
+/** Mesma regra da publicação (`publish_content`/`public_gallery`): só isto chega ao site. */
+export function isPublishable(f: { status: string; classification: string; consent: string }): boolean {
+  return f.status === "verified" && f.classification === "public" && (f.consent === "granted" || f.consent === "not_required");
 }
 
 export interface ExperiencePhoto {
   fileId: string;
   name: string;
   alt: string;
+  /** vínculo de galeria (não oculta pela tela) */
   shown: boolean;
+  /** arquivo liberado para o site (verificado, público, com autorização) */
+  publishable: boolean;
   position: number;
 }
 
@@ -67,12 +76,12 @@ export async function getExperience(id: string): Promise<{ item: ExperienceRow; 
   if (!data) return null;
   const item = data as ExperienceRow;
   const [links, pub] = await Promise.all([
-    supabase.from("content_file").select("file_id, kind, position, linked_at, file:file_id (id, name, alt_text, status, mime_type)").eq("item_id", id).order("position").order("linked_at"),
+    supabase.from("content_file").select("file_id, kind, position, linked_at, file:file_id (id, name, alt_text, status, mime_type, classification, consent)").eq("item_id", id).order("position").order("linked_at"),
     supabase.from("publication").select("id").eq("item_id", id).is("unpublished_at", null).limit(1),
   ]);
-  type Link = { file_id: string; kind: string; position: number; file: { id: string; name: string; alt_text: string; status: string; mime_type: string } | null };
+  type Link = { file_id: string; kind: string; position: number; file: { id: string; name: string; alt_text: string; status: string; mime_type: string; classification: string; consent: string } | null };
   const photos = ((links.data ?? []) as unknown as Link[])
     .filter((l) => l.file && l.file.status !== "revoked" && l.file.mime_type.startsWith("image/") && (l.kind === "gallery" || l.kind === "attachment"))
-    .map((l) => ({ fileId: l.file_id, name: l.file!.name, alt: l.file!.alt_text, shown: l.kind === "gallery", position: l.position }));
+    .map((l) => ({ fileId: l.file_id, name: l.file!.name, alt: l.file!.alt_text, shown: l.kind === "gallery", publishable: isPublishable(l.file!), position: l.position }));
   return { item, photos, site: siteState(item.status, (pub.data ?? []).length > 0) };
 }

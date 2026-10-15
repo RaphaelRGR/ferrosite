@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { IDLE } from "@/lib/portal/action-state";
-import { setExperienceCover, setExperiencePhotoAlt, toggleExperiencePhoto } from "@/lib/portal/actions/experiences";
+import { releaseExperiencePhoto, setExperienceCover, setExperiencePhotoAlt, toggleExperiencePhoto } from "@/lib/portal/actions/experiences";
 import type { ExperiencePhoto } from "@/lib/portal/queries/experiences";
 
 type Dict = Dictionary["portal"];
@@ -30,16 +30,19 @@ function PhotoCard({ dict, itemId, photo, isCover }: { dict: Dict; itemId: strin
   const [coverState, coverAction, coverPending] = useActionState(setExperienceCover, IDLE);
   const [showState, showAction, showPending] = useActionState(toggleExperiencePhoto, IDLE);
   const [altState, altAction, altPending] = useActionState(setExperiencePhotoAlt, IDLE);
-  const error = [coverState, showState, altState].find((s) => s.error)?.error;
+  const [relState, relAction, relPending] = useActionState(releaseExperiencePhoto, IDLE);
+  const error = [coverState, showState, altState, relState].find((s) => s.error)?.error;
+  const onSite = photo.shown && photo.publishable;
 
   return (
-    <li className={`flex flex-col overflow-hidden rounded-xl border bg-surface ${isCover ? "border-action" : "border-line"} ${photo.shown ? "" : "opacity-70"}`} data-photo={photo.fileId}>
+    <li className={`flex flex-col overflow-hidden rounded-xl border bg-surface ${isCover ? "border-action" : "border-line"} ${onSite ? "" : "opacity-70"}`} data-photo={photo.fileId}>
       <div className="relative aspect-[4/3] bg-surface-2">
         {/* eslint-disable-next-line @next/next/no-img-element -- proxy autenticado do Portal */}
         <img src={`/portal/arquivos/${photo.fileId}/miniatura`} alt={photo.alt} className="size-full object-cover" loading="lazy" />
         <div className="absolute left-2 top-2 flex gap-2">
           {isCover && <span className="rounded-full bg-action px-3 py-1 text-xs font-bold text-fg-on-action">★ {e.cover}</span>}
           {!photo.shown && <span className="rounded-full bg-surface px-3 py-1 text-xs font-bold text-fg">{e.hidden}</span>}
+          {photo.shown && !photo.publishable && <span className="rounded-full bg-surface px-3 py-1 text-xs font-bold text-fg">{e.notAuthorized}</span>}
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-3 p-3">
@@ -55,7 +58,16 @@ function PhotoCard({ dict, itemId, photo, isCover }: { dict: Dict; itemId: strin
           </Button>
         </form>
         <div className="mt-auto flex flex-wrap gap-2">
-          {!isCover && photo.shown && (
+          {photo.shown && !photo.publishable && (
+            <form action={relAction} onSubmit={(ev) => { if (!window.confirm(e.confirmRelease)) ev.preventDefault(); }}>
+              <input type="hidden" name="id" value={itemId} />
+              <input type="hidden" name="file_id" value={photo.fileId} />
+              <Button type="submit" variant="secondary" size="sm" loading={relPending}>
+                {e.release}
+              </Button>
+            </form>
+          )}
+          {!isCover && onSite && (
             <form action={coverAction}>
               <input type="hidden" name="id" value={itemId} />
               <input type="hidden" name="file_id" value={photo.fileId} />

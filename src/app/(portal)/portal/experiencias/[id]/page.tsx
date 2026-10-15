@@ -31,7 +31,7 @@ export default async function ExperiencePage({ params, searchParams }: PageProps
   if (!found) notFound();
   const { item, photos, site } = found;
   const e = dict.experiences;
-  const shown = photos.filter((p) => p.shown).length;
+  const shown = photos.filter((p) => p.shown && p.publishable).length;
 
   return (
     <div className="flex flex-col gap-8">
