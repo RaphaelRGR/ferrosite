@@ -38,7 +38,7 @@ Data: 2026-10-15 · Pedido: "como conseguiria adicionar novas experiências no s
   - ocultar a foto volta a rascunho e o site só muda ao republicar;
   - fora da função (mesmo com a GUC ligada) o autor não aprova;
   - formato da pasta.
-- Suíte completa: unit 247, RLS 109, lint, typecheck e build.
+- Suíte completa: unit 242, RLS 100 (15 arquivos), lint, typecheck e build.
 - E2E: não rodado. O projeto Supabase de testes (TEST-001) ainda não foi configurado, e o e2e se recusa a rodar contra a produção.
 
 ## Dados
