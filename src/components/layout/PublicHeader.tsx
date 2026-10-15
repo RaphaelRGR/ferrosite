@@ -30,13 +30,14 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
     { name: labels.nav.course, href: localizePath(locale, "/curso") },
     { name: labels.nav.projects, href: localizePath(locale, "/projetos") },
     { name: labels.nav.experiences, href: localizePath(locale, "/experiencias") },
+    { name: labels.nav.calendar, href: localizePath(locale, "/calendario") },
     { name: labels.nav.news, href: localizePath(locale, "/noticias") },
     { name: labels.nav.companies, href: localizePath(locale, "/para-empresas") },
   ];
   const isActive = (href: string) => (href === localizePath(locale, "/") ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
 
   const linkClass = (href: string) =>
-    `relative rounded px-1 py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface ${
+    `relative whitespace-nowrap rounded px-1 py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface ${
       isActive(href) ? "text-link" : "text-fg-muted hover:text-fg"
     }`;
 
@@ -49,13 +50,14 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
           className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         >
           <BrandLogo width={52} className="p-0.5" />
-          <span className="flex flex-col leading-tight">
+          {/* 7 itens no menu (CAL-001): entre lg e xl o nome sai e fica o logo, para não quebrar linhas */}
+          <span className="flex flex-col leading-tight lg:hidden xl:flex">
             <span className="text-sm font-black tracking-tight sm:text-base">{labels.site.brandLine1}</span>
             <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-fg-muted">{labels.site.campus}</span>
           </span>
         </Link>
 
-        <nav aria-label={labels.a11y.mainNavigation} className="hidden items-center gap-6 lg:flex">
+        <nav aria-label={labels.a11y.mainNavigation} className="hidden items-center gap-4 lg:flex xl:gap-6">
           {links.map((l) => (
             <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={`link-rail ${linkClass(l.href)}`}>
               {l.name}
