@@ -14,7 +14,7 @@ export const FILE_PROVIDERS: FileProvider[] = ["google_drive", "external_link"];
 export const FILE_STATUSES: FileStatus[] = ["registered", "verified", "archived", "revoked"];
 export const FILE_LINK_KINDS: FileLinkKind[] = ["attachment", "cover", "gallery", "official_document"];
 export const CONSENT_STATUSES: ConsentStatus[] = ["not_required", "pending", "granted", "refused"];
-export const FILE_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf", "video/mp4"] as const;
+export const FILE_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "application/pdf", "video/mp4"] as const;
 
 /** Espelho do trigger guard_content_status (18). */
 export const CONTENT_TRANSITIONS: Record<ContentStatus, ContentStatus[]> = {

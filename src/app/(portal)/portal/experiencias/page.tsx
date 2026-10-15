@@ -43,7 +43,7 @@ export default async function ExperiencesPage() {
                 <div className="aspect-[16/9] bg-surface-2">
                   {x.cover_file_id && (
                     // eslint-disable-next-line @next/next/no-img-element -- proxy autenticado do Portal
-                    <img src={`/portal/arquivos/${x.cover_file_id}/miniatura`} alt="" className="size-full object-cover" loading="lazy" />
+                    <img src={`/portal/arquivos/${x.cover_file_id}/miniatura?w=480`} alt="" className="size-full object-cover" loading="lazy" />
                   )}
                 </div>
                 <div className="flex flex-1 flex-col items-start gap-2 p-4">

@@ -38,7 +38,7 @@ function PhotoCard({ dict, itemId, photo, isCover }: { dict: Dict; itemId: strin
     <li className={`flex flex-col overflow-hidden rounded-xl border bg-surface ${isCover ? "border-action" : "border-line"} ${onSite ? "" : "opacity-70"}`} data-photo={photo.fileId}>
       <div className="relative aspect-[4/3] bg-surface-2">
         {/* eslint-disable-next-line @next/next/no-img-element -- proxy autenticado do Portal */}
-        <img src={`/portal/arquivos/${photo.fileId}/miniatura`} alt={photo.alt} className="size-full object-cover" loading="lazy" />
+        <img src={`/portal/arquivos/${photo.fileId}/miniatura?w=480`} alt={photo.alt} className="size-full object-cover" loading="lazy" />
         <div className="absolute left-2 top-2 flex gap-2">
           {isCover && <span className="rounded-full bg-action px-3 py-1 text-xs font-bold text-fg-on-action">★ {e.cover}</span>}
           {!photo.shown && <span className="rounded-full bg-surface px-3 py-1 text-xs font-bold text-fg">{e.hidden}</span>}

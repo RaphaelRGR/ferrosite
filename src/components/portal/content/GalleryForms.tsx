@@ -45,7 +45,7 @@ export function ContentGallery({ dict, itemId, files, candidates, canEdit, drive
                   <div className="flex items-start gap-3">
                     {cf.file.mime_type.startsWith("image/") && (
                       // eslint-disable-next-line @next/next/no-img-element -- proxy autenticado
-                      <img src={`/portal/arquivos/${cf.file.id}/miniatura`} alt="" className="size-20 shrink-0 rounded-md border border-line object-cover" loading="lazy" />
+                      <img src={`/portal/arquivos/${cf.file.id}/miniatura?w=240`} alt="" className="size-20 shrink-0 rounded-md border border-line object-cover" loading="lazy" />
                     )}
                     <div className="min-w-0">
                       <a href={`/portal/arquivos/${cf.file.id}`} className="block truncate font-bold underline-offset-4 hover:underline">{cf.file.name}</a>

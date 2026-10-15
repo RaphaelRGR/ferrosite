@@ -41,7 +41,7 @@ export interface ImportBatchResult {
   items: ImportItemResult[];
 }
 
-const IMPORTABLE = new Set(["jpg", "jpeg", "png", "webp", "pdf", "docx", "xlsx", "pptx", "stl", "dxf", "dwg", "sldprt"]);
+const IMPORTABLE = new Set(["jpg", "jpeg", "png", "webp", "heic", "heif", "pdf", "docx", "xlsx", "pptx", "stl", "dxf", "dwg", "sldprt"]);
 
 export async function importBatch(input: ImportBatchInput): Promise<{ ok: true; result: ImportBatchResult } | { ok: false; error: UploadError | "invalid_source" }> {
   const guard = await requireDriveManager();

@@ -15,4 +15,6 @@ export const COURSE_SHORTS: readonly string[] = [
   "pWpGRzNzHWg",
   "VwSLYdPWg3U",
   "KZbAQdSiAZ8",
+  // visita à RUMO em Araucária (23/09/2026), link do relatório oficial da visita; canal do curso (oEmbed)
+  "gkah4waIi-Q",
 ];

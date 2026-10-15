@@ -5,7 +5,7 @@
  * outra coisa (executáveis, scripts, ZIP genérico, vídeo) devolve `null`.
  */
 export type SniffedMime =
-  | "image/jpeg" | "image/png" | "image/webp" | "application/pdf"
+  | "image/jpeg" | "image/png" | "image/webp" | "image/heic" | "application/pdf"
   | "model/stl" | "application/dxf" | "image/vnd.dwg" | "application/sldworks"
   | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -51,6 +51,8 @@ export function sniffMime(bytes: Uint8Array, totalLength = bytes.length): Sniffe
   if (startsWith(b, [0xff, 0xd8, 0xff])) return "image/jpeg";
   if (startsWith(b, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])) return "image/png";
   if (ascii(b, 0, 4) === "RIFF" && ascii(b, 8, 4) === "WEBP") return "image/webp";
+  // HEIC/HEIF (iPhone): caixa ISO-BMFF `ftyp` com marca de imagem HEIF (EXP-001)
+  if (ascii(b, 4, 4) === "ftyp" && /^(heic|heix|hevc|hevx|heim|heis|mif1|msf1)$/.test(ascii(b, 8, 4))) return "image/heic";
   if (ascii(b, 0, 5) === "%PDF-") return "application/pdf";
   if (startsWith(b, [0x50, 0x4b, 0x03, 0x04])) return sniffOffice(b);
   // SolidWorks = Compound File Binary (mesmo contêiner de .doc antigo); aceitamos só com extensão .sldprt/.sldasm na camada de cima.
@@ -68,6 +70,7 @@ export const EXTENSION_BY_MIME: Record<SniffedMime, string[]> = {
   "image/jpeg": ["jpg", "jpeg"],
   "image/png": ["png"],
   "image/webp": ["webp"],
+  "image/heic": ["heic", "heif"],
   "application/pdf": ["pdf"],
   "model/stl": ["stl"],
   "application/dxf": ["dxf"],
