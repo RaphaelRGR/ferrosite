@@ -4,7 +4,7 @@ import { useState, useSyncExternalStore } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import {
-  countryName, eventsInMonth, eventsOnDay, formatEventRange, groupByMonth, isPastEvent, monthMatrix, monthName, weekdayNames,
+  countryName, eventsInMonth, formatEventRange, groupByMonth, isPastEvent, monthMatrix, monthName, weekdayNames,
   type RailEvent, type RailRegion,
 } from "@/lib/calendar/rail";
 
@@ -81,7 +81,7 @@ export function RailCalendar({ events, locale, dict, today, year }: { events: Ra
         </span>
       </div>
 
-      {view === "list" ? <ListView events={shown} locale={locale} dict={dict} today={today} /> : <GridView events={shown} locale={locale} dict={dict} today={today} year={year} />}
+      {view === "list" ? <ListView events={shown} locale={locale} dict={dict} today={today} /> : <YearView events={shown} locale={locale} dict={dict} today={today} year={year} />}
     </div>
   );
 }
@@ -106,140 +106,158 @@ function ListView({ events, locale, dict, today }: { events: RailEvent[]; locale
   );
 }
 
-function GridView({ events, locale, dict, today, year }: { events: RailEvent[]; locale: Locale; dict: Dict; today: string; year: number }) {
-  // mês inicial: o atual (se a página é do ano corrente) ou o primeiro com evento
-  const initial = today.startsWith(String(year)) ? Number(today.slice(5, 7)) : Number(groupByMonth(events)[0]?.month ?? 1);
-  const [month, setMonth] = useState(initial);
-  const [day, setDay] = useState<string | null>(null);
-  const go = (m: number) => {
-    setMonth(Math.min(12, Math.max(1, m)));
-    setDay(null);
-  };
-  const weeks = monthMatrix(year, month);
-  const inMonth = eventsInMonth(events, year, month);
-  const listed = day ? eventsOnDay(events, day) : inMonth;
-  const label = `${monthName(locale, month)} ${year}`;
-  const dateLong = (d: string) => new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-GB", { timeZone: "UTC", day: "numeric", month: "long" }).format(new Date(`${d}T12:00:00Z`));
-  const hasEvents = (m: number) => eventsInMonth(events, year, m).length > 0;
-  // no meio da frase, mês em minúscula em português ("Eventos de setembro"); em inglês, maiúscula
-  const monthInText = (m: number) => (locale === "pt" ? monthName(locale, m).toLowerCase() : monthName(locale, m));
+/** Cor por região: Brasil no laranja da marca, Mundo em azul (texto branco AA nos dois, site em tema claro). */
+const REGION_BG: Record<RailRegion, string> = { brasil: "bg-action text-fg-on-action", mundo: "bg-info text-fg-on-action" };
+const REGION_DOT: Record<RailRegion, string> = { brasil: "bg-action", mundo: "bg-info" };
+
+/**
+ * Visão "Calendário" (CAL-001): o ano inteiro como calendário de parede. 12 meses pequenos; os dias de
+ * evento viram faixas contínuas na cor da região; abaixo de cada mês, os eventos dele, que abrem os
+ * detalhes (clicar no dia colorido abre o evento). No celular, meses sem evento ficam ocultos.
+ */
+function YearView({ events, locale, dict, today, year }: { events: RailEvent[]; locale: Locale; dict: Dict; today: string; year: number }) {
+  const [openId, setOpenId] = useState<string | null>(null);
+  if (events.length === 0) return <p className="text-fg-muted">{dict.emptyFiltered}</p>;
+  const initials = weekdayNames(locale).map((w) => w.charAt(0).toUpperCase());
 
   return (
     <div className="flex flex-col gap-6">
-      <div role="group" aria-label={dict.months} className="flex flex-wrap gap-1.5">
-        {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-          <button
-            key={m}
-            type="button"
-            aria-pressed={m === month}
-            onClick={() => go(m)}
-            className={`relative min-h-9 rounded-full border px-3 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${m === month ? "border-action bg-action text-fg-on-action" : "border-line bg-surface hover:bg-surface-2"} ${hasEvents(m) ? "" : "text-fg-muted"}`}
-          >
-            {monthName(locale, m).slice(0, 3)}
-            {hasEvents(m) && m !== month && <span aria-hidden="true" className="absolute -right-0.5 -top-0.5 size-2 rounded-full bg-action" />}
-          </button>
+      <ul aria-label={dict.legend} className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-fg-muted">
+        {(["brasil", "mundo"] as const).map((r) => (
+          <li key={r} className="flex items-center gap-2">
+            <span aria-hidden="true" className={`h-3 w-6 rounded-full ${REGION_DOT[r]}`} />
+            {dict.regions[r]}
+          </li>
         ))}
+        <li className="flex items-center gap-2">
+          <span aria-hidden="true" className="size-4 rounded-full ring-2 ring-fg" />
+          {dict.today}
+        </li>
+      </ul>
+
+      <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+          <MonthCard key={m} year={year} month={m} events={eventsInMonth(events, year, m)} locale={locale} dict={dict} today={today} initials={initials} openId={openId} onOpen={setOpenId} />
+        ))}
+      </ol>
+      <p className="text-xs text-fg-muted sm:hidden">{dict.emptyMonthsHidden}</p>
+    </div>
+  );
+}
+
+function MonthCard({ year, month, events, locale, dict, today, initials, openId, onOpen }: {
+  year: number; month: number; events: RailEvent[]; locale: Locale; dict: Dict; today: string; initials: string[];
+  openId: string | null; onOpen: (id: string | null) => void;
+}) {
+  const weeks = monthMatrix(year, month);
+  const lastDay = `${year}-${String(month).padStart(2, "0")}-31`;
+  const pastMonth = lastDay < today;
+  const fmtDay = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-GB", { timeZone: "UTC", day: "numeric", month: "long" });
+  const dayEvent = (d: string | null) => (d ? events.find((e) => e.starts_on <= d && (e.ends_on ?? e.starts_on) >= d) ?? null : null);
+  const sorted = [...events].sort((a, b) => a.starts_on.localeCompare(b.starts_on));
+  const title = `${monthName(locale, month)} ${year}`;
+
+  return (
+    <li className={`flex-col rounded-2xl border border-line bg-surface p-4 sm:p-5 ${events.length === 0 ? "hidden sm:flex" : "flex"}`}>
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 className={`text-lg font-black ${pastMonth ? "text-fg-muted" : ""}`}>{monthName(locale, month)}</h2>
+        <span className="text-xs font-bold text-fg-muted">{events.length === 0 ? dict.emptyMonth : events.length === 1 ? dict.countOne : dict.count.replace("{count}", String(events.length))}</span>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-line bg-surface">
-        <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-2 sm:px-5">
-          <button type="button" onClick={() => go(month - 1)} disabled={month === 1} aria-label={dict.prevMonth} className="inline-flex size-11 items-center justify-center rounded-full hover:bg-surface-2 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-            <span aria-hidden="true">←</span>
-          </button>
-          <h2 className="text-lg font-black" aria-live="polite">{label}</h2>
-          <button type="button" onClick={() => go(month + 1)} disabled={month === 12} aria-label={dict.nextMonth} className="inline-flex size-11 items-center justify-center rounded-full hover:bg-surface-2 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-        <table className="w-full table-fixed border-collapse">
-          <caption className="sr-only">{label}</caption>
-          <thead>
-            <tr>
-              {weekdayNames(locale).map((w) => (
-                <th key={w} scope="col" className="py-2 text-center text-[11px] font-bold uppercase tracking-widest text-fg-muted">
-                  {w}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {weeks.map((week, wi) => (
-              <tr key={wi}>
-                {week.map((d, di) => {
-                  if (!d) return <td key={di} className="border-t border-line bg-canvas/50" />;
-                  const evs = eventsOnDay(events, d);
-                  const n = Number(d.slice(8));
-                  const isToday = d === today;
-                  const selected = d === day;
-                  const content = (
-                    <>
-                      <span className={`inline-flex size-7 items-center justify-center rounded-full text-sm ${isToday ? "bg-action font-black text-fg-on-action" : "font-bold"}`}>{n}</span>
-                      {evs.length > 0 && (
-                        <>
-                          {/* celular: pontos; telas maiores: nome curto dos eventos */}
-                          <span aria-hidden="true" className="mt-1 flex gap-0.5 sm:hidden">
-                            {evs.slice(0, 3).map((e) => (
-                              <span key={e.id} className={`size-1.5 rounded-full bg-link ${isPastEvent(e, today) ? "opacity-50" : ""}`} />
-                            ))}
-                          </span>
-                          <span aria-hidden="true" className="mt-1 hidden w-full flex-col gap-0.5 sm:flex">
-                            {evs.slice(0, 2).map((e) => (
-                              <span key={e.id} className={`truncate rounded bg-surface-2 px-1.5 py-0.5 text-left text-[11px] font-bold text-link ${isPastEvent(e, today) ? "opacity-60" : ""}`}>
-                                {e.name}
-                              </span>
-                            ))}
-                            {evs.length > 2 && <span className="px-1.5 text-left text-[11px] text-fg-muted">+{evs.length - 2}</span>}
-                          </span>
-                        </>
-                      )}
-                    </>
-                  );
+      <table className="mt-3 w-full table-fixed border-separate border-spacing-y-1 text-center text-xs">
+        <caption className="sr-only">{title}</caption>
+        <thead>
+          <tr>
+            {initials.map((w, i) => (
+              <th key={i} scope="col" className="pb-1 text-[10px] font-bold text-fg-muted">
+                {w}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {weeks.map((week, wi) => (
+            <tr key={wi}>
+              {week.map((d, di) => {
+                if (!d) return <td key={di} />;
+                const ev = dayEvent(d);
+                const n = Number(d.slice(8));
+                const todayRing = d === today ? "ring-2 ring-inset ring-fg" : "";
+                if (!ev) {
                   return (
-                    <td key={di} className="h-16 border-t border-line p-0 align-top sm:h-24">
-                      {evs.length > 0 ? (
-                        <button
-                          type="button"
-                          aria-pressed={selected}
-                          aria-label={(evs.length === 1 ? dict.dayLabelOne : dict.dayLabel).replace("{date}", dateLong(d)).replace("{count}", String(evs.length))}
-                          onClick={() => setDay(selected ? null : d)}
-                          className={`flex size-full flex-col items-center p-1 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus sm:items-start sm:p-1.5 ${selected ? "bg-surface-2 ring-2 ring-inset ring-action" : ""}`}
-                        >
-                          {content}
-                        </button>
-                      ) : (
-                        <div className="flex size-full flex-col items-center p-1 text-fg-muted sm:items-start sm:p-1.5">{content}</div>
-                      )}
+                    <td key={di} className="p-0">
+                      <span className={`mx-auto flex size-8 items-center justify-center rounded-full ${d < today ? "text-fg-muted" : ""} ${todayRing}`}>{n}</span>
                     </td>
                   );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                }
+                // faixa contínua: arredonda só nas pontas do evento (ou da semana)
+                const roundL = dayEvent(di > 0 ? week[di - 1] : null)?.id !== ev.id ? "rounded-l-full" : "";
+                const roundR = dayEvent(di < 6 ? week[di + 1] : null)?.id !== ev.id ? "rounded-r-full" : "";
+                return (
+                  <td key={di} className="p-0">
+                    <button
+                      type="button"
+                      onClick={() => onOpen(openId === ev.id ? null : ev.id)}
+                      aria-label={`${fmtDay.format(new Date(`${d}T12:00:00Z`))}: ${ev.name}`}
+                      aria-expanded={openId === ev.id}
+                      className={`flex h-8 w-full items-center justify-center font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus ${REGION_BG[ev.region]} ${roundL} ${roundR} ${isPastEvent(ev, today) && d !== today ? "opacity-50" : ""}`}
+                    >
+                      {/* hoje dentro da faixa: círculo claro com o número, sem quebrar a faixa */}
+                      <span className={d === today ? "flex size-6 items-center justify-center rounded-full bg-surface text-fg" : ""}>{n}</span>
+                    </button>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      <section aria-labelledby="eventos-selecionados" className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id="eventos-selecionados" className="text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
-            {day ? dict.dayEvents.replace("{date}", dateLong(day)) : dict.monthEvents.replace("{month}", monthInText(month))}
-          </h2>
-          {day && (
-            <button type="button" onClick={() => setDay(null)} className="rounded text-sm font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
-              {dict.showMonth}
-            </button>
+      {sorted.length > 0 && (
+        <ul className="mt-3 flex flex-col gap-1 border-t border-line pt-3">
+          {sorted.map((e) => (
+            <MonthEvent key={e.id} event={e} locale={locale} dict={dict} today={today} open={openId === e.id} onToggle={(o) => onOpen(o ? e.id : openId === e.id ? null : openId)} />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+function MonthEvent({ event: e, locale, dict, today, open, onToggle }: { event: RailEvent; locale: Locale; dict: Dict; today: string; open: boolean; onToggle: (open: boolean) => void }) {
+  const past = isPastEvent(e, today);
+  const description = locale === "en" ? e.description_en : e.description;
+  const place = [e.city, countryName(locale, e.country)].filter(Boolean).join(", ");
+  return (
+    <li className={past ? "opacity-70" : ""}>
+      <details open={open} onToggle={(ev) => onToggle((ev.currentTarget as HTMLDetailsElement).open)} className="group rounded-xl open:bg-surface-2 hover:bg-surface-2">
+        <summary className="flex cursor-pointer list-none items-start gap-3 rounded-xl p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus [&::-webkit-details-marker]:hidden">
+          <span aria-hidden="true" className={`mt-0.5 h-9 w-1.5 shrink-0 rounded-full ${REGION_DOT[e.region]}`} />
+          <span className="min-w-0 flex-1">
+            <span className="block text-xs font-bold text-fg-muted">
+              {formatEventRange(locale, e.starts_on, e.ends_on)}
+              {past ? ` · ${dict.past}` : ""}
+            </span>
+            <span className="block text-sm font-bold leading-snug">{e.name}</span>
+          </span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-1 size-4 shrink-0 text-fg-muted transition-transform group-open:rotate-180">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+        <div className="flex flex-col gap-2 pb-3 pl-7 pr-2 text-sm">
+          <p className="text-fg-muted">
+            {dict.kinds[e.kind]} · {dict.regions[e.region]}
+            {place ? ` · ${place}` : ""}
+          </p>
+          {description && <p>{description}</p>}
+          {e.url && (
+            <a href={e.url} target="_blank" rel="noopener noreferrer" className="inline-flex w-fit items-center gap-1 rounded font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+              {dict.official} <span aria-hidden="true">↗</span>
+            </a>
           )}
         </div>
-        {listed.length === 0 ? (
-          <p className="text-fg-muted">{dict.noEventsMonth.replace("{month}", monthInText(month))}</p>
-        ) : (
-          <ul className="grid gap-4 md:grid-cols-2">
-            {listed.map((e) => (
-              <EventCard key={e.id} event={e} locale={locale} dict={dict} today={today} />
-            ))}
-          </ul>
-        )}
-      </section>
-    </div>
+      </details>
+    </li>
   );
 }
 
