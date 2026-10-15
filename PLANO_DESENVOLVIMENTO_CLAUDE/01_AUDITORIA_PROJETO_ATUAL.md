@@ -267,3 +267,12 @@ Relatório: `docs/baseline/PERF-002-relatorio.md`. Funções da Vercel movidas d
 ## Estado após TEST-001 (2026-10-09)
 
 Relatório: `docs/baseline/TEST-001-relatorio.md`. E2E e integração passam a exigir um projeto Supabase só de testes (`.env.test.local`, `npm run test:db:setup`); recusam rodar contra a produção. Banco de produção e Drive limpos das sobras de teste no mesmo dia.
+
+## Estado após EXP-001, CAL-001 e PROJ-002 (2026-10-15)
+
+Relatórios: `docs/baseline/EXP-001-relatorio.md`, `CAL-001-relatorio.md`, `PROJ-002-relatorio.md`.
+- Experiências criadas, importadas do Drive e publicadas direto pela administração/coordenação em `/portal/experiencias`.
+- Calendário ferroviário (`/portal/calendario` e `/[locale]/calendario`), com 2026 pré-cadastrado a partir de fontes oficiais.
+- Projetos sem datas e sem o botão principal de criação.
+- Aviso de Drive desconectado na Minha mesa.
+- Migrations `20261015000100` e `20261015000200` aplicadas na nuvem.

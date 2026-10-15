@@ -184,3 +184,16 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 - Resolvida a pendência "projeto Supabase separado para testes": mesma conta do site, criado pelo usuário; o banco de testes recebe cópia só do conteúdo público.
 - Fixtures nunca mais na produção: os scripts recusam `.env.test.local` ausente ou com o ref da produção.
 - **Pendente do usuário:** criar o projeto e preencher `.env.test.local`; depois, remover as contas e2e antigas do Auth da produção.
+
+## EXP-001, CAL-001, PROJ-002 (2026-10-15)
+
+- **Experiências:** admin/coordenação publicam direto (decisão do usuário). Notícias seguem com aprovação por outra pessoa. A autorização das fotos é uma confirmação por experiência, registrada na nota de consentimento de cada arquivo.
+- **Calendário:**
+  - só o ano corrente e o próximo são editáveis, e anos anteriores ficam como registro;
+  - o site mostra só o ano corrente;
+  - o país é guardado por código ISO, para EN não mostrar nome em PT.
+- **Projetos:** são permanentes. Sem datas; criar fica discreto e só para admin. Situação e alerta de 30 dias mantidos por decisão do usuário.
+- **Pendente da coordenação:**
+  - confirmar e cadastrar o Conexão ANPTrilhos 2026 e o Latin Rieles 2026 (só há fonte de imprensa);
+  - decidir se os "Encontros 2026" do curso entram no calendário.
+- **Pendente do usuário (de novo):** publicar o app OAuth do Google (modo Teste faz a conexão do Drive cair a cada 7 dias; caiu de novo antes de 15/10).

@@ -97,6 +97,8 @@ de terceiros além do Supabase.
 | Arquivos (Drive) | fotos via `/api/midia/[id]` | `/portal/arquivos/**` | `file_asset`, `content_file`, `project_file`, `drive_*`, `site_image` |
 | Relatórios | não | `/portal/relatorios` | `report_snapshot`, `compute_indicators()` |
 | Coordenação | não | `/portal/coordenacao` (admin/coordenação) | só leitura: missões, projetos, conteúdos, desafios, empresas |
+| Experiências (atalho) | `/experiencias` | `/portal/experiencias/**` (admin/coordenação; publica direto por `publish_experience`) | `content_item` (`type = experience`, `photo_folder_id`), `content_file` |
+| Calendário ferroviário | `/calendario` (ano corrente) | `/portal/calendario` (ano atual e próximo editáveis) | `rail_event`, view `public_rail_event` |
 | Ações (compromissos) | não | `/portal` (Minha mesa), `/portal/acoes/**`, "+ Criar" | `work_item`, `work_item_event`, `work_item_comment`, `work_item_file` |
 | E-mail | não | Configurações | `mail_outbox` (fila por trigger) |
 | Auditoria | não | não (append-only) | `audit_event`, `activity_event`, `crm_event` |
@@ -155,6 +157,13 @@ de terceiros além do Supabase.
   explícitas (regra + evidência + próxima ação), panorama, agenda e indicadores.
   Limiares em `ALERT_RULES` (`lib/portal/coordination.ts`); leitura em
   `lib/portal/queries/coordination.ts`. Sem migration: só lê dados existentes.
+- **Experiências** (EXP-001): `/portal/experiencias` cria, importa a pasta de fotos do Drive
+  (descrição a partir do nome do arquivo), escolhe capa/oculta fotos e publica direto. O tipo é o
+  começo do título (`lib/portal/experiences.ts` ↔ `experienceKind`). Mexer em fotos/capa/texto volta
+  a rascunho até "Atualizar no site".
+- **Calendário** (CAL-001): `lib/calendar/rail.ts` (puro) + `guard_rail_event_window` (janela de anos).
+  País em código ISO (nome traduzido por `Intl.DisplayNames`).
+- **Projetos são permanentes** (PROJ-002): sem datas de início/fim; criar é link discreto só para admin.
 - `/portal/questoes` é placeholder por decisão pendente; `/portal/acervo` redireciona
   para Arquivos (links antigos). Não remover sem decisão.
 
