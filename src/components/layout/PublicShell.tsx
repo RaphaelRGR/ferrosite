@@ -17,6 +17,7 @@ export function PublicShell({ locale, dict, children }: { locale: Locale; dict: 
     { name: dict.nav.course, href: localizePath(locale, "/curso") },
     { name: dict.nav.projects, href: localizePath(locale, "/projetos") },
     { name: dict.nav.experiences, href: localizePath(locale, "/experiencias") },
+    { name: dict.nav.calendar, href: localizePath(locale, "/calendario") },
     { name: dict.nav.news, href: localizePath(locale, "/noticias") },
     { name: dict.nav.companies, href: localizePath(locale, "/para-empresas") },
   ];

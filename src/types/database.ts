@@ -35,9 +35,9 @@ export type Database = {
         Relationships: [];
       };
       content_item: {
-        Row: { id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; project_id: string | null; organization_id: string | null; cover_file_id: string | null; source_note: string; consent_confirmed: boolean; status: Database["public"]["Enums"]["content_status"]; scheduled_for: string | null; preview_token: string; author_id: string; updated_by: string; created_at: string; updated_at: string; version: number };
-        Insert: { id?: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; project_id?: string | null; organization_id?: string | null; cover_file_id?: string | null; source_note?: string; consent_confirmed?: boolean; status?: Database["public"]["Enums"]["content_status"]; scheduled_for?: string | null; preview_token?: string; author_id: string; updated_by: string; created_at?: string; updated_at?: string; version?: number };
-        Update: { id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; project_id?: string | null; organization_id?: string | null; cover_file_id?: string | null; source_note?: string; consent_confirmed?: boolean; status?: Database["public"]["Enums"]["content_status"]; scheduled_for?: string | null; preview_token?: string; author_id?: string; updated_by?: string; created_at?: string; updated_at?: string; version?: number };
+        Row: { id: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary: string; body_md: string; event_at: string | null; event_place: string; project_id: string | null; organization_id: string | null; cover_file_id: string | null; source_note: string; consent_confirmed: boolean; status: Database["public"]["Enums"]["content_status"]; scheduled_for: string | null; preview_token: string; author_id: string; updated_by: string; created_at: string; updated_at: string; version: number; photo_folder_id: string };
+        Insert: { id?: string; type: Database["public"]["Enums"]["content_type"]; locale: string; slug: string; title: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; project_id?: string | null; organization_id?: string | null; cover_file_id?: string | null; source_note?: string; consent_confirmed?: boolean; status?: Database["public"]["Enums"]["content_status"]; scheduled_for?: string | null; preview_token?: string; author_id: string; updated_by: string; created_at?: string; updated_at?: string; version?: number; photo_folder_id?: string };
+        Update: { id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; project_id?: string | null; organization_id?: string | null; cover_file_id?: string | null; source_note?: string; consent_confirmed?: boolean; status?: Database["public"]["Enums"]["content_status"]; scheduled_for?: string | null; preview_token?: string; author_id?: string; updated_by?: string; created_at?: string; updated_at?: string; version?: number; photo_folder_id?: string };
         Relationships: [];
       };
       content_revision: {
@@ -154,6 +154,12 @@ export type Database = {
         Update: { id?: string; item_id?: string; revision_id?: string; type?: Database["public"]["Enums"]["content_type"]; locale?: string; slug?: string; title?: string; summary?: string; body_md?: string; event_at?: string | null; event_place?: string; cover_alt?: string; cover_credit?: string; published_at?: string; published_by?: string; unpublished_at?: string | null; unpublished_by?: string | null; cover_file_id?: string | null; gallery_file_ids?: string[] };
         Relationships: [];
       };
+      rail_event: {
+        Row: { id: string; name: string; starts_on: string; ends_on: string | null; year: number | null; city: string; country: string; region: Database["public"]["Enums"]["rail_event_region"]; kind: Database["public"]["Enums"]["rail_event_kind"]; url: string; description: string; description_en: string; source_note: string; created_by: string; updated_by: string; created_at: string; updated_at: string; version: number };
+        Insert: { id?: string; name: string; starts_on: string; ends_on?: string | null; city?: string; country?: string; region?: Database["public"]["Enums"]["rail_event_region"]; kind?: Database["public"]["Enums"]["rail_event_kind"]; url?: string; description?: string; description_en?: string; source_note?: string; created_by: string; updated_by: string; created_at?: string; updated_at?: string; version?: number };
+        Update: { id?: string; name?: string; starts_on?: string; ends_on?: string | null; city?: string; country?: string; region?: Database["public"]["Enums"]["rail_event_region"]; kind?: Database["public"]["Enums"]["rail_event_kind"]; url?: string; description?: string; description_en?: string; source_note?: string; created_by?: string; updated_by?: string; created_at?: string; updated_at?: string; version?: number };
+        Relationships: [];
+      };
       relationship_activity: {
         Row: { id: string; organization_id: string; contact_id: string | null; kind: Database["public"]["Enums"]["relationship_activity_kind"]; occurred_at: string; summary: string; next_action: string; next_action_at: string | null; created_by: string; created_at: string };
         Insert: { id?: string; organization_id: string; contact_id?: string | null; kind?: Database["public"]["Enums"]["relationship_activity_kind"]; occurred_at?: string; summary: string; next_action?: string; next_action_at?: string | null; created_by: string; created_at?: string };
@@ -234,6 +240,10 @@ export type Database = {
       };
       public_publication: {
         Row: { id: string | null; type: Database["public"]["Enums"]["content_type"] | null; locale: string | null; slug: string | null; title: string | null; summary: string | null; body_md: string | null; event_at: string | null; event_place: string | null; cover_alt: string | null; cover_credit: string | null; published_at: string | null; cover_file_id: string | null; gallery_file_ids: string[] | null };
+        Relationships: [];
+      };
+      public_rail_event: {
+        Row: { id: string | null; name: string | null; starts_on: string | null; ends_on: string | null; city: string | null; country: string | null; region: Database["public"]["Enums"]["rail_event_region"] | null; kind: Database["public"]["Enums"]["rail_event_kind"] | null; url: string | null; description: string | null; description_en: string | null };
         Relationships: [];
       };
     };
@@ -382,6 +392,14 @@ export type Database = {
         Args: { p_item: string; p_revision?: string };
         Returns: string;
       };
+      publish_experience: {
+        Args: { p_item: string };
+        Returns: string;
+      };
+      rail_calendar_year: {
+        Args: Record<string, never>;
+        Returns: number;
+      };
       settle_mail_outbox: {
         Args: { p_id: string; p_ok: boolean; p_detail?: string; p_retry?: boolean };
         Returns: undefined;
@@ -432,6 +450,8 @@ export type Database = {
       partnership_stage: "mapped" | "contacted" | "meeting" | "proposal" | "negotiation" | "confirmed" | "lost" | "paused";
       project_role: "leader" | "member" | "viewer" | "external";
       project_status: "draft" | "planned" | "active" | "paused" | "completed" | "archived" | "cancelled";
+      rail_event_kind: "feira" | "congresso" | "seminario" | "curso" | "outro";
+      rail_event_region: "brasil" | "mundo";
       relationship_activity_kind: "note" | "call" | "email" | "meeting" | "visit" | "proposal";
       theme_preference: "light" | "dark" | "system";
       waiting_party: "coordination" | "admin" | "student" | "professor" | "company" | "supplier" | "secretariat" | "transport" | "ufsc" | "other";

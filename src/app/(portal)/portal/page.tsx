@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MISSION_STATUS_TONE } from "@/components/portal/projects/MissionCard";
+import { DriveDownAlert } from "@/components/portal/files/DriveDownAlert";
 import { Desk, MentionList } from "@/components/portal/work-items/Desk";
 import { WorkItemList } from "@/components/portal/work-items/WorkItemCard";
 import { Badge } from "@/components/ui/Badge";
@@ -12,6 +13,7 @@ import { isMissionLate, isOverseer } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
 import { listMyMentions, listOpenWorkItems } from "@/lib/portal/queries/work-items";
 import { createClient } from "@/lib/supabase/server";
+import { getDriveStatus } from "@/lib/files/drive-connection";
 
 export const metadata: Metadata = { title: "Início" };
 
@@ -25,7 +27,7 @@ export default async function PortalDashboardPage() {
   const { profile, userId } = await requireActiveProfile();
   const supabase = await createClient();
   const overseer = isOverseer(profile.global_role);
-  const [missions, projects, workItems, mentions] = await Promise.all([
+  const [missions, projects, workItems, mentions, drive] = await Promise.all([
     supabase
       .from("mission_assignee")
       .select("mission:mission_id (id, title, status, due_at, project:project_id (slug, name))")
@@ -33,12 +35,19 @@ export default async function PortalDashboardPage() {
     overseer ? Promise.resolve({ data: [] as Array<{ id: string; slug: string; name: string; status: keyof typeof dict.projectStatus }> }) : supabase.from("project").select("id, slug, name, status").not("status", "in", "(archived,cancelled)").order("updated_at", { ascending: false }).limit(6),
     listOpenWorkItems(),
     listMyMentions(userId),
+    overseer ? getDriveStatus() : Promise.resolve(null),
   ]);
   type Row = { mission: { id: string; title: string; status: "planned" | "in_progress" | "in_validation" | "done" | "paused" | "cancelled"; due_at: string | null; project: { slug: string; name: string } | null } | null };
   const myMissions = ((missions.data ?? []) as unknown as Row[]).map((r) => r.mission).filter((m): m is NonNullable<Row["mission"]> => !!m && m.status !== "done" && m.status !== "cancelled");
   const name = profile.full_name || profile.email;
 
-  if (overseer) return <Desk dict={dict} items={workItems} userId={userId} name={profile.full_name || ""} missions={myMissions} mentions={mentions} />;
+  if (overseer)
+    return (
+      <div className="flex flex-col gap-6">
+        <DriveDownAlert status={drive} dict={dict} />
+        <Desk dict={dict} items={workItems} userId={userId} name={profile.full_name || ""} missions={myMissions} mentions={mentions} />
+      </div>
+    );
 
   const late = myMissions.filter((m) => isMissionLate(m)).length;
   const myProjects = projects.data ?? [];

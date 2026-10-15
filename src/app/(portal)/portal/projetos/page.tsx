@@ -37,7 +37,6 @@ export default async function PortalProjectsPage({ searchParams }: PageProps<"/p
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl font-black">{dict.projects.title}</h1>
-        {canCreateProject(profile.global_role) && <LinkButton href="/portal/projetos/novo">{dict.projects.new}</LinkButton>}
       </div>
 
       <form method="get" action="/portal/projetos" className="flex flex-wrap items-end gap-3 rounded-xl border border-line bg-surface p-4">
@@ -96,6 +95,15 @@ export default async function PortalProjectsPage({ searchParams }: PageProps<"/p
           <span className="text-sm text-fg-muted">{dict.projects.pagination.replace("{page}", String(page)).replace("{pages}", String(pages))}</span>
           {page < pages ? <LinkButton href={href({ pagina: page + 1 })} variant="secondary" size="sm">{dict.common.next} →</LinkButton> : <span />}
         </nav>
+      )}
+
+      {/* PROJ-002: os projetos do curso são permanentes; cadastrar um novo é raro e fica discreto, só para a administração. */}
+      {profile.global_role === "admin" && canCreateProject(profile.global_role) && (
+        <p className="text-sm text-fg-muted">
+          <Link href="/portal/projetos/novo" className="rounded underline underline-offset-4 hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+            {dict.projects.registerNew}
+          </Link>
+        </p>
       )}
     </div>
   );

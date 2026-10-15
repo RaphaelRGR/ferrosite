@@ -2,6 +2,7 @@ import { isDriveAvailable } from "@/lib/files/drive-availability";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
+import type { RailEvent } from "@/lib/calendar/rail";
 import type { Database } from "@/types/database";
 
 /**
@@ -167,5 +168,18 @@ export async function getPublished(type: ContentType, locale: Locale, slug: stri
     return (data as PublishedItem | null) ?? null;
   } catch {
     return null;
+  }
+}
+
+/** Calendário ferroviário do ano corrente (CAL-001): a view já filtra o ano no fuso do curso. */
+export async function listPublicRailEvents(): Promise<RailEvent[]> {
+  const client = createPublicClient();
+  if (!client) return [];
+  try {
+    const { data, error } = await client.from("public_rail_event").select("*").order("starts_on").order("name");
+    if (error) return [];
+    return (data ?? []) as RailEvent[];
+  } catch {
+    return [];
   }
 }

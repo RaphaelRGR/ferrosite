@@ -52,8 +52,7 @@ export function ProjectForm({ dict, project, cancelHref }: { dict: Dictionary["p
           options={CLASSIFICATIONS.map((c) => ({ value: c, label: dict.classification[c] }))}
           error={err("classification")}
         />
-        <Input label={p.startsOn} name="starts_on" type="date" defaultValue={state.values?.starts_on ?? project?.starts_on ?? ""} />
-        <Input label={p.endsOn} name="ends_on" type="date" defaultValue={state.values?.ends_on ?? project?.ends_on ?? ""} error={err("ends_on")} />
+        {/* PROJ-002: projetos do curso são permanentes; sem datas de início/fim. */}
       </div>
       <div className="flex flex-wrap gap-3">
         <Button type="submit" loading={pending}>

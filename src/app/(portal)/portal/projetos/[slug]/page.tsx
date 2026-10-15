@@ -67,12 +67,6 @@ export default async function ProjectOverviewPage({ params }: PageProps<"/portal
                 <dd className="mt-1">{dict.classification[project.classification]}</dd>
               </div>
               <div>
-                <dt className={H2}>{dict.projects.period}</dt>
-                <dd className="mt-1">
-                  {fmt(project.starts_on)} → {fmt(project.ends_on)}
-                </dd>
-              </div>
-              <div>
                 <dt className={H2}>{dict.projects.updated}</dt>
                 <dd className="mt-1">
                   {fmt(project.updated_at)} · {dict.projects.version} {project.version}

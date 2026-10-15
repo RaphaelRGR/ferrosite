@@ -287,16 +287,25 @@ export function createDriveClient(cfg: { rootFolderId: string; token: TokenSourc
     },
     async listFolder(folderId, pageSize = 20) {
       const q = `'${folderId.replace(/['\\]/g, "")}' in parents and trashed = false`;
-      const params = new URLSearchParams({ q, pageSize: String(Math.min(Math.max(pageSize, 1), 100)), fields: "files(id,name,mimeType,modifiedTime)", orderBy: "folder,name", supportsAllDrives: "true", includeItemsFromAllDrives: "true" });
-      let res: Response;
-      try {
-        res = await authed(`${API}/files?${params}`);
-      } catch (e) {
-        return failure(e);
-      }
-      if (!res.ok) return { ok: false, ...(await classifyApiError(res)) };
-      const d = (await res.json()) as { files?: Array<{ id: string; name: string; mimeType: string; modifiedTime?: string }> };
-      return { ok: true, items: (d.files ?? []).map((f) => ({ id: f.id, name: f.name, mimeType: f.mimeType, modifiedTime: f.modifiedTime ?? "", isFolder: f.mimeType === FOLDER_MIME })) };
+      // EXP-001: pastas de fotos passam de 100 itens; pagina até o limite pedido (máx. 1000).
+      const cap = Math.min(Math.max(pageSize, 1), 1000);
+      const all: Array<{ id: string; name: string; mimeType: string; modifiedTime?: string }> = [];
+      let pageToken = "";
+      do {
+        const params = new URLSearchParams({ q, pageSize: String(Math.min(cap - all.length, 1000)), fields: "nextPageToken,files(id,name,mimeType,modifiedTime)", orderBy: "folder,name", supportsAllDrives: "true", includeItemsFromAllDrives: "true" });
+        if (pageToken) params.set("pageToken", pageToken);
+        let res: Response;
+        try {
+          res = await authed(`${API}/files?${params}`);
+        } catch (e) {
+          return failure(e);
+        }
+        if (!res.ok) return { ok: false, ...(await classifyApiError(res)) };
+        const d = (await res.json()) as { nextPageToken?: string; files?: Array<{ id: string; name: string; mimeType: string; modifiedTime?: string }> };
+        all.push(...(d.files ?? []));
+        pageToken = d.nextPageToken ?? "";
+      } while (pageToken && all.length < cap);
+      return { ok: true, items: all.map((f) => ({ id: f.id, name: f.name, mimeType: f.mimeType, modifiedTime: f.modifiedTime ?? "", isFolder: f.mimeType === FOLDER_MIME })) };
     },
   };
 }

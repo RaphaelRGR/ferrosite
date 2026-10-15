@@ -22,6 +22,10 @@ export interface ImportBatchInput {
   classification: Database["public"]["Enums"]["classification"];
   consent: Database["public"]["Enums"]["consent_status"];
   credit: string;
+  /** EXP-001: nota de autorização gravada em cada arquivo (ex.: quem autorizou o uso no site). */
+  consentNote?: string;
+  /** EXP-001: texto alternativo por arquivo (posição 1-based na pasta). */
+  altText?: (name: string, n: number) => string;
 }
 
 export interface ImportItemResult {
@@ -45,7 +49,7 @@ export async function importBatch(input: ImportBatchInput): Promise<{ ok: true; 
   const conn = await getDriveClient();
   if (!conn) return { ok: false, error: "unconfigured" };
   if (!conn.canWrite) return { ok: false, error: "no_write_scope" };
-  const list = await conn.client.listFolder(input.sourceFolderId, 100);
+  const list = await conn.client.listFolder(input.sourceFolderId, 1000);
   if (!list.ok) return { ok: false, error: list.error === "not_found" ? "invalid_source" : list.error };
   const files = list.items.filter((i) => !i.isFolder).sort((a, b) => a.name.localeCompare(b.name));
   const slice = files.slice(input.cursor, input.cursor + Math.max(1, Math.min(input.limit, 10)));
@@ -98,9 +102,9 @@ export async function importBatch(input: ImportBatchInput): Promise<{ ok: true; 
       bytes,
       classification: input.classification,
       consent: input.consent,
-      consentNote: "",
+      consentNote: input.consentNote ?? "",
       credit: input.credit,
-      altText: "",
+      altText: input.altText ? input.altText(f.name, files.indexOf(f) + 1) : "",
       altTextEn: "",
       stamp,
     });

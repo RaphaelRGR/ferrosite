@@ -33,9 +33,7 @@ function readProjectFields(fd: FormData): { fields: Record<string, unknown> } | 
   if (!PROJECT_CATEGORIES.includes(category)) return { error: "invalid", field: "category" };
   const classification = str(fd, "classification") as Classification;
   if (!CLASSIFICATIONS.includes(classification)) return { error: "invalid", field: "classification" };
-  const starts_on = dateOrNull(str(fd, "starts_on"));
-  const ends_on = dateOrNull(str(fd, "ends_on"));
-  if (starts_on && ends_on && ends_on < starts_on) return { error: "invalid", field: "ends_on" };
+  // PROJ-002: projetos do curso são permanentes; starts_on/ends_on ficam no banco sem uso (não são gravados).
   return {
     fields: {
       name,
@@ -46,8 +44,6 @@ function readProjectFields(fd: FormData): { fields: Record<string, unknown> } | 
       description_md_en: str(fd, "description_md_en", 20000),
       category,
       classification,
-      starts_on,
-      ends_on,
     },
   };
 }
