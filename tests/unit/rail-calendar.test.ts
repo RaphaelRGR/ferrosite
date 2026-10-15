@@ -38,3 +38,32 @@ describe("calendário ferroviário (CAL-001)", () => {
     expect(regionOf("US")).toBe("mundo");
   });
 });
+
+describe("grade do mês (calendário)", () => {
+  it("monta semanas de domingo a sábado", async () => {
+    const { monthMatrix } = await import("@/lib/calendar/rail");
+    const sep = monthMatrix(2026, 9); // 1/9/2026 é terça
+    expect(sep[0]).toEqual([null, null, "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04", "2026-09-05"]);
+    expect(sep.flat().filter(Boolean)).toHaveLength(30);
+    expect(sep.every((w) => w.length === 7)).toBe(true);
+    expect(monthMatrix(2026, 2).flat().filter(Boolean)).toHaveLength(28);
+  });
+
+  it("eventos por dia e por mês consideram a duração", async () => {
+    const { eventsOnDay, eventsInMonth } = await import("@/lib/calendar/rail");
+    const ev = [
+      { name: "A", starts_on: "2026-09-29", ends_on: "2026-10-02" },
+      { name: "B", starts_on: "2026-09-22", ends_on: null },
+    ];
+    expect(eventsOnDay(ev, "2026-10-01").map((e) => e.name)).toEqual(["A"]);
+    expect(eventsOnDay(ev, "2026-09-22").map((e) => e.name)).toEqual(["B"]);
+    expect(eventsInMonth(ev, 2026, 10).map((e) => e.name)).toEqual(["A"]);
+    expect(eventsInMonth(ev, 2026, 9).map((e) => e.name)).toEqual(["A", "B"]);
+  });
+
+  it("dias da semana no idioma da página, começando no domingo", async () => {
+    const { weekdayNames } = await import("@/lib/calendar/rail");
+    expect(weekdayNames("pt")[0].toLowerCase()).toMatch(/^dom/);
+    expect(weekdayNames("en")[0]).toMatch(/^Sun/);
+  });
+});

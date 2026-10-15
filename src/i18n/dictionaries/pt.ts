@@ -86,6 +86,18 @@ export const pt = {
   calendar: {
     heading: "Calendário ferroviário {year}",
     intro: "Principais eventos do setor ferroviário e metroferroviário no Brasil e no mundo. Datas conforme os sites oficiais: confirme com o organizador antes de se programar.",
+    view: "Ver como",
+    views: { list: "Lista", grid: "Calendário" },
+    prevMonth: "Mês anterior",
+    nextMonth: "Próximo mês",
+    months: "Meses",
+    monthEvents: "Eventos de {month}",
+    dayEvents: "Eventos em {date}",
+    noEventsMonth: "Nenhum evento em {month}.",
+    showMonth: "Ver o mês inteiro",
+    today: "Hoje",
+    dayLabel: "{date}: {count} eventos",
+    dayLabelOne: "{date}: 1 evento",
     filter: "Mostrar",
     all: "Todos",
     regions: { brasil: "Brasil", mundo: "Mundo" },
@@ -95,6 +107,7 @@ export const pt = {
     past: "Já aconteceu",
     official: "Site oficial",
     count: "{count} eventos",
+    countOne: "1 evento",
   },
   pages: {
     // Descrições copiadas verbatim das páginas atuais (quarentena editorial em BASE-002).

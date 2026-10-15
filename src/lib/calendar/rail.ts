@@ -83,3 +83,34 @@ export function countryName(locale: "pt" | "en", code: string): string {
 export function regionOf(country: string): RailRegion {
   return country === "BR" ? "brasil" : "mundo";
 }
+
+/** Semanas do mês (domingo a sábado) com as datas YYYY-MM-DD; `null` fora do mês. */
+export function monthMatrix(year: number, month: number): Array<Array<string | null>> {
+  const first = new Date(Date.UTC(year, month - 1, 1));
+  const days = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const cells: Array<string | null> = Array(first.getUTCDay()).fill(null);
+  for (let d = 1; d <= days; d++) cells.push(`${year}-${String(month).padStart(2, "0")}-${String(d).padStart(2, "0")}`);
+  while (cells.length % 7) cells.push(null);
+  const weeks: Array<Array<string | null>> = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  return weeks;
+}
+
+/** Eventos que acontecem no dia (início ≤ dia ≤ fim). */
+export function eventsOnDay<T extends Pick<RailEvent, "starts_on" | "ends_on">>(events: T[], day: string): T[] {
+  return events.filter((e) => e.starts_on <= day && (e.ends_on ?? e.starts_on) >= day);
+}
+
+/** Eventos que tocam o mês (começam, terminam ou atravessam). */
+export function eventsInMonth<T extends Pick<RailEvent, "starts_on" | "ends_on">>(events: T[], year: number, month: number): T[] {
+  const first = `${year}-${String(month).padStart(2, "0")}-01`;
+  const last = `${year}-${String(month).padStart(2, "0")}-31`;
+  return events.filter((e) => e.starts_on <= last && (e.ends_on ?? e.starts_on) >= first);
+}
+
+/** Nomes curtos dos dias da semana, de domingo a sábado, no idioma da página. */
+export function weekdayNames(locale: "pt" | "en"): string[] {
+  const fmt = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-GB", { timeZone: "UTC", weekday: "short" });
+  // 2026-03-01 é domingo
+  return Array.from({ length: 7 }, (_, i) => fmt.format(new Date(Date.UTC(2026, 2, 1 + i))).replace(".", ""));
+}
