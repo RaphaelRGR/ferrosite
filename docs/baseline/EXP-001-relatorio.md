@@ -41,7 +41,18 @@ Data: 2026-10-15 · Pedido: "como conseguiria adicionar novas experiências no s
 - Suíte completa: unit 242, RLS 100 (15 arquivos), lint, typecheck e build.
 - E2E: não rodado. O projeto Supabase de testes (TEST-001) ainda não foi configurado, e o e2e se recusa a rodar contra a produção.
 
-## Dados
+## Dados (feito pelo fluxo novo, em produção)
 
-- **FTC:** as fotos novas (77, trocadas no Drive em 14/10) entram pelo fluxo novo: pasta `2026-1/2/FTC (15/05)/FOTOS`.
-- **RUMO Araucária (23/09):** experiência nova pelo fluxo novo, pasta `2026-1/2/RUMO LOGISTICA 23/09` (72 fotos). O texto sai só do relatório `Relatorio_Visita_RUMO_Araucaria_2026`, sem o nome da egressa que guiou a visita.
+| Experiência | Resultado |
+|---|---|
+| **FTC** (`visita-tecnica-ftc-2026`) | Pasta `2026-1/2/FTC (15/05)/FOTOS` ligada à experiência e importada: **77 fotos** (49 JPEG, 2 PNG e 26 HEIC do iPhone). Capa: a turma diante de uma locomotiva (IMG_5809, HEIC), servida como JPEG. Republicada. |
+| **RUMO Araucária** (`visita-tecnica-rumo-logistica-araucaria-2026`, nova) | Criada pela tela "Nova experiência" (23/09/2026, Araucária (PR)). Texto só a partir do relatório oficial, sem o nome da egressa que guiou a visita. **75 fotos** com descrições a partir do nome dos arquivos. Capa "Grupo oficial da visita". Publicada; já aparece na Home e no hub. |
+| Short da visita de 23/09 | `gkah4waIi-Q` (link do relatório; canal do curso conferido pelo oEmbed) entrou na lista de Shorts. |
+
+## Ajustes feitos durante o uso real
+
+- **Contagem de fotos:** a lista dizia "93 fotos no site" na RUMO de junho, mas o site mostra 28. A contagem e a grade passaram a usar a mesma regra da publicação (verificada, pública, com autorização). Foto interna aparece como "Interna: sem autorização", com "Liberar para o site".
+- **Autorização por importação:** ela é marcada na hora de importar, e não lida de `consent_confirmed`, que antes valia só para a capa. Assim, adicionar uma pasta a uma experiência antiga não publica fotos sem uma confirmação nova.
+- **HEIC** (migration `20261015000300`): fotos de iPhone aceitas e provadas por magic bytes (`ftyp heic/mif1…`). Site e Portal mostram sempre a miniatura JPEG gerada pelo Drive.
+- **Miniaturas do Portal:** aceitam `?w=` (grade em 480 px, galeria em 240) e ficam 1 dia no navegador. Antes eram 640 px refeitas a cada 5 minutos, de 1,5 a 2,7 s cada.
+- **Tempo de importação:** cerca de 8 s por foto, porque cada uma é copiada para o Drive do Portal. Uma pasta de 75 fotos leva perto de 10 minutos, e a tela mostra o progresso.
