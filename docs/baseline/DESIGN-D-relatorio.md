@@ -199,3 +199,12 @@ Cada seção tem composição própria:
   - depois (build strict): ≤ 0,012 em todas as páginas;
   - o 0,008 restante no desktop vem do logo novo (retrato) que ainda não está no repositório: o `BrandLogo` reserva um quadrado.
 - **Screenshots:** `docs/baseline/DESIGN-D/antes` e `depois` (16 páginas × 1440/390); a página de comparação foi publicada para aprovação.
+
+## Decisões finais do usuário (16/10)
+
+- **Fonte:** fica a Archivo.
+- **Logo oficial:** o lockup vertical novo.
+  - `BrandLogo` usa a proporção real (1122 × 1402) e reserva o espaço certo antes de carregar;
+  - no cabeçalho, o logo ficou com 44 px de largura (55 de altura);
+  - a imagem de compartilhamento usa 104 × 130.
+  - Com isso, o CLS medido no build strict ficou **0** na Home, Sobre, Laboratórios e Login, em 1440 e 390.
