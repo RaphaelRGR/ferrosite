@@ -5,7 +5,10 @@ import { logEvent } from "@/lib/observability/log";
  * JSON estruturada com rota, método e digest — sem corpo, cabeçalhos ou cookies.
  */
 export async function register(): Promise<void> {
-  logEvent("info", "app.start", { runtime: process.env.NEXT_RUNTIME, node: process.version, env: process.env.NODE_ENV });
+  // Versão do Node só no runtime nodejs; via globalThis para o bundle Edge não acusar `process.version`
+  // (o aviso "Ecmascript file had an error" enchia o terminal do dev a cada compilação).
+  const node = process.env.NEXT_RUNTIME === "nodejs" ? (globalThis as { process?: { versions?: { node?: string } } }).process?.versions?.node : undefined;
+  logEvent("info", "app.start", { runtime: process.env.NEXT_RUNTIME, node, env: process.env.NODE_ENV });
 }
 
 export const onRequestError = async (

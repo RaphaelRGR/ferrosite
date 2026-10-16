@@ -1,4 +1,12 @@
 @import "tailwindcss";
+/* Pastas geradas (builds, caches binários do Turbopack, screenshots): nunca procurar classes nelas.
+   Um cache .sst com "bg-[var(--board-" seguido de bytes binários já quebrou o CSS no dev (DESIGN-D). */
+@source not "../../.next";
+@source not "../../.next-e2e";
+@source not "../../.next-design";
+@source not "../../.next-design-review";
+@source not "../../docs";
+@source not "../../test-results";
 @import "../components/public/motion/motion.css";
 
 /* ─── Tokens ──────────────────────────────────────────────────────────────
