@@ -202,7 +202,7 @@ Não bloqueiam BASE-001, shells, tokens, testes ou protótipo com fixtures isola
 
 - **Uso das skills:** a taste-skill e a impeccable entram como referência de qualidade, não como checklist (decisão do usuário). Padrões existentes ficam quando ajudam hierarquia, navegação, clareza ou identidade.
 - **Tipografia:** fica a **Archivo** (escolhida pelo usuário depois do teste comparativo com Barlow e Geist em `/design-system/tipografia`). Vale só no site público; o Portal segue com a Geist. O "&" vem da Barlow (títulos: Barlow Condensed; texto: Barlow), por preferência do usuário pelo desenho clássico.
-- **Logo:** o lockup vertical enviado em 16/10 (`public/brand/efm-logo-lockup.png`, 1122 × 1402, fundo transparente) é o **logo oficial**. Ele é usado sem alteração, sempre sobre o fundo branco do `BrandLogo`, inclusive no tema escuro do Portal.
+- **Logo:** o lockup vertical enviado em 16/10 (`public/brand/efm-logo-lockup.png`, 1122 × 1402, fundo transparente) é o **logo oficial**. Há duas versões oficiais, usadas sem alteração e **sem moldura branca**: `efm-logo-lockup.png` (letra preta, fundos claros: o site público e o Portal claro) e `efm-logo-lockup-white.png` (letra branca: Portal escuro e imagem de compartilhamento). A troca é por tema, só com CSS.
 - **Menu:** Notícias continua no menu principal; Início passa a ser o logo no desktop.
 - **Conteúdo:** nada inventado. Modalidades de cooperação seguem pendentes, e indicadores/parceiros do protótipo seguem em quarentena.
 - **Pendente:**

@@ -50,7 +50,7 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
           data-brand-logo
           className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         >
-          <BrandLogo width={44} className="p-0.5" />
+          <BrandLogo width={54} />
           {/* Entre lg e xl o nome sai e fica o logo, para os 6 links não quebrarem linha */}
           <span className="flex flex-col leading-tight lg:hidden xl:flex">
             <span className="f-display text-base font-black sm:text-lg">{labels.site.brandLine1}</span>
@@ -95,7 +95,7 @@ export function PublicHeader({ locale, labels }: { locale: Locale; labels: Publi
 
       <Drawer open={open} onClose={() => setOpen(false)} title={labels.a11y.mainNavigation} side="right">
         <div className="flex items-center justify-between border-b border-line p-4">
-          <BrandLogo width={56} className="p-1" />
+          <BrandLogo width={56} />
           <button
             type="button"
             onClick={() => setOpen(false)}

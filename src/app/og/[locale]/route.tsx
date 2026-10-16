@@ -24,7 +24,7 @@ export async function GET(_req: Request, ctx: RouteContext<"/og/[locale]">) {
   if (!hasLocale(locale)) return new NextResponse(null, { status: 404 });
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const dict = getDictionary(l);
-  const logo = await readFile(path.join(process.cwd(), "public/brand/efm-logo-lockup.png"));
+  const logo = await readFile(path.join(process.cwd(), "public/brand/efm-logo-lockup-white.png"));
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
@@ -43,9 +43,9 @@ export async function GET(_req: Request, ctx: RouteContext<"/og/[locale]">) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          {/* lockup vertical oficial: 1122 × 1402 */}
+          {/* lockup vertical oficial, versão de letra branca (o cartão é escuro): 1122 × 1402, sem moldura */}
           {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse não usa next/image */}
-          <img src={logoSrc} width={104} height={130} alt="" style={{ background: "#ffffff", borderRadius: 24, padding: 12 }} />
+          <img src={logoSrc} width={112} height={140} alt="" />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: 6, color: "#ff8a5b" }}>UFSC JOINVILLE</span>
             <span style={{ fontSize: 26, color: "#a5abb4" }}>{dict.footer.center}</span>

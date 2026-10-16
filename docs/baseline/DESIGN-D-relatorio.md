@@ -213,3 +213,9 @@ Cada seção tem composição própria:
   - nos títulos (`--font-display`), da Barlow Condensed 800; no texto corrido (`--font-text`), da Barlow 400/700;
   - testado contra B (escolhida), C (& da Geist), D (escrever "e"), E (Barlow Condensed inteira) e F (Geist);
   - depois disso, as 32 capturas "depois" (16 páginas × 1440/390) deram **CLS 0**.
+- **Logo em duas versões (pedido do usuário):**
+  - letra preta (`efm-logo-lockup.png`) e letra branca (`efm-logo-lockup-white.png`, que antes era o "ChatGPT Image…png");
+  - `BrandLogo` perdeu a moldura branca e troca a versão pelo `data-theme` do `<html>` (`brand-logo.css`, sem JS e sem flash);
+  - o site público, sempre claro, baixa só a versão preta;
+  - a imagem de compartilhamento usa a branca sobre o fundo escuro;
+  - logo do cabeçalho com 54 px; CLS continua 0.

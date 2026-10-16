@@ -1,165 +1,165 @@
 {
   "base": "http://localhost:3200",
-  "captured_at": "2026-10-16T20:40:10.149Z",
+  "captured_at": "2026-10-16T20:49:45.726Z",
   "summary": [
     {
       "key": "home-pt@1440",
-      "lcp_ms": 864,
+      "lcp_ms": 1380,
       "cls": 0
     },
     {
       "key": "home-en@1440",
-      "lcp_ms": 420,
+      "lcp_ms": 800,
       "cls": 0
     },
     {
       "key": "curso@1440",
-      "lcp_ms": 1296,
+      "lcp_ms": 1316,
       "cls": 0
     },
     {
       "key": "curso-lista@1440",
-      "lcp_ms": 1328,
+      "lcp_ms": 1360,
       "cls": 0
     },
     {
       "key": "projetos@1440",
-      "lcp_ms": 460,
+      "lcp_ms": 352,
       "cls": 0
     },
     {
       "key": "projeto@1440",
-      "lcp_ms": 352,
+      "lcp_ms": 332,
       "cls": 0
     },
     {
       "key": "experiencias@1440",
-      "lcp_ms": 792,
+      "lcp_ms": 1152,
       "cls": 0
     },
     {
       "key": "experiencia@1440",
-      "lcp_ms": 1192,
+      "lcp_ms": 1220,
       "cls": 0
     },
     {
       "key": "calendario-lista@1440",
-      "lcp_ms": 360,
+      "lcp_ms": 372,
       "cls": 0
     },
     {
       "key": "calendario-grade@1440",
-      "lcp_ms": 392,
+      "lcp_ms": 348,
       "cls": 0
     },
     {
       "key": "noticias@1440",
-      "lcp_ms": 424,
+      "lcp_ms": 364,
       "cls": 0
     },
     {
       "key": "para-empresas@1440",
-      "lcp_ms": 344,
+      "lcp_ms": 532,
       "cls": 0
     },
     {
       "key": "laboratorios@1440",
-      "lcp_ms": 360,
+      "lcp_ms": 416,
       "cls": 0
     },
     {
       "key": "laboratorio@1440",
-      "lcp_ms": 352,
+      "lcp_ms": 364,
       "cls": 0
     },
     {
       "key": "sobre@1440",
-      "lcp_ms": 284,
+      "lcp_ms": 316,
       "cls": 0
     },
     {
       "key": "login@1440",
-      "lcp_ms": 276,
+      "lcp_ms": 372,
       "cls": 0
     },
     {
       "key": "home-pt@390",
-      "lcp_ms": 1352,
+      "lcp_ms": 1152,
       "cls": 0
     },
     {
       "key": "home-en@390",
-      "lcp_ms": 892,
+      "lcp_ms": 948,
       "cls": 0
     },
     {
       "key": "curso@390",
-      "lcp_ms": 1092,
+      "lcp_ms": 1488,
       "cls": 0
     },
     {
       "key": "curso-lista@390",
-      "lcp_ms": 1112,
+      "lcp_ms": 1388,
       "cls": 0
     },
     {
       "key": "projetos@390",
-      "lcp_ms": 508,
+      "lcp_ms": 700,
       "cls": 0
     },
     {
       "key": "projeto@390",
-      "lcp_ms": 468,
+      "lcp_ms": 528,
       "cls": 0
     },
     {
       "key": "experiencias@390",
-      "lcp_ms": 1028,
+      "lcp_ms": 920,
       "cls": 0
     },
     {
       "key": "experiencia@390",
-      "lcp_ms": 888,
+      "lcp_ms": 868,
       "cls": 0
     },
     {
       "key": "calendario-lista@390",
-      "lcp_ms": 324,
+      "lcp_ms": 424,
       "cls": 0
     },
     {
       "key": "calendario-grade@390",
-      "lcp_ms": 356,
+      "lcp_ms": 404,
       "cls": 0
     },
     {
       "key": "noticias@390",
-      "lcp_ms": 256,
+      "lcp_ms": 404,
       "cls": 0
     },
     {
       "key": "para-empresas@390",
-      "lcp_ms": 320,
+      "lcp_ms": 496,
       "cls": 0
     },
     {
       "key": "laboratorios@390",
-      "lcp_ms": 336,
+      "lcp_ms": 424,
       "cls": 0
     },
     {
       "key": "laboratorio@390",
-      "lcp_ms": 296,
+      "lcp_ms": 432,
       "cls": 0
     },
     {
       "key": "sobre@390",
-      "lcp_ms": 272,
+      "lcp_ms": 404,
       "cls": 0
     },
     {
       "key": "login@390",
-      "lcp_ms": 244,
+      "lcp_ms": 332,
       "cls": 0
     }
   ],
@@ -168,7 +168,7 @@
       "page": "home-pt",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 864,
+      "lcp_ms": 1380,
       "cls": 0,
       "overflow_px": 0,
       "file": "home-pt-1440.jpg"
@@ -177,7 +177,7 @@
       "page": "home-en",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 420,
+      "lcp_ms": 800,
       "cls": 0,
       "overflow_px": 0,
       "file": "home-en-1440.jpg"
@@ -186,7 +186,7 @@
       "page": "curso",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 1296,
+      "lcp_ms": 1316,
       "cls": 0,
       "overflow_px": 0,
       "file": "curso-1440.jpg"
@@ -195,7 +195,7 @@
       "page": "curso-lista",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 1328,
+      "lcp_ms": 1360,
       "cls": 0,
       "overflow_px": 0,
       "file": "curso-lista-1440.jpg"
@@ -204,7 +204,7 @@
       "page": "projetos",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 460,
+      "lcp_ms": 352,
       "cls": 0,
       "overflow_px": 0,
       "file": "projetos-1440.jpg"
@@ -213,7 +213,7 @@
       "page": "projeto",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 352,
+      "lcp_ms": 332,
       "cls": 0,
       "overflow_px": 0,
       "file": "projeto-1440.jpg"
@@ -222,7 +222,7 @@
       "page": "experiencias",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 792,
+      "lcp_ms": 1152,
       "cls": 0,
       "overflow_px": 0,
       "file": "experiencias-1440.jpg"
@@ -231,7 +231,7 @@
       "page": "experiencia",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 1192,
+      "lcp_ms": 1220,
       "cls": 0,
       "overflow_px": 0,
       "file": "experiencia-1440.jpg"
@@ -240,7 +240,7 @@
       "page": "calendario-lista",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 360,
+      "lcp_ms": 372,
       "cls": 0,
       "overflow_px": 0,
       "file": "calendario-lista-1440.jpg"
@@ -249,7 +249,7 @@
       "page": "calendario-grade",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 392,
+      "lcp_ms": 348,
       "cls": 0,
       "overflow_px": 0,
       "file": "calendario-grade-1440.jpg"
@@ -258,7 +258,7 @@
       "page": "noticias",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 424,
+      "lcp_ms": 364,
       "cls": 0,
       "overflow_px": 0,
       "file": "noticias-1440.jpg"
@@ -267,7 +267,7 @@
       "page": "para-empresas",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 344,
+      "lcp_ms": 532,
       "cls": 0,
       "overflow_px": 0,
       "file": "para-empresas-1440.jpg"
@@ -276,7 +276,7 @@
       "page": "laboratorios",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 360,
+      "lcp_ms": 416,
       "cls": 0,
       "overflow_px": 0,
       "file": "laboratorios-1440.jpg"
@@ -285,7 +285,7 @@
       "page": "laboratorio",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 352,
+      "lcp_ms": 364,
       "cls": 0,
       "overflow_px": 0,
       "file": "laboratorio-1440.jpg"
@@ -294,7 +294,7 @@
       "page": "sobre",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 284,
+      "lcp_ms": 316,
       "cls": 0,
       "overflow_px": 0,
       "file": "sobre-1440.jpg"
@@ -303,7 +303,7 @@
       "page": "login",
       "width": 1440,
       "status": 200,
-      "lcp_ms": 276,
+      "lcp_ms": 372,
       "cls": 0,
       "overflow_px": 0,
       "file": "login-1440.jpg"
@@ -312,7 +312,7 @@
       "page": "home-pt",
       "width": 390,
       "status": 200,
-      "lcp_ms": 1352,
+      "lcp_ms": 1152,
       "cls": 0,
       "overflow_px": 0,
       "file": "home-pt-390.jpg"
@@ -321,7 +321,7 @@
       "page": "home-en",
       "width": 390,
       "status": 200,
-      "lcp_ms": 892,
+      "lcp_ms": 948,
       "cls": 0,
       "overflow_px": 0,
       "file": "home-en-390.jpg"
@@ -330,7 +330,7 @@
       "page": "curso",
       "width": 390,
       "status": 200,
-      "lcp_ms": 1092,
+      "lcp_ms": 1488,
       "cls": 0,
       "overflow_px": 0,
       "file": "curso-390.jpg"
@@ -339,7 +339,7 @@
       "page": "curso-lista",
       "width": 390,
       "status": 200,
-      "lcp_ms": 1112,
+      "lcp_ms": 1388,
       "cls": 0,
       "overflow_px": 0,
       "file": "curso-lista-390.jpg"
@@ -348,7 +348,7 @@
       "page": "projetos",
       "width": 390,
       "status": 200,
-      "lcp_ms": 508,
+      "lcp_ms": 700,
       "cls": 0,
       "overflow_px": 0,
       "file": "projetos-390.jpg"
@@ -357,7 +357,7 @@
       "page": "projeto",
       "width": 390,
       "status": 200,
-      "lcp_ms": 468,
+      "lcp_ms": 528,
       "cls": 0,
       "overflow_px": 0,
       "file": "projeto-390.jpg"
@@ -366,7 +366,7 @@
       "page": "experiencias",
       "width": 390,
       "status": 200,
-      "lcp_ms": 1028,
+      "lcp_ms": 920,
       "cls": 0,
       "overflow_px": 0,
       "file": "experiencias-390.jpg"
@@ -375,7 +375,7 @@
       "page": "experiencia",
       "width": 390,
       "status": 200,
-      "lcp_ms": 888,
+      "lcp_ms": 868,
       "cls": 0,
       "overflow_px": 0,
       "file": "experiencia-390.jpg"
@@ -384,7 +384,7 @@
       "page": "calendario-lista",
       "width": 390,
       "status": 200,
-      "lcp_ms": 324,
+      "lcp_ms": 424,
       "cls": 0,
       "overflow_px": 0,
       "file": "calendario-lista-390.jpg"
@@ -393,7 +393,7 @@
       "page": "calendario-grade",
       "width": 390,
       "status": 200,
-      "lcp_ms": 356,
+      "lcp_ms": 404,
       "cls": 0,
       "overflow_px": 0,
       "file": "calendario-grade-390.jpg"
@@ -402,7 +402,7 @@
       "page": "noticias",
       "width": 390,
       "status": 200,
-      "lcp_ms": 256,
+      "lcp_ms": 404,
       "cls": 0,
       "overflow_px": 0,
       "file": "noticias-390.jpg"
@@ -411,7 +411,7 @@
       "page": "para-empresas",
       "width": 390,
       "status": 200,
-      "lcp_ms": 320,
+      "lcp_ms": 496,
       "cls": 0,
       "overflow_px": 0,
       "file": "para-empresas-390.jpg"
@@ -420,7 +420,7 @@
       "page": "laboratorios",
       "width": 390,
       "status": 200,
-      "lcp_ms": 336,
+      "lcp_ms": 424,
       "cls": 0,
       "overflow_px": 0,
       "file": "laboratorios-390.jpg"
@@ -429,7 +429,7 @@
       "page": "laboratorio",
       "width": 390,
       "status": 200,
-      "lcp_ms": 296,
+      "lcp_ms": 432,
       "cls": 0,
       "overflow_px": 0,
       "file": "laboratorio-390.jpg"
@@ -438,7 +438,7 @@
       "page": "sobre",
       "width": 390,
       "status": 200,
-      "lcp_ms": 272,
+      "lcp_ms": 404,
       "cls": 0,
       "overflow_px": 0,
       "file": "sobre-390.jpg"
@@ -447,7 +447,7 @@
       "page": "login",
       "width": 390,
       "status": 200,
-      "lcp_ms": 244,
+      "lcp_ms": 332,
       "cls": 0,
       "overflow_px": 0,
       "file": "login-390.jpg"
