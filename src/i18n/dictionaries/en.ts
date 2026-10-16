@@ -1279,6 +1279,13 @@ export const en: Dictionary = {
       back: "Back to the Portal home",
     },
   },
+  projectsHub: {
+    categories: "Categories",
+    count: "{count} projects",
+    countOne: "1 project",
+    sameCategory: "More in {category}",
+    all: "All projects",
+  },
   home: {
     hero: {
       eyebrow: "Mobility that connects people and transforms cities",

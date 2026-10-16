@@ -98,3 +98,23 @@ Cada seção tem composição própria:
   - o CTA final "Faça parte dessa jornada" (`FinalCta` e as chaves `home.cta`), porque o rodapé faz o fechamento e "Conheça o curso" está no topo.
 - **Quarentena sem mudança:** indicadores, notícias e parceiros do protótipo continuam só em `review`.
 - **Captura:** `screens.mjs` marca as entradas animadas como vistas antes da foto, porque no dev a hidratação lenta deixava seções invisíveis na captura.
+
+## Fase 3: Projetos (lista + página do projeto)
+
+- **Hub `/projetos`:**
+  - título e descrição atuais;
+  - **atalhos por categoria** (âncoras, sem JS; selo com ícone + texto + quantidade);
+  - os projetos ficam **agrupados por categoria** na ordem em que a coordenação os cadastrou (`groupByCategory`, pura e testada);
+  - a variação de tamanho vem dos dados: categoria com 1 projeto vira faixa larga, com 3 vira colunas.
+- **Sem foto:** cada projeto é um **cartaz** na cor da categoria (`ProjectPoster`: par de cor AA já testado, trilhos em perspectiva, ícone no alto e no fluxo, para nunca cobrir o texto no celular). Com foto autorizada, a foto entra no lugar e o texto vem ao lado (faixa) ou abaixo.
+- **Página do projeto:**
+  - cabeçalho dentro do cartaz da categoria (voltar, categoria, nome, resumo);
+  - a foto de capa logo abaixo, em largura total, **só se houver** (antes era uma ilustração 21:9 enorme mesmo sem foto);
+  - texto em medida de leitura (68ch);
+  - galeria pública;
+  - "Mais em {categoria}" com até 3 projetos da mesma categoria.
+- **Removidos:**
+  - a grade `ProjectCards`: o arquivo ficou só com `projectText`;
+  - a moldura arredondada de 32px com borda da página do projeto.
+- **e2e `design-c`:** atualizado. Cada projeto continua precisando ter foto **ou** capa da categoria; o selo com ícone + texto agora é exigido nos atalhos de categoria.
+- **Fotos:** hoje nenhum dos 9 projetos tem capa. O layout funciona sem foto, mas fica melhor com ela; a capa pode ser cadastrada pelo Portal (projeto → arquivos), que já existe.

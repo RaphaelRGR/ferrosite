@@ -71,7 +71,7 @@ export function ProjectCover({ category, aspect = "aspect-[16/9]" }: { category:
 
 /**
  * Cartaz do projeto sem foto (DESIGN-D): fundo e texto da categoria (par AA), trilhos em perspectiva e o
- * ícone grande no canto; o conteúdo (nome, resumo) vem como filho e fica legível sobre a cor.
+ * ícone no alto; o conteúdo (nome, resumo) vem como filho, embaixo. Quem usa passa `flex flex-col`.
  */
 export function ProjectPoster({ category, className = "", children }: { category: string; className?: string; children: ReactNode }) {
   const k = categoryKey(category);
@@ -87,7 +87,8 @@ export function ProjectPoster({ category, className = "", children }: { category
         <line x1="75" y1="225" x2="182" y2="95" strokeWidth="5" />
         <line x1="325" y1="225" x2="218" y2="95" strokeWidth="5" />
       </svg>
-      <Icon k={k} className="pointer-events-none absolute right-6 top-6 size-16 opacity-70 sm:right-10 sm:top-10 sm:size-20" />
+      {/* no fluxo (topo, à direita), para nunca cobrir o texto em telas estreitas */}
+      <Icon k={k} className="pointer-events-none relative mb-auto size-12 shrink-0 self-end opacity-70 sm:size-16" />
       <div className="relative flex flex-col gap-4">{children}</div>
     </div>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { UnverifiedContent } from "@/components/editorial/UnverifiedContent";
 import { PendingPage } from "@/components/editorial/PendingContent";
@@ -10,11 +11,12 @@ import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedGallery } from "@/components/public/PublishedGallery";
-import { CategoryChip, ProjectCover } from "@/components/public/projects/ProjectCover";
+import { categoryKey, ProjectPoster } from "@/components/public/projects/ProjectCover";
+import { categoryLabel, ProjectTile } from "@/components/public/projects/ProjectGroups";
 import { projectText } from "@/components/public/projects/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
 import { mediaImage, mediaUrl } from "@/lib/content/media";
-import { getPublicProject, publicProjectGallery } from "@/lib/content/public";
+import { getPublicProject, listPublicProjects, publicCoverIds, publicProjectGallery } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
 
 export const revalidate = 300;
@@ -47,38 +49,55 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
   const real = await getPublicProject(slug);
   const realText = real ? projectText(real, l) : null;
   if (real && realText) {
-    const gallery = await publicProjectGallery(slug, l);
+    const [gallery, all] = await Promise.all([publicProjectGallery(slug, l), listPublicProjects()]);
     const description = l === "en" ? real.description_md_en : real.description_md;
+    const label = categoryLabel(dict, real.category);
+    // outros projetos da mesma categoria (na ordem da coordenação), com texto no idioma
+    const siblings = all.filter((p) => p.slug !== slug && categoryKey(p.category) === categoryKey(real.category) && projectText(p, l)).slice(0, 3);
+    const siblingCovers = await publicCoverIds(siblings.map((p) => ({ id: p.id, cover_file_id: p.cover_file_id })));
     return (
-      <section className="bg-canvas">
-        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12" data-published="live">
-            <CategoryChip category={real.category} label={dict.portal.projectCategory[real.category as keyof typeof dict.portal.projectCategory]} />
-            <div className="mt-4">
-              <SectionHeading as="h1" eyebrow={dict.pages.projects.title} title={realText.name} description={realText.summary} />
-            </div>
-            {!gallery[0] && (
-              <div className="mt-8 overflow-hidden rounded-2xl border border-line">
-                <ProjectCover category={real.category} aspect="aspect-[21/9]" />
-              </div>
-            )}
-            {gallery[0] && (
-              <figure className="mt-8">
-                {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
-                <img {...mediaImage(gallery[0].fileId, "article")} alt={gallery[0].alt} className="w-full rounded-2xl border border-line" />
-                {gallery[0].credit && <figcaption className="mt-2 text-xs text-fg-muted">{`${dict.published.credit}: ${gallery[0].credit}`}</figcaption>}
-              </figure>
-            )}
-            {description && <div className="prose-content mt-8 text-base" dangerouslySetInnerHTML={{ __html: renderMarkdown(description) }} />}
-            <PublishedGallery items={gallery.slice(1)} title={dict.published.gallery} creditLabel={dict.published.credit} labels={dict.published.lightbox} />
-            <div className="mt-8">
-              <LinkButton href={localizePath(l, "/projetos")} variant="secondary">
-                ← {dict.pages.projects.title}
-              </LinkButton>
-            </div>
+      <article data-published="live">
+        {/* Cabeçalho no cartaz da categoria (identidade sem depender de foto); a foto, se houver, vem logo abaixo. */}
+        <header className="bg-surface pt-6 sm:pt-10">
+          <div className="mx-auto max-w-7xl sm:px-6">
+            <ProjectPoster category={real.category} className="flex flex-col justify-end gap-4 px-4 py-10 sm:rounded-2xl sm:p-10 lg:p-14">
+              <Link href={localizePath(l, "/projetos")} className="inline-flex w-fit items-center gap-1 rounded text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current">
+                <span aria-hidden="true">←</span> {dict.projectsHub.all}
+              </Link>
+              <p className="text-sm font-bold">{label}</p>
+              <h1 className="t-title max-w-4xl font-black">{realText.name}</h1>
+              <p className="t-lead max-w-[60ch]">{realText.summary}</p>
+            </ProjectPoster>
           </div>
+        </header>
+        {gallery[0] && (
+          <figure className="mx-auto mt-8 max-w-7xl sm:px-6">
+            {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
+            <img {...mediaImage(gallery[0].fileId, "wide")} alt={gallery[0].alt} className="aspect-[4/3] w-full object-cover sm:aspect-[21/9] sm:rounded-2xl" />
+            {gallery[0].credit && <figcaption className="meta mt-2 px-4 sm:px-0">{`${dict.published.credit}: ${gallery[0].credit}`}</figcaption>}
+          </figure>
+        )}
+        <div className="section-regular mx-auto max-w-7xl px-4 sm:px-6">
+          {description && <div className="prose-content max-w-[68ch] text-lg" dangerouslySetInnerHTML={{ __html: renderMarkdown(description) }} />}
+          <PublishedGallery items={gallery.slice(1)} title={dict.published.gallery} creditLabel={dict.published.credit} labels={dict.published.lightbox} />
         </div>
-      </section>
+        {siblings.length > 0 && (
+          <section aria-labelledby="mesma-categoria" className="section-regular bg-canvas">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+              <h2 id="mesma-categoria" className="t-subsection font-black">
+                {dict.projectsHub.sameCategory.replace("{category}", label)}
+              </h2>
+              <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {siblings.map((p) => (
+                  <li key={p.id} className="relative">
+                    <ProjectTile project={p} text={projectText(p, l)!} coverId={siblingCovers.get(p.id)} locale={l} detailLabel={dict.home.projects.detail} wide={false} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </article>
     );
   }
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);

@@ -1278,6 +1278,13 @@ export const pt = {
       back: "Voltar ao início do Portal",
     },
   },
+  projectsHub: {
+    categories: "Categorias",
+    count: "{count} projetos",
+    countOne: "1 projeto",
+    sameCategory: "Mais em {category}",
+    all: "Todos os projetos",
+  },
   home: {
     hero: {
       eyebrow: "Mobilidade que conecta pessoas e transforma cidades",

@@ -20,7 +20,7 @@ export function ResearchTeaser({ locale, dict, capabilityNames }: { locale: Loca
 
   return (
     <UnverifiedContent section="empresas.capacidades">
-      <section className="section-regular bg-surface">
+      <section className="section-regular bg-canvas">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12">
           <div data-reveal className="flex flex-col gap-5 lg:col-span-5">
             <p className="eyebrow">
