@@ -49,10 +49,9 @@ test("experiência sem foto usa a capa padrão da marca, decorativa", async ({ p
   await expect(capa).toContainText(/Visita técnica|Palestra|Evento/);
 });
 
-test("Home: sem notícia publicada, o CTA final não oferece 'Acompanhe as notícias'", async ({ page, request }) => {
-  const noticias = await (await request.get("/pt/noticias")).text();
-  const temNoticia = noticias.includes('aria-labelledby="noticias-publicadas"');
+test("Home (DESIGN-D): sem CTA final duplicado; curso no topo e notícias no menu", async ({ page }) => {
   await page.goto("/pt", { waitUntil: "load" });
-  await expect(page.getByRole("link", { name: "Acompanhe as notícias" })).toHaveCount(temNoticia ? 1 : 0);
-  await expect(page.getByRole("link", { name: "Conheça o curso" }).last()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Conheça o curso/ }).first()).toBeVisible();
+  await expect(page.getByRole("navigation", { name: /Navegação principal/ }).getByRole("link", { name: "Notícias" })).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Acompanhe as notícias" })).toHaveCount(0);
 });

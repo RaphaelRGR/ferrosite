@@ -31,13 +31,13 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
   return (
     <div className="bg-canvas">
       <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 section-compact">
           <SectionHeading as="h1" eyebrow={dict.about.eyebrow} title={dict.about.title} description={dict.about.description} />
         </div>
       </section>
 
       {!anyVisible && <EditorialPending dict={dict} />}
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 section-compact">
         <UnverifiedContent section="sobre.historia">
           <section className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
             <h2 className="t-subsection font-black">{dict.about.history}</h2>

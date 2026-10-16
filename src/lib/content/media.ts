@@ -7,9 +7,14 @@
 export const MEDIA_WIDTHS = [240, 320, 480, 640, 960, 1280, 1600] as const;
 export type MediaWidth = (typeof MEDIA_WIDTHS)[number];
 
-/** URL de uma largura específica (sem `w`, é o arquivo original). */
+/** URL de uma largura específica (sem `w`, é o arquivo original). A miniatura sai em WebP. */
 export function mediaUrl(fileId: string, width?: MediaWidth): string {
   return width ? `/api/midia/${fileId}?w=${width}` : `/api/midia/${fileId}`;
+}
+
+/** Imagem de compartilhamento (og:image): JPEG de 1280 px, porque nem todo robô de rede social lê WebP. */
+export function shareImageUrl(fileId: string): string {
+  return `/api/midia/${fileId}?w=1280&f=jpg`;
 }
 
 /** `srcset` com descritores de largura, para o navegador escolher pelo `sizes`. */
@@ -22,7 +27,7 @@ export const MEDIA_PRESETS = {
   /** Hero da Home: metade da tela no desktop, tela toda no celular. */
   hero: { widths: [480, 640, 960, 1280] as const, sizes: "(min-width: 1024px) 50vw, 100vw", fallback: 960 as MediaWidth },
   /** Foto larga sob o título (Home, DESIGN-D): a largura do conteúdo, até 1600 px. */
-  wide: { widths: [640, 960, 1280, 1600] as const, sizes: "(min-width: 1280px) 1232px, 100vw", fallback: 1280 as MediaWidth },
+  wide: { widths: [640, 960, 1280] as const, sizes: "(min-width: 1280px) 1232px, 100vw", fallback: 1280 as MediaWidth },
   /** Destaque de seção (mais ou menos 60% da largura no desktop). */
   feature: { widths: [480, 640, 960, 1280] as const, sizes: "(min-width: 1024px) 60vw, 100vw", fallback: 960 as MediaWidth },
   /** Miniatura de lista (cerca de 120 px). */
@@ -32,7 +37,7 @@ export const MEDIA_PRESETS = {
   /** Capa dentro do artigo (coluna estreita). */
   article: { widths: [640, 960, 1280] as const, sizes: "(min-width: 768px) 720px, 100vw", fallback: 960 as MediaWidth },
   /** Miniatura da galeria (2–3 colunas). */
-  thumb: { widths: [240, 320, 480] as const, sizes: "(min-width: 640px) 33vw, 50vw", fallback: 320 as MediaWidth },
+  thumb: { widths: [240, 320, 480] as const, sizes: "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw", fallback: 320 as MediaWidth },
   /** Foto aberta no lightbox. */
   full: { widths: [960, 1280, 1600] as const, sizes: "92vw", fallback: 1600 as MediaWidth },
 } satisfies Record<string, { widths: readonly MediaWidth[]; sizes: string; fallback: MediaWidth }>;

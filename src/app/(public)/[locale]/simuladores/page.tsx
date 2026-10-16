@@ -22,7 +22,7 @@ export default async function SimuladoresPage({ params }: PageProps<"/[locale]/s
   const dict = getDictionary(l);
   return (
     <section className="bg-canvas">
-      <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 section-compact">
         <SectionHeading as="h1" title={dict.simulators.title} description={dict.simulators.description} />
         <div className="mt-8">
           <LinkButton href={localizePath(l, "/")} variant="secondary">

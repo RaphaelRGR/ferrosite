@@ -37,12 +37,12 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
   return (
     <div className="bg-canvas">
       <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 section-compact">
           <SectionHeading as="h1" eyebrow={dict.newsPage.eyebrow} title={dict.newsPage.title} description={dict.newsPage.description} />
         </div>
       </section>
       {published.length === 0 && !isSectionVisible("noticias.hub") && <EditorialPending dict={dict} />}
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 section-compact">
         {published.length > 0 && (
           <section aria-labelledby="noticias-publicadas">
             <h2 id="noticias-publicadas" className="t-subsection font-black">

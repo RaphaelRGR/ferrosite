@@ -92,7 +92,7 @@ for (const width of widths) {
     await p.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => {});
     // estado "já rolou a página": as entradas animadas (data-reveal) ficam visíveis, como para quem leu até o fim
     await p.evaluate(() => document.querySelectorAll("[data-reveal], [data-reveal-group]").forEach((el) => el.classList.add("is-in")));
-    await p.waitForTimeout(1200);
+    await p.waitForTimeout(1600);
     const v = await p.evaluate(() => window.__vitals);
     const overflow = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     const file = `${page.id}-${width}.jpg`;

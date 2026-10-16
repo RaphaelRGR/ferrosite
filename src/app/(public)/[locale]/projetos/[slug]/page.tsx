@@ -15,7 +15,7 @@ import { categoryKey, ProjectPoster } from "@/components/public/projects/Project
 import { categoryLabel, ProjectTile } from "@/components/public/projects/ProjectGroups";
 import { projectText } from "@/components/public/projects/ProjectCards";
 import { renderMarkdown } from "@/lib/content/markdown";
-import { mediaImage, mediaUrl } from "@/lib/content/media";
+import { mediaImage, shareImageUrl } from "@/lib/content/media";
 import { getPublicProject, listPublicProjects, publicCoverIds, publicProjectGallery } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
 
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/projetos
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const real = await getPublicProject(slug);
   const realText = real ? projectText(real, l) : null;
-  const image = real?.cover_file_id ? { url: mediaUrl(real.cover_file_id, 1280), alt: realText?.name ?? "" } : null;
+  const image = real?.cover_file_id ? { url: shareImageUrl(real.cover_file_id), alt: realText?.name ?? "" } : null;
   if (realText) return publicPageMetadata(l, `/projetos/${slug}`, { title: realText.name, description: realText.summary, image });
   const project = FEATURED_PROJECTS.find((p) => p.id === slug);
   return project ? publicPageMetadata(l, `/projetos/${slug}`, { title: project.title, description: project.description }) : {};
@@ -106,9 +106,9 @@ export default async function ProjetoPage({ params }: PageProps<"/[locale]/proje
 
   return (
     <section className="bg-canvas">
-      <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 section-compact">
         <UnverifiedContent section="projetos.detalhe">
-          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
+          <div className="rounded-2xl bg-surface p-5 sm:p-8 md:p-12">
             <Badge tone="neutral">{project.meta}</Badge>
             <div className="mt-4">
               <SectionHeading as="h1" eyebrow={dict.pages.projects.title} title={project.title} description={project.description} />

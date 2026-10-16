@@ -1392,6 +1392,8 @@ export const en: Dictionary = {
     summary: "{name}: {ancestors} prerequisites and {descendants} dependents.",
     noSelection: "No subject selected.",
     keyboardHelp: "Arrow keys move between subjects; Enter selects; Shift+Enter opens details; Escape clears.",
+    mobileHint: "On a phone, the List view is usually more comfortable.",
+    switchToList: "Show as list",
     legacyPrerequisites: "2012 curriculum prerequisites are not in the official PDF; the relations shown come from the prototype and await validation.",
     unknownPrerequisites: "Prerequisites outside this curriculum (not drawn):",
     prerequisites: "Prerequisites",

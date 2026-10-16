@@ -10,7 +10,7 @@ import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
 import { PublishedArticle } from "@/components/public/PublishedArticle";
-import { mediaUrl } from "@/lib/content/media";
+import { shareImageUrl } from "@/lib/content/media";
 import { getPublished, publicCoverId, publicGallery } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
 
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/experien
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const published = await getPublished("experience", l, id);
   const coverId = published?.cover_file_id ? await publicCoverId(published) : null;
-  const image = coverId && published ? { url: mediaUrl(coverId, 1280), alt: published.cover_alt } : null;
+  const image = coverId && published ? { url: shareImageUrl(coverId), alt: published.cover_alt } : null;
   if (published) return publicPageMetadata(l, `/experiencias/${id}`, { title: published.title, description: published.summary, image });
   const item = EXPERIENCES.find((e) => e.id === id);
   return item ? publicPageMetadata(l, `/experiencias/${id}`, { title: item.title, description: item.description }) : {};
@@ -48,9 +48,9 @@ export default async function ExperienciaPage({ params }: PageProps<"/[locale]/e
 
   return (
     <section className="bg-canvas">
-      <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 section-compact">
         <UnverifiedContent section="experiencias.detalhe">
-          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
+          <div className="rounded-2xl bg-surface p-5 sm:p-8 md:p-12">
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={item.scope === "internacional" ? "info" : "neutral"}>{item.scope === "internacional" ? dict.experiences.international : dict.experiences.brazil}</Badge>
               <span className="meta">{item.when} · {item.meta}</span>

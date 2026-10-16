@@ -41,13 +41,13 @@ export function PublishedGallery({ items, title, creditLabel, labels }: { items:
   if (count === 0) return null;
   const current = open !== null ? items[open] : null;
   return (
-    <section aria-labelledby="galeria-title" className="mt-10">
+    <section aria-labelledby="galeria-title" className="mt-14">
       <h2 id="galeria-title" className="t-subsection font-black">
         {title}
       </h2>
-      <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3" data-gallery-count={count} data-reveal-group>
+      <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4" data-gallery-count={count} data-reveal-group>
         {items.map((g, i) => (
-          <li key={g.fileId} className="card-lift overflow-hidden rounded-xl border border-line bg-surface">
+          <li key={g.fileId} className="media-hover overflow-hidden rounded-xl bg-surface">
             <a
               href={mediaUrl(g.fileId, 1600)}
               className="zoom-media block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"

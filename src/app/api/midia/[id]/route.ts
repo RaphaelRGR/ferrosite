@@ -18,7 +18,8 @@ const CACHE = "public, max-age=300, s-maxage=300, stale-while-revalidate=3600";
  *
  * `?w=<largura>` (22): entrega a miniatura do Drive nessa largura em vez do
  * original — listas e galerias nunca baixam o arquivo inteiro. A largura vem de
- * uma lista fixa para não virar um gerador aberto de variações.
+ * uma lista fixa para não virar um gerador aberto de variações. A miniatura sai em
+ * WebP; `&f=jpg` pede JPEG (imagens de compartilhamento: nem todo robô lê WebP).
  */
 export async function GET(req: Request, ctx: RouteContext<"/api/midia/[id]">) {
   const { id } = await ctx.params;
@@ -26,6 +27,8 @@ export async function GET(req: Request, ctx: RouteContext<"/api/midia/[id]">) {
   const raw = new URL(req.url).searchParams.get("w");
   const width = raw ? Number(raw) : 0;
   if (raw && !(MEDIA_WIDTHS as readonly number[]).includes(width)) return driveFailure(400);
+  const f = new URL(req.url).searchParams.get("f");
+  if (f !== null && f !== "jpg") return driveFailure(400);
   const drive = (await getDriveClient())?.client ?? null;
   const admin = createAdminClient();
   // Drive fora do ar (conexão revogada/não configurada): 404 sem cache, para a foto voltar logo após reconectar.
@@ -33,6 +36,6 @@ export async function GET(req: Request, ctx: RouteContext<"/api/midia/[id]">) {
   const { data } = await admin.rpc("public_file_info", { p_file: id });
   const file = data?.[0];
   if (!file) return driveFailure(404);
-  if (width) return proxyDriveThumbnail(drive, file.external_id, width, CACHE);
+  if (width) return proxyDriveThumbnail(drive, file.external_id, width, CACHE, f === "jpg" ? "jpeg" : "webp");
   return proxyDriveFile(drive, file, { range: req.headers.get("range"), disposition: "inline", cache: CACHE });
 }

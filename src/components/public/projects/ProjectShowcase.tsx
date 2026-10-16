@@ -47,7 +47,7 @@ export function ProjectShowcase({ projects, covers, locale, dict, detailLabel, l
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-12" data-published="live">
       {covers.get(first.p.id) ? (
         <article data-reveal className="media-hover relative flex flex-col gap-4 lg:col-span-7">
-          <div className="zoom-media overflow-hidden rounded-2xl">{cover(first.p, "aspect-[16/10]", "feature")}</div>
+          <div className="wipe-in zoom-media overflow-hidden rounded-2xl">{cover(first.p, "aspect-[16/10]", "feature")}</div>
           <CategoryChip category={first.p.category} label={label(first.p)} />
           <h3 className="t-subsection f-display font-black">
             <Link href={href(first.p)} className={STRETCHED}>

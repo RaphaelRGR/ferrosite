@@ -20,6 +20,9 @@ if (existsSync(TEST_ENV_FILE)) {
 }
 // credenciais das contas de teste (E2E_*) para as specs; o ambiente explícito vence
 for (const [k, v] of Object.entries(testEnv)) if (!(k in process.env)) process.env[k] = v;
+// Specs que GRAVAM sem login (ex.: envio do formulário de desafio) só rodam com o projeto de testes.
+// Com PLAYWRIGHT_BASE_URL apontando para um `next dev` local (que usa o .env.local = produção), pulam.
+process.env.E2E_WRITES = existsSync(TEST_ENV_FILE) ? "1" : "0";
 const serverEnv = existsSync(TEST_ENV_FILE) ? { ...process.env, ...testEnv, NEXT_DIST_DIR: ".next-e2e" } as Record<string, string> : undefined;
 
 /**

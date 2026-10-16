@@ -1,0 +1,840 @@
+{
+  "base": "https://engferroviaria.vercel.app",
+  "captured_at": "2026-10-16T13:05:06.295Z",
+  "summary": [
+    {
+      "key": "home-pt@1440",
+      "lcp_ms": 1608,
+      "cls": 0
+    },
+    {
+      "key": "home-en@1440",
+      "lcp_ms": 13940,
+      "cls": 0
+    },
+    {
+      "key": "curso@1440",
+      "lcp_ms": 14544,
+      "cls": 0
+    },
+    {
+      "key": "curso-lista@1440",
+      "lcp_ms": 40424,
+      "cls": 0
+    },
+    {
+      "key": "projetos@1440",
+      "lcp_ms": 2556,
+      "cls": 0
+    },
+    {
+      "key": "projeto@1440",
+      "lcp_ms": 8820,
+      "cls": 0
+    },
+    {
+      "key": "experiencias@1440",
+      "lcp_ms": 5144,
+      "cls": 0
+    },
+    {
+      "key": "experiencia@1440",
+      "lcp_ms": 9356,
+      "cls": 0.058
+    },
+    {
+      "key": "calendario-lista@1440",
+      "lcp_ms": 7700,
+      "cls": 0.001
+    },
+    {
+      "key": "calendario-grade@1440",
+      "lcp_ms": 5432,
+      "cls": 0.001
+    },
+    {
+      "key": "noticias@1440",
+      "lcp_ms": 1036,
+      "cls": 0
+    },
+    {
+      "key": "para-empresas@1440",
+      "lcp_ms": 7400,
+      "cls": 0
+    },
+    {
+      "key": "laboratorios@1440",
+      "lcp_ms": 5144,
+      "cls": 0.395
+    },
+    {
+      "key": "laboratorio@1440",
+      "lcp_ms": 1224,
+      "cls": 0.001
+    },
+    {
+      "key": "sobre@1440",
+      "lcp_ms": 860,
+      "cls": 0
+    },
+    {
+      "key": "login@1440",
+      "lcp_ms": 480,
+      "cls": 0
+    },
+    {
+      "key": "home-pt@390",
+      "lcp_ms": 1356,
+      "cls": 0
+    },
+    {
+      "key": "home-en@390",
+      "lcp_ms": 2240,
+      "cls": 0
+    },
+    {
+      "key": "curso@390",
+      "lcp_ms": 2056,
+      "cls": 0
+    },
+    {
+      "key": "curso-lista@390",
+      "lcp_ms": 1420,
+      "cls": 0
+    },
+    {
+      "key": "projetos@390",
+      "lcp_ms": 1676,
+      "cls": 0.006
+    },
+    {
+      "key": "projeto@390",
+      "lcp_ms": 2232,
+      "cls": 0
+    },
+    {
+      "key": "experiencias@390",
+      "lcp_ms": 1232,
+      "cls": 0
+    },
+    {
+      "key": "experiencia@390",
+      "lcp_ms": 1316,
+      "cls": 0.084
+    },
+    {
+      "key": "calendario-lista@390",
+      "lcp_ms": 1896,
+      "cls": 0
+    },
+    {
+      "key": "calendario-grade@390",
+      "lcp_ms": 584,
+      "cls": 0
+    },
+    {
+      "key": "noticias@390",
+      "lcp_ms": 588,
+      "cls": 0.004
+    },
+    {
+      "key": "para-empresas@390",
+      "lcp_ms": 1572,
+      "cls": 0.004
+    },
+    {
+      "key": "laboratorios@390",
+      "lcp_ms": 892,
+      "cls": 0
+    },
+    {
+      "key": "laboratorio@390",
+      "lcp_ms": 1596,
+      "cls": 0.041
+    },
+    {
+      "key": "sobre@390",
+      "lcp_ms": 1864,
+      "cls": 0.004
+    },
+    {
+      "key": "login@390",
+      "lcp_ms": 1612,
+      "cls": 0
+    }
+  ],
+  "rows": [
+    {
+      "page": "home-pt",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 796,
+      "cls": 0
+    },
+    {
+      "page": "home-pt",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1608,
+      "cls": 0
+    },
+    {
+      "page": "home-pt",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3176,
+      "cls": 0
+    },
+    {
+      "page": "home-en",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 12428,
+      "cls": 0
+    },
+    {
+      "page": "home-en",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 28940,
+      "cls": 0
+    },
+    {
+      "page": "home-en",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 13940,
+      "cls": 0
+    },
+    {
+      "page": "curso",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 14544,
+      "cls": 0
+    },
+    {
+      "page": "curso",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3636,
+      "cls": 0
+    },
+    {
+      "page": "curso",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 24924,
+      "cls": 0
+    },
+    {
+      "page": "curso-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 41240,
+      "cls": 0
+    },
+    {
+      "page": "curso-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 40424,
+      "cls": 0
+    },
+    {
+      "page": "curso-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 30704,
+      "cls": 0
+    },
+    {
+      "page": "projetos",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 2556,
+      "cls": 0
+    },
+    {
+      "page": "projetos",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 6040,
+      "cls": 0
+    },
+    {
+      "page": "projetos",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1632,
+      "cls": 0
+    },
+    {
+      "page": "projeto",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3176,
+      "cls": 0
+    },
+    {
+      "page": "projeto",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 8820,
+      "cls": 0
+    },
+    {
+      "page": "projeto",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 13900,
+      "cls": 0
+    },
+    {
+      "page": "experiencias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3152,
+      "cls": 0
+    },
+    {
+      "page": "experiencias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 5144,
+      "cls": 0
+    },
+    {
+      "page": "experiencias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 8400,
+      "cls": 0
+    },
+    {
+      "page": "experiencia",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 9356,
+      "cls": 0
+    },
+    {
+      "page": "experiencia",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 6212,
+      "cls": 0.058
+    },
+    {
+      "page": "experiencia",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 23584,
+      "cls": 0.058
+    },
+    {
+      "page": "calendario-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 7228,
+      "cls": 0
+    },
+    {
+      "page": "calendario-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 7700,
+      "cls": 0.001
+    },
+    {
+      "page": "calendario-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 14140,
+      "cls": 0.001
+    },
+    {
+      "page": "calendario-grade",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 5432,
+      "cls": 0.001
+    },
+    {
+      "page": "calendario-grade",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 12084,
+      "cls": 0
+    },
+    {
+      "page": "calendario-grade",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 4708,
+      "cls": 0
+    },
+    {
+      "page": "noticias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1036,
+      "cls": 0
+    },
+    {
+      "page": "noticias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 648,
+      "cls": 0
+    },
+    {
+      "page": "noticias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 2944,
+      "cls": 0
+    },
+    {
+      "page": "para-empresas",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 4588,
+      "cls": 0
+    },
+    {
+      "page": "para-empresas",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 18560,
+      "cls": 0
+    },
+    {
+      "page": "para-empresas",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 7400,
+      "cls": 0
+    },
+    {
+      "page": "laboratorios",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 21084,
+      "cls": 0
+    },
+    {
+      "page": "laboratorios",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 5144,
+      "cls": 0.395
+    },
+    {
+      "page": "laboratorios",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1388,
+      "cls": 0
+    },
+    {
+      "page": "laboratorio",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1356,
+      "cls": 0
+    },
+    {
+      "page": "laboratorio",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 748,
+      "cls": 0
+    },
+    {
+      "page": "laboratorio",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1224,
+      "cls": 0.001
+    },
+    {
+      "page": "sobre",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 684,
+      "cls": 0
+    },
+    {
+      "page": "sobre",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 2948,
+      "cls": 0
+    },
+    {
+      "page": "sobre",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 860,
+      "cls": 0
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 480,
+      "cls": 0
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 440,
+      "cls": 0
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1980,
+      "cls": 0
+    },
+    {
+      "page": "home-pt",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1264,
+      "cls": 0
+    },
+    {
+      "page": "home-pt",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1356,
+      "cls": 0
+    },
+    {
+      "page": "home-pt",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2432,
+      "cls": 0
+    },
+    {
+      "page": "home-en",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2240,
+      "cls": 0
+    },
+    {
+      "page": "home-en",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1944,
+      "cls": 0
+    },
+    {
+      "page": "home-en",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2756,
+      "cls": 0
+    },
+    {
+      "page": "curso",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 3768,
+      "cls": 0
+    },
+    {
+      "page": "curso",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1336,
+      "cls": 0
+    },
+    {
+      "page": "curso",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2056,
+      "cls": 0
+    },
+    {
+      "page": "curso-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 3260,
+      "cls": 0
+    },
+    {
+      "page": "curso-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1024,
+      "cls": 0
+    },
+    {
+      "page": "curso-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1420,
+      "cls": 0
+    },
+    {
+      "page": "projetos",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1676,
+      "cls": 0
+    },
+    {
+      "page": "projetos",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 676,
+      "cls": 0
+    },
+    {
+      "page": "projetos",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2032,
+      "cls": 0.006
+    },
+    {
+      "page": "projeto",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2244,
+      "cls": 0
+    },
+    {
+      "page": "projeto",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2232,
+      "cls": 0
+    },
+    {
+      "page": "projeto",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 624,
+      "cls": 0
+    },
+    {
+      "page": "experiencias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1032,
+      "cls": 0
+    },
+    {
+      "page": "experiencias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1236,
+      "cls": 0
+    },
+    {
+      "page": "experiencias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1232,
+      "cls": 0
+    },
+    {
+      "page": "experiencia",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1316,
+      "cls": 0.084
+    },
+    {
+      "page": "experiencia",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1676,
+      "cls": 0.084
+    },
+    {
+      "page": "experiencia",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1228,
+      "cls": 0
+    },
+    {
+      "page": "calendario-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 444,
+      "cls": 0
+    },
+    {
+      "page": "calendario-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2832,
+      "cls": 0
+    },
+    {
+      "page": "calendario-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1896,
+      "cls": 0
+    },
+    {
+      "page": "calendario-grade",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 496,
+      "cls": 0
+    },
+    {
+      "page": "calendario-grade",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 632,
+      "cls": 0
+    },
+    {
+      "page": "calendario-grade",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 584,
+      "cls": 0
+    },
+    {
+      "page": "noticias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1728,
+      "cls": 0.004
+    },
+    {
+      "page": "noticias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 572,
+      "cls": 0
+    },
+    {
+      "page": "noticias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 588,
+      "cls": 0
+    },
+    {
+      "page": "para-empresas",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1572,
+      "cls": 0
+    },
+    {
+      "page": "para-empresas",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1680,
+      "cls": 0.004
+    },
+    {
+      "page": "para-empresas",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1180,
+      "cls": 0
+    },
+    {
+      "page": "laboratorios",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 892,
+      "cls": 0
+    },
+    {
+      "page": "laboratorios",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1404,
+      "cls": 0
+    },
+    {
+      "page": "laboratorios",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 560,
+      "cls": 0
+    },
+    {
+      "page": "laboratorio",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1596,
+      "cls": 0
+    },
+    {
+      "page": "laboratorio",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2428,
+      "cls": 0
+    },
+    {
+      "page": "laboratorio",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 960,
+      "cls": 0.041
+    },
+    {
+      "page": "sobre",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1320,
+      "cls": 0
+    },
+    {
+      "page": "sobre",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1864,
+      "cls": 0.004
+    },
+    {
+      "page": "sobre",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2024,
+      "cls": 0.004
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1612,
+      "cls": 0
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 756,
+      "cls": 0
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2116,
+      "cls": 0
+    }
+  ]
+}

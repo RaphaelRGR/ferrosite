@@ -60,11 +60,11 @@ export default async function EventosPage({ params }: PageProps<"/[locale]/event
   return (
     <div className="bg-canvas">
       <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 section-compact">
           <SectionHeading as="h1" eyebrow={dict.events.eyebrow} title={dict.events.title} description={dict.events.description} />
         </div>
       </section>
-      <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 section-compact">
         {events.length === 0 ? (
           <EmptyState
             title={dict.events.emptyTitle}

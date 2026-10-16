@@ -141,3 +141,45 @@ Cada seção tem composição própria:
 - **e2e `labs.spec` e `design-c.spec`** rodados contra o servidor local: 10/10.
 - **CLS de Laboratórios em produção (0,395 no desktop):** rastreado como troca tardia da fonte web na primeira carga (o menu e o texto mudam de métrica aos ~2 s). A fonte agora é servida pelo projeto, pré-carregada, com fallback de métricas ajustadas; a confirmação fica para a medição final em build `strict`.
 - **Fotos de laboratório:** nenhuma no acervo. As fichas funcionam com composição tipográfica. Para fotos: as imagens do portfólio oficial (se a coordenação autorizar, com crédito) ou uma pasta do Drive.
+
+## Fase 5: Curso e fluxograma (modo Operar), só incremental
+
+- **Inalterados:** dados, as 3 matrizes, arestas, pré-requisitos, seleção, teclado e o grafo em si (o `CurriculumExplorer` não foi reescrito).
+- **Celular:**
+  - aviso "No celular, a visão Lista costuma ser mais confortável" + botão "Ver em lista" (`sm:hidden`); o grafo continua sendo o padrão;
+  - botões de fase com alvo de 44 px, numa faixa rolável em vez de duas linhas;
+  - botões da barra com 44 px;
+  - na Lista, o nome da fase fica fixo no topo enquanto a fase rola;
+  - a ficha da disciplina abre como **folha inferior**. O `Dialog` compartilhado ganhou `variant="sheet"`, opcional; o padrão continua "center", então o Portal não muda.
+- **Tipografia:** a legenda e o título da fase saíram das MAIÚSCULAS espaçadas; os cards do grafo ficaram como estavam.
+
+## Fase 6: Experiências, artigos, calendário e demais páginas
+
+- **Experiências:** em cada ano, a mais recente vira destaque (`ExperienceFeature`, o mesmo da Home) e as demais ficam em grade.
+- **Artigo publicado** (experiência, notícia, evento, prévia):
+  - sai a moldura de 32 px;
+  - entram o cabeçalho editorial (voltar, rótulo, título, data · local, resumo) e a capa grande sob o título (16:9; de ponta a ponta no celular);
+  - texto em 68ch;
+  - galeria em até 4 colunas.
+- **Calendário:** a barra lateral colorida de 6 px virou um marcador redondo; as datas em `tabular-nums`.
+- **Demais páginas** (Notícias, Eventos, Sobre, Privacidade, Simuladores, desafio): ritmo de seção fluido no lugar de `py-14`/`py-12`; molduras de 32 px viraram 16 px por tom; no Curso, a foto do hero ficou sem borda + sombra.
+- **Movimento:**
+  - assinatura `wipe-in`: a foto grande entra da esquerda para a direita, uma vez, quando o bloco aparece; nunca na primeira dobra, para não atrasar o LCP;
+  - entradas escalonadas como antes;
+  - tudo desliga com `prefers-reduced-motion`, e nada fica escondido sem JS.
+- **Imagens:**
+  - a miniatura do Drive agora sai em **WebP** (`-rw`). Na foto do hero: 1280 px de 417 KB (JPEG) para 293 KB, dentro do orçamento de 300 KB do e2e de mídia;
+  - o preset `wide` vai até 1280 px;
+  - og:image continua em JPEG (`shareImageUrl`, `&f=jpg`).
+
+## Incidente (16/10, ~10:26–10:42) e correção
+
+- **O que aconteceu:** ao rodar os e2e do fluxograma contra o `next dev` local, o filtro de arquivos veio vazio, e o Playwright rodou a **suíte inteira**. O `next dev` usa o `.env.local`, ou seja, a **produção**.
+- **Impacto:** os testes com login foram pulados (não há `E2E_*`). O teste do formulário de desafio gravou **1 desafio de teste** (`DES-2026-000056`) e **1 e-mail na fila** (não enviado).
+- **Correção, com autorização do usuário:**
+  - os dois foram apagados numa transação; o evento de CRM saiu em cascata;
+  - a trava `challenge_no_delete` ficou desligada só durante a transação e foi religada;
+  - o `audit_event` (só o protocolo, sem dados pessoais) foi mantido.
+- **Prevenção:**
+  - `playwright.config.ts` define `E2E_WRITES=1` só quando existe `.env.test.local`, e o envio real do `challenge.spec` pula sem ele;
+  - contra o dev server só rodo specs de leitura, com o caminho escrito literalmente.

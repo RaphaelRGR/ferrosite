@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SectionHeading } from "@/components/public/SectionHeading";
-import { experienceDate, experienceKind, FallbackCover } from "@/components/public/experiences/ExperienceCard";
+import { experienceDate, experienceKind } from "@/components/public/experiences/ExperienceCard";
+import { ExperienceFeature } from "@/components/public/experiences/ExperienceFeature";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
@@ -40,7 +41,6 @@ export function HomeExperiences({
     );
   };
   const href = (e: PublishedItem) => localizePath(locale, `/experiencias/${e.slug}`);
-  const cover = covers.get(featured.id);
 
   return (
     <section className="section-regular bg-canvas" data-published="live">
@@ -48,24 +48,7 @@ export function HomeExperiences({
         <SectionHeading eyebrow={dict.eyebrow} title={dict.publishedTitle} link={{ href: localizePath(locale, "/experiencias"), label: dict.link }} />
 
         <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <article data-reveal className="media-hover relative flex flex-col gap-4 lg:col-span-7">
-            <div className="zoom-media overflow-hidden rounded-2xl">
-              {cover ? (
-                // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia)
-                <img {...mediaImage(cover, "feature")} alt={featured.cover_alt} loading="lazy" className="aspect-[3/2] w-full object-cover" />
-              ) : (
-                <FallbackCover label={cardDict.kinds[experienceKind(featured.title)]} />
-              )}
-            </div>
-            <p className="meta text-link">{meta(featured)}</p>
-            <h3 className="t-subsection f-display font-black">
-              <Link href={href(featured)} className={STRETCHED}>
-                {featured.title}
-              </Link>
-            </h3>
-            {featured.event_place && <p className="meta">{featured.event_place}</p>}
-            <p className="line-clamp-3 max-w-[65ch] text-fg-muted">{featured.summary}</p>
-          </article>
+          <ExperienceFeature item={featured} coverFileId={covers.get(featured.id)} locale={locale} dict={cardDict} className="lg:col-span-7" />
 
           {rest.length > 0 && (
             <ul className="flex flex-col divide-y divide-line border-y border-line lg:col-span-5" data-reveal-group>

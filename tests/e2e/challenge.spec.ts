@@ -31,6 +31,8 @@ test("para empresas leva ao formulário; consentimento é obrigatório e honeypo
 });
 
 test("envio rápido demais é tratado como automatizado; envio válido nunca ecoa os dados", async ({ page }) => {
+  // grava um desafio de verdade: só no projeto Supabase de testes (playwright.config define E2E_WRITES)
+  test.skip(process.env.E2E_WRITES !== "1", "envio real só com .env.test.local (projeto de testes)");
   await page.goto("/pt/para-empresas/desafio", { waitUntil: "load" });
   await fill(page);
   // Carimbo de início "agora": simula envio em menos de 3 s, independentemente da carga da máquina.

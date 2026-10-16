@@ -32,14 +32,14 @@ export function CourseHero({ dict, hero = null, creditLabel }: { dict: CourseDic
         </div>
         {hero ? (
           <figure>
-            <div className="hero-media overflow-hidden rounded-[32px] border border-line shadow-sm">
+            <div className="hero-media overflow-hidden rounded-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
               <img {...mediaImage(hero.fileId, "hero")} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
             </div>
             {hero.credit && <figcaption className="mt-2 text-right text-xs text-fg-muted">{`${creditLabel}: ${hero.credit}`}</figcaption>}
           </figure>
         ) : (
-          <div className="overflow-hidden rounded-[32px] border border-line shadow-sm">
+          <div className="overflow-hidden rounded-2xl">
             <HeroArt title={dict.title} />
           </div>
         )}
@@ -192,7 +192,7 @@ export function CourseCta({ dict }: { dict: CourseDict["cta"] }) {
   return (
     <section className="bg-canvas">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col items-start gap-6 rounded-2xl bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="t-section font-black">{dict.title}</h2>
             <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>

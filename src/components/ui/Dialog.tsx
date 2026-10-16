@@ -11,6 +11,8 @@ export interface DialogProps {
   children?: ReactNode;
   /** Classes do painel (largura, padding etc.). */
   className?: string;
+  /** "sheet": em telas estreitas (< 640 px) vira folha presa à base da tela; no resto, igual ao padrão. */
+  variant?: "center" | "sheet";
 }
 
 /**
@@ -18,7 +20,7 @@ export interface DialogProps {
  * trap, Escape, inert do fundo e retorno de foco ao elemento que abriu (07/23).
  * Aqui só sincronizamos o estado React, travamos o scroll e rotulamos.
  */
-export function Dialog({ open, onClose, title, description, children, className = "" }: DialogProps) {
+export function Dialog({ open, onClose, title, description, children, className = "", variant = "center" }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const descriptionId = useId();
@@ -74,7 +76,8 @@ export function Dialog({ open, onClose, title, description, children, className 
       }}
       className={
         "m-auto w-[calc(100%-2rem)] max-w-2xl rounded-2xl border border-line bg-surface p-0 text-fg shadow-2xl " +
-        "backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+        "backdrop:bg-black/60 backdrop:backdrop-blur-sm" +
+        (variant === "sheet" ? " max-sm:mb-0 max-sm:max-h-[85dvh] max-sm:w-full max-sm:max-w-none max-sm:rounded-b-none max-sm:overflow-y-auto" : "")
       }
     >
       <div className={`p-6 sm:p-8 ${className}`}>

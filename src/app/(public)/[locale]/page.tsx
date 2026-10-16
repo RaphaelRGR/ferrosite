@@ -6,7 +6,7 @@ import { ResearchTeaser } from "@/components/public/home/ResearchTeaser";
 import { UpcomingEvents } from "@/components/public/home/UpcomingEvents";
 import { DEFAULT_LOCALE, hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { mediaUrl } from "@/lib/content/media";
+import { shareImageUrl } from "@/lib/content/media";
 import { institutionalToday, upcomingEvents } from "@/lib/calendar/rail";
 import { listPublicProjects, listPublicRailEvents, listPublished, publicCoverIds, publicSiteImage } from "@/lib/content/public";
 import { listShorts } from "@/lib/content/videos";
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const dict = getDictionary(l);
   const hero = await publicSiteImage("home_hero", l);
-  const image = hero ? { url: mediaUrl(hero.fileId, 1280), alt: hero.alt } : null;
+  const image = hero ? { url: shareImageUrl(hero.fileId), alt: hero.alt } : null;
   return { ...publicPageMetadata(l, "/", { title: dict.site.name, image }), title: { absolute: dict.site.name } };
 }
 

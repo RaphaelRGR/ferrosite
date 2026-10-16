@@ -9,7 +9,7 @@ import { NEWS } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
-import { mediaUrl } from "@/lib/content/media";
+import { shareImageUrl } from "@/lib/content/media";
 import { getPublished, publicCoverId } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
 
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/noticias
   const l = hasLocale(locale) ? locale : DEFAULT_LOCALE;
   const published = await getPublished("news", l, id);
   const coverId = published?.cover_file_id ? await publicCoverId(published) : null;
-  const image = coverId && published ? { url: mediaUrl(coverId, 1280), alt: published.cover_alt } : null;
+  const image = coverId && published ? { url: shareImageUrl(coverId), alt: published.cover_alt } : null;
   if (published) return publicPageMetadata(l, `/noticias/${id}`, { title: published.title, description: published.summary, image });
   const item = NEWS.find((n) => n.id === id);
   return item ? publicPageMetadata(l, `/noticias/${id}`, { title: item.title, description: item.description }) : {};
@@ -48,9 +48,9 @@ export default async function NoticiaPage({ params }: PageProps<"/[locale]/notic
 
   return (
     <article className="bg-canvas">
-      <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 section-compact">
         <UnverifiedContent section="noticias.detalhe">
-          <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
+          <div className="rounded-2xl bg-surface p-5 sm:p-8 md:p-12">
             <p className="meta">{item.meta}</p>
             <div className="mt-3">
               <SectionHeading as="h1" eyebrow={dict.newsPage.eyebrow} title={item.title} description={item.description} />

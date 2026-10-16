@@ -31,7 +31,7 @@ export default async function CalendarPage({ params }: PageProps<"/[locale]/cale
 
   return (
     <section className="bg-canvas">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 section-compact">
         <SectionHeading as="h1" eyebrow={dict.pages.calendar.title} title={dict.calendar.heading.replace("{year}", String(year))} description={dict.calendar.intro} />
         <RailCalendar events={events} locale={l} dict={dict.calendar} today={today} year={year} />
       </div>

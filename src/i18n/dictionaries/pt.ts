@@ -1391,6 +1391,8 @@ export const pt = {
     summary: "{name}: {ancestors} pré-requisitos e {descendants} dependentes.",
     noSelection: "Nenhuma disciplina selecionada.",
     keyboardHelp: "Setas movem entre disciplinas; Enter seleciona; Shift+Enter abre detalhes; Escape limpa.",
+    mobileHint: "No celular, a visão Lista costuma ser mais confortável.",
+    switchToList: "Ver em lista",
     legacyPrerequisites: "Pré-requisitos da grade 2012: não constam no currículo oficial em PDF; as relações exibidas vêm do protótipo e aguardam validação.",
     unknownPrerequisites: "Pré-requisitos fora deste currículo (não desenhados):",
     prerequisites: "Pré-requisitos",

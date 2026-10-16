@@ -116,8 +116,15 @@ de terceiros além do Supabase.
   produção da Vercel, `review` em preview/local/CI. Decisão por seção em
   `src/content/quarantine.ts` (`isSectionVisible`, `sectionStatus`).
 - Imagens do acervo passam pelo proxy `/api/midia/[id]?w=<largura>` (larguras em
-  `src/lib/content/media.ts`); nunca link direto do Drive.
+  `src/lib/content/media.ts`); nunca link direto do Drive. A miniatura sai em **WebP**;
+  og:image usa `shareImageUrl()` (`&f=jpg`, porque nem todo robô lê WebP). Orçamento: 300 KB por imagem.
 - Animações leves em `src/components/public/motion` (respeitam reduced motion).
+- **Identidade do site (DESIGN-D)**: fonte Archivo (`src/fonts`, `next/font/local`) e tokens só sob
+  `data-site="public"` (`layout/public-theme.css`, testado por `public-theme-scope.test.ts`): o Portal não
+  muda. Títulos em largura 80; escala fluida (`t-display/t-title/t-section/t-subsection/t-lead`) e ritmo
+  de seção (`section-compact/regular/generous`). Rótulo acima do título (`.eyebrow`) só quando informa;
+  datas e locais em `.meta`; sem MAIÚSCULAS espaçadas. Superfície por tom (cards só com borda quando
+  clicáveis); raio 12–16 px; projeto sem foto vira cartaz da categoria (`ProjectPoster`).
 
 ## 6. Portal
 
