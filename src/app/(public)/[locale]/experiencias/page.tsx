@@ -9,6 +9,7 @@ import { EXPERIENCES } from "@/content/staging";
 import { DEFAULT_LOCALE, hasLocale, localizePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { publicPageMetadata } from "@/i18n/metadata";
+import { ExperienceFeature } from "@/components/public/experiences/ExperienceFeature";
 import { ExperienceCard, experienceDate, experienceKind, type ExperienceKind } from "@/components/public/experiences/ExperienceCard";
 import { listPublished, publicCoverIds } from "@/lib/content/public";
 import { isSectionVisible } from "@/content/quarantine";
@@ -75,17 +76,17 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
 
   return (
     <div className="bg-canvas">
-      <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+      <section className="section-compact bg-surface">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading as="h1" eyebrow={dict.experiences.eyebrow} title={dict.experiences.title} description={dict.experiences.description} />
         </div>
       </section>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 section-compact">
         {published.length > 0 && (
           <section aria-labelledby="experiencias-publicadas" className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-              <h2 id="experiencias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
+              <h2 id="experiencias-publicadas" className="t-subsection font-black">
                 {dict.published.experiencesPublished}
               </h2>
               {/* Filtros como links (estado na URL: compartilhável e sem JS obrigatório). */}
@@ -115,15 +116,25 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
             ) : (
               groups.map(([groupYear, list]) => (
                 <section key={groupYear} aria-labelledby={`ano-${groupYear}`}>
-                  <h3 id={`ano-${groupYear}`} className="flex items-baseline gap-3 border-b border-line pb-3 text-2xl font-black tracking-tight">
+                  <h3 id={`ano-${groupYear}`} className="f-display flex items-baseline gap-3 border-b border-line pb-3 t-section font-black">
                     {groupYear}
                     <span className="text-sm font-bold text-fg-muted">{dict.experiences.results.replace("{count}", String(list.length))}</span>
                   </h3>
-                  <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-published="live" data-reveal-group>
-                    {list.map((e) => (
-                      <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={l} dict={dict.experiences} />
-                    ))}
-                  </ul>
+                  {/* a mais recente do ano em destaque; as demais em grade */}
+                  <div data-published="live">
+                    <ul className="mt-8">
+                      <li>
+                        <ExperienceFeature item={list[0]} coverFileId={covers.get(list[0].id)} locale={l} dict={dict.experiences} className="lg:max-w-4xl" />
+                      </li>
+                    </ul>
+                    {list.length > 1 && (
+                      <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
+                        {list.slice(1).map((e) => (
+                          <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={l} dict={dict.experiences} />
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </section>
               ))
             )}
@@ -158,7 +169,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
                 { key: "upcoming", label: dict.experiences.upcoming, list: upcoming },
               ].map((g) => (
                 <section key={g.key} className="rounded-2xl border border-line bg-surface p-6">
-                  <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{g.label}</h2>
+                  <h2 className="t-subsection font-black">{g.label}</h2>
                   {g.list.length === 0 ? (
                     <p className="mt-3 text-sm text-fg-muted">{dict.experiences.empty}</p>
                   ) : (
@@ -167,7 +178,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
                         <li key={e.id} className="relative pb-6 last:pb-0">
                           <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-xs font-bold uppercase tracking-widest text-fg-muted">{e.when}</span>
+                            <span className="meta">{e.when}</span>
                             <Badge tone={e.scope === "internacional" ? "info" : "neutral"}>{e.scope === "internacional" ? dict.experiences.international : dict.experiences.brazil}</Badge>
                           </div>
                           <p className="mt-1 font-bold">{e.title}</p>

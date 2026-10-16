@@ -32,7 +32,7 @@ export function ChallengeForm({ dict, capabilityNames, locale, backHref }: { dic
       <div role="status" className="flex flex-col gap-4 rounded-2xl border border-success bg-surface p-8">
         <h2 className="text-2xl font-black">{dict.successTitle}</h2>
         <p className="text-fg-muted">{dict.successDescription}</p>
-        <p className="text-sm font-bold uppercase tracking-widest text-fg-muted">{dict.protocol}</p>
+        <p className="meta">{dict.protocol}</p>
         <p className="font-mono text-2xl font-black" data-testid="protocol">
           {state.protocol}
         </p>

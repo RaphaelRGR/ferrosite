@@ -4,18 +4,21 @@ import { expect, test } from "@playwright/test";
  * Bloco C da auditoria de design: identidade dos projetos por categoria, foto
  * real no hero do Curso e ritmo de fundos alternados na Home.
  */
-test("projetos: todo cartão tem foto ou capa ilustrada da categoria, e o selo tem ícone e texto", async ({ page }) => {
+test("projetos: cada projeto tem foto ou cartaz da categoria, e os atalhos de categoria têm ícone e texto", async ({ page }) => {
   await page.goto("/pt/projetos", { waitUntil: "load" });
-  const cartoes = page.locator('[data-published="live"] li');
-  test.skip((await cartoes.count()) === 0, "sem projetos públicos neste ambiente");
-  for (const c of await cartoes.all()) {
+  const projetos = page.locator('[data-published="live"] li');
+  test.skip((await projetos.count()) === 0, "sem projetos públicos neste ambiente");
+  for (const c of await projetos.all()) {
     expect((await c.locator("img").count()) + (await c.locator("[data-project-cover]").count())).toBe(1);
-    const selo = c.locator("[data-category]");
-    await expect(selo).toHaveCount(1);
+  }
+  // DESIGN-D: o selo da categoria fica nos atalhos (âncoras para cada grupo), com ícone e texto
+  const atalhos = page.getByRole("navigation", { name: /Categorias/ }).locator("[data-category]");
+  expect(await atalhos.count()).toBeGreaterThan(0);
+  for (const selo of await atalhos.all()) {
     await expect(selo.locator("svg")).toHaveCount(1); // não depende só da cor
     await expect(selo).toHaveText(/\S/);
   }
-  // capa ilustrada usa a cor da categoria (token), não o fundo transparente
+  // capa/cartaz usa a cor da categoria (token), não o fundo transparente
   const capa = page.locator("[data-project-cover]").first();
   if (await capa.count()) expect(await capa.evaluate((e) => getComputedStyle(e).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
 });

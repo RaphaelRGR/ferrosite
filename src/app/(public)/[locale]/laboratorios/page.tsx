@@ -41,62 +41,66 @@ export default async function LaboratoriosPage({ params, searchParams }: PagePro
     }`;
 
   return (
-    <div className="bg-canvas">
-      <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+    <>
+      <section className="section-compact bg-surface">
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6">
           <SectionHeading as="h1" eyebrow={dict.labs.eyebrow} title={dict.labs.title} description={dict.labs.description} />
+          <nav aria-label={dict.labs.filterLabel} className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <Link href={localizePath(l, PATH)} aria-current={capability === null ? "page" : undefined} className={chip(capability === null)}>
+                {dict.labs.all}
+              </Link>
+              {CAPABILITY_IDS.map((id) => (
+                <Link key={id} href={`${localizePath(l, PATH)}?capacidade=${id}`} aria-current={capability === id ? "page" : undefined} className={chip(capability === id)}>
+                  {dict.capabilities[id]}
+                </Link>
+              ))}
+            </div>
+          </nav>
         </div>
       </section>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
-        <nav aria-label={dict.labs.filterLabel} className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <Link href={localizePath(l, PATH)} aria-current={capability === null ? "page" : undefined} className={chip(capability === null)}>
-              {dict.labs.all}
-            </Link>
-            {CAPABILITY_IDS.map((id) => (
-              <Link key={id} href={`${localizePath(l, PATH)}?capacidade=${id}`} aria-current={capability === id ? "page" : undefined} className={chip(capability === id)}>
-                {dict.capabilities[id]}
-              </Link>
-            ))}
+      <section className="section-regular bg-canvas">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 sm:px-6">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+            <p className="t-subsection f-display font-black" aria-live="polite">
+              {dict.labs.results.replace("{count}", String(items.length))}
+            </p>
+            <p className="text-sm text-fg-muted">
+              <span aria-hidden="true">* </span>
+              {dict.labs.prospectiveNote}
+            </p>
           </div>
-          <p className="text-sm text-fg-muted" aria-live="polite">
-            {dict.labs.results.replace("{count}", String(items.length))}
-          </p>
-          <p className="text-xs text-fg-muted">
-            <span aria-hidden="true">* </span>
-            {dict.labs.prospectiveNote}
-          </p>
-        </nav>
 
-        {items.length === 0 ? (
-          <EmptyState
-            title={dict.labs.empty}
-            description=""
-            action={
-              <LinkButton href={localizePath(l, PATH)} variant="secondary">
-                {dict.labs.all}
-              </LinkButton>
-            }
-          />
-        ) : (
-          <UnverifiedContent section="laboratorios.hub">
-            <ul className="grid gap-5 pt-8 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((lab) => (
-                <LabCard key={lab.id} lab={lab} locale={l} dict={dict.labs} capabilityNames={dict.capabilities} />
-              ))}
-            </ul>
-          </UnverifiedContent>
-        )}
+          {items.length === 0 ? (
+            <EmptyState
+              title={dict.labs.empty}
+              description=""
+              action={
+                <LinkButton href={localizePath(l, PATH)} variant="secondary">
+                  {dict.labs.all}
+                </LinkButton>
+              }
+            />
+          ) : (
+            <UnverifiedContent section="laboratorios.hub">
+              <ul className="border-t border-line">
+                {items.map((lab) => (
+                  <LabCard key={lab.id} lab={lab} locale={l} dict={dict.labs} capabilityNames={dict.capabilities} />
+                ))}
+              </ul>
+            </UnverifiedContent>
+          )}
 
-        <section className="flex flex-col items-start gap-4 rounded-[32px] border border-accent/30 bg-accent/5 p-8 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-2xl font-black tracking-tight">{dict.labs.ctaTitle}</h2>
-            <p className="mt-1 text-fg-muted">{dict.labs.ctaDescription}</p>
-          </div>
-          <LinkButton href={localizePath(l, "/para-empresas")}>{dict.labs.ctaButton}</LinkButton>
-        </section>
-      </div>
-    </div>
+          <section className="mt-10 flex flex-col items-start gap-5 rounded-2xl bg-[var(--board-bg)] p-8 text-[var(--board-fg)] sm:flex-row sm:items-center sm:justify-between sm:p-10">
+            <div>
+              <h2 className="t-subsection font-black">{dict.labs.ctaTitle}</h2>
+              <p className="mt-2 max-w-[60ch] text-[var(--board-muted)]">{dict.labs.ctaDescription}</p>
+            </div>
+            <LinkButton href={localizePath(l, "/para-empresas")}>{dict.labs.ctaButton}</LinkButton>
+          </section>
+        </div>
+      </section>
+    </>
   );
 }

@@ -49,10 +49,10 @@ export async function proxyDriveFile(
   return new Response(upstream.body, { status: upstream.status, headers });
 }
 
-export async function proxyDriveThumbnail(drive: DriveClient, externalId: string, size: number, cache: string): Promise<Response> {
+export async function proxyDriveThumbnail(drive: DriveClient, externalId: string, size: number, cache: string, format: "webp" | "jpeg" = "webp"): Promise<Response> {
   let upstream: Response | null;
   try {
-    upstream = await drive.thumbnail(externalId, size);
+    upstream = await drive.thumbnail(externalId, size, format);
   } catch (e) {
     return driveFailure(502, e);
   }

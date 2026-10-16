@@ -133,7 +133,8 @@ export interface DriveClient {
   /** Bytes do arquivo (alt=media) — devolve a Response da API para streaming. */
   download(fileId: string, range?: string | null): Promise<Response>;
   /** Miniatura gerada pelo Drive (requer o token; o link expira). */
-  thumbnail(fileId: string, size: number): Promise<Response | null>;
+  /** Miniatura em largura `size`; WebP por padrão (~30% menor), JPEG quando pedido (ex.: og:image). */
+  thumbnail(fileId: string, size: number, format?: "webp" | "jpeg"): Promise<Response | null>;
   /** Conta autenticada (about.get) — e-mail e nome. */
   about(): Promise<{ ok: true; email: string; name: string } | { ok: false; error: DriveError; detail?: string }>;
   /** Itens diretos de uma pasta (não apagados), até `pageSize`. */
@@ -210,14 +211,15 @@ export function createDriveClient(cfg: { rootFolderId: string; token: TokenSourc
     download(fileId, range) {
       return authed(`${API}/files/${encodeURIComponent(fileId)}?alt=media&supportsAllDrives=true`, { headers: range ? { Range: range } : {}, signal: AbortSignal.timeout(120_000) });
     },
-    async thumbnail(fileId, size) {
+    async thumbnail(fileId, size, format = "webp") {
       const res = await authed(`${API}/files/${encodeURIComponent(fileId)}?fields=thumbnailLink&supportsAllDrives=true`);
       if (!res.ok) return null;
       const d = (await res.json()) as { thumbnailLink?: string };
       if (!d.thumbnailLink) return null;
       // O sufixo do thumbnailLink define o recorte: `=w<n>` limita a LARGURA (o
       // descritor `w` do srcset depende disso). Troca qualquer sufixo existente.
-      const url = d.thumbnailLink.replace(/=[swh]\d+(-[a-z]+)*$/, "") + `=w${size}`;
+      // `-rw` pede WebP ao Google (DESIGN-D: a foto de 1280 px cai de ~420 KB para ~290 KB).
+      const url = d.thumbnailLink.replace(/=[swh]\d+(-[a-z]+)*$/, "") + `=w${size}${format === "webp" ? "-rw" : ""}`;
       return authed(url);
     },
     async about() {

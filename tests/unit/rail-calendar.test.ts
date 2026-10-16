@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { countryName, editableYears, formatEventRange, groupByMonth, institutionalToday, isPastEvent, monthName, regionOf } from "@/lib/calendar/rail";
+import { countryName, editableYears, formatEventRange, groupByMonth, institutionalToday, isPastEvent, monthName, regionOf, upcomingEvents } from "@/lib/calendar/rail";
 
 describe("calendário ferroviário (CAL-001)", () => {
   it("ano e hoje no fuso do curso (virada do ano às 00h de Brasília, não UTC)", () => {
@@ -65,5 +65,18 @@ describe("grade do mês (calendário)", () => {
     const { weekdayNames } = await import("@/lib/calendar/rail");
     expect(weekdayNames("pt")[0].toLowerCase()).toMatch(/^dom/);
     expect(weekdayNames("en")[0]).toMatch(/^Sun/);
+  });
+});
+
+describe("próximos eventos (Home, DESIGN-D)", () => {
+  const ev = (id: string, starts_on: string, ends_on: string | null = null) => ({ id, starts_on, ends_on });
+  it("inclui o evento em andamento, exclui os passados e ordena do mais próximo", () => {
+    const list = [ev("c", "2026-12-01"), ev("a", "2026-10-14", "2026-10-17"), ev("old", "2026-09-01", "2026-09-04"), ev("b", "2026-11-03")];
+    expect(upcomingEvents(list, "2026-10-16").map((e) => e.id)).toEqual(["a", "b", "c"]);
+  });
+  it("respeita o limite e devolve vazio quando não há eventos futuros", () => {
+    const list = [ev("a", "2026-10-20"), ev("b", "2026-10-21"), ev("c", "2026-10-22")];
+    expect(upcomingEvents(list, "2026-10-16", 2).map((e) => e.id)).toEqual(["a", "b"]);
+    expect(upcomingEvents([ev("x", "2026-01-01")], "2026-10-16")).toEqual([]);
   });
 });

@@ -51,7 +51,7 @@ export function SubjectDialog({
     );
 
   return (
-    <Dialog open={!!subject} onClose={onClose} title={subject?.name ?? ""} className="pt-4">
+    <Dialog open={!!subject} onClose={onClose} title={subject?.name ?? ""} className="pt-4" variant="sheet">
       {subject && (
         <>
           <div className="mb-6 flex flex-wrap items-center gap-2">

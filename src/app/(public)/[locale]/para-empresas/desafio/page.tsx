@@ -25,11 +25,11 @@ export default async function DesafioPage({ params }: PageProps<"/[locale]/para-
   return (
     <div className="bg-canvas">
       <section className="bg-surface">
-        <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 section-compact">
           <SectionHeading as="h1" eyebrow={dict.companies.eyebrow} title={dict.companies.form.title} description={dict.companies.form.description} />
         </div>
       </section>
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 section-compact">
         <div className="relative rounded-2xl border border-line bg-surface p-6 sm:p-8">
           <ChallengeForm dict={dict.companies.form} capabilityNames={dict.capabilities} locale={l} backHref={localizePath(l, "/para-empresas")} />
         </div>

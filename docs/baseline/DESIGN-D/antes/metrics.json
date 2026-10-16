@@ -1,0 +1,294 @@
+{
+  "base": "https://engferroviaria.vercel.app",
+  "captured_at": "2026-10-16T12:15:53.007Z",
+  "rows": [
+    {
+      "page": "home-pt",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 14536,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "home-pt-1440.jpg"
+    },
+    {
+      "page": "home-en",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 9944,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "home-en-1440.jpg"
+    },
+    {
+      "page": "curso",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 10672,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "curso-1440.jpg"
+    },
+    {
+      "page": "curso-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3924,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "curso-lista-1440.jpg"
+    },
+    {
+      "page": "projetos",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 4584,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "projetos-1440.jpg"
+    },
+    {
+      "page": "projeto",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 2516,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "projeto-1440.jpg"
+    },
+    {
+      "page": "experiencias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 2340,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "experiencias-1440.jpg"
+    },
+    {
+      "page": "experiencia",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 5476,
+      "cls": 0.058,
+      "overflow_px": 0,
+      "file": "experiencia-1440.jpg"
+    },
+    {
+      "page": "calendario-lista",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3516,
+      "cls": 0.001,
+      "overflow_px": 0,
+      "file": "calendario-lista-1440.jpg"
+    },
+    {
+      "page": "calendario-grade",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3344,
+      "cls": 0.001,
+      "overflow_px": 0,
+      "file": "calendario-grade-1440.jpg"
+    },
+    {
+      "page": "noticias",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 3076,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "noticias-1440.jpg"
+    },
+    {
+      "page": "para-empresas",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1788,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "para-empresas-1440.jpg"
+    },
+    {
+      "page": "laboratorios",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 4528,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "laboratorios-1440.jpg"
+    },
+    {
+      "page": "laboratorio",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 1188,
+      "cls": 0.001,
+      "overflow_px": 0,
+      "file": "laboratorio-1440.jpg"
+    },
+    {
+      "page": "sobre",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 5272,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "sobre-1440.jpg"
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "status": 200,
+      "lcp_ms": 2512,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "login-1440.jpg"
+    },
+    {
+      "page": "home-pt",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 7420,
+      "cls": 0.004,
+      "overflow_px": 0,
+      "file": "home-pt-390.jpg"
+    },
+    {
+      "page": "home-en",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 3996,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "home-en-390.jpg"
+    },
+    {
+      "page": "curso",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 3176,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "curso-390.jpg"
+    },
+    {
+      "page": "curso-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 6732,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "curso-lista-390.jpg"
+    },
+    {
+      "page": "projetos",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 3260,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "projetos-390.jpg"
+    },
+    {
+      "page": "projeto",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 3144,
+      "cls": 0.004,
+      "overflow_px": 0,
+      "file": "projeto-390.jpg"
+    },
+    {
+      "page": "experiencias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 8892,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "experiencias-390.jpg"
+    },
+    {
+      "page": "experiencia",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 7680,
+      "cls": 0.084,
+      "overflow_px": 0,
+      "file": "experiencia-390.jpg"
+    },
+    {
+      "page": "calendario-lista",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 4016,
+      "cls": 0.011,
+      "overflow_px": 0,
+      "file": "calendario-lista-390.jpg"
+    },
+    {
+      "page": "calendario-grade",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 4476,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "calendario-grade-390.jpg"
+    },
+    {
+      "page": "noticias",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 4240,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "noticias-390.jpg"
+    },
+    {
+      "page": "para-empresas",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 15348,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "para-empresas-390.jpg"
+    },
+    {
+      "page": "laboratorios",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 14744,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "laboratorios-390.jpg"
+    },
+    {
+      "page": "laboratorio",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 21604,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "laboratorio-390.jpg"
+    },
+    {
+      "page": "sobre",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 1860,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "sobre-390.jpg"
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "status": 200,
+      "lcp_ms": 2848,
+      "cls": 0,
+      "overflow_px": 0,
+      "file": "login-390.jpg"
+    }
+  ]
+}

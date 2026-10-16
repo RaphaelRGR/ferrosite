@@ -39,7 +39,7 @@ export default async function PrivacidadePage({ params }: PageProps<"/[locale]/p
 
   return (
     <section className="bg-canvas">
-      <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 section-compact">
         <SectionHeading as="h1" eyebrow={dict.pages.privacy.title} title={p.title} description={p.description} />
 
         <p className="mt-6 text-sm text-fg-muted">

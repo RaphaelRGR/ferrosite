@@ -1278,6 +1278,13 @@ export const pt = {
       back: "Voltar ao início do Portal",
     },
   },
+  projectsHub: {
+    categories: "Categorias",
+    count: "{count} projetos",
+    countOne: "1 projeto",
+    sameCategory: "Mais em {category}",
+    all: "Todos os projetos",
+  },
   home: {
     hero: {
       eyebrow: "Mobilidade que conecta pessoas e transforma cidades",
@@ -1306,13 +1313,25 @@ export const pt = {
     projects: { eyebrow: "Projetos em destaque", title: "Inovação, extensão e impacto real", link: "Ver todos os projetos", detail: "Ver projeto" },
     experiences: { eyebrow: "Experiências que conectam", title: "Visitas técnicas, missões e vivências pelo Brasil e pelo mundo", publishedTitle: "Visitas técnicas e palestras realizadas", detail: "Ver experiência", brazil: "Brasil", international: "Internacional", link: "Ver todas as experiências" },
     news: { eyebrow: "Notícias e atualizações", title: "Acompanhe o que movimenta o curso", link: "Ver todas as notícias" },
-    partners: { eyebrow: "Empresas e instituições", title: "Relações em verificação", description: "Logos exibidos apenas após autorização e classificação do vínculo (parceria, destino de egressos, patrocínio)." },
-    cta: {
-      title: "Faça parte dessa jornada",
-      description: "Construa o futuro da mobilidade com a gente.",
-      student: "Conheça o curso",
-      community: "Acompanhe as notícias",
+    upcoming: {
+      eyebrow: "Calendário ferroviário",
+      title: "Próximos eventos do setor ferroviário",
+      description: "Feiras, congressos e seminários no Brasil e no mundo.",
+      columns: { date: "Data", event: "Evento", place: "Local", region: "Região" },
+      empty: "Nenhum evento futuro no calendário de {year} por enquanto.",
+      link: "Ver o calendário completo",
+      official: "Site oficial de {name}",
     },
+    research: {
+      eyebrow: "Pesquisa e empresas",
+      title: "Laboratórios do CTJ para desafios do setor",
+      description: "{count} laboratórios descritos no portfólio institucional, com capacidades que interessam ao setor ferroviário e metroviário.",
+      labsPerCapability: "{count} laboratórios",
+      labsPerCapabilityOne: "1 laboratório",
+      companies: "Para empresas",
+      labs: "Conhecer os laboratórios",
+    },
+    partners: { eyebrow: "Empresas e instituições", title: "Relações em verificação", description: "Logos exibidos apenas após autorização e classificação do vínculo (parceria, destino de egressos, patrocínio)." },
   },
   course: {
     hero: {
@@ -1372,6 +1391,8 @@ export const pt = {
     summary: "{name}: {ancestors} pré-requisitos e {descendants} dependentes.",
     noSelection: "Nenhuma disciplina selecionada.",
     keyboardHelp: "Setas movem entre disciplinas; Enter seleciona; Shift+Enter abre detalhes; Escape limpa.",
+    mobileHint: "No celular, a visão Lista costuma ser mais confortável.",
+    switchToList: "Ver em lista",
     legacyPrerequisites: "Pré-requisitos da grade 2012: não constam no currículo oficial em PDF; as relações exibidas vêm do protótipo e aguardam validação.",
     unknownPrerequisites: "Pré-requisitos fora deste currículo (não desenhados):",
     prerequisites: "Pré-requisitos",
@@ -1430,6 +1451,9 @@ export const pt = {
     back: "Todos os laboratórios",
     responsible: "Responsável informado no portfólio",
     sectionAbout: "O laboratório",
+    sectionInfrastructure: "Infraestrutura e equipamentos",
+    proposeChallenge: "Propor um desafio",
+    pendingDetail: "Página pendente no portfólio",
     sectionHistory: "Histórico e projetos",
     sectionApplications: "Aplicações no setor ferroviário e metroviário",
     capabilities: "Capacidades",
@@ -1522,6 +1546,8 @@ export const pt = {
     modalitiesTitle: "Modalidades",
     modalitiesText: "[CONTEÚDO PENDENTE]: modalidades de cooperação (P&D, ensaios, consultoria, capacitação) e seus trâmites serão publicados após definição institucional.",
     seeLabs: "Ver todos os laboratórios",
+    featuredLabsTitle: "Laboratórios com mais capacidades descritas",
+    featuredLabsDescription: "Pelo portfólio institucional: o que cada um informa sobre infraestrutura e equipamentos.",
   },
   newsPage: {
     eyebrow: "Notícias",

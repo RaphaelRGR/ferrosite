@@ -32,14 +32,14 @@ export function CourseHero({ dict, hero = null, creditLabel }: { dict: CourseDic
         </div>
         {hero ? (
           <figure>
-            <div className="hero-media overflow-hidden rounded-[32px] border border-line shadow-sm">
+            <div className="hero-media overflow-hidden rounded-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia) */}
               <img {...mediaImage(hero.fileId, "hero")} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
             </div>
             {hero.credit && <figcaption className="mt-2 text-right text-xs text-fg-muted">{`${creditLabel}: ${hero.credit}`}</figcaption>}
           </figure>
         ) : (
-          <div className="overflow-hidden rounded-[32px] border border-line shadow-sm">
+          <div className="overflow-hidden rounded-2xl">
             <HeroArt title={dict.title} />
           </div>
         )}
@@ -60,7 +60,7 @@ export function AboutCourse({ dict }: { dict: CourseDict["about"] }) {
         </UnverifiedContent>
         <UnverifiedContent section="curso.facts">
           <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-link">{dict.facts}</h3>
+            <h3 className="meta text-link">{dict.facts}</h3>
             <dl className="mt-4 grid gap-4 sm:grid-cols-2">
               {COURSE_FACTS.map((f) => (
                 <div key={f.id} className="rounded-xl border border-line bg-canvas p-4">
@@ -85,7 +85,7 @@ export function CoursePillarsSection({ dict }: { dict: CourseDict["pillars"] }) 
           <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {PILLARS.map((p) => (
               <li key={p.id} className="rounded-2xl border border-line bg-canvas p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-link">{p.meta}</p>
+                <p className="meta text-link">{p.meta}</p>
                 <p className="mt-2 text-lg font-bold">{p.title}</p>
                 <p className="mt-2 text-sm text-fg-muted">{p.description}</p>
               </li>
@@ -120,7 +120,7 @@ export function CourseJourney({ locale, dict }: { locale: Locale; dict: CourseDi
             {phases.map((p) => (
               <li key={p.phase} className="relative rounded-2xl border border-line bg-surface p-5">
                 <span aria-hidden="true" className="absolute -top-2 left-5 h-1 w-10 rounded-full bg-action" />
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
+                <p className="meta">
                   {dict.phase} {p.phase}
                 </p>
                 <p className="mt-1 text-2xl font-black">
@@ -192,9 +192,9 @@ export function CourseCta({ dict }: { dict: CourseDict["cta"] }) {
   return (
     <section className="bg-canvas">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col items-start gap-6 rounded-2xl bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{dict.title}</h2>
+            <h2 className="t-section font-black">{dict.title}</h2>
             <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">

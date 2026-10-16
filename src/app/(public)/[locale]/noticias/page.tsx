@@ -37,15 +37,15 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
   return (
     <div className="bg-canvas">
       <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 section-compact">
           <SectionHeading as="h1" eyebrow={dict.newsPage.eyebrow} title={dict.newsPage.title} description={dict.newsPage.description} />
         </div>
       </section>
       {published.length === 0 && !isSectionVisible("noticias.hub") && <EditorialPending dict={dict} />}
-      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 section-compact">
         {published.length > 0 && (
           <section aria-labelledby="noticias-publicadas">
-            <h2 id="noticias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
+            <h2 id="noticias-publicadas" className="t-subsection font-black">
               {dict.published.publishedSection}
             </h2>
             <ul className="mt-4 grid gap-5 md:grid-cols-3" data-published="live">
@@ -53,7 +53,7 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
                 <li key={n.id} className="flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
                   <div aria-hidden="true" className="h-36 bg-gradient-to-br from-surface-2 to-canvas" />
                   <div className="flex flex-1 flex-col gap-2 p-5">
-                    <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
+                    <p className="meta">
                       <time dateTime={n.published_at}>{formatDate(l, new Date(n.published_at), { dateStyle: "medium" })}</time>
                     </p>
                     <p className="font-bold leading-snug">{n.title}</p>
@@ -71,7 +71,7 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
           <UnverifiedContent section="noticias.hub">
             <section aria-labelledby="noticias-staging">
               {published.length > 0 && (
-                <h2 id="noticias-staging" className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
+                <h2 id="noticias-staging" className="t-subsection mb-4 font-black">
                   {dict.published.stagingSection}
                 </h2>
               )}
@@ -80,7 +80,7 @@ export default async function NoticiasPage({ params }: PageProps<"/[locale]/noti
                   <li key={n.id} className="flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
                     <div aria-hidden="true" className="h-36 bg-gradient-to-br from-surface-2 to-canvas" />
                     <div className="flex flex-1 flex-col gap-2 p-5">
-                      <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{n.meta}</p>
+                      <p className="meta">{n.meta}</p>
                       <p className="font-bold leading-snug">{n.title}</p>
                       <p className="text-sm text-fg-muted">{n.description}</p>
                       <Link href={localizePath(l, `/noticias/${n.id}`)} className={linkClass}>

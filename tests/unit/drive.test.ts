@@ -65,7 +65,9 @@ describe("cliente Drive", () => {
     const drive = createDriveClient({ rootFolderId: "", token: async () => "tok" }, spy);
     const res = await drive.thumbnail("f1", 480);
     expect(res?.status).toBe(200);
-    expect(seen.at(-1)).toBe("https://lh3.googleusercontent.com/abc=w480");
+    expect(seen.at(-1)).toBe("https://lh3.googleusercontent.com/abc=w480-rw");
+    await drive.thumbnail("f1", 1280, "jpeg");
+    expect(seen.at(-1)).toBe("https://lh3.googleusercontent.com/abc=w1280");
   });
 
   it("troca o JWT por token uma vez (cache) e lê metadados com Bearer", async () => {

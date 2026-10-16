@@ -276,3 +276,12 @@ Relatórios: `docs/baseline/EXP-001-relatorio.md`, `CAL-001-relatorio.md`, `PROJ
 - Projetos sem datas e sem o botão principal de criação.
 - Aviso de Drive desconectado na Minha mesa.
 - Migrations `20261015000100` e `20261015000200` aplicadas na nuvem.
+
+## Adendo DESIGN-D (2026-10-16)
+
+Redesign editorial do site público na branch `redesign/design-d` ("o curso na linha"), com a fonte Archivo e o logo oficial novo:
+- Home, Projetos, Para empresas, Laboratórios, Experiências e artigos foram reorganizados;
+- o fluxograma está preservado, com melhorias para o celular;
+- fotos em WebP.
+
+O CLS máximo caiu de 0,395 para 0. O detalhe está em `docs/baseline/DESIGN-D-relatorio.md`, e as decisões, no 33.

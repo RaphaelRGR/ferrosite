@@ -44,3 +44,14 @@ export function getLab(id: string): Lab | undefined {
 export function hasDetail(lab: Lab): boolean {
   return lab.about.length > 0 && !lab.duplicateOf;
 }
+
+/** Frase do portfólio que fala de infraestrutura ou equipamentos (ex.: "Equipamentos: …", "Infraestrutura composta por …"). */
+const INFRA = /^(equipamentos|infraestrutura)\b|\bequipamentos (para|de)\b|túnel de vento|compartilha infraestrutura/i;
+
+/**
+ * Separa as frases de "O laboratório" em infraestrutura/equipamentos e o restante (DESIGN-D: ficha
+ * técnica). Só reagrupa o texto verificado do portfólio, na mesma ordem; nada é reescrito.
+ */
+export function splitAbout(lab: Pick<Lab, "about">): { infrastructure: string[]; about: string[] } {
+  return { infrastructure: lab.about.filter((a) => INFRA.test(a)), about: lab.about.filter((a) => !INFRA.test(a)) };
+}

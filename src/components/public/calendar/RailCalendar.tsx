@@ -92,7 +92,7 @@ function ListView({ events, locale, dict, today }: { events: RailEvent[]; locale
     <>
       {groupByMonth(events).map((g) => (
         <section key={g.month} aria-labelledby={`mes-${g.month}`}>
-          <h2 id={`mes-${g.month}`} className="border-b border-line pb-2 text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
+          <h2 id={`mes-${g.month}`} className="t-subsection border-b border-line pb-2 font-black">
             {monthName(locale, g.month)}
           </h2>
           <ul className="mt-4 grid gap-4 md:grid-cols-2">
@@ -232,7 +232,7 @@ function MonthEvent({ event: e, locale, dict, today, open, onToggle }: { event: 
     <li className={past ? "opacity-70" : ""}>
       <details open={open} onToggle={(ev) => onToggle((ev.currentTarget as HTMLDetailsElement).open)} className="group rounded-xl open:bg-surface-2 hover:bg-surface-2">
         <summary className="flex cursor-pointer list-none items-start gap-3 rounded-xl p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus [&::-webkit-details-marker]:hidden">
-          <span aria-hidden="true" className={`mt-0.5 h-9 w-1.5 shrink-0 rounded-full ${REGION_DOT[e.region]}`} />
+          <span aria-hidden="true" className={`mt-1.5 size-2.5 shrink-0 rounded-full ${REGION_DOT[e.region]}`} />
           <span className="min-w-0 flex-1">
             <span className="block text-xs font-bold text-fg-muted">
               {formatEventRange(locale, e.starts_on, e.ends_on)}
@@ -267,7 +267,7 @@ function EventCard({ event: e, locale, dict, today }: { event: RailEvent; locale
   const place = [e.city, countryName(locale, e.country)].filter(Boolean).join(", ");
   return (
     <li className={`flex flex-col gap-2 rounded-2xl border border-line bg-surface p-5 ${past ? "opacity-60" : ""}`}>
-      <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-widest text-fg-muted">
+      <div className="flex flex-wrap items-center gap-2 meta">
         <span>{dict.kinds[e.kind]}</span>
         <span aria-hidden="true">·</span>
         <span>{dict.regions[e.region]}</span>

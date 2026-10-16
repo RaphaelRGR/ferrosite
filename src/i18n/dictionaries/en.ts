@@ -1279,6 +1279,13 @@ export const en: Dictionary = {
       back: "Back to the Portal home",
     },
   },
+  projectsHub: {
+    categories: "Categories",
+    count: "{count} projects",
+    countOne: "1 project",
+    sameCategory: "More in {category}",
+    all: "All projects",
+  },
   home: {
     hero: {
       eyebrow: "Mobility that connects people and transforms cities",
@@ -1307,13 +1314,25 @@ export const en: Dictionary = {
     projects: { eyebrow: "Featured projects", title: "Innovation, outreach and real impact", link: "View all projects", detail: "View project" },
     experiences: { eyebrow: "Experiences that connect", title: "Field visits, missions and experiences across Brazil and the world", publishedTitle: "Technical visits and lectures held", detail: "View experience", brazil: "Brazil", international: "International", link: "View all experiences" },
     news: { eyebrow: "News and updates", title: "Follow what moves the program", link: "View all news" },
-    partners: { eyebrow: "Companies and institutions", title: "Relationships under review", description: "Logos are shown only after authorization and classification of the relationship (partnership, alumni destination, sponsorship)." },
-    cta: {
-      title: "Be part of this journey",
-      description: "Build the future of mobility with us.",
-      student: "About the program",
-      community: "Follow the news",
+    upcoming: {
+      eyebrow: "Railway calendar",
+      title: "Upcoming railway industry events",
+      description: "Trade fairs, conferences and seminars in Brazil and worldwide.",
+      columns: { date: "Date", event: "Event", place: "Place", region: "Region" },
+      empty: "No upcoming events in the {year} calendar yet.",
+      link: "See the full calendar",
+      official: "{name} official website",
     },
+    research: {
+      eyebrow: "Research and industry",
+      title: "CTJ laboratories for industry challenges",
+      description: "{count} laboratories described in the institutional portfolio, with capabilities relevant to railway and metro engineering.",
+      labsPerCapability: "{count} laboratories",
+      labsPerCapabilityOne: "1 laboratory",
+      companies: "For companies",
+      labs: "Explore the laboratories",
+    },
+    partners: { eyebrow: "Companies and institutions", title: "Relationships under review", description: "Logos are shown only after authorization and classification of the relationship (partnership, alumni destination, sponsorship)." },
   },
   course: {
     hero: {
@@ -1373,6 +1392,8 @@ export const en: Dictionary = {
     summary: "{name}: {ancestors} prerequisites and {descendants} dependents.",
     noSelection: "No subject selected.",
     keyboardHelp: "Arrow keys move between subjects; Enter selects; Shift+Enter opens details; Escape clears.",
+    mobileHint: "On a phone, the List view is usually more comfortable.",
+    switchToList: "Show as list",
     legacyPrerequisites: "2012 curriculum prerequisites are not in the official PDF; the relations shown come from the prototype and await validation.",
     unknownPrerequisites: "Prerequisites outside this curriculum (not drawn):",
     prerequisites: "Prerequisites",
@@ -1431,6 +1452,9 @@ export const en: Dictionary = {
     back: "All laboratories",
     responsible: "Lead as stated in the portfolio",
     sectionAbout: "The laboratory",
+    sectionInfrastructure: "Infrastructure and equipment",
+    proposeChallenge: "Propose a challenge",
+    pendingDetail: "Page pending in the portfolio",
     sectionHistory: "History and projects",
     sectionApplications: "Applications in the railway and metro sector",
     capabilities: "Capabilities",
@@ -1523,6 +1547,8 @@ export const en: Dictionary = {
     modalitiesTitle: "Engagement models",
     modalitiesText: "[PENDING CONTENT]: cooperation models (R&D, testing, consulting, training) and their procedures will be published after institutional definition.",
     seeLabs: "See all laboratories",
+    featuredLabsTitle: "Laboratories with the most described capabilities",
+    featuredLabsDescription: "From the institutional portfolio: what each one reports about infrastructure and equipment.",
   },
   newsPage: {
     eyebrow: "News",

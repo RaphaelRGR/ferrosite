@@ -1,0 +1,110 @@
+/* Site público (DESIGN-D): tipografia e ritmo editoriais, só sob [data-site="public"] (o wrapper do
+   PublicShell). Portal, login e catálogo não têm o atributo e não mudam. Arquivo próprio, importado por
+   PublicShell.tsx (o Turbopack pode manter um globals.css antigo em cache).
+   Tudo em @layer base/components: classes utilitárias do Tailwind continuam podendo ajustar caso a caso. */
+
+/* Só o "&" dos títulos vem da Barlow Condensed (decisão do usuário: o "&" da Archivo não agradou).
+   unicode-range limita ao caractere; o arquivo (OFL, src/fonts/barlow) só baixa se houver "&" na página.
+   Peso declarado como faixa para o navegador não engrossar o desenho artificialmente. */
+@font-face {
+  font-family: "EFM Ampersand";
+  src: url("../../fonts/barlow/barlow-condensed-latin-800-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0026;
+}
+/* No texto corrido, o "&" da Barlow de largura normal (combina com a Archivo de largura normal). */
+@font-face {
+  font-family: "EFM Ampersand Text";
+  src: url("../../fonts/barlow/barlow-latin-400-normal.woff2") format("woff2");
+  font-weight: 100 599;
+  font-display: swap;
+  unicode-range: U+0026;
+}
+@font-face {
+  font-family: "EFM Ampersand Text";
+  src: url("../../fonts/barlow/barlow-latin-700-normal.woff2") format("woff2");
+  font-weight: 600 900;
+  font-display: swap;
+  unicode-range: U+0026;
+}
+
+@layer base {
+  [data-site="public"] {
+    --font-text: "EFM Ampersand Text", var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+    --font-display: "EFM Ampersand", var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+    /* Escala fluida: referência, não teto. Cada passo cresce com a largura da tela. */
+    --step--1: 0.875rem;
+    --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+    --step-1: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+    --step-2: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+    --step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+    --step-4: clamp(2.25rem, 1.6rem + 3vw, 4.25rem);
+    --step-5: clamp(2.75rem, 1.7rem + 5vw, 6rem);
+
+    /* Faixa escura dos próximos eventos (quadro de partidas): pares AA testados em public-theme-scope.test.ts. */
+    --board-bg: #15181c;
+    --board-fg: #f3f4f6;
+    --board-muted: #aeb4bd;
+    --board-date: #ffa37a;
+    --board-line: #2e343b;
+    --board-brasil: #ff8a5b;
+    --board-mundo: #7fb3ff;
+
+    font-family: var(--font-text);
+  }
+
+  /* Títulos: a mesma família, mais estreita (largura 80) e firme, com espaço entre palavras
+     ligeiramente aberto para a versão estreita não colar as palavras. */
+  [data-site="public"] :is(h1, h2, .f-display) {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 80;
+    letter-spacing: -0.01em;
+    word-spacing: 0.04em;
+    text-wrap: balance;
+  }
+  [data-site="public"] h3 {
+    text-wrap: balance;
+  }
+  [data-site="public"] p {
+    text-wrap: pretty;
+  }
+
+  /* Datas, horas e contagens alinhadas. */
+  [data-site="public"] :is(time, table, .tabular) {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Títulos por papel (tamanho fluido + entrelinha); o peso fica no componente. */
+  [data-site="public"] .t-display { font-size: var(--step-5); line-height: 0.95; }
+  [data-site="public"] .t-title { font-size: var(--step-4); line-height: 1; }
+  [data-site="public"] .t-section { font-size: var(--step-3); line-height: 1.05; }
+  [data-site="public"] .t-subsection { font-size: var(--step-2); line-height: 1.15; }
+  [data-site="public"] .t-lead { font-size: var(--step-1); line-height: 1.5; }
+
+  /* Ritmo vertical das seções: cada uma escolhe pelo conteúdo, nenhuma distância é fixa para todas. */
+  [data-site="public"] .section-compact { padding-block: clamp(2.5rem, 5vw, 4rem); }
+  [data-site="public"] .section-regular { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  [data-site="public"] .section-generous { padding-block: clamp(4.5rem, 10vw, 9rem); }
+
+  /* Rótulo de contexto acima de um título (o "eyebrow" que informa): caixa normal, com o traço de trilho. */
+  [data-site="public"] .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--step--1);
+    font-weight: 700;
+    color: var(--text-link);
+  }
+
+  /* Linha de metadados (data · local · tipo): caixa normal, números alinhados. */
+  [data-site="public"] .meta {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}

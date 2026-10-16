@@ -209,7 +209,7 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
   return (
     <section aria-labelledby={headingId} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <h2 id={headingId} className="text-2xl font-black tracking-tight sm:text-3xl">
+        <h2 id={headingId} className="text-2xl font-black sm:text-3xl">
           {labels.title}
         </h2>
         <p className="max-w-3xl text-fg-muted">{labels.description}</p>
@@ -298,10 +298,17 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
 
       {view === "graph" ? (
         <>
-          {/* Navegação por fase (útil no toque/mobile) */}
-          <nav aria-label={labels.phase} className="flex flex-wrap gap-1">
+          {/* Celular (DESIGN-D): a lista é mais confortável; o grafo continua disponível. */}
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-surface px-4 py-3 sm:hidden">
+            <p className="text-sm text-fg-muted">{labels.mobileHint}</p>
+            <button type="button" onClick={() => setView("list")} className={toolBtn}>
+              {labels.switchToList}
+            </button>
+          </div>
+          {/* Navegação por fase (útil no toque/mobile): alvos de 44 px; no celular, uma faixa rolável. */}
+          <nav aria-label={labels.phase} className="-mx-4 flex gap-1.5 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
             {columns.map((col) => (
-              <button key={col.key} type="button" onClick={() => scrollToPhase(col.key)} className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-bold text-fg-muted hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
+              <button key={col.key} type="button" onClick={() => scrollToPhase(col.key)} className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-line bg-surface px-3 text-sm font-bold text-fg-muted hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus">
                 {col.phase ?? col.label}
               </button>
             ))}
@@ -372,7 +379,8 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
         <div className="flex flex-col gap-6">
           {columns.map((col) => (
             <section key={col.key} className="rounded-2xl border border-line bg-surface p-4">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{col.label}</h3>
+              {/* fase fixa no topo enquanto a lista da fase rola (abaixo do cabeçalho do site) */}
+              <h3 className="sticky top-[5.75rem] z-[5] -mx-4 bg-surface px-4 py-2 text-lg font-black text-action">{col.label}</h3>
               <ul className="mt-3 divide-y divide-line">
                 {col.subjects.map((s) => {
                   const st = cardState(s.id);
@@ -405,7 +413,7 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
 
       {/* ─── Legenda ─── */}
       <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4 text-sm">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">{labels.legend}</p>
+        <p className="text-sm font-bold text-fg">{labels.legend}</p>
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           <li className="flex items-center gap-2"><span aria-hidden="true" className="h-3 w-6 rounded border-2 border-action" /> {labels.selected}</li>
           <li className="flex items-center gap-2"><span aria-hidden="true" className="h-3 w-6 rounded border-2 border-info" /> {labels.ancestor}</li>
@@ -441,4 +449,4 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
 }
 
 const toolBtn =
-  "inline-flex min-h-10 items-center justify-center rounded-full border border-line-strong bg-surface px-4 text-sm font-bold text-fg hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus";
+  "inline-flex min-h-11 items-center justify-center rounded-full border border-line-strong bg-surface px-4 text-sm font-bold text-fg hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus";
