@@ -208,3 +208,8 @@ Cada seção tem composição própria:
   - no cabeçalho, o logo ficou com 44 px de largura (55 de altura);
   - a imagem de compartilhamento usa 104 × 130.
   - Com isso, o CLS medido no build strict ficou **0** na Home, Sobre, Laboratórios e Login, em 1440 e 390.
+- **"&" (pedido do usuário: o da Archivo não agradou):**
+  - a Archivo continua em tudo; só o caractere "&" vem da Barlow, por `@font-face` com `unicode-range: U+0026` em `public-theme.css` (o arquivo só baixa se houver "&" na página);
+  - nos títulos (`--font-display`), da Barlow Condensed 800; no texto corrido (`--font-text`), da Barlow 400/700;
+  - testado contra B (escolhida), C (& da Geist), D (escrever "e"), E (Barlow Condensed inteira) e F (Geist);
+  - depois disso, as 32 capturas "depois" (16 páginas × 1440/390) deram **CLS 0**.

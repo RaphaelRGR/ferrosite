@@ -3,10 +3,36 @@
    PublicShell.tsx (o Turbopack pode manter um globals.css antigo em cache).
    Tudo em @layer base/components: classes utilitárias do Tailwind continuam podendo ajustar caso a caso. */
 
+/* Só o "&" dos títulos vem da Barlow Condensed (decisão do usuário: o "&" da Archivo não agradou).
+   unicode-range limita ao caractere; o arquivo (OFL, src/fonts/barlow) só baixa se houver "&" na página.
+   Peso declarado como faixa para o navegador não engrossar o desenho artificialmente. */
+@font-face {
+  font-family: "EFM Ampersand";
+  src: url("../../fonts/barlow/barlow-condensed-latin-800-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0026;
+}
+/* No texto corrido, o "&" da Barlow de largura normal (combina com a Archivo de largura normal). */
+@font-face {
+  font-family: "EFM Ampersand Text";
+  src: url("../../fonts/barlow/barlow-latin-400-normal.woff2") format("woff2");
+  font-weight: 100 599;
+  font-display: swap;
+  unicode-range: U+0026;
+}
+@font-face {
+  font-family: "EFM Ampersand Text";
+  src: url("../../fonts/barlow/barlow-latin-700-normal.woff2") format("woff2");
+  font-weight: 600 900;
+  font-display: swap;
+  unicode-range: U+0026;
+}
+
 @layer base {
   [data-site="public"] {
-    --font-text: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-    --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+    --font-text: "EFM Ampersand Text", var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+    --font-display: "EFM Ampersand", var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 
     /* Escala fluida: referência, não teto. Cada passo cresce com a largura da tela. */
     --step--1: 0.875rem;
