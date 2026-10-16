@@ -1449,6 +1449,9 @@ export const pt = {
     back: "Todos os laboratórios",
     responsible: "Responsável informado no portfólio",
     sectionAbout: "O laboratório",
+    sectionInfrastructure: "Infraestrutura e equipamentos",
+    proposeChallenge: "Propor um desafio",
+    pendingDetail: "Página pendente no portfólio",
     sectionHistory: "Histórico e projetos",
     sectionApplications: "Aplicações no setor ferroviário e metroviário",
     capabilities: "Capacidades",
@@ -1541,6 +1544,8 @@ export const pt = {
     modalitiesTitle: "Modalidades",
     modalitiesText: "[CONTEÚDO PENDENTE]: modalidades de cooperação (P&D, ensaios, consultoria, capacitação) e seus trâmites serão publicados após definição institucional.",
     seeLabs: "Ver todos os laboratórios",
+    featuredLabsTitle: "Laboratórios com mais capacidades descritas",
+    featuredLabsDescription: "Pelo portfólio institucional: o que cada um informa sobre infraestrutura e equipamentos.",
   },
   newsPage: {
     eyebrow: "Notícias",

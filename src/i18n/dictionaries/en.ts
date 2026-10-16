@@ -1450,6 +1450,9 @@ export const en: Dictionary = {
     back: "All laboratories",
     responsible: "Lead as stated in the portfolio",
     sectionAbout: "The laboratory",
+    sectionInfrastructure: "Infrastructure and equipment",
+    proposeChallenge: "Propose a challenge",
+    pendingDetail: "Page pending in the portfolio",
     sectionHistory: "History and projects",
     sectionApplications: "Applications in the railway and metro sector",
     capabilities: "Capabilities",
@@ -1542,6 +1545,8 @@ export const en: Dictionary = {
     modalitiesTitle: "Engagement models",
     modalitiesText: "[PENDING CONTENT]: cooperation models (R&D, testing, consulting, training) and their procedures will be published after institutional definition.",
     seeLabs: "See all laboratories",
+    featuredLabsTitle: "Laboratories with the most described capabilities",
+    featuredLabsDescription: "From the institutional portfolio: what each one reports about infrastructure and equipment.",
   },
   newsPage: {
     eyebrow: "News",

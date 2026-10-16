@@ -118,3 +118,26 @@ Cada seção tem composição própria:
   - a moldura arredondada de 32px com borda da página do projeto.
 - **e2e `design-c`:** atualizado. Cada projeto continua precisando ter foto **ou** capa da categoria; o selo com ícone + texto agora é exigido nos atalhos de categoria.
 - **Fotos:** hoje nenhum dos 9 projetos tem capa. O layout funciona sem foto, mas fica melhor com ela; a capa pode ser cadastrada pelo Portal (projeto → arquivos), que já existe.
+
+## Fase 4: Para empresas + Laboratórios
+
+- **Para empresas**, um percurso feito só com o portfólio verificado:
+  1. a pergunta de abertura, com botão "Tenho um desafio" e link para os laboratórios;
+  2. **Como funciona**: os 3 passos sobre um trilho (o número indica a sequência);
+  3. **Áreas de desafio**: as 20 capacidades em lista de 3 colunas, na ordem atual (sem agrupamento inventado) e com as mesmas contagens ("N com capacidade descrita · M com potencial");
+  4. **Laboratórios com mais capacidades descritas**: os 4 com mais vínculos "offered" que têm frase de infraestrutura, mostrando sigla, nome e a frase de infraestrutura/equipamentos do portfólio;
+  5. envio do desafio (faixa escura) + confidencialidade (sem prometer NDA) + **Modalidades, que continuam `[CONTEÚDO PENDENTE]`**.
+- **Laboratórios (hub):**
+  - filtro por capacidade na URL, como antes;
+  - a lista virou **ficha técnica**: sigla grande, nome, primeira frase do portfólio (ou a pendência), capacidades com nível e "Ver laboratório" cobrindo a linha;
+  - CTA para Para empresas na faixa escura.
+- **Página do laboratório:**
+  - sigla grande, nome e responsável informado no portfólio;
+  - **"Infraestrutura e equipamentos" em destaque**: `splitAbout()` só reagrupa as frases verificadas, sem reescrever, e é testada para não perder nenhuma (encontra frase de infraestrutura em 9 dos 10 laboratórios detalhados);
+  - depois: O laboratório, Histórico e projetos, Aplicações (potencial marcado);
+  - coluna lateral com capacidades e "Propor um desafio" (vai ao formulário; o formulário ainda não pré-seleciona o laboratório) + Para empresas;
+  - os campos pendentes continuam explícitos;
+  - nenhum contato pessoal.
+- **e2e `labs.spec` e `design-c.spec`** rodados contra o servidor local: 10/10.
+- **CLS de Laboratórios em produção (0,395 no desktop):** rastreado como troca tardia da fonte web na primeira carga (o menu e o texto mudam de métrica aos ~2 s). A fonte agora é servida pelo projeto, pré-carregada, com fallback de métricas ajustadas; a confirmação fica para a medição final em build `strict`.
+- **Fotos de laboratório:** nenhuma no acervo. As fichas funcionam com composição tipográfica. Para fotos: as imagens do portfólio oficial (se a coordenação autorizar, com crédito) ou uma pasta do Drive.
