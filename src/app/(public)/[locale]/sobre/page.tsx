@@ -40,12 +40,12 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
         <UnverifiedContent section="sobre.historia">
           <section className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
-            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{dict.about.history}</h2>
+            <h2 className="t-subsection font-black">{dict.about.history}</h2>
             <ol className="mt-4 border-l-2 border-line pl-5">
               {HISTORY.map((h) => (
                 <li key={h.id} className="relative pb-6 last:pb-0">
                   <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
-                  <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{h.when}</p>
+                  <p className="meta">{h.when}</p>
                   <p className="font-bold">{h.title}</p>
                   <p className="text-sm text-fg-muted">{h.description}</p>
                 </li>
@@ -58,7 +58,7 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
           <section className="grid gap-4 md:grid-cols-3">
             {IDENTITY.map((i) => (
               <div key={i.id} className="rounded-2xl border border-line bg-surface p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-action">{i.meta}</p>
+                <p className="t-subsection font-black">{i.meta}</p>
                 <h2 className="mt-1 text-lg font-bold">{i.title}</h2>
                 <p className="mt-2 text-sm text-fg-muted">{i.description}</p>
               </div>
@@ -68,7 +68,7 @@ export default async function SobrePage({ params }: PageProps<"/[locale]/sobre">
 
         <UnverifiedContent section="sobre.pesquisa">
           <section className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
-            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{dict.about.research}</h2>
+            <h2 className="t-subsection font-black">{dict.about.research}</h2>
             <ul className="mt-4 grid gap-4 sm:grid-cols-2">
               {RESEARCH_LINES.map((r) => (
                 <li key={r.id} className="rounded-xl border border-line bg-canvas p-4">

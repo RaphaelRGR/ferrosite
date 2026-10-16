@@ -53,7 +53,7 @@ export default async function ExperienciaPage({ params }: PageProps<"/[locale]/e
           <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={item.scope === "internacional" ? "info" : "neutral"}>{item.scope === "internacional" ? dict.experiences.international : dict.experiences.brazil}</Badge>
-              <span className="text-xs font-bold uppercase tracking-widest text-fg-muted">{item.when} · {item.meta}</span>
+              <span className="meta">{item.when} · {item.meta}</span>
             </div>
             <div className="mt-4">
               <SectionHeading as="h1" eyebrow={dict.experiences.eyebrow} title={item.title} description={item.description} />

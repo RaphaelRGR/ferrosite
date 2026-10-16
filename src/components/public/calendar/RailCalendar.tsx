@@ -92,7 +92,7 @@ function ListView({ events, locale, dict, today }: { events: RailEvent[]; locale
     <>
       {groupByMonth(events).map((g) => (
         <section key={g.month} aria-labelledby={`mes-${g.month}`}>
-          <h2 id={`mes-${g.month}`} className="border-b border-line pb-2 text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
+          <h2 id={`mes-${g.month}`} className="t-subsection border-b border-line pb-2 font-black">
             {monthName(locale, g.month)}
           </h2>
           <ul className="mt-4 grid gap-4 md:grid-cols-2">
@@ -267,7 +267,7 @@ function EventCard({ event: e, locale, dict, today }: { event: RailEvent; locale
   const place = [e.city, countryName(locale, e.country)].filter(Boolean).join(", ");
   return (
     <li className={`flex flex-col gap-2 rounded-2xl border border-line bg-surface p-5 ${past ? "opacity-60" : ""}`}>
-      <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-widest text-fg-muted">
+      <div className="flex flex-wrap items-center gap-2 meta">
         <span>{dict.kinds[e.kind]}</span>
         <span aria-hidden="true">·</span>
         <span>{dict.regions[e.region]}</span>

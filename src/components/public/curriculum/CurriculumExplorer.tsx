@@ -209,7 +209,7 @@ export function CurriculumExplorer({ labels, locale }: { labels: Labels; locale:
   return (
     <section aria-labelledby={headingId} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <h2 id={headingId} className="text-2xl font-black tracking-tight sm:text-3xl">
+        <h2 id={headingId} className="text-2xl font-black sm:text-3xl">
           {labels.title}
         </h2>
         <p className="max-w-3xl text-fg-muted">{labels.description}</p>

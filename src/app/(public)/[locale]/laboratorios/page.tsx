@@ -91,7 +91,7 @@ export default async function LaboratoriosPage({ params, searchParams }: PagePro
 
         <section className="flex flex-col items-start gap-4 rounded-[32px] border border-accent/30 bg-accent/5 p-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-2xl font-black tracking-tight">{dict.labs.ctaTitle}</h2>
+            <h2 className="text-2xl font-black">{dict.labs.ctaTitle}</h2>
             <p className="mt-1 text-fg-muted">{dict.labs.ctaDescription}</p>
           </div>
           <LinkButton href={localizePath(l, "/para-empresas")}>{dict.labs.ctaButton}</LinkButton>

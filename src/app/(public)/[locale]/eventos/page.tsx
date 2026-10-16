@@ -43,7 +43,7 @@ export default async function EventosPage({ params }: PageProps<"/[locale]/event
       {items.map((e) => (
         <li key={e.id} className="relative pb-6 last:pb-0">
           <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
-          <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
+          <p className="meta">
             {e.event_at && <time dateTime={e.event_at}>{formatDate(l, new Date(e.event_at), { dateStyle: "medium", timeStyle: "short" })}</time>}
             {e.event_place && ` · ${e.event_place}`}
           </p>
@@ -78,11 +78,11 @@ export default async function EventosPage({ params }: PageProps<"/[locale]/event
         ) : (
           <div className="grid gap-8 lg:grid-cols-2" data-published="live">
             <section className="rounded-2xl border border-line bg-surface p-6">
-              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{dict.published.upcoming}</h2>
+              <h2 className="t-subsection font-black">{dict.published.upcoming}</h2>
               <div className="mt-4">{upcoming.length ? list(upcoming) : <p className="text-sm text-fg-muted">{dict.events.emptyTitle}</p>}</div>
             </section>
             <section className="rounded-2xl border border-line bg-surface p-6">
-              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{dict.published.past}</h2>
+              <h2 className="t-subsection font-black">{dict.published.past}</h2>
               <div className="mt-4">{past.length ? list(past) : <p className="text-sm text-fg-muted">{dict.events.emptyTitle}</p>}</div>
             </section>
           </div>

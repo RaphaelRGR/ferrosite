@@ -42,7 +42,7 @@ export function PublishedGallery({ items, title, creditLabel, labels }: { items:
   const current = open !== null ? items[open] : null;
   return (
     <section aria-labelledby="galeria-title" className="mt-10">
-      <h2 id="galeria-title" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
+      <h2 id="galeria-title" className="t-subsection font-black">
         {title}
       </h2>
       <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3" data-gallery-count={count} data-reveal-group>

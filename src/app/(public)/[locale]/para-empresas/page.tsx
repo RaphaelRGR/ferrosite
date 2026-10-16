@@ -39,7 +39,7 @@ export default async function ParaEmpresasPage({ params }: PageProps<"/[locale]/
 
       <div className="mx-auto flex max-w-7xl flex-col gap-14 px-4 py-12 sm:px-6">
         <section aria-labelledby="empresas-como">
-          <h2 id="empresas-como" className="text-xs font-bold uppercase tracking-[0.2em] text-action">{c.stepsTitle}</h2>
+          <h2 id="empresas-como" className="t-subsection font-black">{c.stepsTitle}</h2>
           <ol className="mt-4 grid gap-4 sm:grid-cols-3">
             {c.steps.map((s, i) => (
               <li key={s.title} className="rounded-2xl border border-line bg-surface p-5">
@@ -54,7 +54,7 @@ export default async function ParaEmpresasPage({ params }: PageProps<"/[locale]/
         </section>
 
         <section aria-labelledby="empresas-areas">
-          <h2 id="empresas-areas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">{c.capabilitiesTitle}</h2>
+          <h2 id="empresas-areas" className="t-subsection font-black">{c.capabilitiesTitle}</h2>
           <UnverifiedContent section="empresas.capacidades">
             <ul className="mt-4 grid gap-3 pt-6 sm:grid-cols-2 lg:grid-cols-4">
               {CAPABILITY_IDS.map((id) => {

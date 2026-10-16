@@ -48,7 +48,7 @@ export function PublishedArticle({
           </p>
         )}
         <div className="rounded-[32px] border border-line bg-surface p-5 sm:p-8 md:p-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
+          <p className="meta">
             <time dateTime={date}>{formatDate(locale, new Date(date), { dateStyle: "long", ...(item.type === "event" ? { timeStyle: "short" } : {}) })}</time>
             {dated && item.event_place && ` · ${item.event_place}`}
           </p>

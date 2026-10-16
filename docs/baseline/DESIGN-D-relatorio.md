@@ -43,3 +43,27 @@ Branch `redesign/design-d`. Nada vai para `main` sem aprovação do usuário sob
   - **Barlow + Barlow Condensed:** 6 arquivos de ~22 KB.
   - **Geist** (controle).
 - **Observação do teste:** a Archivo em largura 72 com tracking negativo deixava as palavras coladas ("Ferroviáriae"). Em **largura 80, tracking −0,01em e word-spacing +0,04em**, o título fica firme e legível. O texto longo em Archivo de largura normal tem leitura confortável.
+
+## Fase 1: fundação (só o site público)
+
+- **Escopo:**
+  - `PublicShell` ganha `data-site="public"` e a fonte (`layout/public-fonts.ts`, Archivo por `next/font/local`, variável `--font-archivo`);
+  - os tokens e as regras ficam em `layout/public-theme.css`, todos sob `[data-site="public"]` e em `@layer base/components`, para que utilitários do Tailwind ainda possam ajustar caso a caso;
+  - o `HtmlShell` (Portal, login, catálogo) não muda;
+  - `tests/unit/public-theme-scope.test.ts` garante as duas coisas.
+- **Tipografia:**
+  - `h1`/`h2` na Archivo de largura 80, com `text-wrap: balance`; parágrafos com `pretty`;
+  - `time`/`table`/`.tabular` com `tabular-nums`;
+  - escala fluida `--step--1…5` e classes por papel (`t-display`, `t-title`, `t-section`, `t-subsection`, `t-lead`);
+  - ritmo de seção em três medidas (`section-compact/regular/generous`), que cada seção escolhe pelo conteúdo.
+- **Rótulos:**
+  - **o eyebrow continua** quando informa, agora em caixa normal com o traço de trilho (`.eyebrow`);
+  - os subtítulos de seção que eram rótulos minúsculos em MAIÚSCULAS ("Como funciona", "Áreas de desafio", "Histórico", meses do calendário em lista) viraram títulos de verdade (`t-subsection`);
+  - linhas de data e local viraram `.meta` (caixa normal, números alinhados);
+  - mantidos como estavam: fluxograma, diálogo da disciplina, seletor PT/EN e 404.
+- **Cabeçalho:**
+  - o logo é o Início no desktop;
+  - 6 links (Curso, Projetos, Experiências, Calendário, **Notícias**, Para Empresas) + PT/EN + Portal;
+  - o menu do celular mantém "Início";
+  - fica em uma linha de 1024 a 1440 px.
+- **Rodapé:** o nome do curso em tamanho de título, campus e centro, os dois grupos de links (incluindo Laboratórios e Notícias), a locomotiva e o crédito.

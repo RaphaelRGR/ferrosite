@@ -61,11 +61,11 @@ export function ShortsStrip({ videos, labels, tone = "surface" }: { videos: Shor
       {/* Coluna mais estreita: texto e vídeo formam um bloco só, sem o vazio lateral de antes. */}
       <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_320px] lg:gap-14">
         <div data-reveal>
-          <p className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-link">
+          <p className="eyebrow mb-3">
             <span aria-hidden="true" className="rail-mark h-0.5 w-6 rounded-full bg-action" />
             {labels.eyebrow}
           </p>
-          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{labels.title}</h2>
+          <h2 className="t-section font-black">{labels.title}</h2>
           <p className="mt-3 max-w-xl text-fg-muted">{labels.description}</p>
           {video && (
             <p className="mt-6 text-lg font-bold leading-snug" aria-live="polite">

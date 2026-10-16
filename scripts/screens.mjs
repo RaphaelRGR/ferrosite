@@ -61,7 +61,15 @@ for (const width of widths) {
     const p = await ctx.newPage();
     await p.addInitScript(VITALS);
     if (page.calendarView) await p.addInitScript((v) => localStorage.setItem("ferrosite.calendar.view", v), page.calendarView);
-    const res = await p.goto(base + page.path, { waitUntil: "load", timeout: 60_000 });
+    const res = await p.goto(base + page.path, { waitUntil: "load", timeout: 90_000 }).catch((e) => {
+      console.log(`${page.id} @${width}: falhou (${e.message.split(/\n/)[0]})`);
+      return null;
+    });
+    if (!res) {
+      rows.push({ page: page.id, width, status: 0, error: true });
+      await ctx.close();
+      continue;
+    }
     // LCP antes de rolar: a rolagem carrega imagens preguiçosas maiores, que o observer contaria
     await p.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => {});
     await p.waitForTimeout(1000);
@@ -97,7 +105,8 @@ await browser.close();
 const median = (xs) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
 const keys = [...new Set(rows.map((r) => `${r.page}@${r.width}`))];
 const summary = keys.map((k) => {
-  const rs = rows.filter((r) => `${r.page}@${r.width}` === k);
+  const rs = rows.filter((r) => `${r.page}@${r.width}` === k && !r.error);
+  if (rs.length === 0) return { key: k, error: true };
   return { key: k, lcp_ms: median(rs.map((r) => r.lcp_ms)), cls: Math.max(...rs.map((r) => r.cls)) };
 });
 writeFileSync(join(out, metricsOnly ? "metrics-lcp.json" : "metrics.json"), JSON.stringify({ base, captured_at: new Date().toISOString(), summary, rows }, null, 2));

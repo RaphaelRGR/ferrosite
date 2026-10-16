@@ -42,7 +42,7 @@ export function FallbackCover({ label }: { label: string }) {
       <span className="absolute right-5 top-5 w-24 text-white/40">
         <Locomotive steam={false} className="w-full" />
       </span>
-      <span className="relative text-sm font-bold uppercase tracking-[0.18em]">{label}</span>
+      <span className="f-display relative text-xl font-black">{label}</span>
     </div>
   );
 }
@@ -78,7 +78,7 @@ export function ExperienceCard({
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-link">
+        <p className="meta text-link">
           {kind} · <time dateTime={date}>{formatDate(locale, new Date(date), { dateStyle: "medium" })}</time>
         </p>
         <h3 className="font-bold leading-snug">

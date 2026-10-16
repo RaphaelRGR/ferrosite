@@ -27,7 +27,7 @@ export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: 
     <section className="bg-surface">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:py-20">
         <div className="hero-in">
-          <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-fg-muted">
+          <p className="eyebrow mb-4">
             <span aria-hidden="true" className="h-0.5 w-6 rounded-full bg-action" />
             {dict.eyebrow}
           </p>
@@ -73,7 +73,7 @@ export function IndicatorsStrip({ dict }: { dict: HomeDict["indicators"] }) {
             <li key={i.id} className="flex items-start gap-3">
               <span aria-hidden="true" className="mt-1 size-2 rounded-full bg-action" />
               <div>
-                <p className="text-2xl font-black tracking-tight">{i.value}</p>
+                <p className="text-2xl font-black">{i.value}</p>
                 <p className="text-sm text-fg-muted">{i.label}</p>
               </div>
             </li>
@@ -188,12 +188,12 @@ export function ExperiencesPreview({ locale, dict }: { locale: Locale; dict: Hom
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             {groups.map((g) => (
               <div key={g.key} className="rounded-2xl border border-line bg-canvas p-6">
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-link">{g.label}</h3>
+                <h3 className="meta text-link">{g.label}</h3>
                 <ol className="mt-4 border-l-2 border-line pl-5">
                   {g.items.map((e) => (
                     <li key={e.id} className="relative pb-5 last:pb-0">
                       <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
-                      <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">
+                      <p className="meta">
                         {e.when} · {e.meta}
                       </p>
                       <p className="font-bold">{e.title}</p>
@@ -221,7 +221,7 @@ export function NewsPreview({ locale, dict }: { locale: Locale; dict: HomeDict["
               <li key={n.id} className="flex gap-4 rounded-2xl border border-line bg-surface p-5">
                 <div aria-hidden="true" className="hidden size-20 shrink-0 rounded-xl bg-surface-2 sm:block" />
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-fg-muted">{n.meta}</p>
+                  <p className="meta">{n.meta}</p>
                   <p className="mt-1 font-bold leading-snug">{n.title}</p>
                   <p className="mt-1 text-sm text-fg-muted">{n.description}</p>
                 </div>
@@ -260,7 +260,7 @@ export function FinalCta({ locale, dict, showNews = true }: { locale: Locale; di
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{dict.title}</h2>
+            <h2 className="t-section font-black">{dict.title}</h2>
             <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">

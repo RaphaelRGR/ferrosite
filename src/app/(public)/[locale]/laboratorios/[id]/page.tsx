@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/laborato
   return publicPageMetadata(l, `/laboratorios/${id}`, { title: `${lab.acronym}: ${lab.name}`, description: lab.about[0] ?? getDictionary(l).pages.labs.description });
 }
 
-const H2 = "text-xs font-bold uppercase tracking-[0.2em] text-action";
+const H2 = "t-subsection font-black";
 const ITEM = "rounded-xl border border-line bg-surface px-4 py-3 text-sm";
 
 /**

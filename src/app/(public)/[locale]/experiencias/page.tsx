@@ -85,7 +85,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
         {published.length > 0 && (
           <section aria-labelledby="experiencias-publicadas" className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-              <h2 id="experiencias-publicadas" className="text-xs font-bold uppercase tracking-[0.2em] text-action">
+              <h2 id="experiencias-publicadas" className="t-subsection font-black">
                 {dict.published.experiencesPublished}
               </h2>
               {/* Filtros como links (estado na URL: compartilhável e sem JS obrigatório). */}
@@ -115,7 +115,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
             ) : (
               groups.map(([groupYear, list]) => (
                 <section key={groupYear} aria-labelledby={`ano-${groupYear}`}>
-                  <h3 id={`ano-${groupYear}`} className="flex items-baseline gap-3 border-b border-line pb-3 text-2xl font-black tracking-tight">
+                  <h3 id={`ano-${groupYear}`} className="flex items-baseline gap-3 border-b border-line pb-3 text-2xl font-black">
                     {groupYear}
                     <span className="text-sm font-bold text-fg-muted">{dict.experiences.results.replace("{count}", String(list.length))}</span>
                   </h3>
@@ -158,7 +158,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
                 { key: "upcoming", label: dict.experiences.upcoming, list: upcoming },
               ].map((g) => (
                 <section key={g.key} className="rounded-2xl border border-line bg-surface p-6">
-                  <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-action">{g.label}</h2>
+                  <h2 className="t-subsection font-black">{g.label}</h2>
                   {g.list.length === 0 ? (
                     <p className="mt-3 text-sm text-fg-muted">{dict.experiences.empty}</p>
                   ) : (
@@ -167,7 +167,7 @@ export default async function ExperienciasPage({ params, searchParams }: PagePro
                         <li key={e.id} className="relative pb-6 last:pb-0">
                           <span aria-hidden="true" className="absolute -left-[27px] top-1.5 size-3 rounded-full border-2 border-surface bg-action" />
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-xs font-bold uppercase tracking-widest text-fg-muted">{e.when}</span>
+                            <span className="meta">{e.when}</span>
                             <Badge tone={e.scope === "internacional" ? "info" : "neutral"}>{e.scope === "internacional" ? dict.experiences.international : dict.experiences.brazil}</Badge>
                           </div>
                           <p className="mt-1 font-bold">{e.title}</p>
