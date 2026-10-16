@@ -59,6 +59,8 @@
   .zoom-media { overflow: hidden; }
   .zoom-media img { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
   .card-lift:hover .zoom-media img, .card-lift:focus-within .zoom-media img { transform: scale(1.05); }
+  /* Bloco editorial sem cartão (DESIGN-D): só a foto aproxima, nada se levanta. */
+  .media-hover:hover .zoom-media img, .media-hover:focus-within .zoom-media img { transform: scale(1.04); }
 
   /* Marca de seção (a barrinha laranja) desenha da esquerda ao aparecer. */
   html.js-motion [data-reveal] .rail-mark, html.js-motion [data-reveal-group] .rail-mark { transform: scaleX(0); transform-origin: left; transition: transform 0.6s 0.25s cubic-bezier(0.22, 1, 0.36, 1); }

@@ -21,6 +21,12 @@ export function mediaSrcSet(fileId: string, widths: readonly MediaWidth[]): stri
 export const MEDIA_PRESETS = {
   /** Hero da Home: metade da tela no desktop, tela toda no celular. */
   hero: { widths: [480, 640, 960, 1280] as const, sizes: "(min-width: 1024px) 50vw, 100vw", fallback: 960 as MediaWidth },
+  /** Foto larga sob o título (Home, DESIGN-D): a largura do conteúdo, até 1600 px. */
+  wide: { widths: [640, 960, 1280, 1600] as const, sizes: "(min-width: 1280px) 1232px, 100vw", fallback: 1280 as MediaWidth },
+  /** Destaque de seção (mais ou menos 60% da largura no desktop). */
+  feature: { widths: [480, 640, 960, 1280] as const, sizes: "(min-width: 1024px) 60vw, 100vw", fallback: 960 as MediaWidth },
+  /** Miniatura de lista (cerca de 120 px). */
+  mini: { widths: [240, 320] as const, sizes: "120px", fallback: 240 as MediaWidth },
   /** Capa de cartão em grade de 3–4 colunas. */
   card: { widths: [320, 480, 640] as const, sizes: "(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw", fallback: 480 as MediaWidth },
   /** Capa dentro do artigo (coluna estreita). */

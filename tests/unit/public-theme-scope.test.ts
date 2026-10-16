@@ -40,3 +40,24 @@ describe("escopo do tema público (DESIGN-D)", () => {
     expect(shell).not.toMatch(/public-fonts|public-theme|Archivo/);
   });
 });
+
+// Contraste WCAG dos pares da faixa escura (texto ≥ 4,5:1; marcadores gráficos ≥ 3:1).
+function lum(hex: string): number {
+  const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+const ratio = (a: string, b: string) => {
+  const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
+  return (x + 0.05) / (y + 0.05);
+};
+
+describe("faixa escura de eventos: contraste", () => {
+  const css = read("src/components/layout/public-theme.css");
+  const v = (name: string) => css.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6});`, "i"))?.[1] ?? "";
+  it.each(["board-fg", "board-muted", "board-date"])("%s sobre board-bg ≥ 4,5:1", (t) => {
+    expect(ratio(v(t), v("board-bg"))).toBeGreaterThanOrEqual(4.5);
+  });
+  it.each(["board-brasil", "board-mundo"])("%s sobre board-bg ≥ 3:1", (t) => {
+    expect(ratio(v(t), v("board-bg"))).toBeGreaterThanOrEqual(3);
+  });
+});

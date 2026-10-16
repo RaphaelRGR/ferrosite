@@ -68,3 +68,27 @@ export function ProjectCover({ category, aspect = "aspect-[16/9]" }: { category:
     </div>
   );
 }
+
+/**
+ * Cartaz do projeto sem foto (DESIGN-D): fundo e texto da categoria (par AA), trilhos em perspectiva e o
+ * ícone grande no canto; o conteúdo (nome, resumo) vem como filho e fica legível sobre a cor.
+ */
+export function ProjectPoster({ category, className = "", children }: { category: string; className?: string; children: ReactNode }) {
+  const k = categoryKey(category);
+  return (
+    <div data-project-cover={k} className={`relative overflow-hidden ${className}`} style={colors(k)}>
+      <svg aria-hidden="true" viewBox="0 0 400 225" preserveAspectRatio="xMidYMax slice" className="pointer-events-none absolute inset-0 h-full w-full opacity-10" fill="none" stroke="currentColor">
+        {Array.from({ length: 7 }, (_, i) => {
+          const t = i / 6;
+          const y = 225 - t * t * 130;
+          const half = 170 - t * 130;
+          return <line key={i} x1={200 - half} y1={y} x2={200 + half} y2={y} strokeWidth={9 - t * 6} strokeLinecap="round" />;
+        })}
+        <line x1="75" y1="225" x2="182" y2="95" strokeWidth="5" />
+        <line x1="325" y1="225" x2="218" y2="95" strokeWidth="5" />
+      </svg>
+      <Icon k={k} className="pointer-events-none absolute right-6 top-6 size-16 opacity-70 sm:right-10 sm:top-10 sm:size-20" />
+      <div className="relative flex flex-col gap-4">{children}</div>
+    </div>
+  );
+}

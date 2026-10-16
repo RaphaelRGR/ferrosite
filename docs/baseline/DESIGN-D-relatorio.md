@@ -67,3 +67,34 @@ Branch `redesign/design-d`. Nada vai para `main` sem aprovação do usuário sob
   - o menu do celular mantém "Início";
   - fica em uma linha de 1024 a 1440 px.
 - **Rodapé:** o nome do curso em tamanho de título, campus e centro, os dois grupos de links (incluindo Laboratórios e Notícias), a locomotiva e o crédito.
+
+## Fase 2: Home (modo Persuadir)
+
+Cada seção tem composição própria:
+1. **Hero:**
+   - "UFSC Joinville" como rótulo de contexto;
+   - o título do curso em tamanho de display (`t-display`, fluido);
+   - descrição + um botão ("Conheça o curso") + link de texto (Projetos);
+   - abaixo, a foto da turma (`home_hero`) em largura total do conteúdo: 21:9 no desktop, 16:9 no tablet, 4:3 de ponta a ponta no celular;
+   - preset `wide` até 1600 px, `fetchPriority="high"` e crédito.
+   - O "&" deixou de ser laranja (fica o texto da marca), e o slogan saiu do hero.
+2. **Experiências (`HomeExperiences`):** a mais recente em destaque (foto 3:2, tipo · data, título, local, resumo) e as 4 seguintes em lista com miniatura (preset `mini`). Substitui a grade de 6 cartões iguais.
+3. **Próximos eventos do setor (`UpcomingEvents`):**
+   - faixa escura com a estética de quadro de partidas: data em destaque, evento (link para o site oficial), local e região;
+   - os dados vêm de `public_rail_event` via `upcomingEvents()` (pura, testada: inclui o evento em andamento, exclui passados, ordena);
+   - o texto diz "Feiras, congressos e seminários", nunca horário de trem;
+   - sem evento futuro, mostra uma frase com o ano + link para o calendário;
+   - as cores `--board-*` têm contraste testado (texto ≥ 4,5:1, marcadores ≥ 3:1).
+4. **Vídeo:** um Short por vez, como antes.
+5. **Frentes do curso:** lista tipográfica de 4 linhas (nome grande, descrição, →), com destaque por tom no hover e sem ícones em quadradinho.
+6. **Projetos (`ProjectShowcase`):** o primeiro na ordem da coordenação em destaque, mais 3 em lista.
+   - Sem foto, o destaque vira um **cartaz** na cor da categoria (`ProjectPoster`, par AA já testado) com o nome grande, em vez de um bloco ilustrado vazio.
+7. **Pesquisa e empresas (`ResearchTeaser`, só PT como as páginas de destino):**
+   - "14 laboratórios descritos no portfólio institucional";
+   - as 6 capacidades com mais laboratórios no nível "offered" (potencial e pendente não contam), cada uma levando a Laboratórios filtrado;
+   - botão Para empresas + link Laboratórios.
+- **Removidos:**
+  - a grade antiga de experiências (`PublishedExperiences`);
+  - o CTA final "Faça parte dessa jornada" (`FinalCta` e as chaves `home.cta`), porque o rodapé faz o fechamento e "Conheça o curso" está no topo.
+- **Quarentena sem mudança:** indicadores, notícias e parceiros do protótipo continuam só em `review`.
+- **Captura:** `screens.mjs` marca as entradas animadas como vistas antes da foto, porque no dev a hidratação lenta deixava seções invisíveis na captura.

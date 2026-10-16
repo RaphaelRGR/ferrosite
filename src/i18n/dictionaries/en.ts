@@ -1307,13 +1307,25 @@ export const en: Dictionary = {
     projects: { eyebrow: "Featured projects", title: "Innovation, outreach and real impact", link: "View all projects", detail: "View project" },
     experiences: { eyebrow: "Experiences that connect", title: "Field visits, missions and experiences across Brazil and the world", publishedTitle: "Technical visits and lectures held", detail: "View experience", brazil: "Brazil", international: "International", link: "View all experiences" },
     news: { eyebrow: "News and updates", title: "Follow what moves the program", link: "View all news" },
-    partners: { eyebrow: "Companies and institutions", title: "Relationships under review", description: "Logos are shown only after authorization and classification of the relationship (partnership, alumni destination, sponsorship)." },
-    cta: {
-      title: "Be part of this journey",
-      description: "Build the future of mobility with us.",
-      student: "About the program",
-      community: "Follow the news",
+    upcoming: {
+      eyebrow: "Railway calendar",
+      title: "Upcoming railway industry events",
+      description: "Trade fairs, conferences and seminars in Brazil and worldwide.",
+      columns: { date: "Date", event: "Event", place: "Place", region: "Region" },
+      empty: "No upcoming events in the {year} calendar yet.",
+      link: "See the full calendar",
+      official: "{name} official website",
     },
+    research: {
+      eyebrow: "Research and industry",
+      title: "CTJ laboratories for industry challenges",
+      description: "{count} laboratories described in the institutional portfolio, with capabilities relevant to railway and metro engineering.",
+      labsPerCapability: "{count} laboratories",
+      labsPerCapabilityOne: "1 laboratory",
+      companies: "For companies",
+      labs: "Explore the laboratories",
+    },
+    partners: { eyebrow: "Companies and institutions", title: "Relationships under review", description: "Logos are shown only after authorization and classification of the relationship (partnership, alumni destination, sponsorship)." },
   },
   course: {
     hero: {

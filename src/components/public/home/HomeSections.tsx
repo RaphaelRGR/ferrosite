@@ -8,55 +8,52 @@ import { LinkButton } from "@/components/ui/LinkButton";
 import { EXPERIENCES, FEATURED_PROJECTS, INDICATORS, NEWS, PARTNER_LOGOS } from "@/content/staging";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { ExperienceCard } from "@/components/public/experiences/ExperienceCard";
 import { mediaImage } from "@/lib/content/media";
-import type { PublicProject, PublishedItem } from "@/lib/content/public";
-import { ProjectCards } from "@/components/public/projects/ProjectCards";
+import type { PublicProject } from "@/lib/content/public";
+import { ProjectShowcase } from "@/components/public/projects/ProjectShowcase";
 
 type HomeDict = Dictionary["home"];
-
-const ICON = {
-  infra: "M4 19h16M6 15l2-10h8l2 10M9 15V5M15 15V5",
-  rolling: "M5 16V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v9M4 16h16M7 20l-2 2M17 20l2 2M8 18a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
-  signalling: "M12 3v18M8 7h8M8 12h8M9 17h6M12 3a2 2 0 0 0-2 2M12 3a2 2 0 0 1 2 2",
-  operations: "M3 12h18M3 6h18M3 18h18M7 3v3M17 15v3",
-} as const;
 
 export function HomeHero({ locale, dict, hero = null }: { locale: Locale; dict: HomeDict["hero"]; hero?: { fileId: string; alt: string; credit: string } | null }) {
   return (
     <section className="bg-surface">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:py-20">
-        <div className="hero-in">
-          <p className="eyebrow mb-4">
-            <span aria-hidden="true" className="h-0.5 w-6 rounded-full bg-action" />
-            {dict.eyebrow}
-          </p>
-          <h1 className="text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
-            {dict.title.split(" & ")[0]} <span className="text-accent">&amp;</span> {dict.title.split(" & ")[1]}
-            <span className="mt-2 block text-2xl font-bold text-fg-muted sm:text-3xl">{dict.subtitle}</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-lg text-fg-muted">{dict.description}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row [&>a]:w-full sm:[&>a]:w-auto">
-            <LinkButton href={localizePath(locale, "/curso")} size="lg">
-              {dict.primary} <span aria-hidden="true">→</span>
-            </LinkButton>
-            <LinkButton href={localizePath(locale, "/projetos")} variant="secondary" size="lg">
-              {dict.secondary}
-            </LinkButton>
+      <div className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 sm:pt-14 lg:pt-20">
+        <div className="hero-in grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
+          <div className="lg:col-span-8">
+            <p className="eyebrow mb-4">
+              <span aria-hidden="true" className="h-0.5 w-6 rounded-full bg-action" />
+              {dict.subtitle}
+            </p>
+            <h1 className="t-display font-black">{dict.title}</h1>
+          </div>
+          <div className="flex flex-col gap-6 lg:col-span-4 lg:pb-2">
+            <p className="t-lead text-fg-muted">{dict.description}</p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <LinkButton href={localizePath(locale, "/curso")} size="lg">
+                {dict.primary} <span aria-hidden="true">→</span>
+              </LinkButton>
+              <Link
+                href={localizePath(locale, "/projetos")}
+                className="inline-flex min-h-11 items-center gap-1 rounded font-bold text-link underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+              >
+                {dict.secondary} <span aria-hidden="true">→</span>
+              </Link>
+            </div>
           </div>
         </div>
-        <figure className="relative">
-          <div className="hero-media overflow-hidden rounded-[32px] border border-line shadow-sm">
-            {hero ? (
-              // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa
-              <img {...mediaImage(hero.fileId, "hero")} alt={hero.alt} className="aspect-[10/7] w-full object-cover" fetchPriority="high" />
-            ) : (
-              <HeroArt title={dict.artAlt} />
-            )}
-          </div>
-          <figcaption className="mt-2 text-right text-xs text-fg-muted">{hero ? (hero.credit ? `${dict.photoCredit}: ${hero.credit}` : hero.alt) : dict.artNote}</figcaption>
-        </figure>
       </div>
+      {/* Foto grande sob o título, sem texto por cima; no celular vai de ponta a ponta. */}
+      <figure className="mx-auto mt-10 max-w-7xl sm:px-6 lg:mt-14">
+        <div className="hero-media overflow-hidden sm:rounded-2xl">
+          {hero ? (
+            // eslint-disable-next-line @next/next/no-img-element -- proxy próprio (/api/midia), sem otimização externa
+            <img {...mediaImage(hero.fileId, "wide")} alt={hero.alt} className="aspect-[4/3] w-full object-cover object-[center_40%] sm:aspect-[16/9] lg:aspect-[21/9]" fetchPriority="high" />
+          ) : (
+            <HeroArt title={dict.artAlt} />
+          )}
+        </div>
+        <figcaption className="mt-3 px-4 text-sm text-fg-muted sm:px-0">{hero ? (hero.credit ? `${dict.photoCredit}: ${hero.credit}` : hero.alt) : dict.artNote}</figcaption>
+      </figure>
     </section>
   );
 }
@@ -85,29 +82,27 @@ export function IndicatorsStrip({ dict }: { dict: HomeDict["indicators"] }) {
   );
 }
 
+/** Frentes do curso (DESIGN-D): lista tipográfica, uma linha por frente; a linha inteira leva ao Curso. */
 export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict["fronts"] }) {
   const items = (["infra", "rolling", "signalling", "operations"] as const).map((key) => ({ key, ...dict.items[key] }));
   // Em EN a página do curso está pendente e não tem a âncora.
   const target = localizePath(locale, "/curso") + (locale === "pt" ? "#frentes" : "");
   return (
-    <section className="bg-canvas">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+    <section className="section-regular bg-canvas">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading eyebrow={dict.eyebrow} title={dict.title} description={dict.description} link={{ href: target, label: dict.link }} />
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+        <ul className="mt-10 border-t border-line" data-reveal-group>
           {items.map((item) => (
             <li key={item.key}>
               <Link
                 href={target}
-                className="group flex h-full flex-col gap-4 rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-action focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                className="group -mx-3 grid gap-2 rounded-xl border-b border-line px-3 py-6 transition-colors hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus sm:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] sm:items-center sm:gap-8"
               >
-                <span className="inline-flex size-12 items-center justify-center rounded-xl bg-accent/10 text-link">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6">
-                    <path d={ICON[item.key]} />
-                  </svg>
+                <span className="t-subsection f-display font-black group-hover:text-link">{item.title}</span>
+                <span className="text-fg-muted">{item.description}</span>
+                <span aria-hidden="true" className="hidden text-2xl text-link transition-transform group-hover:translate-x-1 sm:block">
+                  →
                 </span>
-                <span className="text-lg font-bold">{item.title}</span>
-                <span className="text-sm text-fg-muted">{item.description}</span>
-                <span aria-hidden="true" className="mt-auto text-link transition-transform group-hover:translate-x-1">→</span>
               </Link>
             </li>
           ))}
@@ -120,11 +115,11 @@ export function CourseFronts({ locale, dict }: { locale: Locale; dict: HomeDict[
 export function FeaturedProjects({ locale, dict, projects = [], covers = new Map(), fullDict }: { locale: Locale; dict: HomeDict["projects"]; projects?: PublicProject[]; covers?: Map<string, string>; fullDict?: Dictionary }) {
   if (projects.length > 0 && fullDict) {
     return (
-      <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+      <section className="section-regular bg-surface">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading eyebrow={dict.eyebrow} title={dict.title} link={{ href: localizePath(locale, "/projetos"), label: dict.link }} />
           <div className="mt-10">
-            <ProjectCards projects={projects.slice(0, 8)} covers={covers} locale={locale} dict={fullDict} detailLabel={dict.detail} columns={4} tone="canvas" />
+            <ProjectShowcase projects={projects} covers={covers} locale={locale} dict={fullDict} detailLabel={dict.detail} />
           </div>
         </div>
       </section>
@@ -159,21 +154,6 @@ export function FeaturedProjects({ locale, dict, projects = [], covers = new Map
   );
 }
 
-export function PublishedExperiences({ locale, dict, items, covers, cardDict }: { locale: Locale; dict: HomeDict["experiences"]; items: PublishedItem[]; covers: Map<string, string>; cardDict: Pick<Dictionary["experiences"], "kinds" | "detail"> }) {
-  if (items.length === 0) return null;
-  return (
-    <section className="bg-canvas" data-published="live">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <SectionHeading eyebrow={dict.eyebrow} title={dict.publishedTitle} link={{ href: localizePath(locale, "/experiencias"), label: dict.link }} />
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
-          {items.slice(0, 6).map((e) => (
-            <ExperienceCard key={e.id} item={e} coverFileId={covers.get(e.id)} locale={locale} dict={cardDict} />
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 export function ExperiencesPreview({ locale, dict }: { locale: Locale; dict: HomeDict["experiences"] }) {
   const groups = [
@@ -250,29 +230,5 @@ export function PartnersStrip({ dict }: { dict: HomeDict["partners"] }) {
         </div>
       </section>
     </UnverifiedContent>
-  );
-}
-
-/** CTA final para o público do site. `showNews` evita um botão que leva a uma página sem notícia publicada; o Portal (uso interno) fica só no topo e no rodapé. */
-export function FinalCta({ locale, dict, showNews = true }: { locale: Locale; dict: HomeDict["cta"]; showNews?: boolean }) {
-  return (
-    <section className="bg-canvas">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="flex flex-col items-start gap-6 rounded-[32px] border border-accent/30 bg-accent/5 p-6 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h2 className="t-section font-black">{dict.title}</h2>
-            <p className="mt-2 text-lg text-fg-muted">{dict.description}</p>
-          </div>
-          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto [&>a]:w-full sm:[&>a]:w-auto">
-            <LinkButton href={localizePath(locale, "/curso")}>{dict.student}</LinkButton>
-            {showNews && (
-              <LinkButton href={localizePath(locale, "/noticias")} variant="secondary">
-                {dict.community}
-              </LinkButton>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }

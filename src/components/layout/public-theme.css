@@ -17,6 +17,15 @@
     --step-4: clamp(2.25rem, 1.6rem + 3vw, 4.25rem);
     --step-5: clamp(2.75rem, 1.7rem + 5vw, 6rem);
 
+    /* Faixa escura dos próximos eventos (quadro de partidas): pares AA testados em public-theme-scope.test.ts. */
+    --board-bg: #15181c;
+    --board-fg: #f3f4f6;
+    --board-muted: #aeb4bd;
+    --board-date: #ffa37a;
+    --board-line: #2e343b;
+    --board-brasil: #ff8a5b;
+    --board-mundo: #7fb3ff;
+
     font-family: var(--font-text);
   }
 

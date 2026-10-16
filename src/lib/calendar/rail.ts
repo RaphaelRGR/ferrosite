@@ -39,6 +39,14 @@ export function isPastEvent(e: Pick<RailEvent, "starts_on" | "ends_on">, today: 
   return (e.ends_on ?? e.starts_on) < today;
 }
 
+/** Próximos eventos (em andamento ou futuros), do mais próximo ao mais distante: o quadro da Home (DESIGN-D). */
+export function upcomingEvents<T extends Pick<RailEvent, "starts_on" | "ends_on">>(events: T[], today: string, limit = 4): T[] {
+  return events
+    .filter((e) => !isPastEvent(e, today))
+    .sort((a, b) => a.starts_on.localeCompare(b.starts_on))
+    .slice(0, limit);
+}
+
 /** Eventos ordenados e agrupados por mês (1 a 12) do início. */
 export function groupByMonth<T extends Pick<RailEvent, "starts_on" | "name">>(events: T[]): Array<{ month: number; events: T[] }> {
   const sorted = [...events].sort((a, b) => a.starts_on.localeCompare(b.starts_on) || a.name.localeCompare(b.name));

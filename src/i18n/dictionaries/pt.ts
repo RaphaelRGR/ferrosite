@@ -1306,13 +1306,25 @@ export const pt = {
     projects: { eyebrow: "Projetos em destaque", title: "Inovação, extensão e impacto real", link: "Ver todos os projetos", detail: "Ver projeto" },
     experiences: { eyebrow: "Experiências que conectam", title: "Visitas técnicas, missões e vivências pelo Brasil e pelo mundo", publishedTitle: "Visitas técnicas e palestras realizadas", detail: "Ver experiência", brazil: "Brasil", international: "Internacional", link: "Ver todas as experiências" },
     news: { eyebrow: "Notícias e atualizações", title: "Acompanhe o que movimenta o curso", link: "Ver todas as notícias" },
-    partners: { eyebrow: "Empresas e instituições", title: "Relações em verificação", description: "Logos exibidos apenas após autorização e classificação do vínculo (parceria, destino de egressos, patrocínio)." },
-    cta: {
-      title: "Faça parte dessa jornada",
-      description: "Construa o futuro da mobilidade com a gente.",
-      student: "Conheça o curso",
-      community: "Acompanhe as notícias",
+    upcoming: {
+      eyebrow: "Calendário ferroviário",
+      title: "Próximos eventos do setor ferroviário",
+      description: "Feiras, congressos e seminários no Brasil e no mundo.",
+      columns: { date: "Data", event: "Evento", place: "Local", region: "Região" },
+      empty: "Nenhum evento futuro no calendário de {year} por enquanto.",
+      link: "Ver o calendário completo",
+      official: "Site oficial de {name}",
     },
+    research: {
+      eyebrow: "Pesquisa e empresas",
+      title: "Laboratórios do CTJ para desafios do setor",
+      description: "{count} laboratórios descritos no portfólio institucional, com capacidades que interessam ao setor ferroviário e metroviário.",
+      labsPerCapability: "{count} laboratórios",
+      labsPerCapabilityOne: "1 laboratório",
+      companies: "Para empresas",
+      labs: "Conhecer os laboratórios",
+    },
+    partners: { eyebrow: "Empresas e instituições", title: "Relações em verificação", description: "Logos exibidos apenas após autorização e classificação do vínculo (parceria, destino de egressos, patrocínio)." },
   },
   course: {
     hero: {
