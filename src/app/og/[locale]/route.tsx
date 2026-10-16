@@ -43,8 +43,8 @@ export async function GET(_req: Request, ctx: RouteContext<"/og/[locale]">) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse não usa next/image */}
           {/* lockup vertical oficial: 1122 × 1402 */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse não usa next/image */}
           <img src={logoSrc} width={104} height={130} alt="" style={{ background: "#ffffff", borderRadius: 24, padding: 12 }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: 6, color: "#ff8a5b" }}>UFSC JOINVILLE</span>
