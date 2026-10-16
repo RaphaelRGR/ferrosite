@@ -43,7 +43,7 @@ test("a Home e a experiência publicada compartilham a própria foto", async ({ 
   for (const path of ["/pt", "/pt/experiencias/visita-tecnica-rumo-2026"]) {
     const html = await (await request.get(path)).text();
     // JPEG de propósito (DESIGN-D): o site usa WebP, mas nem todo robô de rede social lê WebP
-    expect(meta(html, "og:image"), path).toMatch(/\/api\/midia\/[0-9a-f-]{36}\?w=1280&f=jpg$/);
+    expect(meta(html, "og:image"), path).toMatch(/\/api\/midia\/[0-9a-f-]{36}\?w=1280&(amp;)?f=jpg$/); // no HTML cru o & vem escapado
     expect(meta(html, "og:image:alt"), `${path}: alt`).not.toBe("");
   }
   // robots não bloqueia a foto que representa a página

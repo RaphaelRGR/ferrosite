@@ -18,6 +18,16 @@
         "scripts/start-strict.mjs"
       ],
       "port": 3200
+    },
+    {
+      "name": "design-review",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/start-strict.mjs",
+        ".next-design-review",
+        "3300"
+      ],
+      "port": 3300
     }
   ]
 }

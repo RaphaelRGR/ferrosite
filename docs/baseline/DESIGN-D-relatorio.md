@@ -183,3 +183,19 @@ Cada seção tem composição própria:
 - **Prevenção:**
   - `playwright.config.ts` define `E2E_WRITES=1` só quando existe `.env.test.local`, e o envio real do `challenge.spec` pula sem ele;
   - contra o dev server só rodo specs de leitura, com o caminho escrito literalmente.
+
+## Verificação final (16/10)
+
+- **Unit e estática:** 259 testes, typecheck e lint limpos.
+- **Builds:** `strict` e `review` locais concluídos (`.next-design`, `.next-design-review`; servidores em `.claude/launch.json` → `design-strict` :3200 e `design-review` :3300).
+- **e2e somente leitura contra o build `review`:** og, public-hubs, reduced-motion, smoke, dialog, experiences-hub, quarantine, links, shorts, privacy, flowchart, axe, design-c, labs, media e i18n.
+  - Resultado: **272 passaram, 2 pulados**.
+  - Duas falhas na primeira rodada:
+    - o teste de og:image não previa o `&` escapado no HTML (teste corrigido);
+    - a quarentena da página de um projeto oscilou uma vez sob carga, porque a consulta ao banco falhou e a página caiu no conteúdo do protótipo, comportamento anterior; repetido, passou.
+- **Não rodados:** os e2e com login ou escrita, que exigem `.env.test.local` (projeto de testes).
+- **CLS:**
+  - antes (produção): até 0,395 em Laboratórios no desktop e 0,084 numa experiência no celular;
+  - depois (build strict): ≤ 0,012 em todas as páginas;
+  - o 0,008 restante no desktop vem do logo novo (retrato) que ainda não está no repositório: o `BrandLogo` reserva um quadrado.
+- **Screenshots:** `docs/baseline/DESIGN-D/antes` e `depois` (16 páginas × 1440/390); a página de comparação foi publicada para aprovação.
