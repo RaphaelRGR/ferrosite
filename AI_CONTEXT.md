@@ -170,6 +170,7 @@ de terceiros além do Supabase.
   a rascunho até "Atualizar no site".
 - **Calendário** (CAL-001): `lib/calendar/rail.ts` (puro) + `guard_rail_event_window` (janela de anos).
   País em código ISO (nome traduzido por `Intl.DisplayNames`).
+- **Excluir conta** (ACC-001): só admin, só conta desativada, nunca a própria. `erase_profile()` remove o perfil ou, se houver histórico, anonimiza ("Conta excluída", sem e-mail); depois o servidor apaga o login no Auth (service role). `profile` não tem mais FK para `auth.users`.
 - **Projetos são permanentes** (PROJ-002): sem datas de início/fim; criar é link discreto só para admin.
 - `/portal/questoes` é placeholder por decisão pendente; `/portal/acervo` redireciona
   para Arquivos (links antigos). Não remover sem decisão.

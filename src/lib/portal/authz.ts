@@ -59,6 +59,11 @@ export function canChangePrivileges(role: GlobalRole | null | undefined): boolea
   return role === "admin";
 }
 
+/** Excluir conta (ACC-001, espelho de erase_profile): admin, conta já desativada e nunca a própria. */
+export function canEraseAccount(role: GlobalRole | null | undefined, target: { id: string; status: string }, selfId: string): boolean {
+  return role === "admin" && target.status === "disabled" && target.id !== selfId;
+}
+
 export interface Actor {
   id: string;
   globalRole: GlobalRole;

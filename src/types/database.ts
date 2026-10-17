@@ -119,9 +119,9 @@ export type Database = {
         Relationships: [];
       };
       profile: {
-        Row: { id: string; email: string; full_name: string; global_role: Database["public"]["Enums"]["global_role"]; status: Database["public"]["Enums"]["account_status"]; created_at: string; updated_at: string; version: number };
-        Insert: { id: string; email: string; full_name?: string; global_role?: Database["public"]["Enums"]["global_role"]; status?: Database["public"]["Enums"]["account_status"]; created_at?: string; updated_at?: string; version?: number };
-        Update: { id?: string; email?: string; full_name?: string; global_role?: Database["public"]["Enums"]["global_role"]; status?: Database["public"]["Enums"]["account_status"]; created_at?: string; updated_at?: string; version?: number };
+        Row: { id: string; email: string; full_name: string; global_role: Database["public"]["Enums"]["global_role"]; status: Database["public"]["Enums"]["account_status"]; created_at: string; updated_at: string; version: number; deleted_at: string | null };
+        Insert: { id: string; email: string; full_name?: string; global_role?: Database["public"]["Enums"]["global_role"]; status?: Database["public"]["Enums"]["account_status"]; created_at?: string; updated_at?: string; version?: number; deleted_at?: string | null };
+        Update: { id?: string; email?: string; full_name?: string; global_role?: Database["public"]["Enums"]["global_role"]; status?: Database["public"]["Enums"]["account_status"]; created_at?: string; updated_at?: string; version?: number; deleted_at?: string | null };
         Relationships: [];
       };
       project: {
@@ -303,6 +303,10 @@ export type Database = {
       enqueue_work_item_reminders: {
         Args: Record<string, never>;
         Returns: number;
+      };
+      erase_profile: {
+        Args: { p_target: string };
+        Returns: string;
       };
       find_profile_by_email: {
         Args: { p_email: string };

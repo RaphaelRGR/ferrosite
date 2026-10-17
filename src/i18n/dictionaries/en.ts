@@ -881,6 +881,12 @@ export const en: Dictionary = {
       readOnly: "Coordination can see accounts; only administrators change role and status.",
       you: "you",
       provisioningNote: "New accounts are created by invitation in Supabase Auth and start pending; activate them here.",
+      erase: "Delete account",
+      eraseTitle: "Delete {name}'s account?",
+      eraseDescription: "The login and e-mail are permanently removed and the person can no longer sign in. If the account has history (content, approvals, actions), those records remain and show \"Deleted account\". This cannot be undone.",
+      eraseConfirmLabel: "To confirm, type the account e-mail: {email}",
+      eraseCancel: "Cancel",
+      eraseConfirm: "Delete permanently",
     },
     crm: {
       organizations: "Companies and institutions",

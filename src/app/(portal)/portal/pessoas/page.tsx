@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProfileAccessForm } from "@/components/portal/people/PeopleForms";
+import { EraseAccountButton, ProfileAccessForm } from "@/components/portal/people/PeopleForms";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { getDictionary } from "@/i18n/dictionaries";
 import { formatDate } from "@/i18n/format";
-import { canChangePrivileges, canManagePeople } from "@/lib/portal/authz";
+import { canChangePrivileges, canEraseAccount, canManagePeople } from "@/lib/portal/authz";
 import { requireActiveProfile } from "@/lib/portal/context";
 import { createClient } from "@/lib/supabase/server";
 
@@ -13,7 +13,8 @@ export const metadata: Metadata = { title: "Pessoas" };
 
 /**
  * Pessoas (11/AUTH-003): admin e coordenação veem as contas (RLS profile_select
- * para overseers); só admin altera papel/situação (RLS + trigger, auditado).
+ * para overseers); só admin altera papel/situação (RLS + trigger, auditado) e exclui conta
+ * desativada (ACC-001, erase_profile + login apagado no Auth).
  */
 export default async function PeoplePage() {
   const dict = getDictionary("pt");
@@ -21,7 +22,8 @@ export default async function PeoplePage() {
   const { profile, userId } = await requireActiveProfile();
   if (!canManagePeople(profile.global_role)) notFound();
   const supabase = await createClient();
-  const { data } = await supabase.from("profile").select("id, email, full_name, global_role, status, version, created_at").order("status").order("full_name");
+  // contas excluídas (anonimizadas, ACC-001) ficam só como autoria no histórico, fora da lista
+  const { data } = await supabase.from("profile").select("id, email, full_name, global_role, status, version, created_at").is("deleted_at", null).order("status").order("full_name");
   const people = data ?? [];
   const editable = canChangePrivileges(profile.global_role);
   const tone = (s: string) => (s === "active" ? "success" : s === "pending" ? "warning" : "danger");
@@ -51,7 +53,12 @@ export default async function PeoplePage() {
                   <span>{formatDate("pt", new Date(person.created_at), { dateStyle: "short" })}</span>
                 </p>
               </div>
-              {editable && <ProfileAccessForm dict={dict} roles={p.roles} id={person.id} version={person.version} role={person.global_role} status={person.status} />}
+              {editable && (
+                <div className="flex flex-col items-start gap-3 lg:items-end">
+                  <ProfileAccessForm dict={dict} roles={p.roles} id={person.id} version={person.version} role={person.global_role} status={person.status} />
+                  {canEraseAccount(profile.global_role, person, userId) && <EraseAccountButton dict={dict} id={person.id} email={person.email} name={person.full_name} />}
+                </div>
+              )}
             </li>
           ))}
         </ul>

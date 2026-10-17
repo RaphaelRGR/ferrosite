@@ -880,6 +880,12 @@ export const pt = {
       readOnly: "Coordenação vê as contas; só administradores alteram papel e situação.",
       you: "você",
       provisioningNote: "Novas contas são criadas por convite no Supabase Auth e nascem pendentes; ative-as aqui.",
+      erase: "Excluir conta",
+      eraseTitle: "Excluir a conta de {name}?",
+      eraseDescription: "O login e o e-mail são apagados de vez e a pessoa não entra mais no Portal. Se a conta tiver histórico (conteúdos, aprovações, ações), esses registros ficam e passam a mostrar \"Conta excluída\". Não dá para desfazer.",
+      eraseConfirmLabel: "Para confirmar, digite o e-mail da conta: {email}",
+      eraseCancel: "Cancelar",
+      eraseConfirm: "Excluir de vez",
     },
     crm: {
       organizations: "Empresas e instituições",

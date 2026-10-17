@@ -102,3 +102,13 @@ describe("slug", () => {
     expect(SLUG_RE.test("Abc")).toBe(false);
   });
 });
+
+describe("excluir conta (ACC-001, espelho de erase_profile)", () => {
+  it("só admin, só conta desativada e nunca a própria", async () => {
+    const { canEraseAccount } = await import("@/lib/portal/authz");
+    expect(canEraseAccount("admin", { id: "b", status: "disabled" }, "a")).toBe(true);
+    expect(canEraseAccount("admin", { id: "b", status: "active" }, "a")).toBe(false);
+    expect(canEraseAccount("admin", { id: "a", status: "disabled" }, "a")).toBe(false);
+    expect(canEraseAccount("coordination", { id: "b", status: "disabled" }, "a")).toBe(false);
+  });
+});
