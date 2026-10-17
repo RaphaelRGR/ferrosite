@@ -20,7 +20,10 @@ export function ProfileAccessForm({ dict, roles, id, version, role, status }: { 
     <form action={formAction} className="flex flex-col gap-2">
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="version" value={version} />
-      <div className="flex flex-wrap items-end gap-2">
+      {/* key pela versão: depois de salvar, o React 19 volta o form ao valor inicial e um select já montado
+          não pega o novo defaultValue; sem isto o campo mostrava "Ativa" numa conta já desativada e um
+          novo "Aplicar" a reativaria. */}
+      <div key={version} className="flex flex-wrap items-end gap-2">
         <Select label={p.people.role} name="global_role" defaultValue={role} options={ROLES.map((r) => ({ value: r, label: roles[r] }))} className="min-w-44" />
         <Select label={p.people.status} name="status" defaultValue={status} options={STATUSES.map((s) => ({ value: s, label: p.accountStatus[s] }))} className="min-w-36" />
         <Button type="submit" variant="secondary" loading={pending}>
