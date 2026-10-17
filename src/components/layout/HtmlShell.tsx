@@ -21,7 +21,9 @@ export function HtmlShell({
   children: React.ReactNode;
 }) {
   return (
-    <html lang={lang} className={`scroll-smooth ${geist.variable}`} data-theme={theme} data-scroll-behavior="smooth">
+    // suppressHydrationWarning: no tema "sistema" o script anti-flash troca data-theme antes do React
+    // hidratar; a diferença é intencional e o aviso vale só para os atributos do próprio <html>.
+    <html lang={lang} className={`scroll-smooth ${geist.variable}`} data-theme={theme} data-scroll-behavior="smooth" suppressHydrationWarning>
       {themeScript && (
         // Root layout do App Router: <head> literal é o lugar do script anti-flash; a regra mira o pages/.
         // eslint-disable-next-line @next/next/no-head-element
